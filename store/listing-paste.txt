@@ -1,0 +1,107 @@
+Dry Eyes Blink Reminder Lite — Partner Center paste sheet
+
+Plain text only. Partner Center does NOT render markdown: asterisks,
+hashes and dashes appear on the live page exactly as typed.
+
+Copy ONLY what sits between the arrow lines. The arrows, the hash rules
+and these notes are not part of any field.
+
+
+######################################################################
+# PASTE INTO:  Short description
+# Shown on the search card. Only the first ~100 characters survive there, so the value is front-loaded and the app name comes late.
+######################################################################
+v v v  copy everything between the arrows  v v v
+
+Blink more, and rest your eyes. A brief, gentle cue on every screen — one you can see without being interrupted by it. Dry Eyes Blink Reminder Lite sits quietly in your system tray, uses no network, and never watches you.
+
+^ ^ ^  end  ^ ^ ^
+
+
+######################################################################
+# PASTE INTO:  Description
+# Plain capitals for headings. No asterisks, no --- separators.
+######################################################################
+v v v  copy everything between the arrows  v v v
+
+Dry Eyes Blink Reminder Lite is a small, quiet utility that lives in your system tray and gives you a brief visual cue to blink — and, on a separate timer, to look away from the screen for a moment.
+
+The cue is deliberately subtle. It is a soft pulse, a dot, or a single word, shown for a fraction of a second and then gone. You can click straight through it: it never takes focus, never steals a keystroke, and never gets in the way of what you were doing.
+
+TWO INDEPENDENT REMINDERS
+
+The blink reminder fires on an interval you choose — anything from a few seconds upward. The look-away reminder runs on the wall clock, so it lands at the same minutes past the hour no matter when you started the app. Each has its own completely separate settings: its own style, colour, size, position, timing and sound. Changing one never touches the other.
+
+MADE FOR MORE THAN ONE SCREEN
+
+Reminders appear on every connected monitor, correctly sized on each one even when your displays run at different scaling. A small indicator dot in the corner of each screen shows the app is running, with a countdown to the next break above it.
+
+YOURS TO TUNE
+
+Choose a gentle dim, a coloured dot, or a word of your own. Set the size, position, opacity, fade and hold. Pick from four sounds, each with its own volume, or leave it silent. Preview any change before saving.
+
+QUIET, AND PRIVATE BY CONSTRUCTION
+
+No account, no sign-in, no advertising and no analytics. There is no network connection of any kind — the app never contacts any server, including ours. It does not use your camera: it works on a timer, it does not watch you.
+
+GOOD TO KNOW
+
+Dry Eyes Blink Reminder Lite runs in the notification area and has no main window. Right-click its tray icon for Settings. The reminder pulse is rate-limited in code so that no combination of settings can exceed three flashes per second.
+
+^ ^ ^  end  ^ ^ ^
+
+
+######################################################################
+# PASTE INTO:  What's new in this version
+# This field is for CHANGES, not for the description. On the live page it currently holds the full description — replace it.
+######################################################################
+v v v  copy everything between the arrows  v v v
+
+First release.
+
+^ ^ ^  end  ^ ^ ^
+
+
+######################################################################
+# PASTE INTO:  Product features  (one box each, 9 boxes)
+######################################################################
+v v v  one line per box  v v v
+
+A gentle cue to blink, on your own timer
+A separate look-away break, on the wall clock
+Reminders on every monitor
+Click straight through — it never steals focus
+A dot, a word, or a soft dim
+Four sounds, or silence
+Preview any change before you save it
+No account, no ads, no analytics
+No network, no camera, no watching you
+
+^ ^ ^  end  ^ ^ ^
+
+
+######################################################################
+# PASTE INTO:  Search terms  (one box each, max 7)
+######################################################################
+v v v  one line per box  v v v
+
+blink reminder
+eye strain
+eye rest
+20-20-20
+dry eyes
+screen break
+look away
+
+^ ^ ^  end  ^ ^ ^
+
+
+######################################################################
+# THE REST OF THAT PAGE — already correct, leave alone
+######################################################################
+Privacy policy URL ....... (your gist URL)
+Support contact info ..... ktaiwan@hotmail.com
+Website .................. optional, but worth filling: an
+                           external link is a ranking signal
+                           and adds credibility
+Screenshots .............. see store/screenshots/, in order

@@ -1,0 +1,13 @@
+Tested by the developer on Windows 11 (build 26200), single and dual monitor, on 17 September 2026.
+
+THIS APP HAS NO MAIN WINDOW. It runs in the notification area. After launching, look for a small amber ring next to the clock; you may need the ^ arrow to show hidden icons. Right-click it for: Blink now, Snooze, Settings, Quit.
+
+TO SEE IT WORK IMMEDIATELY: right-click the tray icon and choose "Blink now". Or open Settings and use the "Preview blink" and "Preview break" buttons at the bottom.
+
+EXPECTED BEHAVIOUR, NOT DEFECTS:
+- A small dot sits in the corner of each screen. That is the running indicator. It is click-through.
+- Reminders pass mouse clicks straight through and never take keyboard focus, by design.
+- Reminders do not paint over UAC prompts or exclusive-fullscreen games. The app runs at medium integrity; this is intended.
+- A window appears on first launch to say the app is running in the background. Dismiss it.
+
+No network connection is needed to test anything. There is no account, sign-in, trial or in-app purchase.
