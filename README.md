@@ -1,49 +1,42 @@
 # Dry Eyes Blink Reminder Lite
 
-A tray app for two things: a brief cue to blink, and a separate reminder to
-look away from the screen for a moment. Both are click-through — they never
-take focus and never interrupt what you're doing.
+**A gentle nudge to blink, and a separate one to look away — both click-through, so neither ever interrupts what you're doing.**
 
-Windows 10/11, 64-bit. [Also on the Microsoft Store](https://apps.microsoft.com/detail/9NBRV5W24KH5)
-(same app, auto-updating, no SmartScreen prompt). macOS is in progress —
-see [macOS](#macos) below.
+- Two independent reminders: blink on a short timer, look-away on the wall clock
+- Click straight through — never steals focus, never blocks a mouse click
+- Every connected monitor, correctly sized, whatever the display scaling
+- No network, no account, no analytics — the source is right here if you want to check
+- ~20 MB, ~25 MB of RAM while running
 
-## Why
+**[Download for Windows](../../releases)** · [Microsoft Store](https://apps.microsoft.com/detail/9NBRV5W24KH5) (same app, auto-updates, no SmartScreen prompt) · macOS: in progress, [details below](#macos)
 
-Staring at a screen drops your blink rate by more than half, and the blinks
-that do happen are often partial — the lid never fully closes, so the tear
-film never gets renewed. The fix isn't treatment, it's interruption: a cue
-regular enough to catch, gentle enough not to break concentration every time.
+---
 
-This app is deliberately two separate things, not one:
-
-- **Blink** — a short, frequent nudge. Anything from a few seconds upward.
-- **Break** — a longer, rarer nudge to look into the distance, on the wall
-  clock rather than a timer from launch, so it lands at tidy times (e.g.
-  `:00` and `:30`) no matter when you started the app. This is the practical
-  form of the "20-20-20" rule some people already know.
-
-Each has entirely independent settings. Changing one never touches the
-other.
-
-## Installing (portable build)
+<details>
+<summary><strong>Installing (portable build)</strong></summary>
 
 1. Download the latest `.exe` from [Releases](../../releases).
 2. Put it somewhere permanent — `C:\Users\<you>\Apps\` is fine. **Not** your
    Downloads folder, and not a USB stick.
 3. Double-click it. Windows will show **"Windows protected your PC"** — this
    is SmartScreen reacting to an unsigned app from an unknown publisher, not
-   a virus warning. Click **More info**, then **Run anyway**. (The Microsoft
-   Store build doesn't show this at all, if you'd rather install that way.)
+   a virus warning. Click **More info**, then **Run anyway**. (The Store
+   build doesn't show this at all, if you'd rather install that way.)
 4. An amber ring appears in the system tray, next to the clock. You may need
    the `^` arrow to see it. Right-click it for **Settings**.
 
 Nothing is written outside your own user folder, and the app does not touch
 Startup unless you tick **Start with Windows** yourself.
 
-## What it does
+</details>
 
-Two independent reminders, each with its own timing, look and sound:
+<details>
+<summary><strong>What it does, and why</strong></summary>
+
+Staring at a screen drops your blink rate by more than half, and the blinks
+that do happen are often partial — the lid never fully closes, so the tear
+film never renews. The fix isn't treatment, it's interruption: a cue regular
+enough to catch, gentle enough not to break concentration every time.
 
 | | Blink | Break |
 | --- | --- | --- |
@@ -51,14 +44,15 @@ Two independent reminders, each with its own timing, look and sound:
 | Default style | a small dot | a screen dim |
 | Also available | a word, or a dim | a dot, or a word |
 
-A small indicator dot sits in the corner of each screen with a countdown to
-the next break, so a tray-only app never looks like it's failed to start.
-Reminders appear on every connected monitor, correctly sized even across
-different display scaling, and every overlay is click-through: it never
-takes keyboard focus and never blocks a mouse click meant for whatever's
-underneath it.
+The break lands at tidy times regardless of when you started the app — the
+practical form of the "20-20-20" rule some people already know. A small
+indicator dot sits in the corner of each screen with a countdown to the next
+break, so a tray-only app never looks like it's failed to start.
 
-## Settings
+</details>
+
+<details>
+<summary><strong>Settings</strong></summary>
 
 Right-click the tray icon, then **Settings**. Each reminder has its own card:
 
@@ -81,7 +75,10 @@ is rate-limited in code so that no combination of settings can exceed three
 flashes per second (WCAG 2.3.1) — a photosensitivity floor a user cannot
 accidentally configure their way past.
 
-## Notes
+</details>
+
+<details>
+<summary><strong>Notes, and uninstalling</strong></summary>
 
 - **If you move the exe after ticking "Start with Windows"**, the shortcut
   will point at the old location. Untick and retick the box to repair it.
@@ -93,21 +90,24 @@ accidentally configure their way past.
   prompts, other elevated windows, or exclusive-fullscreen games. That's
   intended behaviour, not a bug.
 
-## Uninstalling
+**To uninstall:** untick **Start with Windows** in Settings, right-click the
+tray icon and **Quit**, then delete the exe (and `%APPDATA%\BlinkReminder`
+if you want the settings gone too).
 
-1. Untick **Start with Windows** in Settings.
-2. Right-click the tray icon and choose **Quit**.
-3. Delete the exe, and delete `%APPDATA%\BlinkReminder` if you want the
-   settings gone too.
+</details>
 
-## Privacy
+<details>
+<summary><strong>Privacy</strong></summary>
 
 No account, no sign-in, no advertising, no analytics, no network connection
 of any kind — the app never contacts any server, including its own
 developer's. It does not use the camera; it works on a timer, it does not
 watch you. Full policy: [store/privacy-policy.md](store/privacy-policy.md).
 
-## Building from source (Windows)
+</details>
+
+<details>
+<summary><strong>Building from source (Windows)</strong></summary>
 
 Needs Python 3.10+, then:
 
@@ -124,72 +124,64 @@ To run without building: `pythonw blink_reminder.py` (`pythonw`, not
 CI (`.github/workflows/build-windows.yml`) runs the same `build.py` on every
 push, and attaches the exe to a GitHub Release on any `v*` tag.
 
-## macOS
+</details>
 
-**In progress, unverified on real hardware.** No Mac was available to test
-any of this while it was written — it's a real attempt, not a finished port,
-and the honest state of it matters more here than in any other section.
+<details>
+<summary id="macos"><strong>macOS — in progress, unverified on real hardware</strong></summary>
+
+No Mac was available to test any of this while it was written — it's a real
+attempt, not a finished port, and that matters more here than anywhere else
+in this file.
 
 **Run this first**, on any Mac:
 
     python3 -m pip install -r requirements-mac.txt
     python3 macsmoke.py
 
-Ten seconds, one window, nothing else needed. It exists to answer exactly
-one question before any more time is spent on the rest: can this Mac show a
-window that's genuinely click-through, never steals keyboard focus, and
-survives a Space switch. That's the one trick the whole macOS overlay
-depends on — the script prints what it actually set the window's flags to,
-and its own docstring has a short manual checklist. If it fails or behaves
-differently than described, stop there and report exactly what happened.
+Ten seconds, one window. It answers exactly one question before any more
+time goes into the rest: can this Mac show a window that's genuinely
+click-through, never steals keyboard focus, and survives a Space switch —
+the one trick the whole overlay depends on. The script prints what it
+actually set the window's flags to; its own docstring has a short manual
+checklist. If it fails, stop there and report what happened.
 
 **Why this needs real native code, not a recompile.** The Windows overlay's
-click-through comes from raw Win32 (`SetWindowLongW`,
-`WS_EX_TRANSPARENT | WS_EX_NOACTIVATE`), and its visual transparency comes
-from a Tk attribute, `-transparentcolor`, that doesn't exist on macOS Tk at
-all. Neither piece has a cross-platform equivalent in Tkinter — macOS needs
-its own window and its own drawing, via AppKit (Cocoa) through PyObjC.
+click-through is raw Win32; its transparency comes from a Tk attribute,
+`-transparentcolor`, that doesn't exist on macOS Tk at all. Neither has a
+cross-platform equivalent — macOS needs its own window and its own drawing,
+via AppKit (Cocoa) through PyObjC.
 
 **What exists:** `mac_backend.py`, a macOS implementation of every
-Windows-only piece of `blink_reminder.py` — `Overlay`, `RunningIndicator`,
-`CountdownLabel`, monitor detection, sound, and Start-at-Login registration
-— built with the same call shapes as the Windows classes, so wiring it into
-the shared app is a small, mechanical step once it's confirmed working.
-**Not wired in yet, on purpose:** the Windows build and its full test suite
-are completely untouched by any of this.
+Windows-only piece — `Overlay`, `RunningIndicator`, `CountdownLabel`,
+monitor detection, sound, Start-at-Login — with the same call shapes as the
+Windows classes, so wiring it in is a small step once it's confirmed
+working. **Not wired in yet, on purpose:** the Windows build and its test
+suite are untouched by any of it.
 
-The core click-through/non-activating/floating-level combination is grounded
-in a real, working example
+The click-through/non-activating/floating-level combination is grounded in
+a real, working example
 ([yuki-f-saka/live-football-transcriber PR #22](https://github.com/yuki-f-saka/live-football-transcriber/pull/22))
 that reads its own window's flags back after setting them — not guessed
-from documentation alone.
+from documentation alone. What's simplified on purpose (no flight animation,
+no multi-pulse choreography) and what's genuinely unverified (the `NSScreen`
+coordinate flip, `NSSound` from a PyInstaller bundle, `SMAppService` against
+a PyInstaller `.app`) is written up in [PORTING_MACOS.md](PORTING_MACOS.md).
 
-What's simplified on purpose for this first pass (no flight animation on the
-indicator, no multi-pulse choreography, a duplicated `_reminder_rect()` that
-should be deleted once this is wired in for real) and what's genuinely
-unverified (the `NSScreen` coordinate flip — Cocoa's origin is bottom-left,
-Y-up, the opposite of the top-left, Y-down the rest of the app assumes;
-`NSSound` from inside a PyInstaller bundle; `SMAppService` against a
-PyInstaller `.app`) is written up in full in
-[PORTING_MACOS.md](PORTING_MACOS.md).
+No signing yet either — ships unsigned until Mac demand is validated.
+Gatekeeper blocks the first launch (**System Settings → Privacy & Security
+→ Open Anyway** clears it, once per downloaded copy, not every launch).
 
-No signing or notarization yet either — Mac demand hasn't been validated at
-all, so it would ship unsigned first (Gatekeeper blocks the first launch;
-**System Settings → Privacy & Security → Open Anyway** clears it, once per
-downloaded copy, not on every launch) with an Apple Developer Program
-membership ($99/yr) only worth paying for if a Mac build shows real pull.
+</details>
 
-## License
+<details>
+<summary><strong>License</strong></summary>
 
-**Not yet decided, and worth knowing before you rely on this repo.** The
-source is visible here, but with no `LICENSE` file, default copyright
-applies: nobody else has explicit permission to copy, modify, or
-redistribute it, whatever the visible-source might suggest. If you want
-outside contributions or reuse, a real open-source license (MIT is the usual
-low-friction choice for something this size) needs to be added deliberately
-— that's a decision for the maintainer, not a default I've picked for you.
+No `LICENSE` file, by choice: default copyright applies, so the source here
+is visible for transparency — verify the privacy claims above yourself —
+but nobody else has permission to copy, modify, or redistribute it.
+© 2026 KennyTechy. All rights reserved.
 
-© 2026 KennyTechy. All rights reserved unless a license is added.
+</details>
 
 ## Feedback
 
