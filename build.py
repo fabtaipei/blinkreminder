@@ -25,10 +25,15 @@ NAME = "Dry Eyes Blink Reminder Lite"
 # DisplayName is matched against that reservation character for character --
 # copy it exactly, trailing punctuation and all, rather than retyping it.
 DISPLAY = "Dry Eyes Blink Reminder Lite"
-VERSION = (1, 1, 4, 0)
+VERSION = (1, 1, 5, 0)
 ICON = os.path.join(HERE, "build", "app.ico")
 VERSION_FILE = os.path.join(HERE, "build", "version.txt")
 ENTRY = os.path.join(HERE, "blink_reminder.py")
+# Every source file that ends up INSIDE the exe, in a fixed order. The app
+# stopped being one file when the translations moved out of it, and a
+# fingerprint that ignored the second one would call a build fresh after a
+# language changed -- the exact failure it exists to catch.
+SOURCES = (ENTRY, os.path.join(HERE, "blink_i18n.py"))
 BUILD_INFO = os.path.join(HERE, "build", "BUILD_INFO.json")
 
 # What PyInstaller must NOT bundle. Its analysis is deliberately conservative
@@ -74,17 +79,21 @@ ARTIFACTS = {
 def source_fingerprint():
     """SHA-256 of the app's source, which is what "which version is this?" means.
 
-    The app is one file, so one hash is the whole answer. Deliberately NOT
-    including build.py: changing how the exe is packaged does not change what
-    the app does, and a fingerprint that moves for unrelated reasons trains you
-    to ignore it.
+    Every file in SOURCES, hashed in order, so adding a language moves the
+    fingerprint exactly as changing the app does. Deliberately NOT including
+    build.py: changing how the exe is packaged does not change what the app
+    does, and a fingerprint that moves for unrelated reasons trains you to
+    ignore it.
 
     Hashed from the bytes on disk rather than from a version number, because a
     version number only changes when someone remembers to change it -- which is
     exactly the failure this is here to catch.
     """
-    with open(ENTRY, "rb") as fh:
-        return hashlib.sha256(fh.read()).hexdigest()
+    digest = hashlib.sha256()
+    for path in SOURCES:
+        with open(path, "rb") as fh:
+            digest.update(fh.read())
+    return digest.hexdigest()
 
 
 def in_use(path):

@@ -39,157 +39,20 @@ from PIL import Image, ImageDraw
 # --------------------------------------------------------------------------
 # Language
 #
-# One table per language, keyed by the ENGLISH string. The English text stays
-# in the source as the key, which buys two things: reading a widget still
-# tells you what it says, and a string nobody has translated yet falls back
-# to English rather than showing the user a bare identifier like
-# "settings.save". There is no gettext, no .po file and no build step -- the
-# app is one file, and this is one dict.
+# The tables live in blink_i18n.py; the machinery lives here. Keyed by the
+# ENGLISH string, which buys two things: reading a widget still tells you
+# what it says, and a string nobody has translated yet falls back to English
+# rather than showing the user a bare identifier like "settings.save". There
+# is no gettext, no .po file and no build step.
 #
-# Only what a user reads is in here. Log lines are deliberately NOT
-# translated: they are for whoever is debugging, and a log written in two
-# languages is a log you cannot grep. DISPLAY_NAME is not translated either.
-# It is the product's name, it is what the Store reserved, and a name that
-# changes by locale is a name nobody can search for.
+# Only what a user reads is translated. Log lines are deliberately NOT: they
+# are for whoever is debugging, and a log written in ten languages is a log
+# you cannot grep. DISPLAY_NAME is not translated either -- it is the
+# product's name, it is what the Store reserved, and a name that changes by
+# locale is a name nobody can search for.
 # --------------------------------------------------------------------------
 
-# (label, code). Each label is written in its OWN language, which is the one
-# convention every language picker follows: someone who cannot read the UI
-# they are looking at still has to be able to find the way out of it.
-LANGUAGES = [("English", "en"), ("繁體中文", "zh-Hant")]
-
-# Families to try AHEAD of the Latin stacks, per language. Segoe UI Variable
-# carries no CJK at all, and Tk's own font fallback on Windows is not
-# dependable enough to gamble a whole interface on -- an unresolved glyph is a
-# tofu box, drawn silently, with no error raised anywhere.
-# Microsoft JhengHei UI is Windows' own Traditional Chinese interface font and
-# ships with every install, Chinese or not. The rest are a ladder down from it,
-# ending at two fonts drawn for other languages: YaHei sets the same characters
-# in mainland typographic conventions and Yu Gothic in Japanese ones, which is
-# a compromise on how the text LOOKS and never on whether it can be read at all.
-LANGUAGE_FONTS = {
-    "zh-Hant": ("Microsoft JhengHei UI", "Microsoft JhengHei", "PMingLiU",
-                "MingLiU", "Microsoft YaHei UI", "Yu Gothic UI"),
-}
-
-# Traditional Chinese, in Taiwan's vocabulary: 螢幕 rather than 屏幕, 設定
-# rather than 設置. Both readings are understood either side of the strait,
-# but picking one and holding to it is what stops the panel reading as
-# machine output.
-STRINGS = {
-    "zh-Hant": {
-        # -- the tray menu -----------------------------------------------
-        "Blink now": "立即眨眼",
-        "Resume reminders": "恢復提醒",
-        "Snooze 30 minutes": "暫停 30 分鐘",
-        "Settings": "設定",
-        "Buy me a coffee": "請我喝杯咖啡",
-        "Quit": "結束",
-
-        # -- how often a reminder fires, as a person would say it ---------
-        # No plural forms to get wrong here, which is the one way Chinese is
-        # kinder to a translator than English.
-        "every second": "每秒",
-        "every %d seconds": "每 %d 秒",
-        "every minute": "每分鐘",
-        "every %d minutes": "每 %d 分鐘",
-
-        # -- the startup notice ------------------------------------------
-        "%s is running": "%s 正在執行",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "它會留在背景執行，%s提醒你眨眼。",
-        "Right-click the tray icon, by the clock, for settings.":
-            "在時鐘旁的圖示上按右鍵即可開啟設定。",
-        "Got it": "知道了",
-
-        # -- launched a second time --------------------------------------
-        "%s is already running.\n\nLook for its icon in the system tray, "
-        "next to the clock -- you may need to click the ^ arrow to see it. "
-        "Right-click the icon for Settings.":
-            "%s 已經在執行中。\n\n請在時鐘旁的系統匣裡找它的圖示"
-            "— 你可能要先按 ^ 箭頭才看得到。在圖示上按右鍵即可開啟設定。",
-
-        # -- the settings panel, and the strip along its bottom ----------
-        "A gentle nudge on every screen.": "在每個螢幕上輕輕提醒你。",
-        "Start with Windows": "開機時啟動",
-        "Startup: managed by Windows": "啟動：由 Windows 管理",
-        "Startup: turned off in Task Manager": "啟動：已在工作管理員關閉",
-        "Preview blink": "預覽眨眼",
-        "Preview break": "預覽休息",
-        "Cancel": "取消",
-        "Save": "儲存",
-        "Save the changes you made?": "要儲存你剛才的變更嗎？",
-
-        # -- the blink card ----------------------------------------------
-        # "Blink" is both this card's title and the word the overlay shows
-        # by default. One translation serves both, which is why they share
-        # a key rather than each having one.
-        "Blink": "眨眼",
-        "Remind me every": "提醒間隔",
-        "seconds": "秒",
-        "minutes": "分",
-
-        # -- the break card ----------------------------------------------
-        "Break": "休息",
-        "Look at trees!": "看看綠樹！",
-        "Remind me to look away": "提醒我看向遠方",
-        "min": "分",
-
-        # -- the five rows both cards share ------------------------------
-        "A dot": "圓點",
-        "A word": "文字",
-        "Dim screen": "螢幕變暗",
-        "Strength": "強度",
-        "Colour": "顏色",
-        "Change...": "變更…",
-        "Play a sound": "播放音效",
-        # The leading spaces make room for the arrow image beside the text.
-        # An ideographic space is the CJK-width equivalent of the two the
-        # English label uses.
-        "  Advanced settings": "　進階設定",
-
-        # -- the two advanced windows ------------------------------------
-        "Advanced settings - Blink": "進階設定 — 眨眼",
-        "Blink timing and sound": "眨眼的時間與音效",
-        "Blink look": "眨眼的外觀",
-        "Advanced settings - Break": "進階設定 — 休息",
-        "Break timing and sound": "休息的時間與音效",
-        "Break look": "休息的外觀",
-        "Flash style": "閃動方式",
-        "Gentle": "輕柔",
-        "Standard": "標準",
-        "Sharp": "明顯",
-        "Custom": "自訂",
-        "Hold (s)": "停留（秒）",
-        "Fade (s)": "淡化（秒）",
-        "Pulses": "次數",
-        # Not a bare 間隔: the blink card already says 提醒間隔 for how often
-        # the reminder fires, and these two mean very different things.
-        "Gap between pulses": "每次之間的間隔",
-        "Sound": "音效",
-        "Ding": "叮",
-        "Chord": "和弦",
-        "Chime": "鈴聲",
-        "Notify": "通知",
-        "Volume": "音量",
-        "Test": "試聽",
-        "Dot size": "圓點大小",
-        "Word to show": "顯示文字",
-        "Word size": "文字大小",
-        "Position": "位置",
-        "Centre": "中央",
-        "Top left": "左上",
-        "Top right": "右上",
-        "Bottom left": "左下",
-        "Bottom right": "右下",
-        "Edge margin": "邊界距離",
-        "Show on every monitor": "在每個螢幕上顯示",
-        "Done": "完成",
-
-        # -- the other word the overlay can show -------------------------
-        "Look into the distance": "看向遠方",
-    },
-}
+from blink_i18n import LANGUAGES, LANGUAGE_FONTS, STRINGS
 
 # Resolved once, at startup, from config.json or from Windows. Module-level
 # rather than threaded through every call because every string in the app
@@ -3266,6 +3129,119 @@ class _ColourChip(tk.Label):
         self.configure(image=self._img)
 
 
+class _Picker(ttk.Button):
+    """A button showing the current choice, with the list behind a click.
+
+    A segmented control shows every option at once. That is right for three
+    and absurd for ten: the language slot is 160px, so ten segments would be
+    sixteen pixels each. This shows exactly ONE thing -- the choice in force
+    -- which is also the answer to "how many languages does a user see?".
+    One. Theirs. The rest exist only if they go looking.
+
+    Deliberately not a ttk.Combobox. That drops a raw tk Listbox popdown no
+    ttk theme can reach, and it is the one widget in this panel that would
+    still have looked ten years old. The list here is a Toplevel of the same
+    Ghost buttons the Advanced door already uses, so it inherits the theme.
+    """
+
+    ROW_H = 32
+    LIST_PAD = 6
+
+    def __init__(self, parent, s, pal, pairs, variable, command=None):
+        self.s, self.pal = s, pal
+        self.pairs = list(pairs)
+        self.var = variable
+        self.on_pick = command
+        self.popup = None
+        # keep=False, and the button holds the only reference: the panel is
+        # opened and closed freely, and a kept sprite per open would pile up
+        # in _THEME_IMAGES for the life of the process.
+        self._chev = _arrow(parent, s(12), pal["muted"], right=False,
+                            thick=s(1.5))
+        super().__init__(parent, image=self._chev, compound="right",
+                         style="Secondary.TButton", command=self.toggle)
+        variable.trace_add("write", lambda *_a: self._sync())
+        self._sync()
+
+    def _sync(self):
+        # The variable outlives the widget when the panel is rebuilt, so a
+        # late write must not reach a destroyed button.
+        if self.winfo_exists():
+            self.configure(text=self.var.get() + "  ")
+
+    # -- the list -----------------------------------------------------------
+
+    def toggle(self):
+        if self.popup is not None and self.popup.winfo_exists():
+            self.hide()
+        else:
+            self.show()
+
+    def show(self):
+        s, pal = self.s, self.pal
+        self.update_idletasks()
+        w = self.winfo_width() or s(160)
+        edge = max(1, s(1))
+        h = len(self.pairs) * s(self.ROW_H) + 2 * s(self.LIST_PAD)
+
+        top = tk.Toplevel(self)
+        self.popup = top
+        top.withdraw()
+        top.overrideredirect(True)
+        top.attributes("-topmost", True)
+        # The Toplevel's own background IS the border: an overrideredirect
+        # window has no frame, and a themed card floating with no edge at all
+        # reads as a rendering glitch rather than as a menu.
+        top.configure(bg=pal["border_strong"])
+
+        body = ttk.Frame(top, style="Card.TFrame")
+        body.place(x=edge, y=edge, width=w - 2 * edge, height=h - 2 * edge)
+        for i, (label, _value) in enumerate(self.pairs):
+            ttk.Button(body, text=label, style="Ghost.TButton",
+                       command=lambda t=label: self._choose(t)).place(
+                x=s(4), y=s(self.LIST_PAD) - edge + i * s(self.ROW_H),
+                width=w - 2 * edge - s(8), height=s(self.ROW_H))
+
+        top.geometry("%dx%d+%d+%d"
+                     % (w, h, self.winfo_rootx(),
+                        self.winfo_rooty() + self.winfo_height() + s(4)))
+        top.deiconify()
+        top.bind("<Escape>", lambda _e: self.hide())
+        top.bind("<Button-1>", self._maybe_close)
+        # The grab is what makes a click anywhere else close the list, which
+        # is the one behaviour a menu cannot do without.
+        top.grab_set()
+
+    def _maybe_close(self, event):
+        top = self.popup
+        if top is None or not top.winfo_exists():
+            return
+        x, y = top.winfo_rootx(), top.winfo_rooty()
+        inside = (x <= event.x_root < x + top.winfo_width()
+                  and y <= event.y_root < y + top.winfo_height())
+        if not inside:
+            self.hide()
+
+    def hide(self):
+        top, self.popup = self.popup, None
+        if top is not None and top.winfo_exists():
+            try:
+                top.grab_release()
+            except tk.TclError:
+                pass          # the grab was never taken; nothing to give back
+            top.destroy()
+
+    def _choose(self, label):
+        # Shut first. `command` may rebuild the whole panel, this button
+        # included, and it must not do that with a grab still outstanding.
+        self.hide()
+        if label == self.var.get():
+            return
+        self.var.set(label)
+        if self.on_pick:
+            self.on_pick()
+
+
 # --------------------------------------------------------------------------
 # Settings window
 # --------------------------------------------------------------------------
@@ -3354,6 +3330,13 @@ class SettingsWindow:
     # rows line up with the panel's and with each other.
     S1, S2, S3, S4 = 44, 92, 140, 188
     S5, S6, S7, S8 = 236, 284, 332, 380
+    # A ninth slot, used only by the advanced windows. The volume row used to
+    # fit a label, a slider, a percentage and a Test button across 268px,
+    # which works in English and in no other language measured: the label
+    # alone wants 73 ("Громкость") of the 60 it had, and Test wants 46 of 32.
+    # Giving the label its own line is the only arrangement with room for all
+    # four, and it is what the Sound and Flash style rows above already do.
+    S9 = 428
     CARD_PAD = 20                  # below the last row of any card
 
     # Both cards run S1..S7, the last row being the door to that reminder's own
@@ -3366,13 +3349,35 @@ class SettingsWindow:
     CHROME_H = 190
     WIN_W = 660                    # 20 + 300 + 20 + 300 + 20
 
+    # The footer's four buttons, sized for the longest LANGUAGE rather than
+    # for English. Measured against plausible German, French and Russian, all
+    # of which run about 120% of English: "Aperçu clignement" wants 132px and
+    # the old 124-wide button offered 92. The footer had 160px of unused
+    # gutter between the preview pair and Cancel/Save, so widening them costs
+    # nothing and it is the one change that stops every European language
+    # rediscovering the same four buttons.
+    BTN_PREVIEW_W = 168
+    BTN_FOOTER_W = 112
+    # The Startup row is a switch when this app decides, and a wider button
+    # when Windows does -- "Autozapusk: otklyuchyon v Dispetchere zadach" is
+    # 311px, and a switch's label never gets near that.
+    STARTUP_SWITCH_W = 268
+    STARTUP_BUTTON_W = 360
+    # The language picker in the header. Wide enough for a long endonym --
+    # "Português (Brasil)" -- because the button shows one language, not ten,
+    # and the widest one it may ever have to show sets the width.
+    LANG_W = 160
+
     # One advanced window per reminder, identical geometry. Two cards side by
     # side because one column of the same content is ~728 logical and does not
     # fit -- the same reason Advanced is a child window at all, one level down.
-    ADV_W, ADV_H = 648, 512        # 16 + 300 + 16 + 300 + 16 wide
-    # Both cards now run S1..S8 -- the left one gained the volume row -- so
-    # they are the same height, which is 380 + 32 + CARD_PAD.
-    ADV_LEFT_H = ADV_RIGHT_H = 432
+    ADV_W, ADV_H = 648, 560        # 16 + 300 + 16 + 300 + 16 wide
+    # Both cards run S1..S9 and so are the same height: 428 + 32 + CARD_PAD.
+    # The left card needed the ninth slot for the volume row; the right one
+    # follows it so the two still end on the same line, and the gap it opens
+    # above "Show on every monitor" reads as the break it already was --
+    # placement settings above, monitor coverage below.
+    ADV_LEFT_H = ADV_RIGHT_H = 480
 
     # (window title, timing card, look card) -- the only text that differs
     # between the two advanced windows. Everything else is built by one method,
@@ -3438,8 +3443,8 @@ class SettingsWindow:
         # than to this window or to either reminder. Above the rule, so the
         # rule still separates "settings" from "what to do with them".
         strip = s(win_h - 95)
-        self.tog_startup.place_configure(x=s(20), y=strip, width=s(268),
-                                         height=s(32))
+        self.tog_startup.place_configure(x=s(20), y=strip,
+                                         width=s(self.startup_w), height=s(32))
         if self.link_support is not None:
             # Right-aligned by anchor rather than a computed x, so it stays on
             # the margin whatever the text measures at this DPI.
@@ -3447,12 +3452,13 @@ class SettingsWindow:
                                               y=strip + s(16), anchor="e")
 
         by = s(win_h - 40)
-        self.btn_preview.place_configure(x=s(20), y=by, width=s(124), height=s(32))
-        self.btn_preview_break.place_configure(x=s(152), y=by, width=s(124),
-                                               height=s(32))
-        for btn, bx in ((self.btn_cancel, self.WIN_W - 20 - 96 - 108),
-                        (self.btn_save, self.WIN_W - 20 - 96)):
-            btn.place_configure(x=s(bx), y=by, width=s(96), height=s(32))
+        pw, fw = self.BTN_PREVIEW_W, self.BTN_FOOTER_W
+        self.btn_preview.place_configure(x=s(20), y=by, width=s(pw), height=s(32))
+        self.btn_preview_break.place_configure(x=s(20 + pw + 8), y=by,
+                                               width=s(pw), height=s(32))
+        for btn, bx in ((self.btn_cancel, self.WIN_W - 20 - 2 * fw - 12),
+                        (self.btn_save, self.WIN_W - 20 - fw)):
+            btn.place_configure(x=s(bx), y=by, width=s(fw), height=s(32))
 
     def _alias_blink_adv(self, slot):
         """Point the old flat attribute names at the blink window's widgets."""
@@ -3573,12 +3579,12 @@ class SettingsWindow:
         # this window that does NOT fire a preview -- a break preview dims every
         # screen for a second and a half, which is far too much to inflict on
         # someone nudging an audio level.
-        self._label(left, T("Volume"), 16, self.S8 + 16)
+        self._label(left, T("Volume"), 16, self.S8, anchor="nw")
         sl_vol = _Slider(left, s, self.pal, V["volume"], SOUND_VOL_MIN, 1.0,
                          96, 24, command=lambda _v: self._show_volume(which))
-        sl_vol.place(x=s(76), y=s(self.S8 + 4))
+        sl_vol.place(x=s(16), y=s(self.S9 + 4))
         pct_vol = ttk.Label(left, text="", style="Pct.TLabel", anchor="e")
-        pct_vol.place(x=s(212), y=s(self.S8 + 16), anchor="e")
+        pct_vol.place(x=s(176), y=s(self.S9 + 16), anchor="e")
         # A file can be missing and a device can be muted, and neither is
         # visible. This plays THIS reminder's sound at THIS reminder's volume.
         btn_test = ttk.Button(
@@ -3586,7 +3592,7 @@ class SettingsWindow:
             command=lambda: play_sound(
                 self._value_of(translated(SOUNDS), V["sound_name"].get()),
                 V["volume"].get()))
-        btn_test.place(x=s(220), y=s(self.S8), width=s(64), height=s(32))
+        btn_test.place(x=s(196), y=s(self.S9), width=s(88), height=s(32))
 
         # ---- right card: look --------------------------------------------
         right = self._card(outer, 332, 16, 300, self.ADV_RIGHT_H, right_title)
@@ -3607,10 +3613,13 @@ class SettingsWindow:
         self._label(right, "%", 266, self.S1 + 16, style="Hint.TLabel",
                     group=grp + "dot")
 
+        # The entry starts at 168, not 112: "Anzuzeigendes Wort" is 137px and
+        # the label used to have 96. A word is one word in any language, so
+        # the entry can afford the 56 the label needed.
         self._label(right, T("Word to show"), 16, self.S2 + 16,
                     group=grp + "text")
         en_word = ttk.Entry(right, textvariable=V["message"], font=fonts["t4"])
-        en_word.place(x=s(112), y=s(self.S2), width=s(172), height=s(32))
+        en_word.place(x=s(168), y=s(self.S2), width=s(116), height=s(32))
         en_word.bind("<KeyRelease>", preview)
         self.groups.setdefault(grp + "text", []).append(en_word)
 
@@ -3649,7 +3658,7 @@ class SettingsWindow:
         tog_all = ttk.Checkbutton(right, text=T("Show on every monitor"),
                                   variable=V["all"], style="Switch.TCheckbutton",
                                   command=preview)
-        tog_all.place(x=s(16), y=s(self.S8), width=s(268), height=s(32))
+        tog_all.place(x=s(16), y=s(self.S9), width=s(268), height=s(32))
 
         done = ttk.Button(outer, text=T("Done"), style="Primary.TButton",
                           command=lambda: self._close_advanced(which))
@@ -3860,16 +3869,15 @@ class SettingsWindow:
         # SETTINGS, and this is the one control whose effect you can see the
         # instant you touch it, so it belongs where the eye starts.
         #
-        # Two segments, each written in its own language. There is no "Auto"
-        # segment -- auto is the state a fresh install is already in, and the
-        # picker simply shows which language that resolved to.
-        # 32 high like every other segmented control in the panel, and its top
-        # edge on the title's, which is the alignment the eye actually checks.
-        self.seg_lang = _Segmented(
-            outer, s, [t for t, _ in LANGUAGES], self.v_lang, 152, 32,
-            small=True, command=self._language_changed)
-        self.seg_lang.place(x=s(self.WIN_W - 20) - self.seg_lang.pw, y=s(15),
-                            width=self.seg_lang.pw, height=self.seg_lang.ph)
+        # ONE language on screen -- the one in force -- and the rest behind a
+        # click. There is no "Auto" entry: auto is the state a fresh install
+        # is already in, and the picker simply shows what it resolved to.
+        # 32 high like every other control, and its top edge on the title's,
+        # which is the alignment the eye actually checks.
+        self.lang_picker = _Picker(outer, s, pal, LANGUAGES, self.v_lang,
+                                   command=self._language_changed)
+        self.lang_picker.place(x=s(self.WIN_W - 20 - self.LANG_W), y=s(15),
+                               width=s(self.LANG_W), height=s(32))
         # Short on purpose. It was shortened when the header carried a switch
         # on its right; the switch has since moved to its own strip at the
         # bottom, so the constraint is gone -- but a one-line subtitle was the
@@ -3891,6 +3899,8 @@ class SettingsWindow:
         # because we are packaged, or because the user switched the entry off
         # in Task Manager -- it becomes a door to the page that really owns it.
         blocked = not PACKAGED and startup_blocked_by_windows()
+        self.startup_w = (self.STARTUP_BUTTON_W if (PACKAGED or blocked)
+                          else self.STARTUP_SWITCH_W)
         if PACKAGED or blocked:
             self.tog_startup = ttk.Button(
                 outer,
@@ -4023,13 +4033,17 @@ class SettingsWindow:
         W["pct"].place(x=s(284), y=s(self.S4 + 16), anchor="e")
 
         self._label(card, T("Colour"), 16, self.S5 + 16, group=group)
+        # Chip and button both moved left of where they were, to buy the
+        # button 32 more pixels: "Изменить…" is 86px and the old 100-wide
+        # button offered 68. The label keeps 104, which is twice what the
+        # longest translation of "Colour" asks for.
         W["chip"] = owned(_ColourChip(card, s, self.pal, cfg[p + "colour"],
                                       lambda: self.pick_colour(which)))
-        W["chip"].place(x=s(140), y=s(self.S5 + 16), anchor="w")
+        W["chip"].place(x=s(120), y=s(self.S5 + 16), anchor="w")
         W["colour_btn"] = owned(ttk.Button(
             card, text=T("Change..."), style="Secondary.TButton",
             command=lambda: self.pick_colour(which)))
-        W["colour_btn"].place(x=s(184), y=s(self.S5), width=s(100), height=s(32))
+        W["colour_btn"].place(x=s(152), y=s(self.S5), width=s(132), height=s(32))
 
         W["sound"] = owned(ttk.Checkbutton(
             card, text=T("Play a sound"), variable=V["sound"],
@@ -4119,7 +4133,7 @@ class SettingsWindow:
         """
         self.tab_ring = [
             # The header's own control, first, because it is first on screen
-            self.seg_lang,
+            self.lang_picker,
             # Blink, in the order the card reads, ending at its own door
             self.sp_every, self.seg_unit, self.seg_style, self.slider,
             self.chip, self.btn_colour, self.tog_sound, self.adv_btn_blink,
@@ -4488,7 +4502,13 @@ class StartupNotice:
     Same theme as the settings panel, so the two read as one app.
     """
 
-    WIN_W, WIN_H = 404, 240
+    # 480 rather than 404. Three of the four things in here overflowed the
+    # narrower window in German and French -- the card's one line of advice
+    # wants 393px, and "Spendier mir einen Kaffee" 181 of the 116 its button
+    # had. A notice is shown once and read once, so it can afford the width.
+    WIN_W, WIN_H = 480, 240
+    PAD = 20
+    BTN_W, SUPPORT_W = 116, 220
 
     def __init__(self, app):
         self.app = app
@@ -4537,15 +4557,19 @@ class StartupNotice:
                        % describe_interval(self.app.cfg["interval_seconds"])).place(
             x=s(20), y=s(54))
 
+        # Everything below hangs off PAD and the window width rather than off
+        # literals, so the window can be widened for a longer language in one
+        # place instead of five.
+        inner = self.WIN_W - 2 * self.PAD
         card = ttk.Frame(outer, style="Card.TFrame")
-        card.place(x=s(20), y=s(112), width=s(364), height=s(52))
+        card.place(x=s(self.PAD), y=s(112), width=s(inner), height=s(52))
         ttk.Label(card,
                   text=T("Right-click the tray icon, by the clock, "
                          "for settings."),
                   style="Row.TLabel").place(x=s(16), y=s(16))
 
         ttk.Frame(outer, style="Rule.TFrame").place(
-            x=s(20), y=s(184), width=s(364), height=max(1, s(1)))
+            x=s(self.PAD), y=s(184), width=s(inner), height=max(1, s(1)))
 
         # Opposite end of the footer from "Got it", so the eye reaches the
         # dismiss button first and the ask second. Absent when unconfigured.
@@ -4553,11 +4577,13 @@ class StartupNotice:
             self.btn_support = ttk.Button(
                 outer, text=T("Buy me a coffee"), style="Secondary.TButton",
                 command=lambda: open_link(SUPPORT_URL))
-            self.btn_support.place(x=s(20), y=s(196), width=s(148), height=s(32))
+            self.btn_support.place(x=s(self.PAD), y=s(196),
+                                   width=s(self.SUPPORT_W), height=s(32))
 
         self.btn = ttk.Button(outer, text=T("Got it"), style="Primary.TButton",
                               command=self.close)
-        self.btn.place(x=win_w - s(20) - s(96), y=s(196), width=s(96), height=s(32))
+        self.btn.place(x=s(self.WIN_W - self.PAD - self.BTN_W), y=s(196),
+                       width=s(self.BTN_W), height=s(32))
 
         self.win.update_idletasks()
         if pal["dark_titlebar"]:
