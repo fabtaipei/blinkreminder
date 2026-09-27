@@ -7,12 +7,29 @@
     "exist in the export is reported rather than silently dropped.",
     "Prose lives here and in listing-zh-Hant.txt, which is the same copy laid",
     "out for pasting into the web form by hand. Edit both or neither.",
-    "Screenshots are deliberately absent: leaving them out means the default",
-    "column's assets are used, which is how this listing reuses the English",
-    "screenshots instead of needing Chinese ones."
+    "Images and video are not copied into this file. _copy_from below reuses",
+    "the English listing's Partner Center URLs, which is allowed across",
+    "listings of the same product -- so the Store's one-screenshot-per-",
+    "listing requirement is met without producing a Chinese set. Their",
+    "CAPTIONS are text, so those are translated below.",
+    "Logos are deliberately not copied: OverrideLogosForWin10 is False for",
+    "this language, so the Store uses the package's own icon."
   ],
 
+  "_copy_from": {
+    "column": "en-gb",
+    "fields": [
+      "DesktopScreenshot1", "DesktopScreenshot2", "DesktopScreenshot3",
+      "DesktopScreenshot4", "DesktopScreenshot5", "DesktopScreenshot6",
+      "TrailerToPlayAtTopOfListing",
+      "Trailer1", "TrailerThumbnail1",
+      "Trailer2", "TrailerThumbnail2"
+    ]
+  },
+
   "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. 版權所有。",
 
   "ShortDescription": "多眨眼，讓眼睛休息。在每個螢幕上輕輕提示一下——看得見，卻不會打斷你。Dry Eyes Blink Reminder Lite 安靜地待在工作列通知區，不連網路，也不會看著你。",
 
@@ -29,6 +46,15 @@
   "Feature7": "任何變更都能先預覽再儲存",
   "Feature8": "不需帳號、沒有廣告、沒有分析追蹤",
   "Feature9": "不連網路、不用攝影機、不會看著你",
+
+  "DesktopScreenshotCaption1": "一個圓點依你設定的間隔提醒你眨眼，樣式也可以自己調整。",
+  "DesktopScreenshotCaption2": "螢幕變暗提醒你休息，間隔由你決定——整點、每半小時，或任何你習慣的節奏。",
+  "DesktopScreenshotCaption3": "介面簡單好用。",
+  "DesktopScreenshotCaption4": "一個圓點依你設定的間隔提醒你眨眼，樣式也可以自己調整。",
+  "DesktopScreenshotCaption5": "螢幕變暗提醒你休息，間隔由你決定——整點、每半小時，或任何你習慣的節奏。",
+
+  "TrailerTitle1": "示範中的兩種提醒",
+  "TrailerTitle2": "示範中的兩種提醒",
 
   "SearchTerm1": "眨眼提醒",
   "SearchTerm2": "乾眼症",

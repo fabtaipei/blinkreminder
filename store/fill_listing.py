@@ -40,19 +40,42 @@ def key(name):
     return re.sub(r"[^a-z0-9]", "", (name or "").lower())
 
 
+def column(header, code):
+    """The index of a language column, however Partner Center cased it.
+
+    The export writes the codes lower-case -- "zh-hant" -- while the manifest
+    and everything else in this repo use "zh-Hant". Matching exactly would
+    quietly add a SECOND column and leave the listing empty.
+    """
+    for i, name in enumerate(header):
+        if (name or "").lower() == code.lower():
+            return i
+    return None
+
+
 def load(path):
     with io.open(path, encoding="utf-8") as fh:
         data = json.load(fh)
     lang = data.get("language")
     if not lang:
         sys.exit("%s has no \"language\" key" % path)
-    # Keys starting with _ are notes to whoever edits the file.
+    copy_from = data.get("_copy_from")
+    # Other keys starting with _ are notes to whoever edits the file.
     values = {k: v for k, v in data.items()
               if k != "language" and not k.startswith("_")}
-    return lang, values
+    return lang, values, copy_from
 
 
 def main(argv):
+    # --drop <code>, repeatable: remove a language column entirely. For a
+    # language added to the product by mistake -- an empty column is still a
+    # listing, and Partner Center requires a Description in every listing,
+    # so leaving it in place fails the import for a language you do not want.
+    drops = []
+    while "--drop" in argv:
+        i = argv.index("--drop")
+        drops.append(argv[i + 1])
+        del argv[i:i + 2]
     if len(argv) < 2:
         sys.exit(__doc__)
     csv_path, json_paths = argv[0], argv[1:]
@@ -66,7 +89,11 @@ def main(argv):
         sys.exit("%s is empty" % csv_path)
 
     header = rows[0]
-    if [key(c) for c in header[:3]] != list(FIXED):
+    # The third column is headed "Type (Type)" in a real export, not "Type",
+    # so this checks the prefix rather than the whole string.
+    shape = (key(header[0]) == "field" and key(header[1]) == "id"
+             and key(header[2]).startswith("type"))
+    if not shape:
         sys.exit("%s does not look like a Partner Center export -- its first "
                  "three columns are %r, expected Field, ID, Type"
                  % (csv_path, header[:3]))
@@ -80,15 +107,19 @@ def main(argv):
 
     failed = False
     for path in json_paths:
-        lang, values = load(path)
-        if lang in header:
-            col = header.index(lang)
-        else:
+        lang, values, copy_from = load(path)
+        col = column(header, lang)
+        if col is None:
             col = len(header)
             header.append(lang)
             print("  %s: new column %d" % (lang, col))
+        else:
+            print("  %s: existing column %d (%r)" % (lang, col, header[col]))
 
         unknown = [k for k in values if key(k) not in by_field]
+        if copy_from:
+            unknown += [k for k in copy_from.get("fields", [])
+                        if key(k) not in by_field]
         if unknown:
             failed = True
             print("\n  %s: %d key(s) match no field in the export:"
@@ -104,6 +135,29 @@ def main(argv):
                 row.append("")
             row[col] = value
         print("  %s: %d field(s) written" % (lang, len(values)))
+
+        # Assets are reused, never re-uploaded: a Partner Center URL works in
+        # any listing of the same product. This is how a new language gets
+        # the screenshots the Store requires without anyone producing a set
+        # in that language. Only empty cells are filled, so a language that
+        # DOES have its own artwork keeps it.
+        if copy_from:
+            src = column(header, copy_from["column"])
+            if src is None:
+                failed = True
+                print("      no %r column to copy from; have %s"
+                      % (copy_from["column"], header))
+                continue
+            copied = 0
+            for name in copy_from.get("fields", []):
+                row = by_field[key(name)]
+                while len(row) <= max(col, src):
+                    row.append("")
+                if not row[col].strip() and row[src].strip():
+                    row[col] = row[src]
+                    copied += 1
+            print("      %d asset(s) reused from %s"
+                  % (copied, header[src]))
 
         # The two Partner Center insists on per listing. A screenshot is also
         # required, but an empty cell there inherits the default column's,
@@ -121,6 +175,20 @@ def main(argv):
     for row in rows[1:]:
         while len(row) < len(header):
             row.append("")
+
+    for code in drops:
+        i = column(header, code)
+        if i is None:
+            print("  --drop %s: no such column, nothing to do" % code)
+            continue
+        if i < 4:
+            sys.exit("--drop %s would remove %r, which is not a language"
+                     % (code, header[i]))
+        filled = sum(1 for r in rows[1:] if len(r) > i and r[i].strip())
+        for row in rows:
+            del row[i]
+        print("  --drop %s: column removed (it held %d non-empty cell(s))"
+              % (code, filled))
 
     out = os.path.splitext(csv_path)[0] + "-filled.csv"
     # BOM on purpose: the docs tell you to save as Excel's "CSV UTF-8", which
