@@ -714,7 +714,10 @@ def enable_dpi_awareness():
         try:
             user32.SetProcessDPIAware()
         except Exception:
-            pass
+            # Last resort in the chain. Nothing further to try, and refusing
+            # to start over this is worse than running DPI-unaware -- but it
+            # mis-sizes every reminder, so it is worth a line in the log.
+            log_error("enable_dpi_awareness")
 
 
 def virtual_screen():
@@ -762,7 +765,8 @@ def monitor_dpi(hmon):
         ) == 0:
             return int(x.value) or BASE_DPI
     except Exception:
-        pass
+        # Falling back to BASE_DPI silently would size every reminder wrong.
+        log_error("monitor_dpi")
     return BASE_DPI
 
 
@@ -797,7 +801,8 @@ def monitors():
     try:
         user32.EnumDisplayMonitors(None, None, callback, 0)
     except Exception:
-        pass
+        # Without this the fallback below looks like a one-monitor desk.
+        log_error("monitors: EnumDisplayMonitors")
     if not found:
         vx, vy, vw, vh = virtual_screen()
         found.append((vx, vy, vw, vh, BASE_DPI, True))
@@ -847,7 +852,7 @@ def monitor_areas():
     try:
         user32.EnumDisplayMonitors(None, None, callback, 0)
     except Exception:
-        pass
+        log_error("monitor_areas: EnumDisplayMonitors")
     if not found:
         vx, vy, vw, vh = virtual_screen()
         found.append((vx, vy, vw, vh, BASE_DPI, True, vx, vy, vw, vh))
@@ -1194,8 +1199,15 @@ def sync_startup(enabled):
 # --------------------------------------------------------------------------
 
 
-class _Pane:
-    """One borderless, click-through window covering a single monitor."""
+class _ClickThroughWindow:
+    """A borderless, always-on-top, click-through Toplevel with a canvas.
+
+    Every window this app puts on screen -- the reminder panes, the corner
+    indicator dots, the countdown pill -- is this same object. It used to be
+    two independent classes with eleven identical lines of constructor
+    between them, which is how they came to disagree about the one thing
+    that matters here: the order of styling and mapping. See style_once.
+    """
 
     def __init__(self, root):
         self.win = tk.Toplevel(root)
@@ -1216,6 +1228,11 @@ class _Pane:
         deiconify. The old claim was not merely redundant, it was the bug --
         a pane that maps before it is WS_EX_NOACTIVATE takes the foreground,
         so the first blink of every session ate whatever was being typed.
+
+        The indicator and the countdown were still doing it the wrong way
+        round long after the panes were fixed, because they were a separate
+        class that never got the correction. Both orders live in one place
+        now, so there is only one of them to be right.
         """
         if not self._styled:
             self.win.update_idletasks()
@@ -1225,17 +1242,28 @@ class _Pane:
     def alpha(self, value):
         self.win.attributes("-alpha", max(0.0, min(1.0, value)))
 
-    def show(self):
-        # Styling first is the whole point -- see style_once. Done here rather
-        # than left to the caller so no future call site can get the order
-        # wrong; it is a no-op after the first time.
+    def move(self, w, h, x, y):
+        self.win.geometry("%dx%d+%d+%d" % (w, h, x, y))
+
+    def _map(self):
+        """Style, then map. Never the other way round."""
         self.style_once()
         self.win.deiconify()
         self.win.lift()
 
     def hide(self):
-        self.win.attributes("-alpha", 0.0)
-        self.win.withdraw()
+        try:
+            self.win.attributes("-alpha", 0.0)
+            self.win.withdraw()
+        except tk.TclError:
+            pass
+
+
+class _Pane(_ClickThroughWindow):
+    """One click-through window covering a single monitor."""
+
+    def show(self):
+        self._map()
 
 
 class Overlay:
@@ -1330,7 +1358,7 @@ class Overlay:
             try:
                 self.root.after_cancel(self.watchdog)
             except Exception:
-                pass
+                pass  # already fired or already cancelled; nothing to undo
             self.watchdog = None
         for pane in self.active:
             try:
@@ -1560,37 +1588,19 @@ def _corner_slot(m):
     return size, x, y, scale
 
 
-class _Overlayette:
-    """Shared plumbing for the small always-on-top, click-through windows."""
+class _Overlayette(_ClickThroughWindow):
+    """The small always-on windows: indicator dots and the countdown pill.
 
-    def __init__(self, root):
-        self.win = tk.Toplevel(root)
-        self.win.withdraw()
-        self.win.overrideredirect(True)
-        self.win.attributes("-topmost", True)
-        self.win.attributes("-alpha", 0.0)
-        self.canvas = tk.Canvas(self.win, highlightthickness=0, bd=0)
-        self.canvas.pack(fill="both", expand=True)
-        self.styled = False
-
-    def move(self, w, h, x, y):
-        self.win.geometry("%dx%d+%d+%d" % (w, h, x, y))
+    Only difference from a pane is that these are shown at a chosen opacity
+    rather than faded by a pulse.
+    """
 
     def show(self, alpha):
-        self.win.deiconify()
-        self.win.lift()
-        if not self.styled:
-            self.win.update_idletasks()
-            make_click_through(self.win)
-            self.styled = True
+        # Was deiconify-then-style, the ordering _ClickThroughWindow.style_once
+        # documents as the focus-theft bug. These windows appear at startup,
+        # so getting it wrong stole the foreground once per session.
+        self._map()
         self.win.attributes("-alpha", alpha)
-
-    def hide(self):
-        try:
-            self.win.attributes("-alpha", 0.0)
-            self.win.withdraw()
-        except tk.TclError:
-            pass
 
 
 class _Pip(_Overlayette):
@@ -1671,7 +1681,9 @@ class RunningIndicator:
             if self.cfg is not None and self.parked and not self.flying:
                 self.show()
         except Exception:
-            pass
+            # Runs every 20s. If it starts failing the dots quietly stop
+            # coming back, which looks like the app having died.
+            log_error("indicator recheck")
         self.root.after(INDICATOR_RECHECK_MS, self._recheck)
 
     # -- visibility ---------------------------------------------------------
@@ -2164,16 +2176,8 @@ def _resolve_fonts(root):
     }
 
 
-def _build_theme(root, st, pal, s):
-    """Every element of one theme. Runs once per mode."""
-    f = _THEME_METRICS["fonts"]
-    t1, t2, t3, t4, t4b, t5 = f["t1"], f["t2"], f["t3"], f["t4"], f["t4b"], f["t5"]
-    t3l, t4u, t4bu = f["t3l"], f["t4u"], f["t4bu"]
-
-    st.configure(".", background=pal["surface"], foreground=pal["text"], font=t4,
-                 borderwidth=0, relief="flat", focuscolor=pal["accent"])
-
-    # ---- surfaces ---------------------------------------------------------
+def _theme_surfaces(root, st, pal, s, f):
+    """Theme elements: flat frames and the rounded card background."""
     st.configure("TFrame", background=pal["surface"])
     st.configure("Ground.TFrame", background=pal["ground"])
     st.configure("Rule.TFrame", background=pal["border"])
@@ -2186,7 +2190,11 @@ def _build_theme(root, st, pal, s):
         border=CR, sticky="nsew")
     st.layout("Card.TFrame", [("Card.bg", {"sticky": "nsew"})])
 
-    # ---- text -------------------------------------------------------------
+
+def _theme_text(root, st, pal, s, f):
+    """Theme elements: every label style."""
+    t1, t2, t4, t4b, t5, t3l, t4bu = f["t1"], f["t2"], f["t4"], f["t4b"], f["t5"], f["t3l"], f["t4bu"]
+
     for name, font, fg, bg in (
         ("TLabel", t4, pal["text"], pal["surface"]),
         ("Title.TLabel", t1, pal["text"], pal["ground"]),
@@ -2205,7 +2213,9 @@ def _build_theme(root, st, pal, s):
         st.configure(name, font=font, foreground=fg, background=bg)
         st.map(name, foreground=[("disabled", pal["text_disabled"])])
 
-    # ---- fields (Entry and Spinbox share one chrome) ----------------------
+
+def _theme_fields(root, st, pal, s, f):
+    """Theme elements: Entry and Spinbox, which share one chrome."""
     FH, FR = s(32), s(6)
     fw = FR * 2 + s(STRETCH)
 
@@ -2257,7 +2267,11 @@ def _build_theme(root, st, pal, s):
                  selectforeground=pal["on_accent"])
     st.map("TSpinbox", foreground=[("disabled", pal["text_disabled"])])
 
-    # ---- buttons ----------------------------------------------------------
+
+def _theme_buttons(root, st, pal, s, f):
+    """Theme elements: primary, secondary and the link-ish ones."""
+    t3, t4, t4b = f["t3"], f["t4"], f["t4b"]
+
     BH, BR = s(32), s(6)
     bw = BR * 2 + s(STRETCH)
 
@@ -2309,7 +2323,11 @@ def _build_theme(root, st, pal, s):
                  background=pal["surface"])
     st.map("Ghost.TButton", foreground=[("disabled", pal["text_disabled"])])
 
-    # ---- segmented control -------------------------------------------------
+
+def _theme_segmented(root, st, pal, s, f):
+    """Theme elements: the two- and three-way pickers."""
+    t4, t4b = f["t4"], f["t4b"]
+
     TR = s(8)
     tw, th = TR * 2 + s(STRETCH), TR * 2 + s(40)
     st.element_create(
@@ -2350,7 +2368,9 @@ def _build_theme(root, st, pal, s):
                            ("selected", pal["text"]), ("active", pal["text"])],
                background=[("!disabled", pal["inset"])])
 
-    # ---- position grid: a literal miniature of a monitor --------------------
+
+def _theme_grid(root, st, pal, s, f):
+    """Theme elements: the position picker's miniature monitor."""
     PW, PH = s(88), s(58)
 
     def screen(ring=False):
@@ -2388,7 +2408,11 @@ def _build_theme(root, st, pal, s):
     st.configure("Cell.TRadiobutton", background=pal["inset"], padding=0)
     st.map("Cell.TRadiobutton", background=[("!disabled", pal["inset"])])
 
-    # ---- toggle switches ----------------------------------------------------
+
+def _theme_toggles(root, st, pal, s, f):
+    """Theme elements: the on/off switches."""
+    t4 = f["t4"]
+
     st.element_create(
         "Sw.ind", "image", _switch(root, s, pal, False),
         ("disabled", "selected", _switch(root, s, pal, True, alpha=0.4)),
@@ -2417,6 +2441,28 @@ def _build_theme(root, st, pal, s):
                      padding=0, focuscolor=bg)
         st.map(name, background=[("active", bg)],
                foreground=[("disabled", pal["text_disabled"])])
+
+
+def _build_theme(root, st, pal, s):
+    """Every element of one theme. Runs once per mode.
+
+    Was 253 lines in a row. The sections below were already marked with
+    banner comments and shared nothing but the fonts dict, so each is now
+    its own function and this one is the running order.
+    """
+    f = _THEME_METRICS["fonts"]
+
+    st.configure(".", background=pal["surface"], foreground=pal["text"],
+                 font=f["t4"], borderwidth=0, relief="flat",
+                 focuscolor=pal["accent"])
+
+    _theme_surfaces(root, st, pal, s, f)
+    _theme_text(root, st, pal, s, f)
+    _theme_fields(root, st, pal, s, f)
+    _theme_buttons(root, st, pal, s, f)
+    _theme_segmented(root, st, pal, s, f)
+    _theme_grid(root, st, pal, s, f)
+    _theme_toggles(root, st, pal, s, f)
 
 
 def ensure_theme(root, mode):
@@ -2451,7 +2497,31 @@ def ensure_theme(root, mode):
 # --------------------------------------------------------------------------
 
 
-class _Segmented(ttk.Frame):
+class _StateAware:
+    """Lets ttk's state= reach a custom widget's own enable/disable.
+
+    These widgets are drawn by hand, so ttk has no idea how to grey them out;
+    without this, `w.configure(state="disabled")` would either be ignored or
+    raise, depending on the base class. The group-enabling code in
+    SettingsWindow drives everything through state=, so each custom widget
+    has to translate it into its own set_enabled.
+
+    A mixin rather than a base class because the two widgets that need it
+    descend from different Tk classes -- ttk.Frame and tk.Canvas -- and this
+    was previously solved by pasting the same eight lines into both.
+    """
+
+    def configure(self, cnf=None, **kw):
+        if "state" in kw:
+            self.set_enabled(str(kw.pop("state")) != "disabled")
+            if cnf is None and not kw:
+                return None
+        return super().configure(cnf, **kw)
+
+    config = configure
+
+
+class _Segmented(_StateAware, ttk.Frame):
     """A radio group that looks like a Windows 11 segmented control.
 
     This exists so the panel contains no ttk.Combobox. A Combobox drops a raw
@@ -2512,15 +2582,6 @@ class _Segmented(ttk.Frame):
         return super().cget(key)
 
     __getitem__ = cget
-
-    def configure(self, cnf=None, **kw):
-        if "state" in kw:
-            self.set_enabled(str(kw.pop("state")) != "disabled")
-            if cnf is None and not kw:
-                return None
-        return super().configure(cnf, **kw)
-
-    config = configure
 
     # Only one button is a tab stop; the arrows move within the group, which is
     # how a real segmented control behaves.
@@ -2643,7 +2704,7 @@ class _PositionGrid(ttk.Frame):
         return "break"
 
 
-class _Slider(tk.Canvas):
+class _Slider(_StateAware, tk.Canvas):
     """Filled-track slider with a Fluent thumb. ttk.Scale has no filled portion
     and no element to add one, so this is a Canvas.
 
@@ -2749,15 +2810,6 @@ class _Slider(tk.Canvas):
         return super().cget(key)
 
     __getitem__ = cget
-
-    def configure(self, cnf=None, **kw):
-        if "state" in kw:
-            self.set_enabled(str(kw.pop("state")) != "disabled")
-            if cnf is None and not kw:
-                return None
-        return super().configure(cnf, **kw)
-
-    config = configure
 
     def _press(self, event):
         if not self.enabled:
@@ -4375,7 +4427,7 @@ class App:
         try:
             self.icon.stop()
         except Exception:
-            pass
+            pass  # shutting down anyway; a stuck tray icon outlives us
         self.root.quit()
         self.root.destroy()
 
