@@ -201,8 +201,24 @@ Only one ordering constraint in the whole plan: **Phase 0 before Phase 2.**
 
 ## Where things stand
 
-- **Shipped in 1.1.4.0:** English + 繁體中文. Manifest declares `en-gb` and
-  `zh-Hant`. Listing copy drafted in `store/listing-zh-Hant.txt`.
+- **Shipped in 1.1.4.0:** English + 繁體中文. Listing copy drafted in
+  `store/listing-zh-Hant.txt`.
+- **Phase 0: done in 1.1.5.0.** All twelve slots widened; the picker is now
+  a one-language button with the list behind a click; the strings live in
+  `blink_i18n.py`; the manifest generates its language list from that table;
+  `test_i18n.py` enforces completeness, fit and manifest truth, and CI runs
+  it before every build.
 - **Also drafted:** `store/listing-fr.txt` — French listing copy, app not yet
   translated.
-- **Not started:** every item in Phase 0.
+- **Next:** Phase 1. Nothing in Phase 2 is blocked.
+
+### Adding a language, now that Phase 0 is done
+
+1. Add `(label, code)` to `LANGUAGES` and a table to `STRINGS`, both in
+   `blink_i18n.py`. Its own docstring is the checklist.
+2. `py test_i18n.py`. It will name any string that is missing, orphaned, or
+   too wide, and which control it is too wide for.
+3. `py build_msix.py`. The manifest picks up the new language by itself.
+4. Add the listing in Partner Center.
+
+Nothing else changes — no new package, no second product, no re-architecture.

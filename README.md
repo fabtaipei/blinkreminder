@@ -74,8 +74,9 @@ saving. **Save** applies them.
 
 Without a config file the app follows the language Windows itself is
 displayed in; picking one in the panel pins it from then on. All translated
-text lives in the `STRINGS` table at the top of `blink_reminder.py`, keyed by
-the English string, so adding a language is one dict and nothing else.
+text lives in `blink_i18n.py`, keyed by the English string, so adding a
+language is one dict and nothing else — see [LOCALISATION.md](LOCALISATION.md)
+for the whole process, including the Store side.
 
 Settings live in `%APPDATA%\BlinkReminder\config.json`. The reminder pulse
 is rate-limited in code so that no combination of settings can exceed three
@@ -122,8 +123,13 @@ Needs Python 3.10+, then:
     py build.py
 
 Output lands in `dist\Dry Eyes Blink Reminder Lite.exe`. `build.py` generates
-the icon and the exe's version resource, so `blink_reminder.py` and
-`build.py` are the only tracked sources that matter for a Windows build.
+the icon and the exe's version resource, so `blink_reminder.py`,
+`blink_i18n.py` and `build.py` are the only tracked sources that matter for
+a Windows build.
+
+`py test_i18n.py` is the gate for translations: every string exists, every
+string fits the control it goes in, and the package manifest advertises
+exactly the languages the app speaks. CI runs it before every build.
 
 To run without building: `pythonw blink_reminder.py` (`pythonw`, not
 `python`, so no console window appears).

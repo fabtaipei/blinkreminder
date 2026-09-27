@@ -26,6 +26,14 @@ jobs:
       - name: Install dependencies
         run: py -m pip install pystray pillow pyinstaller
 
+      # Before the build, because it is cheap and because the failure it
+      # catches -- a translation that is too wide for the control it goes in
+      # -- is invisible in a built exe unless you happen to read that
+      # language. Also checks that the manifest advertises exactly the
+      # languages the app actually speaks.
+      - name: Check translations
+        run: py test_i18n.py
+
       - name: Build
         run: py build.py
 
