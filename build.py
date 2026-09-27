@@ -25,11 +25,42 @@ NAME = "Dry Eyes Blink Reminder Lite"
 # DisplayName is matched against that reservation character for character --
 # copy it exactly, trailing punctuation and all, rather than retyping it.
 DISPLAY = "Dry Eyes Blink Reminder Lite"
-VERSION = (1, 1, 2, 0)
+VERSION = (1, 1, 3, 0)
 ICON = os.path.join(HERE, "build", "app.ico")
 VERSION_FILE = os.path.join(HERE, "build", "version.txt")
 ENTRY = os.path.join(HERE, "blink_reminder.py")
 BUILD_INFO = os.path.join(HERE, "build", "BUILD_INFO.json")
+
+# What PyInstaller must NOT bundle. Its analysis is deliberately conservative
+# -- it would rather ship a megabyte nobody needs than miss an import -- so
+# everything below was measured inside a built .msix, confirmed unreachable
+# from this app's own imports, and confirmed harmless to remove by running the
+# app and the full suite afterwards. Compressed sizes are what each one cost
+# in the 21.04MB package of 1.1.2.0.
+EXCLUDES = (
+    # Never referenced. Large scientific/UI stacks Pillow and the stdlib can
+    # drag in through optional code paths.
+    "numpy", "scipy", "pandas", "matplotlib", "pytest", "setuptools",
+    "pip", "unittest", "pydoc_data", "PIL.ImageQt", "PyQt5", "PySide2",
+
+    # AVIF decoder, 4.39MB. The app draws its icon with ImageDraw and reads
+    # nothing but its own PNGs; it has never opened an AVIF file.
+    "PIL.AvifImagePlugin",
+
+    # FreeType text rendering, 1.07MB. Every string the app draws goes through
+    # a Tk canvas, not Pillow. Excluding PIL.ImageFont itself would break the
+    # build -- ImageDraw imports it at module level -- but the C extension
+    # underneath is only imported under TYPE_CHECKING and lazily inside the
+    # text functions, so dropping it leaves shape drawing untouched.
+    "PIL._imagingft",
+
+    # OpenSSL, 2.19MB across libcrypto-3.dll and libssl-3.dll, pulled in as a
+    # binary dependency of these two extensions. The app opens no sockets and
+    # imports neither -- see the privacy policy, which promises exactly that.
+    # hashlib itself is deliberately NOT excluded: it falls back to CPython's
+    # built-in digests when _hashlib is missing, and random imports it.
+    "ssl", "_ssl", "_hashlib",
+)
 
 # What each build produces, and where. Named here so --check can ask about an
 # artifact without rebuilding it, and so nothing has to remember these paths.
@@ -253,9 +284,7 @@ def build(onefile=True):
         "--hidden-import", "pystray._win32",  # backend is picked at runtime
         "--collect-submodules", "pystray",
     ]
-    # Trimming what Pillow and the stdlib drag in. Keeps the exe near 12MB.
-    for mod in ("numpy", "scipy", "pandas", "matplotlib", "pytest", "setuptools",
-                "pip", "unittest", "pydoc_data", "PIL.ImageQt", "PyQt5", "PySide2"):
+    for mod in EXCLUDES:
         args += ["--exclude-module", mod]
     args.append(ENTRY)
 
