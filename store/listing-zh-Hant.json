@@ -7,25 +7,13 @@
     "exist in the export is reported rather than silently dropped.",
     "Prose lives here and in listing-zh-Hant.txt, which is the same copy laid",
     "out for pasting into the web form by hand. Edit both or neither.",
-    "Images and video are not copied into this file. _copy_from below reuses",
-    "the English listing's Partner Center URLs, which is allowed across",
-    "listings of the same product -- so the Store's one-screenshot-per-",
-    "listing requirement is met without producing a Chinese set. Their",
-    "CAPTIONS are text, so those are translated below.",
-    "Logos are deliberately not copied: OverrideLogosForWin10 is False for",
-    "this language, so the Store uses the package's own icon."
+    "No images or video are named here. fill_listing.py's DEFAULT_COPY takes",
+    "every asset the English listing has -- it reads the export's own Type",
+    "column, so the list cannot fall behind Partner Center -- and only fills",
+    "cells that are empty, so artwork uploaded by hand for this language is",
+    "never overwritten. Their CAPTIONS are text, so those are translated,",
+    "as are the trailer titles."
   ],
-
-  "_copy_from": {
-    "column": "en-gb",
-    "fields": [
-      "DesktopScreenshot1", "DesktopScreenshot2", "DesktopScreenshot3",
-      "DesktopScreenshot4", "DesktopScreenshot5", "DesktopScreenshot6",
-      "TrailerToPlayAtTopOfListing",
-      "Trailer1", "TrailerThumbnail1",
-      "Trailer2", "TrailerThumbnail2"
-    ]
-  },
 
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",

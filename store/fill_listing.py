@@ -34,6 +34,30 @@ import sys
 
 FIXED = ("field", "id", "type")
 
+# What every new language inherits from the base listing unless its .json
+# says otherwise. Driven by the Type column rather than by a list of field
+# names: Partner Center marks an asset row "Relative path (or URL to file in
+# Partner Center)", so "copy the assets" needs no list to keep in sync, and a
+# slot Microsoft adds next year is covered the day it appears.
+#
+# This exists because of one that was missed by hand. The 16:9 hero image
+# (PromoImage1920x1080) is not decoration: without it a trailer uploads,
+# validates, and then does not appear at the top of the listing. Partner
+# Center says so on the page; it is not the kind of thing to re-derive per
+# language.
+#
+# `also` carries the non-asset rows that would be meaningless without the
+# assets they govern -- OverrideLogosForWin10 is the switch that decides
+# whether the override logos are used at all.
+DEFAULT_COPY = {
+    "column": "en-gb",
+    "assets": True,
+    "also": ["OverrideLogosForWin10"],
+    "except": [],
+}
+
+ASSET_TYPE_HINT = "relative path"
+
 
 def key(name):
     """Field names, reduced so "Short description" == "ShortDescription"."""
@@ -59,7 +83,9 @@ def load(path):
     lang = data.get("language")
     if not lang:
         sys.exit("%s has no \"language\" key" % path)
-    copy_from = data.get("_copy_from")
+    # Absent means DEFAULT_COPY, which is the point: a new language should
+    # inherit the artwork by saying nothing. An explicit {} opts out.
+    copy_from = data.get("_copy_from", DEFAULT_COPY)
     # Other keys starting with _ are notes to whoever edits the file.
     values = {k: v for k, v in data.items()
               if k != "language" and not k.startswith("_")}
@@ -118,7 +144,9 @@ def main(argv):
 
         unknown = [k for k in values if key(k) not in by_field]
         if copy_from:
-            unknown += [k for k in copy_from.get("fields", [])
+            unknown += [k for k in (list(copy_from.get("fields", []))
+                                    + list(copy_from.get("also", []))
+                                    + list(copy_from.get("except", [])))
                         if key(k) not in by_field]
         if unknown:
             failed = True
@@ -148,16 +176,48 @@ def main(argv):
                 print("      no %r column to copy from; have %s"
                       % (copy_from["column"], header))
                 continue
-            copied = 0
-            for name in copy_from.get("fields", []):
-                row = by_field[key(name)]
+
+            skip = {key(k) for k in copy_from.get("except", [])}
+            wanted = []
+            if copy_from.get("assets"):
+                # Every row the export itself calls an asset.
+                wanted += [r[0] for r in rows[1:]
+                           if len(r) > 2 and ASSET_TYPE_HINT in r[2].lower()]
+            wanted += list(copy_from.get("fields", []))
+            # `also` is handled separately below, because it follows the
+            # source even when the target already has a value.
+            switches = {key(k) for k in copy_from.get("also", [])}
+            wanted += list(copy_from.get("also", []))
+
+            copied, kept, forced = 0, 0, 0
+            for name in wanted:
+                k = key(name)
+                if k in skip:
+                    continue
+                row = by_field[k]
                 while len(row) <= max(col, src):
                     row.append("")
-                if not row[col].strip() and row[src].strip():
-                    row[col] = row[src]
-                    copied += 1
-            print("      %d asset(s) reused from %s"
-                  % (copied, header[src]))
+                if not row[src].strip():
+                    continue
+                if k in switches:
+                    # A switch, not content: it decides whether the assets
+                    # just copied are used at all. OverrideLogosForWin10 sat
+                    # at False on a language whose override logos had been
+                    # copied in, which meant copying them achieved nothing.
+                    # So these follow the source rather than being preserved.
+                    if row[col] != row[src]:
+                        row[col] = row[src]
+                        forced += 1
+                    continue
+                if row[col].strip():
+                    # Already has its own -- a localised screenshot uploaded
+                    # by hand, say. Never overwritten.
+                    kept += 1
+                    continue
+                row[col] = row[src]
+                copied += 1
+            print("      %d reused from %s, %d already had their own, "
+                  "%d switch(es) aligned" % (copied, header[src], kept, forced))
 
         # The two Partner Center insists on per listing. A screenshot is also
         # required, but an empty cell there inherits the default column's,
