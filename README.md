@@ -5,6 +5,7 @@
 - Two independent reminders: blink on a short timer, look-away on the wall clock
 - Click straight through — never steals focus, never blocks a mouse click
 - Every connected monitor, correctly sized, whatever the display scaling
+- English and 繁體中文, picked up from Windows' own display language
 - No network, no account, no analytics — the source is right here if you want to check
 - ~20 MB, ~25 MB of RAM while running
 
@@ -66,9 +67,15 @@ Right-click the tray icon, then **Settings**. Each reminder has its own card:
 | Advanced settings | Size, position, pulse count, fade/hold timing |
 | Show on every monitor | Off means primary screen only |
 | Start with Windows | Adds or removes a Startup shortcut |
+| Language | English / 繁體中文, top right of the panel. Applies immediately |
 
 **Preview blink** / **Preview break** show the current settings without
 saving. **Save** applies them.
+
+Without a config file the app follows the language Windows itself is
+displayed in; picking one in the panel pins it from then on. All translated
+text lives in the `STRINGS` table at the top of `blink_reminder.py`, keyed by
+the English string, so adding a language is one dict and nothing else.
 
 Settings live in `%APPDATA%\BlinkReminder\config.json`. The reminder pulse
 is rate-limited in code so that no combination of settings can exceed three

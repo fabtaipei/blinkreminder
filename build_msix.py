@@ -128,7 +128,15 @@ MANIFEST = """<?xml version="1.0" encoding="utf-8"?>
   </Dependencies>
 
   <Resources>
+    <!-- Every language the APP itself speaks, which is what the Store reads
+         to fill in "Supported languages" on the listing and to decide whose
+         search results this can appear in. A language listed here and not
+         actually translated is a promise the app does not keep, so this list
+         is exactly the keys of STRINGS in blink_reminder.py, plus English.
+         No .pri file is involved: a full-trust Win32 app carries its own
+         strings, and this element is a declaration, not a resource index. -->
     <Resource Language="en-gb" />
+    <Resource Language="zh-Hant" />
   </Resources>
 
   <Applications>

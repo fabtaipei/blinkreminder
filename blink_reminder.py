@@ -26,6 +26,7 @@ import threading
 import time
 import tkinter as tk
 import traceback
+import unicodedata
 import wave
 import winsound
 import tkinter.font as tkfont
@@ -34,6 +35,255 @@ from ctypes import wintypes
 from tkinter import colorchooser, messagebox, ttk
 
 from PIL import Image, ImageDraw
+
+# --------------------------------------------------------------------------
+# Language
+#
+# One table per language, keyed by the ENGLISH string. The English text stays
+# in the source as the key, which buys two things: reading a widget still
+# tells you what it says, and a string nobody has translated yet falls back
+# to English rather than showing the user a bare identifier like
+# "settings.save". There is no gettext, no .po file and no build step -- the
+# app is one file, and this is one dict.
+#
+# Only what a user reads is in here. Log lines are deliberately NOT
+# translated: they are for whoever is debugging, and a log written in two
+# languages is a log you cannot grep. DISPLAY_NAME is not translated either.
+# It is the product's name, it is what the Store reserved, and a name that
+# changes by locale is a name nobody can search for.
+# --------------------------------------------------------------------------
+
+# (label, code). Each label is written in its OWN language, which is the one
+# convention every language picker follows: someone who cannot read the UI
+# they are looking at still has to be able to find the way out of it.
+LANGUAGES = [("English", "en"), ("繁體中文", "zh-Hant")]
+
+# Families to try AHEAD of the Latin stacks, per language. Segoe UI Variable
+# carries no CJK at all, and Tk's own font fallback on Windows is not
+# dependable enough to gamble a whole interface on -- an unresolved glyph is a
+# tofu box, drawn silently, with no error raised anywhere.
+# Microsoft JhengHei UI is Windows' own Traditional Chinese interface font and
+# ships with every install, Chinese or not. The rest are a ladder down from it,
+# ending at two fonts drawn for other languages: YaHei sets the same characters
+# in mainland typographic conventions and Yu Gothic in Japanese ones, which is
+# a compromise on how the text LOOKS and never on whether it can be read at all.
+LANGUAGE_FONTS = {
+    "zh-Hant": ("Microsoft JhengHei UI", "Microsoft JhengHei", "PMingLiU",
+                "MingLiU", "Microsoft YaHei UI", "Yu Gothic UI"),
+}
+
+# Traditional Chinese, in Taiwan's vocabulary: 螢幕 rather than 屏幕, 設定
+# rather than 設置. Both readings are understood either side of the strait,
+# but picking one and holding to it is what stops the panel reading as
+# machine output.
+STRINGS = {
+    "zh-Hant": {
+        # -- the tray menu -----------------------------------------------
+        "Blink now": "立即眨眼",
+        "Resume reminders": "恢復提醒",
+        "Snooze 30 minutes": "暫停 30 分鐘",
+        "Settings": "設定",
+        "Buy me a coffee": "請我喝杯咖啡",
+        "Quit": "結束",
+
+        # -- how often a reminder fires, as a person would say it ---------
+        # No plural forms to get wrong here, which is the one way Chinese is
+        # kinder to a translator than English.
+        "every second": "每秒",
+        "every %d seconds": "每 %d 秒",
+        "every minute": "每分鐘",
+        "every %d minutes": "每 %d 分鐘",
+
+        # -- the startup notice ------------------------------------------
+        "%s is running": "%s 正在執行",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "它會留在背景執行，%s提醒你眨眼。",
+        "Right-click the tray icon, by the clock, for settings.":
+            "在時鐘旁的圖示上按右鍵即可開啟設定。",
+        "Got it": "知道了",
+
+        # -- launched a second time --------------------------------------
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s 已經在執行中。\n\n請在時鐘旁的系統匣裡找它的圖示"
+            "— 你可能要先按 ^ 箭頭才看得到。在圖示上按右鍵即可開啟設定。",
+
+        # -- the settings panel, and the strip along its bottom ----------
+        "A gentle nudge on every screen.": "在每個螢幕上輕輕提醒你。",
+        "Start with Windows": "開機時啟動",
+        "Startup: managed by Windows": "啟動：由 Windows 管理",
+        "Startup: turned off in Task Manager": "啟動：已在工作管理員關閉",
+        "Preview blink": "預覽眨眼",
+        "Preview break": "預覽休息",
+        "Cancel": "取消",
+        "Save": "儲存",
+        "Save the changes you made?": "要儲存你剛才的變更嗎？",
+
+        # -- the blink card ----------------------------------------------
+        # "Blink" is both this card's title and the word the overlay shows
+        # by default. One translation serves both, which is why they share
+        # a key rather than each having one.
+        "Blink": "眨眼",
+        "Remind me every": "提醒間隔",
+        "seconds": "秒",
+        "minutes": "分",
+
+        # -- the break card ----------------------------------------------
+        "Break": "休息",
+        "Look at trees!": "看看綠樹！",
+        "Remind me to look away": "提醒我看向遠方",
+        "min": "分",
+
+        # -- the five rows both cards share ------------------------------
+        "A dot": "圓點",
+        "A word": "文字",
+        "Dim screen": "螢幕變暗",
+        "Strength": "強度",
+        "Colour": "顏色",
+        "Change...": "變更…",
+        "Play a sound": "播放音效",
+        # The leading spaces make room for the arrow image beside the text.
+        # An ideographic space is the CJK-width equivalent of the two the
+        # English label uses.
+        "  Advanced settings": "　進階設定",
+
+        # -- the two advanced windows ------------------------------------
+        "Advanced settings - Blink": "進階設定 — 眨眼",
+        "Blink timing and sound": "眨眼的時間與音效",
+        "Blink look": "眨眼的外觀",
+        "Advanced settings - Break": "進階設定 — 休息",
+        "Break timing and sound": "休息的時間與音效",
+        "Break look": "休息的外觀",
+        "Flash style": "閃動方式",
+        "Gentle": "輕柔",
+        "Standard": "標準",
+        "Sharp": "明顯",
+        "Custom": "自訂",
+        "Hold (s)": "停留（秒）",
+        "Fade (s)": "淡化（秒）",
+        "Pulses": "次數",
+        # Not a bare 間隔: the blink card already says 提醒間隔 for how often
+        # the reminder fires, and these two mean very different things.
+        "Gap between pulses": "每次之間的間隔",
+        "Sound": "音效",
+        "Ding": "叮",
+        "Chord": "和弦",
+        "Chime": "鈴聲",
+        "Notify": "通知",
+        "Volume": "音量",
+        "Test": "試聽",
+        "Dot size": "圓點大小",
+        "Word to show": "顯示文字",
+        "Word size": "文字大小",
+        "Position": "位置",
+        "Centre": "中央",
+        "Top left": "左上",
+        "Top right": "右上",
+        "Bottom left": "左下",
+        "Bottom right": "右下",
+        "Edge margin": "邊界距離",
+        "Show on every monitor": "在每個螢幕上顯示",
+        "Done": "完成",
+
+        # -- the other word the overlay can show -------------------------
+        "Look into the distance": "看向遠方",
+    },
+}
+
+# Resolved once, at startup, from config.json or from Windows. Module-level
+# rather than threaded through every call because every string in the app
+# wants it and none of them wants an extra argument.
+_LANG = "en"
+
+
+def T(text):
+    """One user-facing string, in the language now in force.
+
+    Falls back to the English key, so an untranslated string is readable
+    English rather than a hole in the interface.
+    """
+    return STRINGS.get(_LANG, {}).get(text, text)
+
+
+def translated(pairs):
+    """A (label, value) table with its labels in the current language.
+
+    The panel maps every picker's text to the value it stores through
+    _text_of/_value_of, so translating the labels in one place and leaving the
+    values alone is all localising a picker takes -- and config.json keeps
+    holding "dot" and "bottom-right" whatever language the user reads.
+    """
+    return [(T(label), value) for label, value in pairs]
+
+
+def language_code():
+    return _LANG
+
+
+def set_language(code):
+    """Switch languages. Safe to call with anything, including None."""
+    global _LANG
+    _LANG = code if code in STRINGS else "en"
+    _FAMILY_CACHE.clear()
+    return _LANG
+
+
+def detect_language():
+    """The language Windows itself is displayed in, if this app speaks it.
+
+    GetUserDefaultUILanguage returns a LANGID: the low ten bits are the
+    primary language and the rest the sublanguage. Chinese is 0x04, and the
+    sublanguage is the whole question -- Taiwan, Hong Kong and Macau are
+    written in Traditional characters, the mainland and Singapore in
+    Simplified, and offering the wrong one is worse than offering English.
+
+    0x0004 on its own says "Chinese" and nothing more. It is read as
+    Simplified here, because that is the larger population, and since this
+    build has no Simplified table it falls through to English rather than
+    guessing Traditional at someone.
+    """
+    try:
+        langid = ctypes.windll.kernel32.GetUserDefaultUILanguage()
+    except Exception:
+        return "en"
+    primary, sub = langid & 0x3FF, langid >> 10
+    if primary == 0x04 and sub in (1, 3, 5, 31):   # TW, HK, MO, Hant
+        return "zh-Hant"
+    return "en"
+
+
+def text_cells(message):
+    """Width of `message` in half-width character cells.
+
+    Identical to len() for anything Latin, and twice that for CJK, where one
+    character occupies the space of two. The overlay sizes its pane from this,
+    so a four-character Chinese word is not given the room of a
+    four-character English one and then cropped.
+    """
+    return sum(2 if unicodedata.east_asian_width(ch) in ("W", "F") else 1
+               for ch in message)
+
+
+# One entry per language, and cleared by set_language. Asking Tcl for the
+# installed families is a round trip, and the overlay asks on every pulse.
+_FAMILY_CACHE = {}
+
+
+def overlay_family(widget):
+    """The family the overlay draws its word in.
+
+    Segoe UI for Latin, and the language's own family wherever Segoe UI has
+    no glyphs to draw with. This is a plain tk Canvas rather than a themed
+    widget, so it does not go through _resolve_fonts with the rest.
+    """
+    if _LANG not in _FAMILY_CACHE:
+        have = set(tkfont.families(widget))
+        _FAMILY_CACHE[_LANG] = next(
+            (name for name in LANGUAGE_FONTS.get(_LANG, ()) if name in have),
+            "Segoe UI")
+    return _FAMILY_CACHE[_LANG]
+
 
 # --------------------------------------------------------------------------
 # Defaults. The Settings window writes over these and saves to config.json.
@@ -48,6 +298,12 @@ from PIL import Image, ImageDraw
 DEFAULTS = {
     # -- the app -----------------------------------------------------------
     "start_with_windows": True,   # on by default; the startup notice discloses it
+    # "auto" means "ask Windows", and it is the value on a fresh install so
+    # that a Chinese Windows shows a Chinese app without anyone being told to
+    # go and find a setting. Picking a language in the panel writes the code
+    # itself, which is what makes the choice stick on a machine whose UI
+    # language later changes.
+    "language": "auto",
 
     # -- the blink reminder ------------------------------------------------
     "interval_seconds": 45,   # how often to remind. Minimum is 3, not 300.
@@ -349,13 +605,24 @@ FEELS = {
 CUSTOM = "Custom"
 
 
+def feel_pairs():
+    """The flash-style picker as (label, canonical name).
+
+    FEELS stays keyed in English because those keys are what feel_of returns
+    and what _feel_changed looks the timings up by. Only the labels move.
+    """
+    return [(T(name), name) for name in list(FEELS) + [CUSTOM]]
+
+
 def describe_interval(seconds):
     """"every 45 seconds" / "every 20 minutes" - whichever a person would say."""
     seconds = max(1, int(seconds))
     if seconds >= 120 and seconds % 60 == 0:
         minutes = seconds // 60
-        return "every minute" if minutes == 1 else "every %d minutes" % minutes
-    return "every second" if seconds == 1 else "every %d seconds" % seconds
+        return (T("every minute") if minutes == 1
+                else T("every %d minutes") % minutes)
+    return (T("every second") if seconds == 1
+            else T("every %d seconds") % seconds)
 
 
 def feel_of(cfg, prefix=""):
@@ -968,10 +1235,10 @@ def announce_already_running():
         set_window_icon(root)
         messagebox.showinfo(
             DISPLAY_NAME,
-            "%s is already running.\n\n"
-            "Look for its icon in the system tray, next to the clock -- you "
-            "may need to click the ^ arrow to see it. Right-click the icon "
-            "for Settings." % DISPLAY_NAME,
+            T("%s is already running.\n\n"
+              "Look for its icon in the system tray, next to the clock -- you "
+              "may need to click the ^ arrow to see it. Right-click the icon "
+              "for Settings.") % DISPLAY_NAME,
             parent=root)
         root.destroy()
     except Exception:
@@ -1044,6 +1311,23 @@ def migrate_config(cfg, saved):
     return cfg
 
 
+def apply_language(cfg):
+    """Put the language named in `cfg` into force, resolving "auto".
+
+    Called from load_config and again from main() before the single-instance
+    check, because the "already running" dialog is shown by a copy of the app
+    that never gets as far as building a config.
+
+    "auto" is resolved but NOT written back. Keeping it means a user who never
+    touched the picker follows Windows if they later switch its UI language,
+    which is what "auto" says on the tin; writing the resolved code in would
+    pin them to whatever Windows happened to be set to on first run.
+    """
+    wanted = cfg.get("language", "auto")
+    set_language(detect_language() if wanted == "auto" else wanted)
+    return _LANG
+
+
 def load_config():
     cfg, saved = dict(DEFAULTS), {}
     try:
@@ -1057,6 +1341,15 @@ def load_config():
             cfg.update(saved)
     except (OSError, ValueError, TypeError):
         pass
+    apply_language(cfg)
+    # The two words the overlay can show are user DATA, not interface text: the
+    # user is free to type anything there, and once they have, it is theirs.
+    # So they are localised only where the user has never chosen -- which on a
+    # Chinese install means the "A word" style says 眨眼 out of the box instead
+    # of an English word nobody picked.
+    for key in ("message", "break_message"):
+        if key not in saved:
+            cfg[key] = T(DEFAULTS[key])
     migrate_config(cfg, saved)
     cfg["interval_seconds"] = max(MIN_INTERVAL, int(cfg["interval_seconds"]))
     return cfg
@@ -1328,7 +1621,8 @@ class Overlay:
                 h // 2,
                 text=cfg["message"],
                 fill=cfg["colour"],
-                font=("Segoe UI", int(cfg["font_size"]), "normal"),
+                font=(overlay_family(pane.canvas), int(cfg["font_size"]),
+                      "normal"),
             )
 
     # -- the pulse ----------------------------------------------------------
@@ -1548,7 +1842,10 @@ def reminder_rect(mon, cfg, base_dpi=None):
         w = h = max(4, int(round(int(cfg["dot_pct"]) / 100.0 * min(mw, mh))))
     else:
         fs = int(cfg["font_size"])
-        w = max(120, fs * (len(cfg["message"]) + 2))
+        # Cells, not characters. One Chinese character occupies the width of
+        # two Latin ones, so counting characters gave 看向遠方 the pane of a
+        # four-letter word and cut its ends off.
+        w = max(120, fs * (text_cells(cfg["message"]) + 2))
         h = fs * 3
 
     # Both words are user-editable, and "Look into the distance" at 60pt asks
@@ -2150,9 +2447,14 @@ def _transparent(master, w, h):
 
 def _resolve_fonts(root):
     have = set(tkfont.families(root))
+    # The language's own families first. Segoe UI Variable has no CJK at all,
+    # so on a Chinese UI every one of these three stacks has to be answered by
+    # Microsoft JhengHei before it is answered by a Latin font that would draw
+    # the whole panel as tofu boxes.
+    first = LANGUAGE_FONTS.get(language_code(), ())
 
     def fam(kind):
-        for name in FONT_STACKS[kind]:
+        for name in first + FONT_STACKS[kind]:
             if name in have:
                 return name
         return "Tahoma"
@@ -2466,22 +2768,32 @@ def _build_theme(root, st, pal, s):
 
 
 def ensure_theme(root, mode):
-    """Build blink-<mode> once, then select it.
+    """Build blink-<mode>-<language> once, then select it.
 
     theme_create raises TclError "Theme ... already exists" on a second call,
     so this guard is the only path allowed to build one.
+
+    The language is in the theme's NAME because a theme bakes its fonts into
+    forty image elements at build time. Switching to Chinese changes which
+    family every one of those was drawn with, and a theme cannot be rebuilt
+    under an open window -- so each language gets its own, built the first
+    time it is asked for and kept.
 
     A ttk theme is global to the Tcl interpreter, so it restyles every ttk
     widget in the process. Today ttk lives only in SettingsWindow and the
     overlay is plain tk, so that is safe -- but any future ttk widget anywhere
     in this app inherits this look.
     """
-    name = "blink-" + mode
+    name = "blink-" + mode + "-" + language_code()
     st = ttk.Style(root)
     if not _THEME_METRICS:
         scale = root.winfo_fpixels("1i") / 96.0
         _THEME_METRICS["scale"] = scale
         _THEME_METRICS["s"] = lambda v: max(1, int(round(v * scale)))
+    # Re-resolved when the language changes, and only then: the fonts are what
+    # differ between two themes of the same mode.
+    if _THEME_METRICS.get("lang") != language_code():
+        _THEME_METRICS["lang"] = language_code()
         _THEME_METRICS["fonts"] = _resolve_fonts(root)
     if name not in st.theme_names():
         st.theme_use("clam")   # the one stock theme that gives up every element
@@ -3102,6 +3414,9 @@ class SettingsWindow:
         self.preview_jobs = {"blink": None, "break": None}
         self.V = {}                                   # variables, by reminder
         self.W = {"blink": {}, "break": {}}           # card widgets, by reminder
+        # Set only while the panel is being rebuilt in a new language, so the
+        # rebuild starts from what was on screen rather than from what is saved.
+        self._pending = None
         self.adv = {"blink": {"win": None}, "break": {"win": None}}
         # Flat aliases onto the BLINK window's widgets. Nothing in the app
         # reads them; they exist because the advanced window used to be a
@@ -3181,7 +3496,7 @@ class SettingsWindow:
         """
         s, pal, fonts = self.s, self.pal, _THEME_METRICS["fonts"]
         V = self.V[which]
-        title, left_title, right_title = self.ADV_TITLES[which]
+        title, left_title, right_title = (T(t) for t in self.ADV_TITLES[which])
         grp = which + "_"
 
         def preview(*_):
@@ -3214,16 +3529,16 @@ class SettingsWindow:
         # ---- left card: timing and sound ---------------------------------
         left = self._card(outer, 16, 16, 300, self.ADV_LEFT_H, left_title)
 
-        self._label(left, "Flash style", 16, self.S1, anchor="nw")
-        seg_feel = _Segmented(left, s, list(FEELS) + [CUSTOM], V["feel"],
+        self._label(left, T("Flash style"), 16, self.S1, anchor="nw")
+        seg_feel = _Segmented(left, s, [t for t, _ in feel_pairs()], V["feel"],
                               268, 32, command=lambda: self._feel_changed(which),
-                              small=True, dim=(CUSTOM,))
+                              small=True, dim=(T(CUSTOM),))
         seg_feel.place(x=s(16), y=s(self.S2), width=seg_feel.pw, height=seg_feel.ph)
 
         boxes = []
-        specs = (("Hold (s)", V["hold"], 0.05, 5.0, 0.05, "%.2f"),
-                 ("Fade (s)", V["fade"], 0.05, 5.0, 0.05, "%.2f"),
-                 ("Pulses", V["blinks"], 1, 10, 1, None))
+        specs = ((T("Hold (s)"), V["hold"], 0.05, 5.0, 0.05, "%.2f"),
+                 (T("Fade (s)"), V["fade"], 0.05, 5.0, 0.05, "%.2f"),
+                 (T("Pulses"), V["blinks"], 1, 10, 1, None))
         for i, (text, var, lo, hi, step, fmt) in enumerate(specs):
             x = 16 + i * 92
             self._label(left, text, x, self.S3, style="Cap.TLabel", anchor="nw")
@@ -3237,18 +3552,19 @@ class SettingsWindow:
 
         # Only meaningful once Pulses can exceed 1, which for the break is the
         # first time ever -- break_cfg used to hardcode a single pulse.
-        self._label(left, "Gap between pulses", 16, self.S5 + 16)
+        self._label(left, T("Gap between pulses"), 16, self.S5 + 16)
         sp_gap = ttk.Spinbox(left, from_=0.0, to=2.0, increment=0.05,
                              format="%.2f", textvariable=V["gap"],
                              font=fonts["t4"], command=preview)
         sp_gap.place(x=s(200), y=s(self.S5), width=s(84), height=s(32))
         sp_gap.bind("<FocusOut>", preview)
 
-        self._label(left, "Sound", 16, self.S6, anchor="nw")
+        self._label(left, T("Sound"), 16, self.S6, anchor="nw")
         # Full width: four sounds in the 196 the three aliases used to share
         # left 49px a segment, which "Notify" does not fit into.
-        seg_sound = _Segmented(left, s, [t for t, _ in SOUNDS], V["sound_name"],
-                               268, 32, small=True, command=preview)
+        seg_sound = _Segmented(left, s, [t for t, _ in translated(SOUNDS)],
+                               V["sound_name"], 268, 32, small=True,
+                               command=preview)
         seg_sound.place(x=s(16), y=s(self.S7), width=seg_sound.pw,
                         height=seg_sound.ph)
 
@@ -3257,7 +3573,7 @@ class SettingsWindow:
         # this window that does NOT fire a preview -- a break preview dims every
         # screen for a second and a half, which is far too much to inflict on
         # someone nudging an audio level.
-        self._label(left, "Volume", 16, self.S8 + 16)
+        self._label(left, T("Volume"), 16, self.S8 + 16)
         sl_vol = _Slider(left, s, self.pal, V["volume"], SOUND_VOL_MIN, 1.0,
                          96, 24, command=lambda _v: self._show_volume(which))
         sl_vol.place(x=s(76), y=s(self.S8 + 4))
@@ -3266,16 +3582,16 @@ class SettingsWindow:
         # A file can be missing and a device can be muted, and neither is
         # visible. This plays THIS reminder's sound at THIS reminder's volume.
         btn_test = ttk.Button(
-            left, text="Test", style="Secondary.TButton",
-            command=lambda: play_sound(self._value_of(SOUNDS,
-                                                      V["sound_name"].get()),
-                                       V["volume"].get()))
+            left, text=T("Test"), style="Secondary.TButton",
+            command=lambda: play_sound(
+                self._value_of(translated(SOUNDS), V["sound_name"].get()),
+                V["volume"].get()))
         btn_test.place(x=s(220), y=s(self.S8), width=s(64), height=s(32))
 
         # ---- right card: look --------------------------------------------
         right = self._card(outer, 332, 16, 300, self.ADV_RIGHT_H, right_title)
 
-        self._label(right, "Dot size", 16, self.S1 + 16, group=grp + "dot")
+        self._label(right, T("Dot size"), 16, self.S1 + 16, group=grp + "dot")
         # 1..100, the whole range the value can hold. The old spinbox was
         # capped at 400 while a live config held 840, so opening this panel
         # silently clamped a setting the user had chosen -- the one thing a
@@ -3291,13 +3607,14 @@ class SettingsWindow:
         self._label(right, "%", 266, self.S1 + 16, style="Hint.TLabel",
                     group=grp + "dot")
 
-        self._label(right, "Word to show", 16, self.S2 + 16, group=grp + "text")
+        self._label(right, T("Word to show"), 16, self.S2 + 16,
+                    group=grp + "text")
         en_word = ttk.Entry(right, textvariable=V["message"], font=fonts["t4"])
         en_word.place(x=s(112), y=s(self.S2), width=s(172), height=s(32))
         en_word.bind("<KeyRelease>", preview)
         self.groups.setdefault(grp + "text", []).append(en_word)
 
-        self._label(right, "Word size", 16, self.S3 + 16, group=grp + "text")
+        self._label(right, T("Word size"), 16, self.S3 + 16, group=grp + "text")
         sp_font = ttk.Spinbox(right, from_=8, to=200, increment=1,
                               textvariable=V["font"], font=fonts["t4"],
                               command=preview)
@@ -3306,7 +3623,7 @@ class SettingsWindow:
         self._label(right, "pt", 266, self.S3 + 16, style="Hint.TLabel",
                     group=grp + "text")
 
-        self._label(right, "Position", 16, self.S4, anchor="nw",
+        self._label(right, T("Position"), 16, self.S4, anchor="nw",
                     group=grp + "place")
         grid_pos = _PositionGrid(right, s, V["corner"],
                                  command=lambda: self._position_changed(which))
@@ -3319,7 +3636,8 @@ class SettingsWindow:
         # Its own group, not "place": the margin is what "distance from the
         # edge" means, so it is dead when the reminder is centred -- a narrower
         # condition than the rest of the position row.
-        self._label(right, "Edge margin", 16, self.S7 + 16, group=grp + "margin")
+        self._label(right, T("Edge margin"), 16, self.S7 + 16,
+                    group=grp + "margin")
         sp_margin = ttk.Spinbox(right, from_=0, to=500, increment=1,
                                 textvariable=V["margin"], font=fonts["t4"],
                                 command=preview)
@@ -3328,12 +3646,12 @@ class SettingsWindow:
         self._label(right, "px", 266, self.S7 + 16, style="Hint.TLabel",
                     group=grp + "margin")
 
-        tog_all = ttk.Checkbutton(right, text="Show on every monitor",
+        tog_all = ttk.Checkbutton(right, text=T("Show on every monitor"),
                                   variable=V["all"], style="Switch.TCheckbutton",
                                   command=preview)
         tog_all.place(x=s(16), y=s(self.S8), width=s(268), height=s(32))
 
-        done = ttk.Button(outer, text="Done", style="Primary.TButton",
+        done = ttk.Button(outer, text=T("Done"), style="Primary.TButton",
                           command=lambda: self._close_advanced(which))
         done.place(x=win_w - s(16) - s(96), y=s(self.ADV_H - 48),
                    width=s(96), height=s(32))
@@ -3442,11 +3760,12 @@ class SettingsWindow:
             p = self.PREFIX[which]
             variables = {
                 "style": tk.StringVar(
-                    value=self._text_of(self.STYLES, cfg[p + "style"])),
+                    value=self._text_of(translated(self.STYLES),
+                                        cfg[p + "style"])),
                 "opacity": tk.DoubleVar(value=cfg[p + "opacity"]),
                 "colour": tk.StringVar(value=cfg[p + "colour"]),
                 "sound": tk.BooleanVar(value=bool(cfg[p + "sound_enabled"])),
-                "feel": tk.StringVar(value=feel_of(cfg, p)),
+                "feel": tk.StringVar(value=T(feel_of(cfg, p))),
                 # Seconds in the panel, milliseconds on disk. Nobody thinks in
                 # milliseconds and nobody wants a float in a config file.
                 "hold": tk.DoubleVar(
@@ -3460,11 +3779,13 @@ class SettingsWindow:
                 "dot": tk.IntVar(value=int(cfg[p + "dot_pct"])),
                 "font": tk.IntVar(value=int(cfg[p + "font_size"])),
                 "corner": tk.StringVar(
-                    value=self._text_of(self.POSITIONS, cfg[p + "corner"])),
+                    value=self._text_of(translated(self.POSITIONS),
+                                        cfg[p + "corner"])),
                 "margin": tk.IntVar(value=int(cfg[p + "margin"])),
                 "all": tk.BooleanVar(value=bool(cfg[p + "all_monitors"])),
                 "sound_name": tk.StringVar(
-                    value=self._text_of(SOUNDS, cfg[p + "sound_name"])),
+                    value=self._text_of(translated(SOUNDS),
+                                        cfg[p + "sound_name"])),
                 "volume": tk.DoubleVar(value=float(cfg[p + "sound_volume"])),
             }
             # The volume row follows the variable, not the drag. Traced here,
@@ -3480,6 +3801,11 @@ class SettingsWindow:
                 setattr(self, flat + name, var)
 
         self.v_startup = tk.BooleanVar(value=bool(cfg["start_with_windows"]))
+        # The language IN FORCE, not the string on disk. On a fresh install
+        # that string is "auto", and a picker showing "auto" tells the user
+        # nothing about what they are looking at.
+        self.v_lang = tk.StringVar(
+            value=self._text_of(LANGUAGES, language_code()))
 
     def open(self):
         if self.win is not None and self.win.winfo_exists():
@@ -3488,7 +3814,10 @@ class SettingsWindow:
             self.win.focus_force()
             return
 
-        cfg = self.app.cfg
+        # _pending is a collect() result handed over by _language_changed, and
+        # it holds exactly the keys DEFAULTS does, so everything below reads it
+        # the same way it reads a saved config.
+        cfg, self._pending = (self._pending or self.app.cfg), None
         # Exactly the keys collect() returns. dict(cfg) also carried whatever
         # else the file happened to hold, so cancel() claimed you had made
         # edits whenever config.json had one key the panel does not own.
@@ -3524,11 +3853,28 @@ class SettingsWindow:
 
         ttk.Label(outer, text=DISPLAY_NAME, style="Title.TLabel").place(
             x=s(20), y=s(15))
+
+        # The language picker, on the header's own line and right-aligned to
+        # the same 20px margin as everything else. Up here rather than on the
+        # strip below with "Start with Windows": that strip is for app-wide
+        # SETTINGS, and this is the one control whose effect you can see the
+        # instant you touch it, so it belongs where the eye starts.
+        #
+        # Two segments, each written in its own language. There is no "Auto"
+        # segment -- auto is the state a fresh install is already in, and the
+        # picker simply shows which language that resolved to.
+        # 32 high like every other segmented control in the panel, and its top
+        # edge on the title's, which is the alignment the eye actually checks.
+        self.seg_lang = _Segmented(
+            outer, s, [t for t, _ in LANGUAGES], self.v_lang, 152, 32,
+            small=True, command=self._language_changed)
+        self.seg_lang.place(x=s(self.WIN_W - 20) - self.seg_lang.pw, y=s(15),
+                            width=self.seg_lang.pw, height=self.seg_lang.ph)
         # Short on purpose. It was shortened when the header carried a switch
         # on its right; the switch has since moved to its own strip at the
         # bottom, so the constraint is gone -- but a one-line subtitle was the
         # better writing anyway, so it stays short by choice now, not by force.
-        ttk.Label(outer, text="A gentle nudge on every screen.",
+        ttk.Label(outer, text=T("A gentle nudge on every screen."),
                   style="Sub.TLabel").place(x=s(20), y=s(46))
 
         # The one app-wide setting. It lives on its own strip under both
@@ -3548,13 +3894,13 @@ class SettingsWindow:
         if PACKAGED or blocked:
             self.tog_startup = ttk.Button(
                 outer,
-                text=("Startup: managed by Windows" if PACKAGED
-                      else "Startup: turned off in Task Manager"),
+                text=T("Startup: managed by Windows") if PACKAGED
+                     else T("Startup: turned off in Task Manager"),
                 style="Secondary.TButton",
                 command=lambda: open_link(STARTUP_SETTINGS_URI))
         else:
             self.tog_startup = ttk.Checkbutton(
-                outer, text="Start with Windows", variable=self.v_startup,
+                outer, text=T("Start with Windows"), variable=self.v_startup,
                 style="SwitchGround.TCheckbutton")
         # Both are positioned by _place_chrome, which hangs everything off the
         # bottom edge, so the strip follows the window if its height changes.
@@ -3562,7 +3908,7 @@ class SettingsWindow:
         # Beside it on the same strip. Absent entirely when no handle is
         # configured -- see SUPPORT_HANDLE.
         self.link_support = (
-            _Link(outer, "Buy me a coffee", lambda: open_link(SUPPORT_URL))
+            _Link(outer, T("Buy me a coffee"), lambda: open_link(SUPPORT_URL))
             if SUPPORT_URL else None)
 
         colh = s(self.COL_H)
@@ -3578,18 +3924,19 @@ class SettingsWindow:
         self._build_break(right, cfg)
 
         self.rule = ttk.Frame(outer, style="Rule.TFrame")
-        self.btn_preview = ttk.Button(outer, text="Preview blink",
+        self.btn_preview = ttk.Button(outer, text=T("Preview blink"),
                                       style="Secondary.TButton",
                                       command=self.preview_now)
-        self.btn_preview_break = ttk.Button(outer, text="Preview break",
+        self.btn_preview_break = ttk.Button(outer, text=T("Preview break"),
                                             style="Secondary.TButton",
                                             command=lambda: self.preview_now("break"))
         # Previewing a switched-off break was the one place the panel would
         # still show you something the app would never do.
         self.groups.setdefault("break", []).append(self.btn_preview_break)
-        self.btn_cancel = ttk.Button(outer, text="Cancel", style="Secondary.TButton",
+        self.btn_cancel = ttk.Button(outer, text=T("Cancel"),
+                                     style="Secondary.TButton",
                                      command=self.cancel)
-        self.btn_save = ttk.Button(outer, text="Save", style="Primary.TButton",
+        self.btn_save = ttk.Button(outer, text=T("Save"), style="Primary.TButton",
                                    command=self.save)
         self._place_chrome(self.win_h)
 
@@ -3609,16 +3956,17 @@ class SettingsWindow:
     def _build_blink(self, col, cfg):
         """Blink: when it fires, what it looks like, and its own Advanced door."""
         s = self.s
-        card = self._card(col, 0, 0, 300, self.CARD_BLINK_H, "Blink")
+        card = self._card(col, 0, 0, 300, self.CARD_BLINK_H, T("Blink"))
 
         secs = int(cfg["interval_seconds"])
         as_minutes = secs >= 120 and secs % 60 == 0
         self.v_every = tk.IntVar(value=secs // 60 if as_minutes else secs)
-        self.v_unit = tk.StringVar(value="minutes" if as_minutes else "seconds")
+        self.v_unit = tk.StringVar(
+            value=self._text_of(translated(self.UNITS), 60 if as_minutes else 1))
 
         # Centred in the 32-high slot so it lands on the same line as the Break
         # card's toggle, whose text sits in the middle of a 32-high control.
-        self._label(card, "Remind me every", 16, self.S1 + 16)
+        self._label(card, T("Remind me every"), 16, self.S1 + 16)
         self.sp_every = ttk.Spinbox(card, from_=1, to=999, increment=1,
                                     textvariable=self.v_every,
                                     font=_THEME_METRICS["fonts"]["t4"])
@@ -3627,7 +3975,9 @@ class SettingsWindow:
         # showing something collect() would silently override.
         self.sp_every.bind("<FocusOut>", lambda e: self._clamp_interval())
 
-        self.seg_unit = _Segmented(card, s, [t for t, _ in self.UNITS], self.v_unit,
+        self.seg_unit = _Segmented(card, s,
+                                   [t for t, _ in translated(self.UNITS)],
+                                   self.v_unit,
                                    156, 32, command=self._clamp_interval)
         self.seg_unit.place(x=s(120), y=s(self.S2), width=self.seg_unit.pw,
                             height=self.seg_unit.ph)
@@ -3657,12 +4007,12 @@ class SettingsWindow:
             return widget
 
         W["style"] = owned(_Segmented(
-            card, s, [t for t, _ in self.STYLES], V["style"], 268, 34,
-            command=lambda: self._style_changed(which)))
+            card, s, [t for t, _ in translated(self.STYLES)], V["style"],
+            268, 34, command=lambda: self._style_changed(which)))
         W["style"].place(x=s(16), y=s(self.S3), width=W["style"].pw,
                          height=W["style"].ph)
 
-        self._label(card, "Strength", 16, self.S4 + 16, group=group)
+        self._label(card, T("Strength"), 16, self.S4 + 16, group=group)
         # lambda, not the bound method: _Slider calls command(value), which
         # would otherwise land the float in the `which` parameter.
         W["slider"] = owned(_Slider(
@@ -3672,17 +4022,17 @@ class SettingsWindow:
         W["pct"] = owned(ttk.Label(card, text="", style="Pct.TLabel", anchor="e"))
         W["pct"].place(x=s(284), y=s(self.S4 + 16), anchor="e")
 
-        self._label(card, "Colour", 16, self.S5 + 16, group=group)
+        self._label(card, T("Colour"), 16, self.S5 + 16, group=group)
         W["chip"] = owned(_ColourChip(card, s, self.pal, cfg[p + "colour"],
                                       lambda: self.pick_colour(which)))
         W["chip"].place(x=s(140), y=s(self.S5 + 16), anchor="w")
         W["colour_btn"] = owned(ttk.Button(
-            card, text="Change...", style="Secondary.TButton",
+            card, text=T("Change..."), style="Secondary.TButton",
             command=lambda: self.pick_colour(which)))
         W["colour_btn"].place(x=s(184), y=s(self.S5), width=s(100), height=s(32))
 
         W["sound"] = owned(ttk.Checkbutton(
-            card, text="Play a sound", variable=V["sound"],
+            card, text=T("Play a sound"), variable=V["sound"],
             style="Switch.TCheckbutton"))
         W["sound"].place(x=s(16), y=s(self.S6), width=s(268), height=s(32))
 
@@ -3704,7 +4054,7 @@ class SettingsWindow:
         s = self.s
         icon = _arrow(card, s(14), self.pal["muted"], True, s(1.5))
         # _arrow does not keep its image alive, so the button must.
-        button = ttk.Button(card, text="  Advanced settings", image=icon,
+        button = ttk.Button(card, text=T("  Advanced settings"), image=icon,
                             compound="left", style="Ghost.TButton",
                             command=lambda: self._open_advanced(which))
         button.image = icon
@@ -3714,10 +4064,10 @@ class SettingsWindow:
     def _build_break(self, col, cfg):
         """The wall-clock screen flash, row-for-row against Blink."""
         s = self.s
-        card = self._card(col, 0, 0, 300, self.CARD_BREAK_H, "Break")
+        card = self._card(col, 0, 0, 300, self.CARD_BREAK_H, T("Break"))
 
         self.v_break_on = tk.BooleanVar(value=bool(cfg["break_enabled"]))
-        self.tog_break = ttk.Checkbutton(card, text="Remind me to look away",
+        self.tog_break = ttk.Checkbutton(card, text=T("Remind me to look away"),
                                          variable=self.v_break_on,
                                          style="Switch.TCheckbutton",
                                          command=self._sync_enabled)
@@ -3736,7 +4086,7 @@ class SettingsWindow:
                                  width=self.seg_break_min.pw,
                                  height=self.seg_break_min.ph)
         self.groups.setdefault("break", []).append(self.seg_break_min)
-        self._label(card, "min", 220, self.S2 + 16, style="Hint.TLabel",
+        self._label(card, T("min"), 220, self.S2 + 16, style="Hint.TLabel",
                     group="break")
 
         self._build_look_rows("break", card, cfg)
@@ -3745,10 +4095,13 @@ class SettingsWindow:
         # at a fixed x, and baseline-aligned, so a smaller font still sits on
         # the same line as the title rather than floating above or below it.
         title_font = tkfont.Font(root=card, font=_THEME_METRICS["fonts"]["t3l"])
-        self.break_tag = ttk.Label(card, text="Look at trees!", style="Hint.TLabel")
+        self.break_tag = ttk.Label(card, text=T("Look at trees!"),
+                                   style="Hint.TLabel")
         tag_font = tkfont.Font(root=card, font=_THEME_METRICS["fonts"]["t5"])
         self.break_tag.place(
-            x=s(16) + title_font.measure("Break") + s(12),
+            # Measured from the TRANSLATED title, or the tag lands on top of a
+            # Chinese card title that is a third of the width of "Break".
+            x=s(16) + title_font.measure(T("Break")) + s(12),
             # anchor sw pins the bottom edge, and the baseline sits one descent
             # above it, so the descent has to be added back to line them up.
             y=s(13) + title_font.metrics("ascent") + tag_font.metrics("descent"),
@@ -3765,6 +4118,8 @@ class SettingsWindow:
         advanced window is its own Toplevel and keeps Tk's own traversal.
         """
         self.tab_ring = [
+            # The header's own control, first, because it is first on screen
+            self.seg_lang,
             # Blink, in the order the card reads, ending at its own door
             self.sp_every, self.seg_unit, self.seg_style, self.slider,
             self.chip, self.btn_colour, self.tog_sound, self.adv_btn_blink,
@@ -3848,9 +4203,11 @@ class SettingsWindow:
         their window does, and every lookup defaults to empty.
         """
         for which in self.WHICH:
-            style = self._value_of(self.STYLES, self.V[which]["style"].get())
+            style = self._value_of(translated(self.STYLES),
+                                   self.V[which]["style"].get())
             centred = self._value_of(
-                self.POSITIONS, self.V[which]["corner"].get()) == "center"
+                translated(self.POSITIONS),
+                self.V[which]["corner"].get()) == "center"
             placed = style in ("dot", "text")
             for suffix, on in (("dot", style == "dot"),
                                ("text", style == "text"),
@@ -3877,10 +4234,40 @@ class SettingsWindow:
         single pulse can show, and firing one every time focus leaves the field
         would be noise.
         """
-        unit = 60 if self.v_unit.get() == "minutes" else 1
+        unit = self._value_of(translated(self.UNITS), self.v_unit.get())
         every = max(1, self._int(self.v_every, 1))
         if every * unit < MIN_INTERVAL:
             self.v_every.set(-(-MIN_INTERVAL // unit))
+
+    def _language_changed(self):
+        """Switch the whole panel over, there and then.
+
+        A language picker whose effect you cannot see until you press Save and
+        reopen the window is not a language picker. So this one commits at the
+        moment it is touched -- and commits ONLY the language, written to disk
+        on its own. Every other edit on screen is carried across into the
+        rebuilt panel and the Cancel baseline is carried with it, so pressing
+        Cancel afterwards still discards exactly what it would have discarded
+        before, and nothing more.
+
+        A rebuild rather than a sweep of configure(text=...) calls: the theme
+        bakes its fonts into image elements, three cards measure their own
+        labels to place things, and the tab ring is built from widgets. Half a
+        translation is worse than none.
+        """
+        code = self._value_of(LANGUAGES, self.v_lang.get())
+        if code == language_code():
+            return
+        edits, baseline = self.collect(), dict(self.opened_with)
+        set_language(code)
+        self.app.cfg["language"] = code
+        save_config(self.app.cfg)
+        log_event("config", "language set to %s" % code)
+        self.close()
+        self._pending = edits
+        self.open()
+        baseline["language"] = code
+        self.opened_with = baseline
 
     def _style_changed(self, which="blink"):
         # A reminder's own style decides which of ITS look controls are live.
@@ -3933,7 +4320,7 @@ class SettingsWindow:
     def _feel_changed(self, which="blink"):
         """Picking a preset rewrites that reminder's advanced numbers to match."""
         V = self.V[which]
-        name = V["feel"].get()
+        name = self._value_of(feel_pairs(), V["feel"].get())
         if name in FEELS:
             vals = FEELS[name]
             V["hold"].set(round(vals["hold_ms"] / 1000.0, 2))
@@ -3945,7 +4332,7 @@ class SettingsWindow:
         """Hand-editing the numbers means no preset describes them any more."""
         if self.win is None or not self.win.winfo_exists():
             return
-        self.V[which]["feel"].set(feel_of(self.collect(), self.PREFIX[which]))
+        self.V[which]["feel"].set(T(feel_of(self.collect(), self.PREFIX[which])))
         self._preview(which)
 
     def _preview(self, which="blink"):
@@ -4010,10 +4397,14 @@ class SettingsWindow:
         prev = dict(DEFAULTS)
         prev.update(self.app.cfg)
         every = max(1, self._int(self.v_every, 1))
-        unit = 60 if self.v_unit.get() == "minutes" else 1
+        unit = self._value_of(translated(self.UNITS), self.v_unit.get())
 
         out = {
             "start_with_windows": bool(self.v_startup.get()),
+            # The CODE, never "auto": picking a language in here is an explicit
+            # choice, and it has to survive the user later switching the
+            # language Windows itself is displayed in.
+            "language": self._value_of(LANGUAGES, self.v_lang.get()),
             "interval_seconds": max(MIN_INTERVAL, every * unit),
             "break_enabled": bool(self.v_break_on.get()),
             "break_minutes": self._int(self.v_break_min, prev["break_minutes"]),
@@ -4026,7 +4417,8 @@ class SettingsWindow:
                 opacity = round(float(V["opacity"].get()), 3)
             except (tk.TclError, ValueError):
                 opacity = prev[p + "opacity"]
-            out[p + "style"] = self._value_of(self.STYLES, V["style"].get())
+            out[p + "style"] = self._value_of(translated(self.STYLES),
+                                              V["style"].get())
             out[p + "opacity"] = opacity
             out[p + "hold_ms"] = self._ms(V["hold"], prev[p + "hold_ms"])
             out[p + "fade_ms"] = self._ms(V["fade"], prev[p + "fade_ms"])
@@ -4034,14 +4426,16 @@ class SettingsWindow:
             out[p + "blinks"] = max(1, self._int(V["blinks"], prev[p + "blinks"]))
             out[p + "colour"] = V["colour"].get()
             out[p + "message"] = V["message"].get()
-            out[p + "corner"] = self._value_of(self.POSITIONS, V["corner"].get())
+            out[p + "corner"] = self._value_of(translated(self.POSITIONS),
+                                               V["corner"].get())
             out[p + "dot_pct"] = max(1, min(100, self._int(
                 V["dot"], prev[p + "dot_pct"])))
             out[p + "font_size"] = max(8, self._int(V["font"], prev[p + "font_size"]))
             out[p + "margin"] = max(0, self._int(V["margin"], prev[p + "margin"]))
             out[p + "all_monitors"] = bool(V["all"].get())
             out[p + "sound_enabled"] = bool(V["sound"].get())
-            out[p + "sound_name"] = self._value_of(SOUNDS, V["sound_name"].get())
+            out[p + "sound_name"] = self._value_of(translated(SOUNDS),
+                                                  V["sound_name"].get())
             try:
                 volume = round(float(V["volume"].get()), 2)
             except (tk.TclError, ValueError):
@@ -4058,7 +4452,7 @@ class SettingsWindow:
         if self.collect() != self.opened_with:
             keep = messagebox.askyesno(
                 DISPLAY_NAME,
-                "Save the changes you made?",
+                T("Save the changes you made?"),
                 parent=self.win,
             )
             if keep:
@@ -4132,16 +4526,22 @@ class StartupNotice:
         outer = ttk.Frame(self.win, style="Ground.TFrame")
         outer.place(x=0, y=0, width=win_w, height=win_h)
 
-        ttk.Label(outer, text="Blink Reminder is running",
+        # From DISPLAY_NAME, not a literal. It WAS a literal, and it still read
+        # "Blink Reminder is running" three renames later -- the same bug the
+        # tray tooltip had, in the one window a first-time user is shown.
+        ttk.Label(outer, text=T("%s is running") % DISPLAY_NAME,
                   style="Title.TLabel").place(x=s(20), y=s(20))
         ttk.Label(outer, style="Sub.TLabel", justify="left",
-                  text="It stays in the background and will nudge you to blink\n%s."
+                  text=T("It stays in the background and will nudge you to "
+                         "blink\n%s.")
                        % describe_interval(self.app.cfg["interval_seconds"])).place(
             x=s(20), y=s(54))
 
         card = ttk.Frame(outer, style="Card.TFrame")
         card.place(x=s(20), y=s(112), width=s(364), height=s(52))
-        ttk.Label(card, text="Right-click the tray icon, by the clock, for settings.",
+        ttk.Label(card,
+                  text=T("Right-click the tray icon, by the clock, "
+                         "for settings."),
                   style="Row.TLabel").place(x=s(16), y=s(16))
 
         ttk.Frame(outer, style="Rule.TFrame").place(
@@ -4151,11 +4551,11 @@ class StartupNotice:
         # dismiss button first and the ask second. Absent when unconfigured.
         if SUPPORT_URL:
             self.btn_support = ttk.Button(
-                outer, text="Buy me a coffee", style="Secondary.TButton",
+                outer, text=T("Buy me a coffee"), style="Secondary.TButton",
                 command=lambda: open_link(SUPPORT_URL))
             self.btn_support.place(x=s(20), y=s(196), width=s(148), height=s(32))
 
-        self.btn = ttk.Button(outer, text="Got it", style="Primary.TButton",
+        self.btn = ttk.Button(outer, text=T("Got it"), style="Primary.TButton",
                               command=self.close)
         self.btn.place(x=win_w - s(20) - s(96), y=s(196), width=s(96), height=s(32))
 
@@ -4173,8 +4573,11 @@ class StartupNotice:
 
 
 class App:
-    def __init__(self):
-        self.cfg = load_config()
+    def __init__(self, cfg=None):
+        # main() has usually loaded it already, since loading is what settles
+        # the language. The default keeps App() constructible on its own, which
+        # is how every test in this project builds one.
+        self.cfg = cfg if cfg is not None else load_config()
         self.paused = False
         self.timer = None
         self.break_timer = None
@@ -4207,9 +4610,14 @@ class App:
 
         self.last_fire = time.monotonic()
         self.last_beat = time.monotonic()
-        log_event("start", "interval=%ss style=%s startup=%s"
+        # The language is in here because it is the first thing worth knowing
+        # about a report of "the text is wrong": both what was asked for and
+        # what that resolved to, since "auto" can resolve differently on two
+        # machines with the same config file.
+        log_event("start", "interval=%ss style=%s startup=%s lang=%s(%s)"
                   % (self.cfg["interval_seconds"], self.cfg["style"],
-                     self.cfg["start_with_windows"]))
+                     self.cfg["start_with_windows"],
+                     self.cfg.get("language"), language_code()))
 
         self.root.after(120, self.drain)
         self.root.after(200, self.indicator.show)
@@ -4235,26 +4643,32 @@ class App:
         def push(name):
             return lambda *_: self.commands.put(name)
 
+        # Every label is a callable, not a string. pystray asks for the text
+        # each time the menu is opened, so the one menu built at startup
+        # follows a language change made in Settings -- where a fixed string
+        # would have kept its launch-time language until the app restarted.
         items = [
-            pystray.MenuItem("Blink now", push("blink"), default=True),
+            pystray.MenuItem(lambda _i: T("Blink now"), push("blink"),
+                             default=True),
             # One item, not two. There used to be a "Paused" checkbox beside
             # this, which is the same idea with no end to it -- and snooze's own
             # docstring gives the reason that is wrong: "indefinite pause is how
             # people forget they turned it off". The label reads the state, so
             # the one item both starts a snooze and cancels one early.
             pystray.MenuItem(
-                lambda _i: ("Resume reminders" if self.paused
-                            else "Snooze 30 minutes"),
+                lambda _i: (T("Resume reminders") if self.paused
+                            else T("Snooze 30 minutes")),
                 push("snooze")),
-            pystray.MenuItem("Settings", push("settings")),
+            pystray.MenuItem(lambda _i: T("Settings"), push("settings")),
         ]
         # Built as a list rather than inline so the support item can be absent
         # entirely. An item that opens nothing is worse than no item.
         if SUPPORT_URL:
             items += [pystray.Menu.SEPARATOR,
-                      pystray.MenuItem("Buy me a coffee", push("support"))]
+                      pystray.MenuItem(lambda _i: T("Buy me a coffee"),
+                                       push("support"))]
         items += [pystray.Menu.SEPARATOR,
-                  pystray.MenuItem("Quit", push("quit"))]
+                  pystray.MenuItem(lambda _i: T("Quit"), push("quit"))]
         # Tooltip comes from DISPLAY_NAME, not a literal. It was a literal, and
         # it still read "Blink Reminder" two renames later -- the one string a
         # user hovers over was the last one telling them the old name.
@@ -4436,12 +4850,17 @@ class App:
 
 
 def main():
+    # Loaded before the single-instance check rather than inside App, because
+    # loading it is what puts the user's language in force -- and the copy that
+    # LOSES that check exits through announce_already_running, which has a
+    # sentence to say to them, in their own language.
+    cfg = load_config()
     if already_running():
         log_event("start", "another copy is already running; this one exited")
         announce_already_running()
         return
     enable_dpi_awareness()
-    App().run()
+    App(cfg).run()
 
 
 if __name__ == "__main__":
