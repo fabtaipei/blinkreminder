@@ -1,0 +1,31 @@
+# Line endings and binary files, stated rather than guessed.
+#
+# Without this, every checkout depends on whoever cloned it having the same
+# core.autocrlf setting. This project is unusually sensitive to that:
+# blink_reminder.py is CRLF on disk, and the scripts that patch it assert so
+# before writing a byte -- after one of them silently rewrote all 4,000 lines
+# from CRLF to LF, which made a one-line change look like a whole-file diff.
+
+# Normalise text to LF in the repository; Git restores the platform's endings
+# on checkout. This is Git's default behaviour made explicit.
+* text=auto
+
+# Never touch these. Git's binary detection already gets them right, but a
+# mangled PNG or MSIX is a silent, ugly failure, so do not leave it to a guess.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.mp4   binary
+*.mov   binary
+*.wav   binary
+*.msix  binary
+*.appx  binary
+*.pyd   binary
+*.dll   binary
+*.exe   binary
+
+# Collapse generated and vendored files in diffs and language stats.
+store/trailer/*  linguist-generated=true
+store/logos/*    linguist-generated=true
