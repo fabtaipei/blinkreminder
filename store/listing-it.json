@@ -1,0 +1,45 @@
+{
+  "language": "it",
+  "_comment": [
+    "Italian, addressing the reader informally as 'tu', which is what",
+    "consumer software in Italian generally does.",
+    "Artwork is inherited automatically -- see fill_listing.py DEFAULT_COPY."
+  ],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Tutti i diritti riservati.",
+
+  "ShortDescription": "Batti le palpebre più spesso e concedi riposo agli occhi. Un segnale breve e discreto su ogni schermo: si vede senza mai interromperti. Dry Eyes Blink Reminder Lite resta nell'area di notifica, senza rete, e non ti osserva mai.",
+
+  "Description": "Dry Eyes Blink Reminder Lite è una piccola utilità silenziosa che vive nell'area di notifica. Ti dà un breve segnale visivo per battere le palpebre e, su un timer separato, per staccare lo sguardo dallo schermo per un momento.\n\nIl segnale è volutamente discreto: un impulso morbido, un punto o una sola parola, visibile per una frazione di secondo e poi via. Puoi cliccarci attraverso: non ruba mai il focus, non intercetta mai un tasto e non si mette mai fra te e quello che stavi facendo.\n\nDUE PROMEMORIA INDIPENDENTI\n\nIl promemoria per le palpebre scatta all'intervallo che scegli, anche solo di pochi secondi. Quello della pausa segue l'orologio, quindi cade sempre agli stessi minuti dell'ora, indipendentemente da quando hai avviato l'app. Ognuno ha le proprie impostazioni, del tutto separate: stile, colore, dimensione, posizione, tempi e suono. Cambiarne uno non tocca mai l'altro.\n\nPENSATO PER PIÙ SCHERMI\n\nI promemoria appaiono su ogni monitor collegato, con la dimensione giusta su ciascuno anche se i tuoi schermi usano scale diverse. Un piccolo punto nell'angolo di ogni schermo mostra che l'app è in funzione, con sopra il conto alla rovescia alla prossima pausa.\n\nREGOLABILE COME VUOI\n\nScegli un leggero oscuramento, un punto colorato o una parola tua. Imposta dimensione, posizione, opacità, dissolvenza e durata. Scegli fra quattro suoni, ciascuno con il proprio volume, oppure lascialo in silenzio. Puoi vedere in anteprima ogni modifica prima di salvarla.\n\nSILENZIOSO, E PRIVATO PER COSTRUZIONE\n\nNessun account, nessun accesso, nessuna pubblicità e nessuna analisi. Non esiste alcuna connessione di rete: l'app non contatta mai nessun server, nemmeno il nostro. Non usa la fotocamera: funziona con un timer, non ti guarda.\n\nBUONO A SAPERSI\n\nDry Eyes Blink Reminder Lite gira nell'area di notifica e non ha una finestra principale. Clic destro sulla sua icona per le impostazioni. L'impulso del promemoria è limitato nel codice: nessuna combinazione di impostazioni può superare tre lampi al secondo.\n\nLa lingua dell'interfaccia si cambia in alto a destra nella finestra delle impostazioni, e l'app segue automaticamente la lingua di Windows.",
+
+  "ReleaseNotes": "L'app è ora in italiano, oltre che in francese, spagnolo, tedesco e cinese. Segue automaticamente la lingua di Windows, e puoi cambiarla in alto a destra nella finestra delle impostazioni.",
+
+  "Feature1": "Un segnale delicato per battere le palpebre, al tuo ritmo",
+  "Feature2": "Una pausa a parte per guardare lontano, a orari fissi",
+  "Feature3": "Promemoria su ogni schermo",
+  "Feature4": "Ci clicchi attraverso: non ruba mai il focus",
+  "Feature5": "Un punto, una parola o un leggero oscuramento",
+  "Feature6": "Quattro suoni, o il silenzio",
+  "Feature7": "Anteprima di ogni modifica prima di salvarla",
+  "Feature8": "Nessun account, nessuna pubblicità, nessuna analisi",
+  "Feature9": "Nessuna rete, nessuna fotocamera, nessuna sorveglianza",
+
+  "DesktopScreenshotCaption1": "Un punto rotondo ti ricorda di battere le palpebre, all'intervallo che scegli. Anche il punto è personalizzabile.",
+  "DesktopScreenshotCaption2": "Lo schermo si oscura per ricordarti di riposare, all'intervallo che scegli: all'ora esatta, ogni mezz'ora, o come preferisci.",
+  "DesktopScreenshotCaption3": "Un'interfaccia semplice da usare.",
+  "DesktopScreenshotCaption4": "Un punto rotondo ti ricorda di battere le palpebre, all'intervallo che scegli. Anche il punto è personalizzabile.",
+  "DesktopScreenshotCaption5": "Lo schermo si oscura per ricordarti di riposare, all'intervallo che scegli: all'ora esatta, ogni mezz'ora, o come preferisci.",
+
+  "TrailerTitle1": "I due promemoria nella dimostrazione",
+  "TrailerTitle2": "I due promemoria nella dimostrazione",
+
+  "SearchTerm1": "promemoria palpebre",
+  "SearchTerm2": "affaticamento visivo",
+  "SearchTerm3": "occhi secchi",
+  "SearchTerm4": "riposo occhi",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "pausa schermo",
+  "SearchTerm7": "cura degli occhi"
+}

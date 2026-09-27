@@ -92,28 +92,47 @@ def set_language(code):
     return _LANG
 
 
+# Windows LANGID primary language IDs, for the languages where the primary
+# ID is the whole answer. Chinese is deliberately absent: see below.
+PRIMARY_LANGUAGES = {
+    0x07: "de",   # German
+    0x0A: "es",   # Spanish, every variety
+    0x0C: "fr",   # French, every variety
+    0x10: "it",   # Italian
+}
+
+# Chinese sublanguages written in Traditional characters: Taiwan, Hong Kong,
+# Macau, and 0x1F, the script-neutral "zh-Hant". Everything else under
+# Chinese -- the mainland, Singapore, and bare 0x0004 -- is Simplified.
+CHINESE_TRADITIONAL_SUBS = (1, 3, 5, 31)
+
+
 def detect_language():
     """The language Windows itself is displayed in, if this app speaks it.
 
     GetUserDefaultUILanguage returns a LANGID: the low ten bits are the
-    primary language and the rest the sublanguage. Chinese is 0x04, and the
-    sublanguage is the whole question -- Taiwan, Hong Kong and Macau are
-    written in Traditional characters, the mainland and Singapore in
-    Simplified, and offering the wrong one is worse than offering English.
+    primary language and the rest the sublanguage. For most languages the
+    primary ID is the whole answer, and the regional variety is not worth
+    splitting -- one Spanish table serves Spain and Latin America, because
+    nothing this app says differs between them.
 
-    0x0004 on its own says "Chinese" and nothing more. It is read as
-    Simplified here, because that is the larger population, and since this
-    build has no Simplified table it falls through to English rather than
-    guessing Traditional at someone.
+    Chinese is the exception, and the sublanguage IS the question: Taiwan,
+    Hong Kong and Macau are written in Traditional characters and the
+    mainland and Singapore in Simplified. Showing the wrong script is worse
+    than showing English, so this is the one place the sublanguage is read.
     """
     try:
         langid = ctypes.windll.kernel32.GetUserDefaultUILanguage()
     except Exception:
         return "en"
     primary, sub = langid & 0x3FF, langid >> 10
-    if primary == 0x04 and sub in (1, 3, 5, 31):   # TW, HK, MO, Hant
-        return "zh-Hant"
-    return "en"
+    if primary == 0x04:
+        return ("zh-Hant" if sub in CHINESE_TRADITIONAL_SUBS else "zh-Hans")
+    # Only a language this build actually has a table for. set_language
+    # would fall back anyway, but returning a code we cannot honour would
+    # make the log line lie about what the user is seeing.
+    wanted = PRIMARY_LANGUAGES.get(primary, "en")
+    return wanted if wanted in STRINGS else "en"
 
 
 def text_cells(message):

@@ -1,0 +1,45 @@
+{
+  "language": "de",
+  "_comment": [
+    "German, addressing the reader as 'Sie' -- the convention for Windows",
+    "system software, and what Microsoft's own German UI uses.",
+    "Artwork is inherited automatically -- see fill_listing.py DEFAULT_COPY."
+  ],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Alle Rechte vorbehalten.",
+
+  "ShortDescription": "Blinzeln Sie öfter, und gönnen Sie Ihren Augen Ruhe. Ein kurzer, sanfter Hinweis auf jedem Bildschirm — sichtbar, ohne Sie je zu unterbrechen. Dry Eyes Blink Reminder Lite sitzt still im Infobereich, ohne Netzwerk, und beobachtet Sie nie.",
+
+  "Description": "Dry Eyes Blink Reminder Lite ist ein kleines, stilles Werkzeug, das im Infobereich der Taskleiste lebt. Es gibt Ihnen einen kurzen visuellen Hinweis zum Blinzeln — und auf einem eigenen Timer den Hinweis, den Blick für einen Moment vom Bildschirm zu nehmen.\n\nDer Hinweis ist bewusst zurückhaltend: ein sanfter Puls, ein Punkt oder ein einzelnes Wort, für den Bruchteil einer Sekunde da und wieder fort. Sie können hindurchklicken: Er nimmt nie den Fokus, verschluckt nie einen Tastendruck und steht nie im Weg.\n\nZWEI UNABHÄNGIGE ERINNERUNGEN\n\nDie Blinzel-Erinnerung kommt in dem Abstand, den Sie wählen — ab wenigen Sekunden. Die Pausen-Erinnerung folgt der Uhr und fällt daher immer auf dieselben Minuten der Stunde, ganz gleich wann Sie die App gestartet haben. Jede hat ihre eigenen, vollständig getrennten Einstellungen: Stil, Farbe, Größe, Position, Timing und Ton. Die eine zu ändern berührt die andere nie.\n\nFÜR MEHRERE BILDSCHIRME GEMACHT\n\nDie Hinweise erscheinen auf jedem angeschlossenen Bildschirm, auf jedem in der richtigen Größe, auch wenn Ihre Displays unterschiedlich skaliert sind. Ein kleiner Punkt in der Ecke jedes Bildschirms zeigt, dass die App läuft, mit dem Countdown bis zur nächsten Pause darüber.\n\nGANZ NACH IHREM GESCHMACK\n\nWählen Sie ein sanftes Abdunkeln, einen farbigen Punkt oder ein eigenes Wort. Stellen Sie Größe, Position, Deckkraft, Blende und Dauer ein. Wählen Sie aus vier Tönen, jeder mit eigener Lautstärke, oder lassen Sie es still. Jede Änderung lässt sich vor dem Speichern in der Vorschau ansehen.\n\nSTILL, UND VON GRUND AUF PRIVAT\n\nKein Konto, keine Anmeldung, keine Werbung, keine Analyse. Es gibt überhaupt keine Netzwerkverbindung — die App kontaktiert nie einen Server, auch unseren nicht. Sie nutzt Ihre Kamera nicht: Sie arbeitet mit einem Timer, sie beobachtet Sie nicht.\n\nGUT ZU WISSEN\n\nDry Eyes Blink Reminder Lite läuft im Infobereich und hat kein Hauptfenster. Ein Rechtsklick auf das Symbol öffnet die Einstellungen. Der Puls des Hinweises ist im Code begrenzt: keine Kombination von Einstellungen kann drei Blitze pro Sekunde überschreiten.\n\nDie Sprache der Oberfläche ändern Sie oben rechts im Einstellungsfenster; die App folgt außerdem automatisch der Anzeigesprache von Windows.",
+
+  "ReleaseNotes": "Die App gibt es jetzt auf Deutsch, außerdem auf Französisch, Spanisch, Italienisch und Chinesisch. Sie folgt automatisch der Anzeigesprache von Windows, und Sie können oben rechts im Einstellungsfenster umschalten.",
+
+  "Feature1": "Ein sanfter Hinweis zum Blinzeln, in Ihrem Takt",
+  "Feature2": "Eine eigene Pause zum Wegschauen, nach der Uhr",
+  "Feature3": "Hinweise auf jedem Bildschirm",
+  "Feature4": "Klicken Sie hindurch — nimmt nie den Fokus",
+  "Feature5": "Ein Punkt, ein Wort oder ein sanftes Abdunkeln",
+  "Feature6": "Vier Töne, oder Stille",
+  "Feature7": "Jede Änderung vor dem Speichern in der Vorschau",
+  "Feature8": "Kein Konto, keine Werbung, keine Analyse",
+  "Feature9": "Kein Netzwerk, keine Kamera, keine Beobachtung",
+
+  "DesktopScreenshotCaption1": "Ein runder Punkt erinnert Sie ans Blinzeln, in dem Abstand, den Sie wählen. Auch der Punkt lässt sich anpassen.",
+  "DesktopScreenshotCaption2": "Der Bildschirm dunkelt ab und erinnert Sie an eine Pause, in dem Abstand, den Sie wählen — zur vollen Stunde, jede halbe Stunde, oder wie es Ihnen passt.",
+  "DesktopScreenshotCaption3": "Eine Oberfläche, die sich von selbst erklärt.",
+  "DesktopScreenshotCaption4": "Ein runder Punkt erinnert Sie ans Blinzeln, in dem Abstand, den Sie wählen. Auch der Punkt lässt sich anpassen.",
+  "DesktopScreenshotCaption5": "Der Bildschirm dunkelt ab und erinnert Sie an eine Pause, in dem Abstand, den Sie wählen — zur vollen Stunde, jede halbe Stunde, oder wie es Ihnen passt.",
+
+  "TrailerTitle1": "Die beiden Erinnerungen in der Demo",
+  "TrailerTitle2": "Die beiden Erinnerungen in der Demo",
+
+  "SearchTerm1": "Blinzeln Erinnerung",
+  "SearchTerm2": "trockene Augen",
+  "SearchTerm3": "Augen entspannen",
+  "SearchTerm4": "Bildschirmpause",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "Augenschonung",
+  "SearchTerm7": "Pausenerinnerung"
+}
