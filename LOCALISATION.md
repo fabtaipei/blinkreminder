@@ -140,11 +140,16 @@ translations.
 7. Optionally **test a market with a listing only** first — no build, no
    certification, and it answers the question cheaply.
 
-Suggested order, subject to (6):
+Done: zh-Hant, zh-Hans, fr, es, de, it.
 
-- **Free today, no layout risk:** zh-Hans, ja, ko
-- **After Phase 0:** de, fr, es, pt-BR, it, nl
-- **After Phase 0 + plural wording:** ru, pl, tr, vi, id
+Next candidates, and what each one actually costs:
+
+| | Verdict |
+| --- | --- |
+| **日本語, 한국어** | Ready to go. CJK runs 75–85% of English, so no layout risk, and the font stacks are the same shape as Chinese's |
+| **Português (pt-BR)** | Ready to go. Latin script, similar length to Spanish |
+| **हिन्दी, বাংলা** | Possible, but not free. Devanagari and Bengali need their own font stacks (Nirmala UI covers both on Windows) and taller line boxes — the panel's 32px rows are tuned to Latin and CJK ascenders |
+| **العربية, اردو** | **No.** Right-to-left. The panel places every widget at a hard-coded x from the left edge; mirroring it is a layout rewrite, not a translation. Adding the strings without the layout would produce a broken interface, which is worse than English |
 
 ### Phase 2 — per language
 
@@ -201,6 +206,14 @@ Only one ordering constraint in the whole plan: **Phase 0 before Phase 2.**
 
 ## Where things stand
 
+- **1.1.6.0 speaks seven languages:** English, 繁體中文, 简体中文, Français,
+  Español, Deutsch, Italiano. Listing copy for all of them is in
+  `store/listing-*.json`.
+- **Only English and 繁體中文 are live on the Store** as of 1.1.5.0. The
+  other five need their listing languages added in Partner Center, then a
+  fresh export, `fill_listing.py`, and an import.
+- The five new languages cost about **50 KB** in the package, which is the
+  whole argument for one package restated with a bigger number.
 - **Shipped in 1.1.4.0:** English + 繁體中文. Listing copy drafted in
   `store/listing-zh-Hant.txt`.
 - **Phase 0: done in 1.1.5.0.** All twelve slots widened; the picker is now
