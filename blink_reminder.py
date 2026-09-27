@@ -50,21 +50,27 @@ DEFAULTS = {
     "start_with_windows": True,   # on by default; the startup notice discloses it
 
     # -- the blink reminder ------------------------------------------------
-    "interval_seconds": 60,   # how often to remind. Minimum is 3, not 300.
+    "interval_seconds": 45,   # how often to remind. Minimum is 3, not 300.
     "style": "dot",           # "dim" | "dot" | "text". The break owns dimming now:
                               # two full-screen washes would be indistinguishable.
-    "opacity": 0.55,          # peak opacity of the overlay, 0.02 to 1.0
-    "hold_ms": 160,           # how long the overlay sits at full opacity
-    "fade_ms": 120,           # fade in and fade out time, 0 for an instant cut
+    "opacity": 0.304,         # peak opacity of the overlay, 0.02 to 1.0
+    "hold_ms": 550,           # how long the overlay sits at full opacity
+    "fade_ms": 550,           # fade in and fade out time, 0 for an instant cut
     "blinks": 2,              # how many times to pulse per reminder
     "gap_ms": 120,            # pause between pulses
-    # Warm amber. Most interfaces are blue-grey, so a warm dot separates from
-    # the background instead of sinking into it, and warm reads as a nudge
-    # where red would read as an error. Fitting for an app about eye comfort.
-    "colour": "#FFC24B",
+    # Lime. Chosen over the original warm amber for the same reason amber was
+    # chosen over red -- it separates from the blue-greys most interfaces are
+    # built from -- but it carries further at low opacity, which is what makes
+    # a 30% wash readable at all. Note this no longer matches the app icon,
+    # which is still amber.
+    "colour": "#bde401",
     "message": "Blink",       # only used by the "text" style
     "corner": "center",       # placement for "dot" and "text". "center" is hardest to miss
-    "dot_size": 72,           # diameter in pixels, as measured on the primary screen
+    # Diameter as a PERCENTAGE of the screen's short side, so the reminder is
+    # the same share of every display. 100 would be a dot as tall as the
+    # screen. Stored as a share rather than a pixel count because a pixel
+    # count cannot mean the same thing on a 1366x768 laptop and a 4K monitor.
+    "dot_pct": 78,
     "font_size": 20,          # point size for the "text" style
     "margin": 48,             # distance from the screen edge for dot and text
     "all_monitors": True,     # show the reminder on every monitor, not just the primary
@@ -81,28 +87,27 @@ DEFAULTS = {
     "break_enabled": True,
     "break_minutes": 30,          # 30 -> :00 and :30 of every hour
     "break_style": "dim",         # the whole screen, so it cannot be missed
-    "break_opacity": 0.72,        # enough that the result is the wash, not the desktop
+    "break_opacity": 0.35,        # a tint over the screen, not a blackout
     "break_hold_ms": 1400,        # longer than a blink: this one wants noticing
     "break_fade_ms": 800,
     "break_blinks": 1,            # one long look away, not a flicker
     "break_gap_ms": 120,
-    # Near-black navy, not a mid indigo. Measured: a #12233F wash at 50% moved
-    # the mean brightness of a dark desktop by -1 -- its luminance simply
-    # matched the screen's, so nothing happened. This sits far below any
-    # desktop, so the screen reliably falls dark whatever is on it, with a cool
-    # cast that reads as deliberate rather than as a monitor losing signal.
-    "break_colour": "#060C18",
+    # The blink colour, not a darkening wash. The earlier near-black navy went
+    # invisible against a dark desktop -- measured, a #12233F wash at 50% moved
+    # mean brightness by -1 -- and a bright tint is unmissable on any wallpaper,
+    # light or dark, which a dark wash can never be.
+    "break_colour": "#bde401",
     "break_message": "Look into the distance",
     "break_corner": "center",
-    "break_dot_size": 72,
+    "break_dot_pct": 22,
     "break_font_size": 20,
     "break_margin": 48,
     "break_all_monitors": True,
     "break_sound_enabled": True,
-    # A different sound from the blink's by default, because the two reminders
-    # mean different things and a fresh install should say so without anyone
-    # having to go and set it.
-    "break_sound_name": "chimes.wav",
+    # Same sound as the blink. The two reminders already look different enough
+    # -- a dot against a full-screen tint -- that a second timbre was one
+    # distinction too many.
+    "break_sound_name": "ding.wav",
     "break_sound_volume": 0.6,
 }
 
@@ -111,7 +116,7 @@ DEFAULTS = {
 # rather than copied from the app config -- inheritance is not something the
 # translation layer can do accidentally any more.
 PULSE_KEYS = ("style", "opacity", "hold_ms", "fade_ms", "blinks", "gap_ms",
-              "colour", "message", "corner", "dot_size", "font_size",
+              "colour", "message", "corner", "dot_pct", "font_size",
               "margin", "all_monitors", "sound_enabled", "sound_name",
               "sound_volume")
 
@@ -119,7 +124,7 @@ PULSE_KEYS = ("style", "opacity", "hold_ms", "fade_ms", "blinks", "gap_ms",
 # On upgrade each is seeded from the value the break was actually running with,
 # so nothing about the break changes until the user edits it.
 BREAK_SEEDS = {
-    "break_dot_size": "dot_size",
+    "break_dot_pct": "dot_pct",
     "break_font_size": "font_size",
     "break_corner": "corner",
     "break_margin": "margin",
@@ -973,6 +978,33 @@ def announce_already_running():
 # --------------------------------------------------------------------------
 
 
+def migrate_dot_units(cfg, saved):
+    """dot_size was a pixel count; dot_pct is a share of the screen's short side.
+
+    A rename rather than a reinterpretation of the same key, because the two
+    units overlap in exactly the range real configs live in: the old default
+    was 72 PIXELS, and 72 read as a PERCENT is a dot filling nearly three
+    quarters of the screen. Nothing in a bare number says which it is, so the
+    key has to say instead.
+
+    Converted values are written back into `saved` as well as `cfg`. `saved`
+    is "what the user actually chose, as opposed to what defaulted", and the
+    BREAK_SEEDS loop below keys off it -- without this, a converted
+    break_dot_pct would be immediately overwritten by the blink's value.
+    """
+    for old, new in (("dot_size", "dot_pct"),
+                     ("break_dot_size", "break_dot_pct")):
+        if new in saved or old not in saved:
+            continue
+        try:
+            px = int(saved[old])
+        except (TypeError, ValueError):
+            continue
+        pct = int(round(px / float(REFERENCE_SHORT_SIDE) * 100))
+        cfg[new] = saved[new] = max(1, min(100, pct))
+    return cfg
+
+
 def migrate_config(cfg, saved):
     """Seed the break's own keys from whatever it used to inherit.
 
@@ -992,6 +1024,8 @@ def migrate_config(cfg, saved):
     # with the blink's value -- which silently undid the break's own default
     # sound on every fresh install, the one case this function has no business
     # touching. An upgrade path that also runs on first run is not a migration.
+    # Units first: BREAK_SEEDS below keys off `saved`, which this updates.
+    migrate_dot_units(cfg, saved)
     if saved:
         for new_key, src_key in BREAK_SEEDS.items():
             if new_key not in saved:
@@ -1442,6 +1476,18 @@ COUNTDOWN_BG = "#0E1420"
 COUNTDOWN_FG = "#E6EBF2"
 
 
+# The screen the OLD pixel-valued dot_size was authored against, kept solely
+# so migrate_dot_units can convert a saved pixel count into the percentage
+# that replaced it. Nothing in the live geometry reads it.
+#
+# reminder_rect scales a dot against the screen's SHORT side, not its height:
+# on a portrait monitor (1440x3440) a height-based 78% asks for a 2675px dot
+# on a 1440px-wide screen, which the clamp would flatten into a full-width
+# bar. On every landscape screen the short side IS the height, so the two
+# only differ where the height-based answer is wrong.
+REFERENCE_SHORT_SIDE = 1080
+
+
 def reminder_rect(mon, cfg, base_dpi=None):
     """Where a reminder lands on one monitor, as (x, y, w, h).
 
@@ -1455,9 +1501,12 @@ def reminder_rect(mon, cfg, base_dpi=None):
     dot that flies to the wrong place. A comment is not an enforcement
     mechanism; a shared function is.
 
-    base_dpi is the primary screen's DPI, looked up if not supplied. Sizes are
-    authored against the primary, so a dot on a monitor at different scaling is
-    nudged to stay the same physical size.
+    base_dpi is the primary screen's DPI, looked up if not supplied. It scales
+    the MARGIN, which is a physical distance from a bezel and should not grow
+    with resolution. The DOT is scaled differently -- it is a percentage of the
+    screen's short side -- because what matters for a reminder is how much of
+    the view it takes up, not how many millimetres across it is. Scaling the
+    dot by DPI too would count the same thing twice.
     """
     mx, my, mw, mh, dpi = mon[0], mon[1], mon[2], mon[3], mon[4]
     if cfg["style"] == "dim":
@@ -1468,7 +1517,7 @@ def reminder_rect(mon, cfg, base_dpi=None):
     scale = float(dpi) / float(base_dpi or BASE_DPI)
 
     if cfg["style"] == "dot":
-        w = h = max(4, int(round(int(cfg["dot_size"]) * scale)))
+        w = h = max(4, int(round(int(cfg["dot_pct"]) / 100.0 * min(mw, mh))))
     else:
         fs = int(cfg["font_size"])
         w = max(120, fs * (len(cfg["message"]) + 2))
@@ -3175,14 +3224,19 @@ class SettingsWindow:
         right = self._card(outer, 332, 16, 300, self.ADV_RIGHT_H, right_title)
 
         self._label(right, "Dot size", 16, self.S1 + 16, group=grp + "dot")
-        # 400, not 200: a live config already holds dot_size 240, which the old
-        # spinbox could not even express.
-        sp_dot = ttk.Spinbox(right, from_=4, to=400, increment=1,
+        # 1..100, the whole range the value can hold. The old spinbox was
+        # capped at 400 while a live config held 840, so opening this panel
+        # silently clamped a setting the user had chosen -- the one thing a
+        # settings window must never do.
+        sp_dot = ttk.Spinbox(right, from_=1, to=100, increment=1,
                              textvariable=V["dot"], font=fonts["t4"],
                              command=preview)
         sp_dot.place(x=s(172), y=s(self.S1), width=s(88), height=s(32))
         self.groups.setdefault(grp + "dot", []).append(sp_dot)
-        self._label(right, "px", 266, self.S1 + 16, style="Hint.TLabel",
+        # Just "%": the hint column is the 34px between the spinbox and the
+        # card edge, and "% of screen" was cropped to "% of s". Widening it
+        # would push the spinbox out of line with every other row.
+        self._label(right, "%", 266, self.S1 + 16, style="Hint.TLabel",
                     group=grp + "dot")
 
         self._label(right, "Word to show", 16, self.S2 + 16, group=grp + "text")
@@ -3351,7 +3405,7 @@ class SettingsWindow:
                     value=round(int(cfg[p + "gap_ms"]) / 1000.0, 2)),
                 "blinks": tk.IntVar(value=int(cfg[p + "blinks"])),
                 "message": tk.StringVar(value=cfg[p + "message"]),
-                "dot": tk.IntVar(value=int(cfg[p + "dot_size"])),
+                "dot": tk.IntVar(value=int(cfg[p + "dot_pct"])),
                 "font": tk.IntVar(value=int(cfg[p + "font_size"])),
                 "corner": tk.StringVar(
                     value=self._text_of(self.POSITIONS, cfg[p + "corner"])),
@@ -3929,7 +3983,8 @@ class SettingsWindow:
             out[p + "colour"] = V["colour"].get()
             out[p + "message"] = V["message"].get()
             out[p + "corner"] = self._value_of(self.POSITIONS, V["corner"].get())
-            out[p + "dot_size"] = max(4, self._int(V["dot"], prev[p + "dot_size"]))
+            out[p + "dot_pct"] = max(1, min(100, self._int(
+                V["dot"], prev[p + "dot_pct"])))
             out[p + "font_size"] = max(8, self._int(V["font"], prev[p + "font_size"]))
             out[p + "margin"] = max(0, self._int(V["margin"], prev[p + "margin"]))
             out[p + "all_monitors"] = bool(V["all"].get())
