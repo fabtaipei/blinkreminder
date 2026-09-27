@@ -219,6 +219,30 @@ Only one ordering constraint in the whole plan: **Phase 0 before Phase 2.**
 2. `py test_i18n.py`. It will name any string that is missing, orphaned, or
    too wide, and which control it is too wide for.
 3. `py build_msix.py`. The manifest picks up the new language by itself.
-4. Add the listing in Partner Center.
+4. Copy `store/listing-zh-Hant.json`, translate the values, and change
+   `language`.
+5. In Partner Center: add the listing language, **Export listing**, then
+
+       py store\fill_listing.py <export>.csv store\listing-<code>.json
+
+   and **Import listings → Import .csv**.
 
 Nothing else changes — no new package, no second product, no re-architecture.
+
+### Artwork for a new language is automatic
+
+`fill_listing.py` copies every asset the base listing has, found from the
+export's own `Type` column rather than from a list, and only into cells that
+are empty — so artwork uploaded by hand for a language is never overwritten.
+
+**This includes the 16:9 hero image, and that matters more than it looks.**
+Without `PromoImage1920x1080` a trailer uploads, validates, and then simply
+does not appear at the top of the listing. Partner Center says so on the
+page: *"For trailers to appear at the top of your Store listing, you must
+include a 16:9 'hero' promotional image."* It was left out of the first
+Chinese listing by hand and cost an evening finding out why the trailer had
+vanished.
+
+`OverrideLogosForWin10` travels with the override logos rather than being
+preserved, because it is the switch that decides whether they are used at
+all: copying them into a language whose switch says False achieves nothing.
