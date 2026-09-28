@@ -46,21 +46,34 @@ translation.
 # (label, code). Each label is written in its OWN language, which is the one
 # convention every language picker follows: someone who cannot read the UI
 # they are looking at still has to be able to find the way out of it.
+# Roman-script names first, A to Z, then everything else. Sorting the whole
+# list by codepoint would put Arabic, Chinese and Hindi in an order no
+# reader of any of them recognises, and scatter the Latin names among them;
+# this way most of the list is scannable by anyone, and the rest is grouped
+# rather than interleaved. Within the second block the order is by English
+# language name, which is at least deterministic -- there is no collation
+# that means anything across seven different writing systems.
 LANGUAGES = [
-    ("English", "en"),
-    ("繁體中文", "zh-Hant"),
-    ("简体中文", "zh-Hans"),
-    ("Français", "fr"),
-    ("Español", "es"),
+    ("Bahasa Indonesia", "id"),
     ("Deutsch", "de"),
+    ("English", "en"),
+    ("Español", "es"),
+    ("Français", "fr"),
     ("Italiano", "it"),
+    ("Polski", "pl"),
     ("Português", "pt"),
-    ("日本語", "ja"),
-    ("한국어", "ko"),
-    ("हिन्दी", "hi"),
-    ("বাংলা", "bn"),
-    ("العربية", "ar"),
-    ("اردو", "ur"),
+    ("Tiếng Việt", "vi"),
+    ("Türkçe", "tr"),
+    ("العربية", "ar"),        # Arabic
+    ("বাংলা", "bn"),           # Bengali
+    ("简体中文", "zh-Hans"),    # Chinese, Simplified
+    ("繁體中文", "zh-Hant"),    # Chinese, Traditional
+    ("हिन्दी", "hi"),           # Hindi
+    ("日本語", "ja"),          # Japanese
+    ("한국어", "ko"),           # Korean
+    ("Русский", "ru"),        # Russian
+    ("ไทย", "th"),            # Thai
+    ("اردو", "ur"),           # Urdu
 ]
 
 # Families to try AHEAD of the Latin stacks, per language. Segoe UI Variable
@@ -105,8 +118,15 @@ LANGUAGE_FONTS = {
     # so the naskh in Segoe UI is the better fit for an interface.
     "ar": ("Segoe UI", "Tahoma", "Arial"),
     "ur": ("Segoe UI", "Tahoma", "Arial"),
-    # French, Spanish, German, Italian and Portuguese need nothing: Segoe UI
-    # Variable covers every Latin-script language, and Cyrillic and Greek.
+    # Leelawadee UI is Windows' Thai interface font. Thai stacks vowel and
+    # tone marks above and below the consonant line, so it needs a face
+    # designed for it -- a Latin font that merely has the codepoints sets
+    # them at the wrong heights and they collide.
+    "th": ("Leelawadee UI", "Leelawadee", "Tahoma"),
+    # Nothing needed for French, Spanish, German, Italian, Portuguese,
+    # Polish, Turkish, Vietnamese, Indonesian or Russian: Segoe UI Variable
+    # covers Latin with every diacritic those languages use, and Cyrillic
+    # and Greek besides.
 }
 
 # Traditional Chinese, in Taiwan's vocabulary: 螢幕 rather than 屏幕, 設定
@@ -1401,5 +1421,590 @@ STRINGS = {
         "Done": "مکمل",
 
         "Look into the distance": "دور دیکھیں",
+    },
+
+    # Indonesian.
+    "id": {
+        "Blink now": "Kedip sekarang",
+        "Resume reminders": "Lanjutkan pengingat",
+        "Snooze 30 minutes": "Tunda 30 menit",
+        "Settings": "Pengaturan",
+        "Buy me a coffee": "Traktir saya kopi",
+        "Quit": "Keluar",
+
+        "every second": "setiap detik",
+        "every %d seconds": "setiap %d detik",
+        "every minute": "setiap menit",
+        "every %d minutes": "setiap %d menit",
+
+        "%s is running": "%s sedang berjalan",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Berjalan di latar dan akan mengingatkan Anda berkedip\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Klik kanan ikon di sebelah jam untuk pengaturan.",
+        "Got it": "Mengerti",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s sudah berjalan.\n\nCari ikonnya di area notifikasi, di "
+            "sebelah jam — mungkin perlu klik panah ^ untuk melihatnya. "
+            "Klik kanan ikon untuk membuka pengaturan.",
+
+        "A gentle nudge on every screen.": "Pengingat lembut di setiap layar.",
+        "Start with Windows": "Jalankan saat Windows mulai",
+        "Startup: managed by Windows": "Startup: dikelola Windows",
+        "Startup: turned off in Task Manager":
+            "Startup: dimatikan di Task Manager",
+        "Preview blink": "Coba kedip",
+        "Preview break": "Coba istirahat",
+        "Cancel": "Batal",
+        "Save": "Simpan",
+        "Save the changes you made?": "Simpan perubahan?",
+
+        "Blink": "Kedip",
+        "Remind me every": "Ingatkan setiap",
+        "seconds": "detik",
+        "minutes": "menit",
+
+        "Break": "Istirahat",
+        "Look at trees!": "Lihat pepohonan!",
+        "Remind me to look away": "Ingatkan melihat jauh",
+        "min": "mnt",
+
+        "A dot": "Titik",
+        "A word": "Kata",
+        "Dim screen": "Redupkan",
+        "Strength": "Kekuatan",
+        "Colour": "Warna",
+        "Change...": "Ubah…",
+        "Play a sound": "Putar suara",
+        "  Advanced settings": "  Pengaturan lanjutan",
+
+        "Advanced settings - Blink": "Pengaturan lanjutan — Kedip",
+        "Blink timing and sound": "Kedip: waktu dan suara",
+        "Blink look": "Tampilan kedip",
+        "Advanced settings - Break": "Pengaturan lanjutan — Istirahat",
+        "Break timing and sound": "Istirahat: waktu dan suara",
+        "Break look": "Tampilan istirahat",
+        "Flash style": "Gaya kilatan",
+        "Gentle": "Lembut",
+        "Standard": "Standar",
+        "Sharp": "Tegas",
+        "Custom": "Khusus",
+        "Hold (s)": "Tahan (dtk)",
+        "Fade (s)": "Pudar (dtk)",
+        "Pulses": "Jumlah",
+        "Gap between pulses": "Jeda antar kilatan",
+        "Sound": "Suara",
+        "Ding": "Ding",
+        "Chord": "Akor",
+        "Chime": "Lonceng",
+        "Notify": "Notif",
+        "Volume": "Volume",
+        "Test": "Coba",
+        "Dot size": "Ukuran titik",
+        "Word to show": "Kata yang tampil",
+        "Word size": "Ukuran kata",
+        "Position": "Posisi",
+        "Centre": "Tengah",
+        "Top left": "Kiri atas",
+        "Top right": "Kanan atas",
+        "Bottom left": "Kiri bawah",
+        "Bottom right": "Kanan bawah",
+        "Edge margin": "Jarak dari tepi",
+        "Show on every monitor": "Tampilkan di semua layar",
+        "Done": "Selesai",
+
+        "Look into the distance": "Lihat ke kejauhan",
+    },
+
+    # Polish. The interval strings use abbreviated units -- "co %d s", not
+    # "co %d sekundy" -- because Polish has three plural forms and this
+    # table has slots for two. An abbreviation is invariant, so it is
+    # correct for 1, 2 and 5 alike; spelling it out would be wrong for two
+    # of the three.
+    "pl": {
+        "Blink now": "Mrugnij teraz",
+        "Resume reminders": "Wznów przypomnienia",
+        "Snooze 30 minutes": "Wstrzymaj na 30 minut",
+        "Settings": "Ustawienia",
+        "Buy me a coffee": "Postaw mi kawę",
+        "Quit": "Zakończ",
+
+        "every second": "co sekundę",
+        "every %d seconds": "co %d s",
+        "every minute": "co minutę",
+        "every %d minutes": "co %d min",
+
+        "%s is running": "%s działa",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Działa w tle i będzie przypominać o mrugnięciu\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Kliknij prawym przyciskiem ikonę obok zegara.",
+        "Got it": "Rozumiem",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s już działa.\n\nPoszukaj ikony w obszarze powiadomień obok "
+            "zegara — może być potrzebne kliknięcie strzałki ^. Kliknij "
+            "ikonę prawym przyciskiem, aby otworzyć ustawienia.",
+
+        "A gentle nudge on every screen.":
+            "Delikatne przypomnienie na każdym ekranie.",
+        "Start with Windows": "Uruchamiaj z Windows",
+        "Startup: managed by Windows": "Autostart: zarządza Windows",
+        "Startup: turned off in Task Manager":
+            "Autostart: wyłączony w Menedżerze",
+        "Preview blink": "Podgląd mrugnięcia",
+        "Preview break": "Podgląd przerwy",
+        "Cancel": "Anuluj",
+        "Save": "Zapisz",
+        "Save the changes you made?": "Zapisać zmiany?",
+
+        "Blink": "Mrugnięcie",
+        "Remind me every": "Przypominaj co",
+        "seconds": "sekundy",
+        "minutes": "minuty",
+
+        "Break": "Przerwa",
+        "Look at trees!": "Popatrz na drzewa!",
+        "Remind me to look away": "Przypominaj o patrzeniu w dal",
+        "min": "min",
+
+        "A dot": "Kropka",
+        "A word": "Słowo",
+        "Dim screen": "Ściemnij",
+        "Strength": "Siła",
+        "Colour": "Kolor",
+        "Change...": "Zmień…",
+        "Play a sound": "Odtwórz dźwięk",
+        "  Advanced settings": "  Ustawienia zaawansowane",
+
+        "Advanced settings - Blink": "Ustawienia zaawansowane — Mrugnięcie",
+        "Blink timing and sound": "Mrugnięcie: czas i dźwięk",
+        "Blink look": "Wygląd mrugnięcia",
+        "Advanced settings - Break": "Ustawienia zaawansowane — Przerwa",
+        "Break timing and sound": "Przerwa: czas i dźwięk",
+        "Break look": "Wygląd przerwy",
+        "Flash style": "Styl błysku",
+        "Gentle": "Łagodny",
+        "Standard": "Zwykły",
+        "Sharp": "Ostry",
+        "Custom": "Własny",
+        "Hold (s)": "Trwanie (s)",
+        "Fade (s)": "Zanik (s)",
+        "Pulses": "Błyski",
+        "Gap between pulses": "Odstęp między błyskami",
+        "Sound": "Dźwięk",
+        "Ding": "Ding",
+        "Chord": "Akord",
+        "Chime": "Dzwonek",
+        "Notify": "Sygnał",
+        "Volume": "Głośność",
+        "Test": "Odsłuch",
+        "Dot size": "Rozmiar kropki",
+        "Word to show": "Wyświetlane słowo",
+        "Word size": "Rozmiar słowa",
+        "Position": "Pozycja",
+        "Centre": "Środek",
+        "Top left": "Lewy górny",
+        "Top right": "Prawy górny",
+        "Bottom left": "Lewy dolny",
+        "Bottom right": "Prawy dolny",
+        "Edge margin": "Margines od krawędzi",
+        "Show on every monitor": "Pokaż na każdym ekranie",
+        "Done": "Gotowe",
+
+        "Look into the distance": "Popatrz w dal",
+    },
+
+    # Turkish.
+    "tr": {
+        "Blink now": "Şimdi göz kırp",
+        "Resume reminders": "Hatırlatmaları sürdür",
+        "Snooze 30 minutes": "30 dakika ertele",
+        "Settings": "Ayarlar",
+        "Buy me a coffee": "Bana kahve ısmarla",
+        "Quit": "Çıkış",
+
+        "every second": "her saniye",
+        "every %d seconds": "her %d saniyede",
+        "every minute": "her dakika",
+        "every %d minutes": "her %d dakikada",
+
+        "%s is running": "%s çalışıyor",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Arka planda çalışır ve %s göz kırpmanızı hatırlatır.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Saatin yanındaki simgeye sağ tıklayın.",
+        "Got it": "Anladım",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s zaten çalışıyor.\n\nSimgesini saatin yanındaki bildirim "
+            "alanında arayın — görmek için ^ okuna tıklamanız gerekebilir. "
+            "Ayarlar için simgeye sağ tıklayın.",
+
+        "A gentle nudge on every screen.":
+            "Her ekranda nazik bir hatırlatma.",
+        "Start with Windows": "Windows ile başlat",
+        "Startup: managed by Windows": "Başlangıç: Windows yönetir",
+        "Startup: turned off in Task Manager":
+            "Başlangıç: Görev Yöneticisinde kapalı",
+        "Preview blink": "Göz kırpmayı dene",
+        "Preview break": "Molayı dene",
+        "Cancel": "İptal",
+        "Save": "Kaydet",
+        "Save the changes you made?": "Değişiklikler kaydedilsin mi?",
+
+        "Blink": "Göz kırpma",
+        "Remind me every": "Hatırlat her",
+        "seconds": "saniye",
+        "minutes": "dakika",
+
+        "Break": "Mola",
+        "Look at trees!": "Ağaçlara bak!",
+        "Remind me to look away": "Uzağa bakmayı hatırlat",
+        "min": "dk",
+
+        "A dot": "Nokta",
+        "A word": "Kelime",
+        "Dim screen": "Karart",
+        "Strength": "Şiddet",
+        "Colour": "Renk",
+        "Change...": "Değiştir…",
+        "Play a sound": "Ses çal",
+        "  Advanced settings": "  Gelişmiş ayarlar",
+
+        "Advanced settings - Blink": "Gelişmiş ayarlar — Göz kırpma",
+        "Blink timing and sound": "Göz kırpma: süre ve ses",
+        "Blink look": "Göz kırpma görünümü",
+        "Advanced settings - Break": "Gelişmiş ayarlar — Mola",
+        "Break timing and sound": "Mola: süre ve ses",
+        "Break look": "Mola görünümü",
+        "Flash style": "Parlama biçimi",
+        "Gentle": "Yumuşak",
+        "Standard": "Standart",
+        "Sharp": "Belirgin",
+        "Custom": "Özel",
+        "Hold (s)": "Süre (sn)",
+        "Fade (s)": "Solma (sn)",
+        "Pulses": "Tekrar",
+        "Gap between pulses": "Tekrarlar arası",
+        "Sound": "Ses",
+        "Ding": "Ding",
+        "Chord": "Akor",
+        "Chime": "Çan",
+        "Notify": "Uyarı",
+        "Volume": "Ses düzeyi",
+        "Test": "Dinle",
+        "Dot size": "Nokta boyutu",
+        "Word to show": "Gösterilecek kelime",
+        "Word size": "Yazı boyutu",
+        "Position": "Konum",
+        "Centre": "Orta",
+        "Top left": "Sol üst",
+        "Top right": "Sağ üst",
+        "Bottom left": "Sol alt",
+        "Bottom right": "Sağ alt",
+        "Edge margin": "Kenar boşluğu",
+        "Show on every monitor": "Her ekranda göster",
+        "Done": "Tamam",
+
+        "Look into the distance": "Uzağa bak",
+    },
+
+    # Vietnamese.
+    "vi": {
+        "Blink now": "Chớp mắt ngay",
+        "Resume reminders": "Tiếp tục nhắc",
+        "Snooze 30 minutes": "Tạm dừng 30 phút",
+        "Settings": "Cài đặt",
+        "Buy me a coffee": "Mời tôi ly cà phê",
+        "Quit": "Thoát",
+
+        "every second": "mỗi giây",
+        "every %d seconds": "mỗi %d giây",
+        "every minute": "mỗi phút",
+        "every %d minutes": "mỗi %d phút",
+
+        "%s is running": "%s đang chạy",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Chạy nền và sẽ nhắc bạn chớp mắt\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Nhấp chuột phải vào biểu tượng cạnh đồng hồ.",
+        "Got it": "Đã hiểu",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s đang chạy rồi.\n\nTìm biểu tượng ở khay hệ thống, cạnh đồng "
+            "hồ — có thể phải nhấp mũi tên ^ mới thấy. Nhấp chuột phải vào "
+            "biểu tượng để mở cài đặt.",
+
+        "A gentle nudge on every screen.":
+            "Một nhắc nhở nhẹ trên mọi màn hình.",
+        "Start with Windows": "Khởi động cùng Windows",
+        "Startup: managed by Windows": "Khởi động: Windows quản lý",
+        "Startup: turned off in Task Manager":
+            "Khởi động: đã tắt trong Task Manager",
+        "Preview blink": "Thử chớp mắt",
+        "Preview break": "Thử nghỉ",
+        "Cancel": "Hủy",
+        "Save": "Lưu",
+        "Save the changes you made?": "Lưu thay đổi?",
+
+        "Blink": "Chớp mắt",
+        "Remind me every": "Nhắc mỗi",
+        "seconds": "giây",
+        "minutes": "phút",
+
+        "Break": "Nghỉ",
+        "Look at trees!": "Nhìn cây xanh!",
+        "Remind me to look away": "Nhắc tôi nhìn ra xa",
+        "min": "phút",
+
+        "A dot": "Chấm tròn",
+        "A word": "Chữ",
+        "Dim screen": "Làm mờ",
+        "Strength": "Độ đậm",
+        "Colour": "Màu",
+        "Change...": "Đổi…",
+        "Play a sound": "Phát âm thanh",
+        "  Advanced settings": "  Cài đặt nâng cao",
+
+        "Advanced settings - Blink": "Cài đặt nâng cao — Chớp mắt",
+        "Blink timing and sound": "Chớp mắt: thời gian và âm thanh",
+        "Blink look": "Giao diện chớp mắt",
+        "Advanced settings - Break": "Cài đặt nâng cao — Nghỉ",
+        "Break timing and sound": "Nghỉ: thời gian và âm thanh",
+        "Break look": "Giao diện nghỉ",
+        "Flash style": "Kiểu nháy",
+        "Gentle": "Nhẹ",
+        "Standard": "Chuẩn",
+        "Sharp": "Rõ",
+        "Custom": "Tùy ý",
+        "Hold (s)": "Giữ (giây)",
+        "Fade (s)": "Mờ dần (s)",
+        "Pulses": "Số lần",
+        "Gap between pulses": "Giữa các lần",
+        "Sound": "Âm thanh",
+        "Ding": "Ding",
+        "Chord": "Hợp âm",
+        "Chime": "Chuông",
+        "Notify": "Báo",
+        "Volume": "Âm lượng",
+        "Test": "Nghe",
+        "Dot size": "Cỡ chấm tròn",
+        "Word to show": "Chữ hiển thị",
+        "Word size": "Cỡ chữ",
+        "Position": "Vị trí",
+        "Centre": "Giữa",
+        "Top left": "Trên trái",
+        "Top right": "Trên phải",
+        "Bottom left": "Dưới trái",
+        "Bottom right": "Dưới phải",
+        "Edge margin": "Cách mép",
+        "Show on every monitor": "Hiện trên mọi màn hình",
+        "Done": "Xong",
+
+        "Look into the distance": "Nhìn ra xa",
+    },
+
+    # Russian. Abbreviated interval units for the same reason as Polish:
+    # three plural forms, two slots, and "сек." is invariant.
+    "ru": {
+        "Blink now": "Моргнуть сейчас",
+        "Resume reminders": "Возобновить напоминания",
+        "Snooze 30 minutes": "Пауза 30 минут",
+        "Settings": "Настройки",
+        "Buy me a coffee": "Купить мне кофе",
+        "Quit": "Выход",
+
+        "every second": "каждую секунду",
+        "every %d seconds": "каждые %d сек.",
+        "every minute": "каждую минуту",
+        "every %d minutes": "каждые %d мин.",
+
+        "%s is running": "%s работает",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Работает в фоне и напомнит моргнуть\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Щёлкните правой кнопкой по значку у часов.",
+        "Got it": "Понятно",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s уже работает.\n\nНайдите значок в области уведомлений рядом "
+            "с часами — возможно, придётся нажать стрелку ^. Щёлкните по "
+            "значку правой кнопкой, чтобы открыть настройки.",
+
+        "A gentle nudge on every screen.":
+            "Мягкое напоминание на каждом экране.",
+        "Start with Windows": "Запускать с Windows",
+        "Startup: managed by Windows": "Автозапуск: управляет Windows",
+        "Startup: turned off in Task Manager":
+            "Автозапуск: отключён в Диспетчере",
+        "Preview blink": "Проба моргания",
+        "Preview break": "Проба паузы",
+        "Cancel": "Отмена",
+        "Save": "Сохранить",
+        "Save the changes you made?": "Сохранить изменения?",
+
+        "Blink": "Моргание",
+        "Remind me every": "Напоминать каждые",
+        "seconds": "секунды",
+        "minutes": "минуты",
+
+        "Break": "Пауза",
+        "Look at trees!": "Посмотрите на деревья!",
+        "Remind me to look away": "Напоминать смотреть вдаль",
+        "min": "мин",
+
+        "A dot": "Точка",
+        "A word": "Слово",
+        "Dim screen": "Затемнить",
+        "Strength": "Сила",
+        "Colour": "Цвет",
+        "Change...": "Изменить…",
+        "Play a sound": "Звуковой сигнал",
+        "  Advanced settings": "  Дополнительно",
+
+        "Advanced settings - Blink": "Дополнительно — Моргание",
+        "Blink timing and sound": "Моргание: время и звук",
+        "Blink look": "Вид моргания",
+        "Advanced settings - Break": "Дополнительно — Пауза",
+        "Break timing and sound": "Пауза: время и звук",
+        "Break look": "Вид паузы",
+        "Flash style": "Тип вспышки",
+        "Gentle": "Мягко",
+        "Standard": "Обычно",
+        "Sharp": "Резко",
+        "Custom": "Своё",
+        "Hold (s)": "Показ (с)",
+        "Fade (s)": "Затухание (с)",
+        "Pulses": "Повторы",
+        "Gap between pulses": "Пауза между повторами",
+        "Sound": "Звук",
+        "Ding": "Дин",
+        "Chord": "Аккорд",
+        "Chime": "Звон",
+        "Notify": "Сигнал",
+        "Volume": "Громкость",
+        "Test": "Проба",
+        "Dot size": "Размер точки",
+        "Word to show": "Какое слово",
+        "Word size": "Размер слова",
+        "Position": "Положение",
+        "Centre": "По центру",
+        "Top left": "Сверху слева",
+        "Top right": "Сверху справа",
+        "Bottom left": "Снизу слева",
+        "Bottom right": "Снизу справа",
+        "Edge margin": "Отступ от края",
+        "Show on every monitor": "Показывать на всех экранах",
+        "Done": "Готово",
+
+        "Look into the distance": "Посмотрите вдаль",
+    },
+
+    # Thai. Written without spaces between words, so the notice sentences
+    # are single unbroken runs and are kept deliberately short.
+    "th": {
+        "Blink now": "กะพริบตาตอนนี้",
+        "Resume reminders": "เริ่มเตือนอีกครั้ง",
+        "Snooze 30 minutes": "หยุด 30 นาที",
+        "Settings": "ตั้งค่า",
+        "Buy me a coffee": "เลี้ยงกาแฟ",
+        "Quit": "ออก",
+
+        "every second": "ทุกวินาที",
+        "every %d seconds": "ทุก %d วินาที",
+        "every minute": "ทุกนาที",
+        "every %d minutes": "ทุก %d นาที",
+
+        "%s is running": "%s กำลังทำงาน",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "ทำงานอยู่เบื้องหลัง และจะเตือนให้กะพริบตา\n%s",
+        "Right-click the tray icon, by the clock, for settings.":
+            "คลิกขวาที่ไอคอนข้างนาฬิกาเพื่อตั้งค่า",
+        "Got it": "เข้าใจแล้ว",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s กำลังทำงานอยู่แล้ว\n\nมองหาไอคอนในพื้นที่แจ้งเตือนข้างนาฬิกา "
+            "— อาจต้องคลิกลูกศร ^ ก่อนจึงจะเห็น คลิกขวาที่ไอคอนเพื่อตั้งค่า",
+
+        "A gentle nudge on every screen.": "เตือนเบา ๆ บนทุกหน้าจอ",
+        "Start with Windows": "เริ่มพร้อม Windows",
+        "Startup: managed by Windows": "เริ่มต้น: Windows จัดการ",
+        "Startup: turned off in Task Manager":
+            "เริ่มต้น: ปิดใน Task Manager",
+        "Preview blink": "ลองกะพริบตา",
+        "Preview break": "ลองพัก",
+        "Cancel": "ยกเลิก",
+        "Save": "บันทึก",
+        "Save the changes you made?": "บันทึกการเปลี่ยนแปลงไหม",
+
+        "Blink": "กะพริบตา",
+        "Remind me every": "เตือนทุก",
+        "seconds": "วินาที",
+        "minutes": "นาที",
+
+        "Break": "พัก",
+        "Look at trees!": "มองต้นไม้สิ!",
+        "Remind me to look away": "เตือนให้มองไกล ๆ",
+        "min": "นาที",
+
+        "A dot": "จุด",
+        "A word": "ข้อความ",
+        "Dim screen": "หรี่จอ",
+        "Strength": "ความเข้ม",
+        "Colour": "สี",
+        "Change...": "เปลี่ยน…",
+        "Play a sound": "เล่นเสียง",
+        "  Advanced settings": "  ตั้งค่าขั้นสูง",
+
+        "Advanced settings - Blink": "ตั้งค่าขั้นสูง — กะพริบตา",
+        "Blink timing and sound": "กะพริบตา: เวลาและเสียง",
+        "Blink look": "รูปแบบกะพริบตา",
+        "Advanced settings - Break": "ตั้งค่าขั้นสูง — พัก",
+        "Break timing and sound": "พัก: เวลาและเสียง",
+        "Break look": "รูปแบบการพัก",
+        "Flash style": "ลักษณะการกะพริบ",
+        "Gentle": "นุ่มนวล",
+        "Standard": "มาตรฐาน",
+        "Sharp": "ชัดเจน",
+        "Custom": "กำหนดเอง",
+        "Hold (s)": "ค้าง (วิ)",
+        "Fade (s)": "จางหาย (วิ)",
+        "Pulses": "จำนวนครั้ง",
+        "Gap between pulses": "ช่วงห่างแต่ละครั้ง",
+        "Sound": "เสียง",
+        "Ding": "ติ๊ง",
+        "Chord": "คอร์ด",
+        "Chime": "ระฆัง",
+        "Notify": "แจ้งเตือน",
+        "Volume": "ระดับเสียง",
+        "Test": "ฟัง",
+        "Dot size": "ขนาดจุด",
+        "Word to show": "ข้อความที่แสดง",
+        "Word size": "ขนาดข้อความ",
+        "Position": "ตำแหน่ง",
+        "Centre": "กึ่งกลาง",
+        "Top left": "บนซ้าย",
+        "Top right": "บนขวา",
+        "Bottom left": "ล่างซ้าย",
+        "Bottom right": "ล่างขวา",
+        "Edge margin": "ระยะจากขอบ",
+        "Show on every monitor": "แสดงบนทุกหน้าจอ",
+        "Done": "เสร็จ",
+
+        "Look into the distance": "มองไปไกล ๆ",
     },
 }
