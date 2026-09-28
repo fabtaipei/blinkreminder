@@ -1,0 +1,56 @@
+{
+  "language": "en-us",
+  "_comment": [
+    "American English. Not a translation -- the same copy with American",
+    "spelling and the search terms an American types.",
+    "",
+    "Worth having because the United States is the Store's largest market",
+    "and the base listing is written in British English. The locale tag",
+    "itself carries no ranking weight; what it buys is keyword coverage for",
+    "the words that differ -- color, customize, center -- which a single",
+    "listing can only spell one way.",
+    "",
+    "Diffs from en-GB: colour/coloured -> color/colored, customise ->",
+    "customize. Everything else is identical on purpose, so the two can be",
+    "diffed and kept in step."
+  ],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. All rights reserved.",
+
+  "ShortDescription": "Blink more, and rest your eyes. A brief, gentle cue on every screen — one you can see without being interrupted by it. Dry Eyes Blink Reminder Lite sits quietly in your system tray, uses no network, and never watches you.",
+
+  "Description": "Dry Eyes Blink Reminder Lite is a small, quiet utility that lives in your system tray and gives you a brief visual cue to blink — and, on a separate timer, to look away from the screen for a moment.\n\nThe cue is deliberately subtle. It is a soft pulse, a dot, or a single word, shown for a fraction of a second and then gone. You can click straight through it: it never takes focus, never steals a keystroke, and never gets in the way of what you were doing.\n\nTWO INDEPENDENT REMINDERS\n\nThe blink reminder fires on an interval you choose — anything from a few seconds upward. The look-away reminder runs on the wall clock, so it lands at the same minutes past the hour no matter when you started the app. Each has its own completely separate settings: its own style, color, size, position, timing and sound. Changing one never touches the other.\n\nMADE FOR MORE THAN ONE SCREEN\n\nReminders appear on every connected monitor, correctly sized on each one even when your displays run at different scaling. A small indicator dot in the corner of each screen shows the app is running, with a countdown to the next break above it.\n\nYOURS TO TUNE\n\nChoose a gentle dim, a colored dot, or a word of your own. Set the size, position, opacity, fade and hold. Pick from four sounds, each with its own volume, or leave it silent. Preview any change before saving.\n\nQUIET, AND PRIVATE BY CONSTRUCTION\n\nNo account, no sign-in, no advertising and no analytics. There is no network connection of any kind — the app never contacts any server, including ours. It does not use your camera: it works on a timer, it does not watch you.\n\nTHIRTY LANGUAGES\n\nThe app follows the language Windows itself is displayed in, and you can change it at any time from the top right of the Settings window.\n\nGOOD TO KNOW\n\nDry Eyes Blink Reminder Lite runs in the notification area and has no main window. Right-click its tray icon for Settings. The reminder pulse is rate-limited in code so that no combination of settings can exceed three flashes per second.",
+
+  "ReleaseNotes": "The app now speaks thirty languages. It follows the language Windows is displayed in, and you can change it from the top right of the Settings window.",
+
+  "Feature1": "A gentle cue to blink, on your own timer",
+  "Feature2": "A separate look-away break, on the wall clock",
+  "Feature3": "Reminders on every monitor",
+  "Feature4": "Click straight through — it never steals focus",
+  "Feature5": "A dot, a word, or a soft dim",
+  "Feature6": "Four sounds, or silence",
+  "Feature7": "Preview any change before you save it",
+  "Feature8": "Thirty languages, following your Windows setting",
+  "Feature9": "Under 14 MB, and light on memory",
+  "Feature10": "No account, no ads, no analytics",
+  "Feature11": "No network, no camera, no watching you",
+
+  "DesktopScreenshotCaption1": "A round dot reminds you to blink at an interval you choose. You can customize the dot too.",
+  "DesktopScreenshotCaption2": "The screen dims to remind you to rest, at an interval you choose — on the hour, every half hour, or whatever suits you.",
+  "DesktopScreenshotCaption3": "Easy to use interface.",
+  "DesktopScreenshotCaption4": "A round dot reminds you to blink at an interval you choose. You can customize the dot too.",
+  "DesktopScreenshotCaption5": "The screen dims to remind you to rest, at an interval you choose — on the hour, every half hour, or whatever suits you.",
+
+  "TrailerTitle1": "2 reminders featured in this demo",
+  "TrailerTitle2": "2 reminders featured in this demo",
+
+  "SearchTerm1": "blink reminder",
+  "SearchTerm2": "eye strain",
+  "SearchTerm3": "screen break",
+  "SearchTerm4": "eye rest",
+  "SearchTerm5": "dry eyes",
+  "SearchTerm6": "20-20-20",
+  "SearchTerm7": "computer vision syndrome"
+}
