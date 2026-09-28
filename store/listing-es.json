@@ -6,17 +6,12 @@
     "is 'tú' throughout rather than 'vosotros'.",
     "Artwork is inherited automatically -- see fill_listing.py DEFAULT_COPY."
   ],
-
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",
   "CopyrightTrademarkInformation": "© 2026 KennyTechy. Todos los derechos reservados.",
-
   "ShortDescription": "Parpadea más y deja descansar tus ojos. Un aviso breve y discreto en cada pantalla: se ve sin llegar a interrumpirte. Dry Eyes Blink Reminder Lite vive en el área de notificación, no usa internet y nunca te observa.",
-
   "Description": "Dry Eyes Blink Reminder Lite es una utilidad pequeña y silenciosa que vive en el área de notificación. Te da un breve aviso visual para parpadear y, en un temporizador aparte, para apartar la vista de la pantalla un momento.\n\nEl aviso es deliberadamente discreto: un destello suave, un punto o una sola palabra, visible una fracción de segundo y ya está. Puedes hacer clic a través de él: nunca roba el foco, nunca captura una tecla y nunca se interpone en lo que estabas haciendo.\n\nDOS RECORDATORIOS INDEPENDIENTES\n\nEl recordatorio de parpadeo salta en el intervalo que elijas, desde unos pocos segundos. El de descanso sigue el reloj, así que cae siempre en los mismos minutos de cada hora, sin importar cuándo iniciaste la aplicación. Cada uno tiene su propia configuración, completamente separada: estilo, color, tamaño, posición, tiempos y sonido. Cambiar uno nunca toca el otro.\n\nPENSADO PARA VARIAS PANTALLAS\n\nLos avisos aparecen en cada monitor conectado, con el tamaño correcto en cada uno aunque tus pantallas usen escalas distintas. Un pequeño punto indicador en la esquina de cada pantalla muestra que la aplicación está funcionando, con una cuenta atrás hasta el siguiente descanso encima.\n\nAJUSTABLE A TU GUSTO\n\nElige un atenuado suave, un punto de color o una palabra tuya. Ajusta el tamaño, la posición, la opacidad, el fundido y la duración. Elige entre cuatro sonidos, cada uno con su propio volumen, o déjalo en silencio. Previsualiza cualquier cambio antes de guardarlo.\n\nSILENCIOSO, Y PRIVADO POR DISEÑO\n\nSin cuenta, sin inicio de sesión, sin publicidad y sin analíticas. No hay conexión de red de ningún tipo: la aplicación nunca contacta con ningún servidor, incluido el nuestro. No usa tu cámara: funciona con un temporizador, no te observa.\n\nBUENO SABERLO\n\nDry Eyes Blink Reminder Lite se ejecuta en el área de notificación y no tiene ventana principal. Haz clic derecho en su icono para la configuración. El destello del aviso está limitado en el código: ninguna combinación de ajustes puede superar tres destellos por segundo.\n\nEl idioma de la interfaz se cambia arriba a la derecha de la ventana de configuración, y la aplicación sigue automáticamente el idioma de Windows.",
-
   "ReleaseNotes": "La aplicación ya está en español, además de francés, alemán, italiano y chino. Sigue automáticamente el idioma de Windows, y puedes cambiarlo arriba a la derecha de la ventana de configuración.",
-
   "Feature1": "Un aviso suave para parpadear, a tu ritmo",
   "Feature2": "Un descanso aparte para mirar a lo lejos, a hora fija",
   "Feature3": "Avisos en cada pantalla",
@@ -26,21 +21,17 @@
   "Feature7": "Previsualiza cualquier cambio antes de guardarlo",
   "Feature8": "Sin cuenta, sin anuncios, sin analíticas",
   "Feature9": "Sin red, sin cámara, sin vigilarte",
-
-  "DesktopScreenshotCaption1": "Un punto redondo te recuerda parpadear, en el intervalo que elijas. El punto también se puede personalizar.",
-  "DesktopScreenshotCaption2": "La pantalla se atenúa para recordarte descansar, en el intervalo que elijas: en punto, cada media hora o como te venga bien.",
-  "DesktopScreenshotCaption3": "Una interfaz fácil de usar.",
-  "DesktopScreenshotCaption4": "Un punto redondo te recuerda parpadear, en el intervalo que elijas. El punto también se puede personalizar.",
-  "DesktopScreenshotCaption5": "La pantalla se atenúa para recordarte descansar, en el intervalo que elijas: en punto, cada media hora o como te venga bien.",
-
   "TrailerTitle1": "Los dos recordatorios en la demostración",
-  "TrailerTitle2": "Los dos recordatorios en la demostración",
-
   "SearchTerm1": "recordatorio parpadear",
   "SearchTerm2": "fatiga visual",
   "SearchTerm3": "ojo seco",
   "SearchTerm4": "descanso visual",
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "pausa pantalla",
-  "SearchTerm7": "cuidado de los ojos"
+  "SearchTerm7": "cuidado de los ojos",
+  "DesktopScreenshotCaption1": "Un punto redondo te recuerda parpadear, en el intervalo que elijas. El punto también se puede personalizar.",
+  "DesktopScreenshotCaption2": "La pantalla se atenúa para recordarte descansar, cada 20, 30 o 60 minutos, al compás del reloj.",
+  "DesktopScreenshotCaption3": "Un punto redondo te recuerda parpadear, en el intervalo que elijas. El punto también se puede personalizar.",
+  "DesktopScreenshotCaption4": "La pantalla se atenúa para recordarte descansar, cada 20, 30 o 60 minutos, al compás del reloj.",
+  "DesktopScreenshotCaption5": "Un panel de control limpio"
 }

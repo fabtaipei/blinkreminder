@@ -5,17 +5,12 @@
     "pasting by hand before fill_listing.py existed.",
     "Artwork is inherited automatically -- see fill_listing.py DEFAULT_COPY."
   ],
-
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",
   "CopyrightTrademarkInformation": "© 2026 KennyTechy. Tous droits réservés.",
-
   "ShortDescription": "Clignez des yeux plus souvent, et laissez-les se reposer. Un signal bref et discret sur chaque écran — visible sans jamais vous interrompre. Dry Eyes Blink Reminder Lite reste discret dans la zone de notification, sans connexion internet, et ne vous observe jamais.",
-
   "Description": "Dry Eyes Blink Reminder Lite est un petit utilitaire discret qui vit dans votre zone de notification. Il vous donne un bref signal visuel pour cligner des yeux — et, sur une minuterie séparée, pour détourner le regard de l'écran un instant.\n\nLe signal est volontairement discret. C'est une pulsation douce, un point, ou un simple mot, affiché une fraction de seconde puis disparu. Vous pouvez cliquer au travers : il ne prend jamais le focus, ne capture jamais une touche, et ne gêne jamais ce que vous étiez en train de faire.\n\nDEUX RAPPELS INDÉPENDANTS\n\nLe rappel de clignement se déclenche à l'intervalle de votre choix — à partir de quelques secondes. Le rappel de pause suit l'horloge, il tombe donc toujours aux mêmes minutes de l'heure, quel que soit le moment où vous avez lancé l'application. Chacun possède ses propres réglages, entièrement séparés : son style, sa couleur, sa taille, sa position, son minutage et son son. Modifier l'un ne touche jamais à l'autre.\n\nPENSÉ POUR PLUSIEURS ÉCRANS\n\nLes rappels apparaissent sur chaque écran connecté, à la bonne taille sur chacun même si vos écrans utilisent des mises à l'échelle différentes. Un petit point indicateur dans le coin de chaque écran montre que l'application fonctionne, avec un compte à rebours jusqu'à la prochaine pause au-dessus.\n\nENTIÈREMENT RÉGLABLE\n\nChoisissez un léger assombrissement, un point coloré, ou un mot de votre choix. Réglez la taille, la position, l'opacité, le fondu et la durée. Choisissez parmi quatre sons, chacun avec son propre volume, ou laissez-le silencieux. Prévisualisez chaque changement avant de l'enregistrer.\n\nDISCRET, ET PRIVÉ PAR CONCEPTION\n\nAucun compte, aucune connexion, aucune publicité, aucune analyse. Il n'y a aucune connexion réseau, d'aucune sorte — l'application ne contacte jamais aucun serveur, y compris le nôtre. Elle n'utilise pas votre caméra : elle fonctionne sur une minuterie, elle ne vous observe pas.\n\nBON À SAVOIR\n\nDry Eyes Blink Reminder Lite fonctionne dans la zone de notification et n'a pas de fenêtre principale. Faites un clic droit sur son icône pour accéder aux réglages. La pulsation du rappel est limitée dans le code : aucune combinaison de réglages ne peut dépasser trois flashs par seconde.\n\nLa langue de l'interface se change en haut à droite de la fenêtre des réglages, et l'application suit automatiquement la langue d'affichage de Windows.",
-
   "ReleaseNotes": "L'application est désormais en français, ainsi qu'en espagnol, allemand, italien et chinois. Elle suit automatiquement la langue d'affichage de Windows, et vous pouvez en changer en haut à droite de la fenêtre des réglages.",
-
   "Feature1": "Un signal doux pour cligner des yeux, à votre rythme",
   "Feature2": "Une pause séparée pour regarder au loin, à heure fixe",
   "Feature3": "Rappels sur chaque écran",
@@ -25,21 +20,17 @@
   "Feature7": "Prévisualisez chaque changement avant de l'enregistrer",
   "Feature8": "Aucun compte, aucune publicité, aucune analyse",
   "Feature9": "Aucun réseau, aucune caméra, aucune surveillance",
-
-  "DesktopScreenshotCaption1": "Un point rond vous rappelle de cligner des yeux, à l'intervalle de votre choix. Ce point est réglable lui aussi.",
-  "DesktopScreenshotCaption2": "L'écran s'assombrit pour vous rappeler de faire une pause, à l'intervalle de votre choix — à l'heure pile, toutes les demi-heures, ou comme il vous convient.",
-  "DesktopScreenshotCaption3": "Une interface simple à utiliser.",
-  "DesktopScreenshotCaption4": "Un point rond vous rappelle de cligner des yeux, à l'intervalle de votre choix. Ce point est réglable lui aussi.",
-  "DesktopScreenshotCaption5": "L'écran s'assombrit pour vous rappeler de faire une pause, à l'intervalle de votre choix — à l'heure pile, toutes les demi-heures, ou comme il vous convient.",
-
   "TrailerTitle1": "Les deux rappels en démonstration",
-  "TrailerTitle2": "Les deux rappels en démonstration",
-
   "SearchTerm1": "rappel clignement",
   "SearchTerm2": "fatigue oculaire",
   "SearchTerm3": "repos oculaire",
   "SearchTerm4": "20-20-20",
   "SearchTerm5": "pause écran",
   "SearchTerm6": "yeux secs",
-  "SearchTerm7": "soin des yeux"
+  "SearchTerm7": "soin des yeux",
+  "DesktopScreenshotCaption1": "Un point rond vous rappelle de cligner des yeux, à l'intervalle de votre choix. Ce point est réglable lui aussi.",
+  "DesktopScreenshotCaption2": "L'écran s'assombrit pour vous rappeler de faire une pause, toutes les 20, 30 ou 60 minutes, calées sur l'horloge.",
+  "DesktopScreenshotCaption3": "Un point rond vous rappelle de cligner des yeux, à l'intervalle de votre choix. Ce point est réglable lui aussi.",
+  "DesktopScreenshotCaption4": "L'écran s'assombrit pour vous rappeler de faire une pause, toutes les 20, 30 ou 60 minutes, calées sur l'horloge.",
+  "DesktopScreenshotCaption5": "Un panneau de réglages épuré"
 }

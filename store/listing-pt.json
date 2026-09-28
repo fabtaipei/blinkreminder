@@ -4,17 +4,12 @@
     "Portuguese, written for Brazil -- 'tela', 'você'. Artwork is inherited",
     "automatically; see fill_listing.py DEFAULT_COPY."
   ],
-
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",
   "CopyrightTrademarkInformation": "© 2026 KennyTechy. Todos os direitos reservados.",
-
   "ShortDescription": "Pisque mais e descanse os olhos. Um aviso breve e discreto em cada tela — visível sem nunca interromper você. Dry Eyes Blink Reminder Lite fica na área de notificação, não usa internet e nunca observa você.",
-
   "Description": "Dry Eyes Blink Reminder Lite é um utilitário pequeno e silencioso que vive na área de notificação. Ele dá um breve aviso visual para você piscar e, em um timer separado, para desviar o olhar da tela por um momento.\n\nO aviso é discreto de propósito: um pulso suave, um ponto ou uma única palavra, visível por uma fração de segundo e pronto. Você pode clicar através dele: nunca rouba o foco, nunca captura uma tecla e nunca atrapalha o que você estava fazendo.\n\nDOIS LEMBRETES INDEPENDENTES\n\nO lembrete de piscar dispara no intervalo que você escolher — a partir de poucos segundos. O de pausa segue o relógio, então cai sempre nos mesmos minutos da hora, não importa quando você abriu o aplicativo. Cada um tem suas próprias configurações, totalmente separadas: estilo, cor, tamanho, posição, tempo e som. Mudar um nunca afeta o outro.\n\nFEITO PARA VÁRIAS TELAS\n\nOs avisos aparecem em cada monitor conectado, no tamanho certo em cada um, mesmo que suas telas usem escalas diferentes. Um pequeno ponto no canto de cada tela mostra que o aplicativo está funcionando, com a contagem regressiva até a próxima pausa acima dele.\n\nAJUSTE COMO QUISER\n\nEscolha um escurecimento suave, um ponto colorido ou uma palavra sua. Defina tamanho, posição, opacidade, transição e duração. Escolha entre quatro sons, cada um com seu volume, ou deixe em silêncio. Veja qualquer mudança antes de salvar.\n\nSILENCIOSO E PRIVADO POR CONSTRUÇÃO\n\nSem conta, sem login, sem anúncios e sem análises. Não há conexão de rede de tipo algum — o aplicativo nunca contata servidor nenhum, nem o nosso. Não usa sua câmera: funciona por tempo, não observa você.\n\nBOM SABER\n\nDry Eyes Blink Reminder Lite roda na área de notificação e não tem janela principal. Clique com o botão direito no ícone para as configurações. O pulso do aviso é limitado no código: nenhuma combinação de ajustes pode passar de três flashes por segundo.\n\nO idioma da interface se troca no canto superior direito da janela de configurações, e o aplicativo segue automaticamente o idioma do Windows.",
-
   "ReleaseNotes": "O aplicativo agora está em português, além de mais dezoito idiomas. Ele segue automaticamente o idioma do Windows, e você pode trocar no canto superior direito da janela de configurações.",
-
   "Feature1": "Um aviso suave para piscar, no seu ritmo",
   "Feature2": "Uma pausa separada para olhar longe, na hora certa",
   "Feature3": "Avisos em cada tela",
@@ -24,21 +19,17 @@
   "Feature7": "Veja qualquer mudança antes de salvar",
   "Feature8": "Sem conta, sem anúncios, sem análises",
   "Feature9": "Sem rede, sem câmera, sem vigiar você",
-
-  "DesktopScreenshotCaption1": "Um ponto redondo lembra você de piscar, no intervalo que escolher. O ponto também é personalizável.",
-  "DesktopScreenshotCaption2": "A tela escurece para lembrar de descansar, no intervalo que escolher — na hora cheia, a cada meia hora, ou como preferir.",
-  "DesktopScreenshotCaption3": "Uma interface simples de usar.",
-  "DesktopScreenshotCaption4": "Um ponto redondo lembra você de piscar, no intervalo que escolher. O ponto também é personalizável.",
-  "DesktopScreenshotCaption5": "A tela escurece para lembrar de descansar, no intervalo que escolher — na hora cheia, a cada meia hora, ou como preferir.",
-
   "TrailerTitle1": "Os dois lembretes na demonstração",
-  "TrailerTitle2": "Os dois lembretes na demonstração",
-
   "SearchTerm1": "lembrete piscar",
   "SearchTerm2": "olho seco",
   "SearchTerm3": "fadiga ocular",
   "SearchTerm4": "descanso visual",
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "pausa tela",
-  "SearchTerm7": "saúde dos olhos"
+  "SearchTerm7": "saúde dos olhos",
+  "DesktopScreenshotCaption1": "Um ponto redondo lembra você de piscar, no intervalo que escolher. O ponto também é personalizável.",
+  "DesktopScreenshotCaption2": "A tela escurece para lembrar você de descansar, a cada 20, 30 ou 60 minutos, no compasso do relógio.",
+  "DesktopScreenshotCaption3": "Um ponto redondo lembra você de piscar, no intervalo que escolher. O ponto também é personalizável.",
+  "DesktopScreenshotCaption4": "A tela escurece para lembrar você de descansar, a cada 20, 30 ou 60 minutos, no compasso do relógio.",
+  "DesktopScreenshotCaption5": "Um painel de controle limpo"
 }

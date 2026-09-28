@@ -4,17 +4,12 @@
     "Korean, 해요체 for the Store copy. Artwork is inherited automatically;",
     "see fill_listing.py DEFAULT_COPY."
   ],
-
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",
   "CopyrightTrademarkInformation": "© 2026 KennyTechy. All rights reserved.",
-
   "ShortDescription": "더 자주 깜박이고, 눈을 쉬게 하세요. 모든 화면에 짧고 부드럽게 알려 줍니다. 보이지만 방해하지 않아요. 알림 영역에 조용히 머물고, 네트워크를 쓰지 않으며, 당신을 지켜보지 않습니다.",
-
   "Description": "Dry Eyes Blink Reminder Lite는 알림 영역에 머무는 작고 조용한 도구입니다. 눈을 깜박이라고 짧게 알려 주고, 별도의 타이머로 잠시 화면에서 눈을 떼라고도 알려 줍니다.\n\n알림은 일부러 은은하게 만들었습니다. 부드러운 깜박임, 작은 점, 또는 한 단어가 잠깐 나타났다 사라집니다. 그대로 클릭이 통과합니다. 포커스를 빼앗지 않고, 입력을 가로채지 않으며, 하던 일을 막지 않습니다.\n\n서로 독립된 두 가지 알림\n\n깜박임 알림은 원하는 간격으로 나옵니다. 몇 초 단위도 가능합니다. 휴식 알림은 시계를 따라가므로, 앱을 언제 켜든 매시 같은 분에 나옵니다. 두 알림은 각각 완전히 분리된 설정을 가집니다. 모양, 색, 크기, 위치, 시간, 소리. 하나를 바꿔도 다른 하나는 그대로입니다.\n\n여러 화면을 위한 설계\n\n연결된 모든 화면에 나타나고, 배율이 달라도 각 화면에서 알맞은 크기로 보입니다. 각 화면 구석의 작은 점이 앱이 동작 중임을 알려 주고, 그 위에 다음 휴식까지 남은 시간이 표시됩니다.\n\n원하는 대로 조절\n\n은은한 어두워짐, 색이 있는 점, 직접 정한 글자 중에서 고르세요. 크기, 위치, 투명도, 페이드, 지속 시간을 설정할 수 있습니다. 네 가지 소리를 각각의 음량과 함께 고르거나, 무음으로 둘 수도 있습니다. 저장하기 전에 미리 볼 수 있습니다.\n\n조용하고, 설계부터 사적입니다\n\n계정도, 로그인도, 광고도, 분석도 없습니다. 어떤 종류의 네트워크 연결도 없습니다. 저희 서버를 포함해 어떤 서버에도 접속하지 않습니다. 카메라도 쓰지 않습니다. 타이머로 동작할 뿐, 당신을 보지 않습니다.\n\n알아두면 좋은 점\n\nDry Eyes Blink Reminder Lite는 알림 영역에서 실행되며 기본 창이 없습니다. 아이콘을 오른쪽 클릭하면 설정이 열립니다. 깜박임 속도는 코드에서 제한되어 있어, 어떤 설정 조합으로도 초당 세 번을 넘지 않습니다.\n\n표시 언어는 설정 창 오른쪽 위에서 바꿀 수 있고, Windows 표시 언어도 자동으로 따릅니다.",
-
   "ReleaseNotes": "한국어를 지원합니다. 이 밖에 열여덟 개 언어도 지원합니다. Windows 표시 언어를 자동으로 따르며, 설정 창 오른쪽 위에서 언제든 바꿀 수 있습니다.",
-
   "Feature1": "내 속도에 맞춰 부드럽게 깜박임을 알려 줍니다",
   "Feature2": "시계에 맞춘 별도의 휴식 알림",
   "Feature3": "모든 화면에 표시",
@@ -24,21 +19,17 @@
   "Feature7": "저장 전에 미리 보기",
   "Feature8": "계정 없음, 광고 없음, 분석 없음",
   "Feature9": "네트워크 없음, 카메라 없음, 감시 없음",
-
-  "DesktopScreenshotCaption1": "둥근 점이 원하는 간격으로 깜박임을 알려 줍니다. 점의 모양도 바꿀 수 있습니다.",
-  "DesktopScreenshotCaption2": "화면이 어두워지며 휴식을 알려 줍니다. 정각, 30분마다, 또는 원하는 간격으로.",
-  "DesktopScreenshotCaption3": "쓰기 쉬운 화면입니다.",
-  "DesktopScreenshotCaption4": "둥근 점이 원하는 간격으로 깜박임을 알려 줍니다. 점의 모양도 바꿀 수 있습니다.",
-  "DesktopScreenshotCaption5": "화면이 어두워지며 휴식을 알려 줍니다. 정각, 30분마다, 또는 원하는 간격으로.",
-
   "TrailerTitle1": "데모에 나오는 두 가지 알림",
-  "TrailerTitle2": "데모에 나오는 두 가지 알림",
-
   "SearchTerm1": "눈 깜박임 알림",
   "SearchTerm2": "안구건조증",
   "SearchTerm3": "눈의 피로",
   "SearchTerm4": "눈 휴식",
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "화면 휴식",
-  "SearchTerm7": "눈 건강"
+  "SearchTerm7": "눈 건강",
+  "DesktopScreenshotCaption1": "둥근 점이 원하는 간격으로 깜박임을 알려 줍니다. 점의 모양도 바꿀 수 있습니다.",
+  "DesktopScreenshotCaption2": "화면이 어두워지며 휴식을 알려 줍니다. 시계에 맞춰 20분, 30분 또는 60분마다.",
+  "DesktopScreenshotCaption3": "둥근 점이 원하는 간격으로 깜박임을 알려 줍니다. 점의 모양도 바꿀 수 있습니다.",
+  "DesktopScreenshotCaption4": "화면이 어두워지며 휴식을 알려 줍니다. 시계에 맞춰 20분, 30분 또는 60분마다.",
+  "DesktopScreenshotCaption5": "깔끔한 설정 화면"
 }

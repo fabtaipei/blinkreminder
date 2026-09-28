@@ -5,17 +5,12 @@
     "Artwork is inherited automatically -- see fill_listing.py DEFAULT_COPY.",
     "Only the words live here."
   ],
-
   "Title": "Dry Eyes Blink Reminder Lite",
   "DevStudio": "KennyTechy",
   "CopyrightTrademarkInformation": "© 2026 KennyTechy. 保留所有权利。",
-
   "ShortDescription": "多眨眼，让眼睛休息。在每个屏幕上轻轻提示一下——看得见，却不会打断你。Dry Eyes Blink Reminder Lite 安静地待在通知区域，不联网，也不会看着你。",
-
   "Description": "Dry Eyes Blink Reminder Lite 是一个小巧安静的工具，待在通知区域，用一个短暂的视觉提示提醒你眨眼——并在另一个独立的计时器上，提醒你把视线从屏幕移开一会儿。\n\n这个提示刻意做得很轻。它可能是一次柔和的闪动、一个圆点，或一个字，出现不到一秒就消失。你可以直接点穿它：它不会抢走键盘焦点，不会吃掉你按下的按键，也不会挡住你正在做的事。\n\n两个各自独立的提醒\n\n眨眼提醒按照你设置的间隔出现——短到几秒都可以。休息提醒则跟着时钟走，所以不论你什么时候启动程序，它都会落在同样的整点或半点。两者各有一整组完全独立的设置：样式、颜色、大小、位置、时间与声音。改动其中一个，永远不会影响另一个。\n\n为多屏幕而设计\n\n提醒会出现在每一个连接的屏幕上，即使各屏幕的显示缩放比例不同，大小也都正确。每个屏幕角落有一个小小的指示圆点，表示程序正在运行，上方还有距离下次休息的倒计时。\n\n完全可以自己调整\n\n可以选择柔和的屏幕变暗、一个彩色圆点，或你自己想显示的文字。大小、位置、不透明度、淡化与停留时间都能设置。四种声音各有自己的音量，也可以完全静音。任何更改都能先预览再保存。\n\n安静，而且从设计上就保护隐私\n\n不需要账号，不需要登录，没有广告，也没有任何分析追踪。它完全不使用网络连接——这个程序不会连上任何服务器，包括我们自己的。它不使用你的摄像头：它只是按时间运行，并不会看着你。\n\n一些值得知道的事\n\nDry Eyes Blink Reminder Lite 在通知区域运行，没有主窗口。在任务栏图标上点右键即可打开设置。提醒的闪动在代码中设有上限，任何设置组合都不可能超过每秒三次闪动。\n\n界面语言可以在设置窗口右上角切换，程序也会自动跟随 Windows 的显示语言。",
-
   "ReleaseNotes": "新增简体中文界面，以及法语、西班牙语、德语和意大利语。程序会自动跟随 Windows 的显示语言，也可以在设置窗口右上角自行切换。",
-
   "Feature1": "按你自己的间隔，轻轻提醒你眨眼",
   "Feature2": "另一个跟着时钟走的休息提醒",
   "Feature3": "每个屏幕都会显示提醒",
@@ -25,21 +20,17 @@
   "Feature7": "任何更改都能先预览再保存",
   "Feature8": "无需账号、没有广告、没有分析追踪",
   "Feature9": "不联网、不用摄像头、不会看着你",
-
-  "DesktopScreenshotCaption1": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
-  "DesktopScreenshotCaption2": "屏幕变暗提醒你休息，间隔由你决定——整点、每半小时，或任何你习惯的节奏。",
-  "DesktopScreenshotCaption3": "界面简单好用。",
-  "DesktopScreenshotCaption4": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
-  "DesktopScreenshotCaption5": "屏幕变暗提醒你休息，间隔由你决定——整点、每半小时，或任何你习惯的节奏。",
-
   "TrailerTitle1": "演示中的两种提醒",
-  "TrailerTitle2": "演示中的两种提醒",
-
   "SearchTerm1": "眨眼提醒",
   "SearchTerm2": "干眼症",
   "SearchTerm3": "护眼",
   "SearchTerm4": "用眼休息",
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "屏幕休息",
-  "SearchTerm7": "眼睛疲劳"
+  "SearchTerm7": "眼睛疲劳",
+  "DesktopScreenshotCaption1": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
+  "DesktopScreenshotCaption2": "屏幕变暗提醒你休息，每 20、30 或 60 分钟一次，对齐时钟。",
+  "DesktopScreenshotCaption3": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
+  "DesktopScreenshotCaption4": "屏幕变暗提醒你休息，每 20、30 或 60 分钟一次，对齐时钟。",
+  "DesktopScreenshotCaption5": "简洁的设置面板"
 }
