@@ -1,0 +1,41 @@
+{
+  "language": "pl",
+  "_comment": ["Polish. Artwork inherited; see fill_listing.py DEFAULT_COPY."],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Wszelkie prawa zastrzeżone.",
+
+  "ShortDescription": "Mrugaj częściej i daj oczom odpocząć. Krótki, delikatny sygnał na każdym ekranie — widoczny, a nigdy nie przerywa pracy. Dry Eyes Blink Reminder Lite siedzi cicho w obszarze powiadomień, nie korzysta z sieci i nigdy cię nie obserwuje.",
+
+  "Description": "Dry Eyes Blink Reminder Lite to małe, ciche narzędzie mieszkające w obszarze powiadomień. Daje krótki sygnał wzrokowy, żebyś mrugnął — a na osobnym liczniku, żebyś na chwilę oderwał wzrok od ekranu.\n\nSygnał jest celowo dyskretny: łagodny błysk, kropka albo jedno słowo, widoczne ułamek sekundy i już go nie ma. Możesz kliknąć na wylot: nigdy nie przejmuje fokusu, nie łapie naciśniętego klawisza i nie wchodzi w drogę temu, co robisz.\n\nDWA NIEZALEŻNE PRZYPOMNIENIA\n\nPrzypomnienie o mrugnięciu pojawia się w wybranym przez ciebie odstępie — nawet co kilka sekund. Przypomnienie o przerwie chodzi według zegara, więc wypada zawsze o tych samych minutach, niezależnie od tego, kiedy uruchomiłeś aplikację. Każde ma własne, całkowicie oddzielne ustawienia: styl, kolor, rozmiar, pozycję, czas i dźwięk. Zmiana jednego nigdy nie dotyka drugiego.\n\nZ MYŚLĄ O WIELU EKRANACH\n\nPrzypomnienia pojawiają się na każdym podłączonym monitorze, na każdym w odpowiednim rozmiarze, nawet jeśli ekrany mają różne skalowanie. Mała kropka w rogu każdego ekranu pokazuje, że aplikacja działa, a nad nią odliczanie do następnej przerwy.\n\nDO WŁASNEGO USTAWIENIA\n\nWybierz łagodne przyciemnienie, kolorową kropkę albo własne słowo. Ustaw rozmiar, pozycję, przezroczystość, zanikanie i czas trwania. Wybierz jeden z czterech dźwięków, każdy z własną głośnością, albo zostaw ciszę. Każdą zmianę możesz zobaczyć przed zapisaniem.\n\nCICHO I PRYWATNIE Z ZAŁOŻENIA\n\nBez konta, bez logowania, bez reklam i bez analityki. Nie ma żadnego połączenia sieciowego — aplikacja nigdy nie łączy się z żadnym serwerem, także naszym. Nie używa kamery: działa na liczniku, nie patrzy na ciebie.\n\nWARTO WIEDZIEĆ\n\nDry Eyes Blink Reminder Lite działa w obszarze powiadomień i nie ma głównego okna. Kliknij ikonę prawym przyciskiem, aby otworzyć ustawienia. Częstotliwość błysku jest ograniczona w kodzie: żadna kombinacja ustawień nie przekroczy trzech błysków na sekundę.\n\nJęzyk interfejsu zmienisz w prawym górnym rogu okna ustawień, a aplikacja sama podąża za językiem wyświetlania Windows.",
+
+  "ReleaseNotes": "Aplikacja jest teraz po polsku, a także w osiemnastu innych językach. Sama podąża za językiem wyświetlania Windows, a język możesz zmienić w prawym górnym rogu okna ustawień.",
+
+  "Feature1": "Delikatny sygnał do mrugnięcia, w twoim rytmie",
+  "Feature2": "Osobna przerwa na spojrzenie w dal, według zegara",
+  "Feature3": "Przypomnienia na każdym ekranie",
+  "Feature4": "Klikasz na wylot — nigdy nie przejmuje fokusu",
+  "Feature5": "Kropka, słowo albo łagodne przyciemnienie",
+  "Feature6": "Cztery dźwięki albo cisza",
+  "Feature7": "Podgląd każdej zmiany przed zapisaniem",
+  "Feature8": "Bez konta, bez reklam, bez analityki",
+  "Feature9": "Bez sieci, bez kamery, bez obserwowania cię",
+
+  "DesktopScreenshotCaption1": "Okrągła kropka przypomina o mrugnięciu, w wybranym przez ciebie odstępie. Kropkę też można dostosować.",
+  "DesktopScreenshotCaption2": "Ekran przyciemnia się, żeby przypomnieć o przerwie — o pełnej godzinie, co pół godziny albo jak ci wygodnie.",
+  "DesktopScreenshotCaption3": "Prosty w obsłudze interfejs.",
+  "DesktopScreenshotCaption4": "Okrągła kropka przypomina o mrugnięciu, w wybranym przez ciebie odstępie. Kropkę też można dostosować.",
+  "DesktopScreenshotCaption5": "Ekran przyciemnia się, żeby przypomnieć o przerwie — o pełnej godzinie, co pół godziny albo jak ci wygodnie.",
+
+  "TrailerTitle1": "Dwa przypomnienia w pokazie",
+  "TrailerTitle2": "Dwa przypomnienia w pokazie",
+
+  "SearchTerm1": "przypomnienie o mruganiu",
+  "SearchTerm2": "suche oko",
+  "SearchTerm3": "zmęczenie oczu",
+  "SearchTerm4": "odpoczynek dla oczu",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "przerwa od ekranu",
+  "SearchTerm7": "zdrowie oczu"
+}

@@ -64,15 +64,26 @@ def key(name):
     return re.sub(r"[^a-z0-9]", "", (name or "").lower())
 
 
+# Field, ID and Type. Never a language, never written, and never matched:
+# Indonesian's code is "id", which is exactly the ID column's heading, and
+# a case-insensitive search over the whole header found it there and wrote
+# an entire listing over thirty field IDs. The docs are explicit that those
+# three columns must not change, and this is how they would have.
+RESERVED_COLUMNS = 3
+
+
 def column(header, code):
     """The index of a language column, however Partner Center cased it.
 
     The export writes the codes lower-case -- "zh-hant" -- while the manifest
     and everything else in this repo use "zh-Hant". Matching exactly would
     quietly add a SECOND column and leave the listing empty.
+
+    The search starts past Field, ID and Type. "default" is still findable,
+    since copying from it is a reasonable thing to ask for.
     """
     for i, name in enumerate(header):
-        if (name or "").lower() == code.lower():
+        if i >= RESERVED_COLUMNS and (name or "").lower() == code.lower():
             return i
     return None
 
@@ -241,7 +252,7 @@ def main(argv):
         if i is None:
             print("  --drop %s: no such column, nothing to do" % code)
             continue
-        if i < 4:
+        if i <= RESERVED_COLUMNS:
             sys.exit("--drop %s would remove %r, which is not a language"
                      % (code, header[i]))
         filled = sum(1 for r in rows[1:] if len(r) > i and r[i].strip())
