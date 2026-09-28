@@ -88,6 +88,74 @@ def column(header, code):
     return None
 
 
+TRAILER_ASSETS = ("Trailer%d", "TrailerThumbnail%d", "TrailerClosedCaption%d",
+                  "TrailerAudioDescription%d")
+
+
+def align_all_trailers(rows, header, base="en-gb"):
+    """Make every language's trailers exactly the base listing's.
+
+    Slot by slot: where the base has trailer N, every language gets the
+    same video, thumbnail, captions file and audio description, and keeps
+    its own translated title; where the base has none, the language's
+    trailer N is cleared, title and all.
+
+    Before writing anything, lists every trailer that no listing will
+    reference afterwards. Those are the files Partner Center deletes on
+    import, permanently, and the reason this is a flag and not a default.
+    """
+    b = column(header, base)
+    if b is None:
+        sys.exit("--align-trailers needs a %r column" % base)
+    by = {r[0]: r for r in rows[1:] if r}
+    langs = [i for i in range(RESERVED_COLUMNS + 1, len(header)) if i != b]
+
+    def refs():
+        seen = set()
+        for r in rows[1:]:
+            if r and r[0].startswith("Trailer") and "Title" not in r[0]:
+                seen.update(r[i] for i in range(RESERVED_COLUMNS + 1, len(r))
+                            if r[i].strip())
+        return seen
+
+    before = refs()
+    changed = 0
+    for n in range(1, 16):
+        if ("Trailer%d" % n) not in by:
+            break
+        base_has = bool(by["Trailer%d" % n][b].strip())
+        for i in langs:
+            for pat in TRAILER_ASSETS:
+                r = by.get(pat % n)
+                if r is not None and r[i] != r[b]:
+                    r[i] = r[b]
+                    changed += 1
+            t = by.get("TrailerTitle%d" % n)
+            if t is not None:
+                if not base_has and t[i]:
+                    t[i] = ""
+                    changed += 1
+                elif base_has and not t[i].strip():
+                    t[i] = t[b]
+                    changed += 1
+    top = by.get("TrailerToPlayAtTopOfListing")
+    if top is not None:
+        for i in langs:
+            if top[i] != top[b]:
+                top[i] = top[b]
+                changed += 1
+
+    gone = sorted(before - refs())
+    print("  --align-trailers: %d cell(s) changed" % changed)
+    if gone:
+        print("  !! %d trailer file(s) will no longer be referenced by any "
+              "listing, and Partner Center DELETES them on import:" % len(gone))
+        for g in gone:
+            print("       %s" % g)
+    else:
+        print("     no trailer file loses its last reference")
+
+
 def load(path):
     with io.open(path, encoding="utf-8") as fh:
         data = json.load(fh)
@@ -108,6 +176,13 @@ def main(argv):
     # language added to the product by mistake -- an empty column is still a
     # listing, and Partner Center requires a Description in every listing,
     # so leaving it in place fails the import for a language you do not want.
+    # --align-trailers: every language's trailers become exactly the base
+    # listing's, including REMOVING ones the base no longer has. Opt-in,
+    # never default, because it is the one thing this tool does that
+    # Partner Center cannot undo: a trailer no listing references any more
+    # is deleted from the account. The run reports each such file by name.
+    align_trailers = "--align-trailers" in argv
+    argv = [a for a in argv if a != "--align-trailers"]
     drops = []
     while "--drop" in argv:
         i = argv.index("--drop")
@@ -246,6 +321,9 @@ def main(argv):
     for row in rows[1:]:
         while len(row) < len(header):
             row.append("")
+
+    if align_trailers:
+        align_all_trailers(rows, header)
 
     for code in drops:
         i = column(header, code)
