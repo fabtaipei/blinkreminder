@@ -1386,9 +1386,49 @@ def sync_startup(enabled):
         # that switch exists to prevent.
         log_event("startup", "the shortcut is present but Windows is set to "
                              "skip it (Task Manager > Startup apps)")
-    if os.path.exists(STARTUP_LINK) == bool(enabled):
+    if os.path.exists(STARTUP_LINK) != bool(enabled):
+        set_startup(enabled)
         return
-    set_startup(enabled)
+    if enabled and startup_link_is_stale():
+        # Existence was the only thing checked here, so a shortcut left
+        # pointing at somewhere the exe USED to live was never repaired:
+        # every later launch saw a file, agreed with the setting, and
+        # returned. The symptom is the worst kind -- the switch says on, the
+        # shortcut is there, and the app silently does not come back after a
+        # reboot, or comes back as an older copy from a stale path. The
+        # README's advice to untick and retick the box was a workaround for
+        # this.
+        log_event("startup", "the Startup shortcut pointed somewhere else; "
+                             "repointed it at %s" % launch_target()[0])
+        set_startup(True)
+
+
+def startup_link_is_stale():
+    """True if the Startup shortcut does not point at this exe.
+
+    Read from the .lnk's own bytes rather than through WScript.Shell: this
+    runs on every launch, and the whole reason sync_startup checks before
+    acting is that the old code spawned PowerShell each time the app
+    started. A shortcut stores its target as text, so the question is
+    whether this exe's path is in there -- in UTF-16, which is where a
+    modern .lnk keeps it, or in the local code page for an older one.
+
+    Answers False on any doubt. Rewriting a shortcut that was fine costs a
+    subprocess; failing to rewrite one that is stale costs nothing today,
+    so the safe direction when the file cannot be read is to leave it be.
+    """
+    try:
+        with open(STARTUP_LINK, "rb") as fh:
+            blob = fh.read()
+        target = os.path.abspath(launch_target()[0])
+        if target.encode("utf-16-le") in blob:
+            return False
+        try:
+            return target.encode("mbcs") not in blob
+        except UnicodeEncodeError:
+            return True          # a path the old encoding cannot express
+    except OSError:
+        return False
 
 
 # --------------------------------------------------------------------------
