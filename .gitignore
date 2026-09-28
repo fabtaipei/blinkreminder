@@ -22,3 +22,4 @@ Thumbs.db
 
 # Filled listing CSVs are regenerated from the export plus listing-*.json.
 store/listings/*-filled.csv
+store/listing-import/
