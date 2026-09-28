@@ -1,6 +1,8 @@
 """Write one or more languages into a Partner Center listings .csv.
 
     py store\\fill_listing.py <exported.csv> store\\listing-zh-Hant.json ...
+        [--align-trailers] [--shots DIR] [--drop CODE]
+        [--only-changed <the .csv last imported>]
 
 Partner Center's "Export listing" (app overview page, Store listings section)
 gives a UTF-8 .csv whose first four columns are Field, ID, Type and default,
@@ -23,6 +25,12 @@ Three rules it keeps:
     export had -- which is what leaves the screenshots and the trailer
     alone. Blanking a trailer row in the .csv deletes the file from Partner
     Center for good.
+
+--only-changed makes the result small. Once the assets are in Partner
+Center, a copy change touches four rows out of 429, and Microsoft's import
+docs say an untouched row can simply be left out. Dropping the rest takes
+the screenshot paths with it, so the import goes back to being a .csv
+rather than a folder of images already uploaded: 42 MB becomes 18 KB.
 """
 
 import csv
@@ -208,6 +216,61 @@ def load(path):
     return lang, values, copy_from
 
 
+def trim_to_changes(rows, baseline_path):
+    """Keep only the rows that differ from `baseline_path`, plus trailers.
+
+    Microsoft's import documentation: "If you don't want to make any edits
+    to a particular field, you can delete the entire row from the
+    spreadsheet, with the exception of the rows for trailers and their
+    associated thumbnails and titles. Other than for these items, deleting a
+    row will not impact the data associated with that field in your
+    listings."
+
+    So an unchanged row is noise, and dropping it takes the screenshot and
+    logo rows with it -- which is what makes the import a .csv again rather
+    than a folder of images that are already in Partner Center.
+
+    Trailer rows are the documented exception and stay whatever they say:
+    deleting one deletes the video from the account.
+
+    Columns are NOT trimmed. A row that survives must carry every language's
+    current value, because a blank Text cell is a deletion, not a no-op.
+    """
+    with io.open(baseline_path, encoding="utf-8-sig", newline="") as fh:
+        was = {key(r[0]): r for r in csv.reader(fh) if r and r[0].strip()}
+
+    header = rows[0]
+    kept, changed, trailers = [header], [], 0
+    for row in rows[1:]:
+        if not row or not row[0].strip():
+            continue
+        if row[0].strip().lower().startswith("trailer"):
+            # An empty trailer row names no file, so dropping it cannot
+            # delete one. Only the rows that actually hold a URL are kept,
+            # which is 4 of 76 and the difference between a readable file
+            # and a wall of commas.
+            if any(c.strip() for c in row[RESERVED_COLUMNS:]):
+                kept.append(row)
+                trailers += 1
+            continue
+        old = was.get(key(row[0]))
+        if old is None:
+            kept.append(row)          # a field the baseline never had
+            changed.append(row[0])
+            continue
+        padded = old + [""] * (len(row) - len(old))
+        if padded[:len(row)] != row:
+            kept.append(row)
+            changed.append(row[0])
+
+    print("\n--only-changed %s" % os.path.basename(baseline_path))
+    print("  %d row(s) differ: %s" % (len(changed), ", ".join(changed) or "none"))
+    print("  %d trailer row(s) kept verbatim (deleting one deletes the file)"
+          % trailers)
+    print("  %d unchanged row(s) dropped" % (len(rows) - len(kept)))
+    return kept
+
+
 def main(argv):
     # --drop <code>, repeatable: remove a language column entirely. For a
     # language added to the product by mistake -- an empty column is still a
@@ -228,6 +291,17 @@ def main(argv):
     if "--shots" in argv:
         i = argv.index("--shots")
         shots = argv[i + 1]
+        del argv[i:i + 2]
+    # --only-changed BASELINE: write just the rows that differ from
+    # BASELINE, which is normally the .csv last imported. Microsoft's import
+    # docs are explicit that this is safe -- "deleting a row will not impact
+    # the data associated with that field in your listings" -- and it turns
+    # a 42 MB folder into a few kilobytes, because the rows carrying the
+    # screenshot paths are among the ones that did not change.
+    baseline = None
+    if "--only-changed" in argv:
+        i = argv.index("--only-changed")
+        baseline = argv[i + 1]
         del argv[i:i + 2]
     drops = []
     while "--drop" in argv:
@@ -387,7 +461,12 @@ def main(argv):
         print("  --drop %s: column removed (it held %d non-empty cell(s))"
               % (code, filled))
 
-    out = os.path.splitext(csv_path)[0] + "-filled.csv"
+    suffix = "-filled.csv"
+    if baseline:
+        rows = trim_to_changes(rows, baseline)
+        suffix = "-changes.csv"
+
+    out = os.path.splitext(csv_path)[0] + suffix
     # BOM on purpose: the docs tell you to save as Excel's "CSV UTF-8", which
     # writes one, so this is the encoding Partner Center is known to accept.
     with io.open(out, "w", encoding="utf-8-sig", newline="") as fh:
