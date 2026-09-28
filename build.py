@@ -25,7 +25,7 @@ NAME = "Dry Eyes Blink Reminder Lite"
 # DisplayName is matched against that reservation character for character --
 # copy it exactly, trailing punctuation and all, rather than retyping it.
 DISPLAY = "Dry Eyes Blink Reminder Lite"
-VERSION = (1, 1, 9, 0)
+VERSION = (1, 2, 0, 0)
 ICON = os.path.join(HERE, "build", "app.ico")
 VERSION_FILE = os.path.join(HERE, "build", "version.txt")
 ENTRY = os.path.join(HERE, "blink_reminder.py")
@@ -323,5 +323,6 @@ if __name__ == "__main__":
         rows = report_freshness("what is currently built")
         sys.exit(1 if any(s == "stale" for _k, s, _d in rows) else 0)
     build(onefile="--onedir" not in sys.argv)
+
 
 

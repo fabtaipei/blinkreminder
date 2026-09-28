@@ -55,15 +55,26 @@ translation.
 # that means anything across seven different writing systems.
 LANGUAGES = [
     ("Bahasa Indonesia", "id"),
+    ("Čeština", "cs"),
+    ("Dansk", "da"),
     ("Deutsch", "de"),
     ("English", "en"),
     ("Español", "es"),
     ("Français", "fr"),
     ("Italiano", "it"),
+    ("Magyar", "hu"),
+    ("Nederlands", "nl"),
+    ("Norsk", "nb"),
     ("Polski", "pl"),
     ("Português", "pt"),
+    ("Română", "ro"),
+    ("Suomi", "fi"),
+    ("Svenska", "sv"),
     ("Tiếng Việt", "vi"),
     ("Türkçe", "tr"),
+    ("Ελληνικά", "el"),       # Greek
+    ("Українська", "uk"),     # Ukrainian
+    ("Русский", "ru"),        # Russian
     ("العربية", "ar"),        # Arabic
     ("বাংলা", "bn"),           # Bengali
     ("简体中文", "zh-Hans"),    # Chinese, Simplified
@@ -71,7 +82,6 @@ LANGUAGES = [
     ("हिन्दी", "hi"),           # Hindi
     ("日本語", "ja"),          # Japanese
     ("한국어", "ko"),           # Korean
-    ("Русский", "ru"),        # Russian
     ("ไทย", "th"),            # Thai
     ("اردو", "ur"),           # Urdu
 ]
@@ -2006,5 +2016,978 @@ STRINGS = {
         "Done": "เสร็จ",
 
         "Look into the distance": "มองไปไกล ๆ",
+    },
+
+    # Ukrainian. Abbreviated interval units, as for Russian and Polish:
+    # three plural forms, two slots, and "с"/"хв" are invariant.
+    "uk": {
+        "Blink now": "Кліпнути зараз",
+        "Resume reminders": "Відновити нагадування",
+        "Snooze 30 minutes": "Пауза 30 хвилин",
+        "Settings": "Налаштування",
+        "Buy me a coffee": "Пригостити кавою",
+        "Quit": "Вийти",
+
+        "every second": "щосекунди",
+        "every %d seconds": "кожні %d с",
+        "every minute": "щохвилини",
+        "every %d minutes": "кожні %d хв",
+
+        "%s is running": "%s працює",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Працює у фоні й нагадає кліпнути\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Клацніть правою кнопкою по значку біля годинника.",
+        "Got it": "Зрозуміло",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s уже працює.\n\nЗнайдіть значок в області сповіщень біля "
+            "годинника — можливо, доведеться натиснути стрілку ^. Клацніть "
+            "по значку правою кнопкою, щоб відкрити налаштування.",
+
+        "A gentle nudge on every screen.":
+            "М'яке нагадування на кожному екрані.",
+        "Start with Windows": "Запускати з Windows",
+        "Startup: managed by Windows": "Автозапуск: керує Windows",
+        "Startup: turned off in Task Manager":
+            "Автозапуск: вимкнено в Диспетчері",
+        "Preview blink": "Проба кліпання",
+        "Preview break": "Проба паузи",
+        "Cancel": "Скасувати",
+        "Save": "Зберегти",
+        "Save the changes you made?": "Зберегти зміни?",
+
+        "Blink": "Кліпання",
+        "Remind me every": "Нагадувати кожні",
+        "seconds": "секунди",
+        "minutes": "хвилини",
+
+        "Break": "Пауза",
+        "Look at trees!": "Погляньте на дерева!",
+        "Remind me to look away": "Нагадувати дивитися вдалечінь",
+        "min": "хв",
+
+        "A dot": "Крапка",
+        "A word": "Слово",
+        "Dim screen": "Затемнити",
+        "Strength": "Сила",
+        "Colour": "Колір",
+        "Change...": "Змінити…",
+        "Play a sound": "Звуковий сигнал",
+        "  Advanced settings": "  Додатково",
+
+        "Advanced settings - Blink": "Додатково — Кліпання",
+        "Blink timing and sound": "Кліпання: час і звук",
+        "Blink look": "Вигляд кліпання",
+        "Advanced settings - Break": "Додатково — Пауза",
+        "Break timing and sound": "Пауза: час і звук",
+        "Break look": "Вигляд паузи",
+        "Flash style": "Тип спалаху",
+        "Gentle": "М'яко",
+        "Standard": "Норма",
+        "Sharp": "Різко",
+        "Custom": "Своє",
+        "Hold (s)": "Показ (с)",
+        "Fade (s)": "Згасання (с)",
+        "Pulses": "Повтори",
+        "Gap between pulses": "Пауза між повторами",
+        "Sound": "Звук",
+        "Ding": "Дзень",
+        "Chord": "Акорд",
+        "Chime": "Дзвін",
+        "Notify": "Сигнал",
+        "Volume": "Гучність",
+        "Test": "Проба",
+        "Dot size": "Розмір крапки",
+        "Word to show": "Яке слово",
+        "Word size": "Розмір слова",
+        "Position": "Розташування",
+        "Centre": "По центру",
+        "Top left": "Згори зліва",
+        "Top right": "Згори справа",
+        "Bottom left": "Знизу зліва",
+        "Bottom right": "Знизу справа",
+        "Edge margin": "Відступ від краю",
+        "Show on every monitor": "Показувати на всіх екранах",
+        "Done": "Готово",
+
+        "Look into the distance": "Погляньте вдалечінь",
+    },
+
+    # Czech. Same plural problem as the Slavic languages above, same fix.
+    "cs": {
+        "Blink now": "Mrknout teď",
+        "Resume reminders": "Obnovit připomínky",
+        "Snooze 30 minutes": "Pozastavit na 30 minut",
+        "Settings": "Nastavení",
+        "Buy me a coffee": "Kup mi kávu",
+        "Quit": "Ukončit",
+
+        "every second": "každou sekundu",
+        "every %d seconds": "každých %d s",
+        "every minute": "každou minutu",
+        "every %d minutes": "každých %d min",
+
+        "%s is running": "%s běží",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Běží na pozadí a připomene vám mrknout\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Klikněte pravým tlačítkem na ikonu u hodin.",
+        "Got it": "Rozumím",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s už běží.\n\nNajděte ikonu v oznamovací oblasti u hodin — "
+            "možná bude potřeba kliknout na šipku ^. Kliknutím pravým "
+            "tlačítkem na ikonu otevřete nastavení.",
+
+        "A gentle nudge on every screen.":
+            "Jemné připomenutí na každé obrazovce.",
+        "Start with Windows": "Spouštět s Windows",
+        "Startup: managed by Windows": "Po spuštění: spravuje Windows",
+        "Startup: turned off in Task Manager":
+            "Po spuštění: vypnuto ve Správci",
+        "Preview blink": "Vyzkoušet mrknutí",
+        "Preview break": "Vyzkoušet přestávku",
+        "Cancel": "Zrušit",
+        "Save": "Uložit",
+        "Save the changes you made?": "Uložit změny?",
+
+        "Blink": "Mrknutí",
+        "Remind me every": "Připomínat každých",
+        "seconds": "sekundy",
+        "minutes": "minuty",
+
+        "Break": "Přestávka",
+        "Look at trees!": "Podívejte se na stromy!",
+        "Remind me to look away": "Připomínat pohled do dálky",
+        "min": "min",
+
+        "A dot": "Tečka",
+        "A word": "Slovo",
+        "Dim screen": "Ztlumit",
+        "Strength": "Síla",
+        "Colour": "Barva",
+        "Change...": "Změnit…",
+        "Play a sound": "Přehrát zvuk",
+        "  Advanced settings": "  Pokročilé nastavení",
+
+        "Advanced settings - Blink": "Pokročilé nastavení — Mrknutí",
+        "Blink timing and sound": "Mrknutí: čas a zvuk",
+        "Blink look": "Vzhled mrknutí",
+        "Advanced settings - Break": "Pokročilé nastavení — Přestávka",
+        "Break timing and sound": "Přestávka: čas a zvuk",
+        "Break look": "Vzhled přestávky",
+        "Flash style": "Styl záblesku",
+        "Gentle": "Jemné",
+        "Standard": "Běžné",
+        "Sharp": "Ostré",
+        "Custom": "Vlastní",
+        "Hold (s)": "Trvání (s)",
+        "Fade (s)": "Prolnutí (s)",
+        "Pulses": "Záblesky",
+        "Gap between pulses": "Mezera mezi záblesky",
+        "Sound": "Zvuk",
+        "Ding": "Cink",
+        "Chord": "Akord",
+        "Chime": "Zvonek",
+        "Notify": "Signál",
+        "Volume": "Hlasitost",
+        "Test": "Přehrát",
+        "Dot size": "Velikost tečky",
+        "Word to show": "Zobrazené slovo",
+        "Word size": "Velikost slova",
+        "Position": "Pozice",
+        "Centre": "Uprostřed",
+        "Top left": "Vlevo nahoře",
+        "Top right": "Vpravo nahoře",
+        "Bottom left": "Vlevo dole",
+        "Bottom right": "Vpravo dole",
+        "Edge margin": "Odstup od okraje",
+        "Show on every monitor": "Zobrazit na všech obrazovkách",
+        "Done": "Hotovo",
+
+        "Look into the distance": "Podívejte se do dálky",
+    },
+
+    # Romanian.
+    "ro": {
+        "Blink now": "Clipește acum",
+        "Resume reminders": "Reia mementourile",
+        "Snooze 30 minutes": "Amână 30 de minute",
+        "Settings": "Setări",
+        "Buy me a coffee": "Fă-mi cinste cu o cafea",
+        "Quit": "Ieșire",
+
+        "every second": "în fiecare secundă",
+        "every %d seconds": "la fiecare %d secunde",
+        "every minute": "în fiecare minut",
+        "every %d minutes": "la fiecare %d minute",
+
+        "%s is running": "%s rulează",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Rulează în fundal și îți va aminti să clipești\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Clic dreapta pe pictograma de lângă ceas pentru setări.",
+        "Got it": "Am înțeles",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s rulează deja.\n\nCaută pictograma în zona de notificare, "
+            "lângă ceas — s-ar putea să fie nevoie de un clic pe săgeata ^. "
+            "Clic dreapta pe pictogramă pentru setări.",
+
+        "A gentle nudge on every screen.":
+            "Un memento discret pe fiecare ecran.",
+        "Start with Windows": "Pornește cu Windows",
+        "Startup: managed by Windows": "Pornire: gestionată de Windows",
+        "Startup: turned off in Task Manager":
+            "Pornire: dezactivată în Manager",
+        "Preview blink": "Testează clipirea",
+        "Preview break": "Testează pauza",
+        "Cancel": "Anulează",
+        "Save": "Salvează",
+        "Save the changes you made?": "Salvezi modificările?",
+
+        "Blink": "Clipire",
+        "Remind me every": "Amintește-mi la fiecare",
+        "seconds": "secunde",
+        "minutes": "minute",
+
+        "Break": "Pauză",
+        "Look at trees!": "Privește copacii!",
+        "Remind me to look away": "Amintește-mi să privesc departe",
+        "min": "min",
+
+        "A dot": "Un punct",
+        "A word": "Un cuvânt",
+        "Dim screen": "Întunecă",
+        "Strength": "Intensitate",
+        "Colour": "Culoare",
+        "Change...": "Schimbă…",
+        "Play a sound": "Redă un sunet",
+        "  Advanced settings": "  Setări avansate",
+
+        "Advanced settings - Blink": "Setări avansate — Clipire",
+        "Blink timing and sound": "Clipire: timp și sunet",
+        "Blink look": "Aspectul clipirii",
+        "Advanced settings - Break": "Setări avansate — Pauză",
+        "Break timing and sound": "Pauză: timp și sunet",
+        "Break look": "Aspectul pauzei",
+        "Flash style": "Stilul licăririi",
+        "Gentle": "Blând",
+        "Standard": "Standard",
+        "Sharp": "Clar",
+        "Custom": "Propriu",
+        "Hold (s)": "Durată (s)",
+        "Fade (s)": "Estompare (s)",
+        "Pulses": "Repetări",
+        "Gap between pulses": "Pauză între repetări",
+        "Sound": "Sunet",
+        "Ding": "Ding",
+        "Chord": "Acord",
+        "Chime": "Clopoțel",
+        "Notify": "Alertă",
+        "Volume": "Volum",
+        "Test": "Ascultă",
+        "Dot size": "Mărimea punctului",
+        "Word to show": "Cuvântul afișat",
+        "Word size": "Mărimea textului",
+        "Position": "Poziție",
+        "Centre": "Centru",
+        "Top left": "Sus stânga",
+        "Top right": "Sus dreapta",
+        "Bottom left": "Jos stânga",
+        "Bottom right": "Jos dreapta",
+        "Edge margin": "Distanța de margine",
+        "Show on every monitor": "Afișează pe fiecare ecran",
+        "Done": "Gata",
+
+        "Look into the distance": "Privește în depărtare",
+    },
+
+    # Hungarian.
+    "hu": {
+        "Blink now": "Pislogj most",
+        "Resume reminders": "Emlékeztetők folytatása",
+        "Snooze 30 minutes": "Szünet 30 percre",
+        "Settings": "Beállítások",
+        "Buy me a coffee": "Hívj meg egy kávéra",
+        "Quit": "Kilépés",
+
+        "every second": "másodpercenként",
+        "every %d seconds": "%d másodpercenként",
+        "every minute": "percenként",
+        "every %d minutes": "%d percenként",
+
+        "%s is running": "A(z) %s fut",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "A háttérben fut, és %s emlékeztet a pislogásra.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Kattints jobb gombbal az óra melletti ikonra.",
+        "Got it": "Értem",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "A(z) %s már fut.\n\nKeresd az ikonját az értesítési területen, "
+            "az óra mellett — lehet, hogy a ^ nyílra kell kattintani. Jobb "
+            "gombbal kattintva nyílnak a beállítások.",
+
+        "A gentle nudge on every screen.":
+            "Finom emlékeztető minden képernyőn.",
+        "Start with Windows": "Indítás a Windowsszal",
+        "Startup: managed by Windows": "Indítás: a Windows kezeli",
+        "Startup: turned off in Task Manager":
+            "Indítás: kikapcsolva a Kezelőben",
+        "Preview blink": "Pislogás kipróbálása",
+        "Preview break": "Szünet kipróbálása",
+        "Cancel": "Mégse",
+        "Save": "Mentés",
+        "Save the changes you made?": "Mented a változtatásokat?",
+
+        "Blink": "Pislogás",
+        "Remind me every": "Emlékeztess minden",
+        "seconds": "mp",
+        "minutes": "perc",
+
+        "Break": "Szünet",
+        "Look at trees!": "Nézz a fákra!",
+        "Remind me to look away": "Emlékeztess a távolba nézésre",
+        "min": "perc",
+
+        "A dot": "Pont",
+        "A word": "Szó",
+        "Dim screen": "Elsötétítés",
+        "Strength": "Erősség",
+        "Colour": "Szín",
+        "Change...": "Módosítás…",
+        "Play a sound": "Hang lejátszása",
+        "  Advanced settings": "  Speciális beállítások",
+
+        "Advanced settings - Blink": "Speciális beállítások — Pislogás",
+        "Blink timing and sound": "Pislogás: idő és hang",
+        "Blink look": "A pislogás megjelenése",
+        "Advanced settings - Break": "Speciális beállítások — Szünet",
+        "Break timing and sound": "Szünet: idő és hang",
+        "Break look": "A szünet megjelenése",
+        "Flash style": "Villanás stílusa",
+        "Gentle": "Lágy",
+        "Standard": "Normál",
+        "Sharp": "Éles",
+        "Custom": "Egyéni",
+        "Hold (s)": "Tartás (mp)",
+        "Fade (s)": "Áttűnés (mp)",
+        "Pulses": "Ismétlés",
+        "Gap between pulses": "Szünet az ismétlések közt",
+        "Sound": "Hang",
+        "Ding": "Csing",
+        "Chord": "Akkord",
+        "Chime": "Harang",
+        "Notify": "Jelzés",
+        "Volume": "Hangerő",
+        "Test": "Teszt",
+        "Dot size": "Pont mérete",
+        "Word to show": "Megjelenő szó",
+        "Word size": "Szó mérete",
+        "Position": "Pozíció",
+        "Centre": "Középen",
+        "Top left": "Bal felül",
+        "Top right": "Jobb felül",
+        "Bottom left": "Bal alul",
+        "Bottom right": "Jobb alul",
+        "Edge margin": "Távolság a széltől",
+        "Show on every monitor": "Minden képernyőn",
+        "Done": "Kész",
+
+        "Look into the distance": "Nézz a távolba",
+    },
+
+    # Greek.
+    "el": {
+        "Blink now": "Ανοιγοκλείσε τώρα",
+        "Resume reminders": "Συνέχιση υπενθυμίσεων",
+        "Snooze 30 minutes": "Παύση 30 λεπτών",
+        "Settings": "Ρυθμίσεις",
+        "Buy me a coffee": "Κέρασέ με έναν καφέ",
+        "Quit": "Έξοδος",
+
+        "every second": "κάθε δευτερόλεπτο",
+        "every %d seconds": "κάθε %d δευτ.",
+        "every minute": "κάθε λεπτό",
+        "every %d minutes": "κάθε %d λεπτά",
+
+        "%s is running": "Το %s εκτελείται",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Τρέχει στο παρασκήνιο και θα σου θυμίζει να "
+            "ανοιγοκλείνεις\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Δεξί κλικ στο εικονίδιο δίπλα στο ρολόι για ρυθμίσεις.",
+        "Got it": "Εντάξει",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "Το %s εκτελείται ήδη.\n\nΨάξε το εικονίδιό του στην περιοχή "
+            "ειδοποιήσεων, δίπλα στο ρολόι — ίσως χρειαστεί να πατήσεις το "
+            "βέλος ^. Δεξί κλικ στο εικονίδιο για τις ρυθμίσεις.",
+
+        "A gentle nudge on every screen.":
+            "Μια διακριτική υπενθύμιση σε κάθε οθόνη.",
+        "Start with Windows": "Εκκίνηση με τα Windows",
+        "Startup: managed by Windows": "Εκκίνηση: τη διαχειρίζονται τα Windows",
+        "Startup: turned off in Task Manager":
+            "Εκκίνηση: ανενεργή στη Διαχείριση",
+        "Preview blink": "Δοκιμή ματιού",
+        "Preview break": "Δοκιμή παύσης",
+        "Cancel": "Άκυρο",
+        "Save": "Αποθήκευση",
+        "Save the changes you made?": "Αποθήκευση αλλαγών;",
+
+        "Blink": "Βλεφάρισμα",
+        "Remind me every": "Υπενθύμιση κάθε",
+        "seconds": "δευτ.",
+        "minutes": "λεπτά",
+
+        "Break": "Παύση",
+        "Look at trees!": "Κοίτα τα δέντρα!",
+        "Remind me to look away": "Υπενθύμιση να κοιτάω μακριά",
+        "min": "λ",
+
+        "A dot": "Κουκκίδα",
+        "A word": "Λέξη",
+        "Dim screen": "Σκούρο",
+        "Strength": "Ένταση",
+        "Colour": "Χρώμα",
+        "Change...": "Αλλαγή…",
+        "Play a sound": "Αναπαραγωγή ήχου",
+        "  Advanced settings": "  Σύνθετες ρυθμίσεις",
+
+        "Advanced settings - Blink": "Σύνθετες ρυθμίσεις — Βλεφάρισμα",
+        "Blink timing and sound": "Βλεφάρισμα: χρόνος και ήχος",
+        "Blink look": "Εμφάνιση βλεφαρίσματος",
+        "Advanced settings - Break": "Σύνθετες ρυθμίσεις — Παύση",
+        "Break timing and sound": "Παύση: χρόνος και ήχος",
+        "Break look": "Εμφάνιση παύσης",
+        "Flash style": "Τύπος αναλαμπής",
+        "Gentle": "Ήπιο",
+        "Standard": "Κανονικό",
+        "Sharp": "Έντονο",
+        "Custom": "Δικό μου",
+        "Hold (s)": "Διάρκεια (δ)",
+        "Fade (s)": "Σβήσιμο (δ)",
+        "Pulses": "Φορές",
+        "Gap between pulses": "Κενό μεταξύ τους",
+        "Sound": "Ήχος",
+        "Ding": "Ντινγκ",
+        "Chord": "Ακόρντο",
+        "Chime": "Καμπάνα",
+        "Notify": "Σήμα",
+        "Volume": "Ένταση ήχου",
+        "Test": "Δοκιμή",
+        "Dot size": "Μέγεθος κουκκίδας",
+        "Word to show": "Λέξη προς εμφάνιση",
+        "Word size": "Μέγεθος λέξης",
+        "Position": "Θέση",
+        "Centre": "Κέντρο",
+        "Top left": "Πάνω αριστερά",
+        "Top right": "Πάνω δεξιά",
+        "Bottom left": "Κάτω αριστερά",
+        "Bottom right": "Κάτω δεξιά",
+        "Edge margin": "Απόσταση από άκρη",
+        "Show on every monitor": "Σε κάθε οθόνη",
+        "Done": "Τέλος",
+
+        "Look into the distance": "Κοίτα μακριά",
+    },
+
+    # Swedish.
+    "sv": {
+        "Blink now": "Blinka nu",
+        "Resume reminders": "Återuppta påminnelser",
+        "Snooze 30 minutes": "Pausa i 30 minuter",
+        "Settings": "Inställningar",
+        "Buy me a coffee": "Bjud på en kaffe",
+        "Quit": "Avsluta",
+
+        "every second": "varje sekund",
+        "every %d seconds": "var %d:e sekund",
+        "every minute": "varje minut",
+        "every %d minutes": "var %d:e minut",
+
+        "%s is running": "%s körs",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Den ligger i bakgrunden och påminner dig att blinka\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Högerklicka på ikonen bredvid klockan för inställningar.",
+        "Got it": "Uppfattat",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s körs redan.\n\nLeta efter ikonen i meddelandefältet, bredvid "
+            "klockan — du kan behöva klicka på pilen ^ för att se den. "
+            "Högerklicka på ikonen för inställningar.",
+
+        "A gentle nudge on every screen.":
+            "En mjuk påminnelse på varje skärm.",
+        "Start with Windows": "Starta med Windows",
+        "Startup: managed by Windows": "Uppstart: hanteras av Windows",
+        "Startup: turned off in Task Manager":
+            "Uppstart: avstängd i Aktivitetshanteraren",
+        "Preview blink": "Testa blinkning",
+        "Preview break": "Testa paus",
+        "Cancel": "Avbryt",
+        "Save": "Spara",
+        "Save the changes you made?": "Spara ändringarna?",
+
+        "Blink": "Blinkning",
+        "Remind me every": "Påminn mig var",
+        "seconds": "sekunder",
+        "minutes": "minuter",
+
+        "Break": "Paus",
+        "Look at trees!": "Titta på träden!",
+        "Remind me to look away": "Påminn om att titta bort",
+        "min": "min",
+
+        "A dot": "En prick",
+        "A word": "Ett ord",
+        "Dim screen": "Dämpa",
+        "Strength": "Styrka",
+        "Colour": "Färg",
+        "Change...": "Ändra…",
+        "Play a sound": "Spela ett ljud",
+        "  Advanced settings": "  Avancerade inställningar",
+
+        "Advanced settings - Blink": "Avancerade inställningar — Blinkning",
+        "Blink timing and sound": "Blinkning: tid och ljud",
+        "Blink look": "Blinkningens utseende",
+        "Advanced settings - Break": "Avancerade inställningar — Paus",
+        "Break timing and sound": "Paus: tid och ljud",
+        "Break look": "Pausens utseende",
+        "Flash style": "Blinkstil",
+        "Gentle": "Mjuk",
+        "Standard": "Normal",
+        "Sharp": "Skarp",
+        "Custom": "Egen",
+        "Hold (s)": "Håll (s)",
+        "Fade (s)": "Toning (s)",
+        "Pulses": "Antal",
+        "Gap between pulses": "Mellanrum mellan pulser",
+        "Sound": "Ljud",
+        "Ding": "Pling",
+        "Chord": "Ackord",
+        "Chime": "Klocka",
+        "Notify": "Signal",
+        "Volume": "Volym",
+        "Test": "Testa",
+        "Dot size": "Prickens storlek",
+        "Word to show": "Ord att visa",
+        "Word size": "Ordets storlek",
+        "Position": "Position",
+        "Centre": "Mitten",
+        "Top left": "Uppe till vänster",
+        "Top right": "Uppe till höger",
+        "Bottom left": "Nere till vänster",
+        "Bottom right": "Nere till höger",
+        "Edge margin": "Avstånd från kanten",
+        "Show on every monitor": "Visa på alla skärmar",
+        "Done": "Klar",
+
+        "Look into the distance": "Titta långt bort",
+    },
+
+    # Finnish.
+    "fi": {
+        "Blink now": "Räpäytä nyt",
+        "Resume reminders": "Jatka muistutuksia",
+        "Snooze 30 minutes": "Tauko 30 minuutiksi",
+        "Settings": "Asetukset",
+        "Buy me a coffee": "Tarjoa kahvit",
+        "Quit": "Lopeta",
+
+        "every second": "joka sekunti",
+        "every %d seconds": "%d sekunnin välein",
+        "every minute": "joka minuutti",
+        "every %d minutes": "%d minuutin välein",
+
+        "%s is running": "%s on käynnissä",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Se toimii taustalla ja muistuttaa räpäyttämään\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Napsauta kellon vieressä olevaa kuvaketta hiiren oikealla.",
+        "Got it": "Selvä",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s on jo käynnissä.\n\nEtsi sen kuvake ilmoitusalueelta kellon "
+            "vierestä — sinun voi olla tarpeen napsauttaa nuolta ^. Avaa "
+            "asetukset napsauttamalla kuvaketta hiiren oikealla.",
+
+        "A gentle nudge on every screen.":
+            "Hillitty muistutus jokaisella näytöllä.",
+        "Start with Windows": "Käynnisty Windowsin mukana",
+        "Startup: managed by Windows": "Käynnistys: Windowsin hallinnassa",
+        "Startup: turned off in Task Manager":
+            "Käynnistys: pois Tehtävienhallinnassa",
+        "Preview blink": "Kokeile räpäytystä",
+        "Preview break": "Kokeile taukoa",
+        "Cancel": "Peruuta",
+        "Save": "Tallenna",
+        "Save the changes you made?": "Tallennetaanko muutokset?",
+
+        "Blink": "Räpäytys",
+        "Remind me every": "Muistuta joka",
+        "seconds": "sekuntia",
+        "minutes": "minuuttia",
+
+        "Break": "Tauko",
+        "Look at trees!": "Katso puita!",
+        "Remind me to look away": "Muistuta katsomaan kauas",
+        "min": "min",
+
+        "A dot": "Piste",
+        "A word": "Sana",
+        "Dim screen": "Himmennä",
+        "Strength": "Voima",
+        "Colour": "Väri",
+        "Change...": "Vaihda…",
+        "Play a sound": "Toista ääni",
+        "  Advanced settings": "  Lisäasetukset",
+
+        "Advanced settings - Blink": "Lisäasetukset — Räpäytys",
+        "Blink timing and sound": "Räpäytys: aika ja ääni",
+        "Blink look": "Räpäytyksen ulkoasu",
+        "Advanced settings - Break": "Lisäasetukset — Tauko",
+        "Break timing and sound": "Tauko: aika ja ääni",
+        "Break look": "Tauon ulkoasu",
+        "Flash style": "Välähdystyyli",
+        "Gentle": "Pehmeä",
+        "Standard": "Tavallinen",
+        "Sharp": "Terävä",
+        "Custom": "Oma",
+        "Hold (s)": "Kesto (s)",
+        "Fade (s)": "Häivytys (s)",
+        "Pulses": "Kerrat",
+        "Gap between pulses": "Väli kertojen välillä",
+        "Sound": "Ääni",
+        "Ding": "Kilaus",
+        "Chord": "Sointu",
+        "Chime": "Kello",
+        "Notify": "Merkki",
+        "Volume": "Äänenvoimakkuus",
+        "Test": "Kokeile",
+        "Dot size": "Pisteen koko",
+        "Word to show": "Näytettävä sana",
+        "Word size": "Sanan koko",
+        "Position": "Sijainti",
+        "Centre": "Keskellä",
+        "Top left": "Ylhäällä vasemmalla",
+        "Top right": "Ylhäällä oikealla",
+        "Bottom left": "Alhaalla vasemmalla",
+        "Bottom right": "Alhaalla oikealla",
+        "Edge margin": "Etäisyys reunasta",
+        "Show on every monitor": "Näytä kaikilla näytöillä",
+        "Done": "Valmis",
+
+        "Look into the distance": "Katso kauas",
+    },
+
+    # Danish.
+    "da": {
+        "Blink now": "Blink nu",
+        "Resume reminders": "Genoptag påmindelser",
+        "Snooze 30 minutes": "Pause i 30 minutter",
+        "Settings": "Indstillinger",
+        "Buy me a coffee": "Giv mig en kaffe",
+        "Quit": "Afslut",
+
+        "every second": "hvert sekund",
+        "every %d seconds": "hvert %d. sekund",
+        "every minute": "hvert minut",
+        "every %d minutes": "hvert %d. minut",
+
+        "%s is running": "%s kører",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Den kører i baggrunden og minder dig om at blinke\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Højreklik på ikonet ved uret for indstillinger.",
+        "Got it": "Forstået",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s kører allerede.\n\nLed efter ikonet i meddelelsesområdet ved "
+            "uret — du skal måske klikke på pilen ^ for at se det. Højreklik "
+            "på ikonet for indstillinger.",
+
+        "A gentle nudge on every screen.":
+            "En blid påmindelse på hver skærm.",
+        "Start with Windows": "Start med Windows",
+        "Startup: managed by Windows": "Opstart: styres af Windows",
+        "Startup: turned off in Task Manager":
+            "Opstart: slået fra i Jobliste",
+        "Preview blink": "Prøv blink",
+        "Preview break": "Prøv pause",
+        "Cancel": "Annuller",
+        "Save": "Gem",
+        "Save the changes you made?": "Gem ændringerne?",
+
+        "Blink": "Blink",
+        "Remind me every": "Mind mig hvert",
+        "seconds": "sekunder",
+        "minutes": "minutter",
+
+        "Break": "Pause",
+        "Look at trees!": "Kig på træerne!",
+        "Remind me to look away": "Mind mig om at kigge væk",
+        "min": "min",
+
+        "A dot": "En prik",
+        "A word": "Et ord",
+        "Dim screen": "Dæmp",
+        "Strength": "Styrke",
+        "Colour": "Farve",
+        "Change...": "Skift…",
+        "Play a sound": "Afspil en lyd",
+        "  Advanced settings": "  Avancerede indstillinger",
+
+        "Advanced settings - Blink": "Avancerede indstillinger — Blink",
+        "Blink timing and sound": "Blink: tid og lyd",
+        "Blink look": "Blinkets udseende",
+        "Advanced settings - Break": "Avancerede indstillinger — Pause",
+        "Break timing and sound": "Pause: tid og lyd",
+        "Break look": "Pausens udseende",
+        "Flash style": "Blinkstil",
+        "Gentle": "Blid",
+        "Standard": "Normal",
+        "Sharp": "Skarp",
+        "Custom": "Egen",
+        "Hold (s)": "Hold (s)",
+        "Fade (s)": "Toning (s)",
+        "Pulses": "Antal",
+        "Gap between pulses": "Mellemrum mellem pulser",
+        "Sound": "Lyd",
+        "Ding": "Pling",
+        "Chord": "Akkord",
+        "Chime": "Klokke",
+        "Notify": "Signal",
+        "Volume": "Lydstyrke",
+        "Test": "Lyt",
+        "Dot size": "Prikkens størrelse",
+        "Word to show": "Ord der vises",
+        "Word size": "Ordets størrelse",
+        "Position": "Placering",
+        "Centre": "Midten",
+        "Top left": "Øverst til venstre",
+        "Top right": "Øverst til højre",
+        "Bottom left": "Nederst til venstre",
+        "Bottom right": "Nederst til højre",
+        "Edge margin": "Afstand fra kanten",
+        "Show on every monitor": "Vis på alle skærme",
+        "Done": "Færdig",
+
+        "Look into the distance": "Kig langt væk",
+    },
+
+    # Norwegian, Bokmal.
+    "nb": {
+        "Blink now": "Blunk nå",
+        "Resume reminders": "Fortsett påminnelser",
+        "Snooze 30 minutes": "Pause i 30 minutter",
+        "Settings": "Innstillinger",
+        "Buy me a coffee": "Spander en kaffe",
+        "Quit": "Avslutt",
+
+        "every second": "hvert sekund",
+        "every %d seconds": "hvert %d. sekund",
+        "every minute": "hvert minutt",
+        "every %d minutes": "hvert %d. minutt",
+
+        "%s is running": "%s kjører",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Den ligger i bakgrunnen og minner deg på å blunke\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Høyreklikk ikonet ved klokken for innstillinger.",
+        "Got it": "Skjønner",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s kjører allerede.\n\nSe etter ikonet i varslingsområdet ved "
+            "klokken — du må kanskje klikke på pilen ^ for å se det. "
+            "Høyreklikk ikonet for innstillinger.",
+
+        "A gentle nudge on every screen.":
+            "En mild påminnelse på hver skjerm.",
+        "Start with Windows": "Start med Windows",
+        "Startup: managed by Windows": "Oppstart: styres av Windows",
+        "Startup: turned off in Task Manager":
+            "Oppstart: slått av i Oppgavebehandling",
+        "Preview blink": "Prøv blunk",
+        "Preview break": "Prøv pause",
+        "Cancel": "Avbryt",
+        "Save": "Lagre",
+        "Save the changes you made?": "Lagre endringene?",
+
+        "Blink": "Blunk",
+        "Remind me every": "Minn meg hvert",
+        "seconds": "sekunder",
+        "minutes": "minutter",
+
+        "Break": "Pause",
+        "Look at trees!": "Se på trærne!",
+        "Remind me to look away": "Minn meg om å se bort",
+        "min": "min",
+
+        "A dot": "En prikk",
+        "A word": "Et ord",
+        "Dim screen": "Demp",
+        "Strength": "Styrke",
+        "Colour": "Farge",
+        "Change...": "Endre…",
+        "Play a sound": "Spill en lyd",
+        "  Advanced settings": "  Avanserte innstillinger",
+
+        "Advanced settings - Blink": "Avanserte innstillinger — Blunk",
+        "Blink timing and sound": "Blunk: tid og lyd",
+        "Blink look": "Blunkets utseende",
+        "Advanced settings - Break": "Avanserte innstillinger — Pause",
+        "Break timing and sound": "Pause: tid og lyd",
+        "Break look": "Pausens utseende",
+        "Flash style": "Blinkstil",
+        "Gentle": "Mild",
+        "Standard": "Vanlig",
+        "Sharp": "Skarp",
+        "Custom": "Egen",
+        "Hold (s)": "Hold (s)",
+        "Fade (s)": "Toning (s)",
+        "Pulses": "Antall",
+        "Gap between pulses": "Opphold mellom pulser",
+        "Sound": "Lyd",
+        "Ding": "Pling",
+        "Chord": "Akkord",
+        "Chime": "Klokke",
+        "Notify": "Signal",
+        "Volume": "Volum",
+        "Test": "Hør",
+        "Dot size": "Prikkens størrelse",
+        "Word to show": "Ord som vises",
+        "Word size": "Ordets størrelse",
+        "Position": "Plassering",
+        "Centre": "Midten",
+        "Top left": "Øverst til venstre",
+        "Top right": "Øverst til høyre",
+        "Bottom left": "Nederst til venstre",
+        "Bottom right": "Nederst til høyre",
+        "Edge margin": "Avstand fra kanten",
+        "Show on every monitor": "Vis på alle skjermer",
+        "Done": "Ferdig",
+
+        "Look into the distance": "Se langt bort",
+    },
+
+    # Dutch.
+    "nl": {
+        "Blink now": "Knipper nu",
+        "Resume reminders": "Herinneringen hervatten",
+        "Snooze 30 minutes": "30 minuten pauzeren",
+        "Settings": "Instellingen",
+        "Buy me a coffee": "Trakteer op een koffie",
+        "Quit": "Afsluiten",
+
+        "every second": "elke seconde",
+        "every %d seconds": "elke %d seconden",
+        "every minute": "elke minuut",
+        "every %d minutes": "elke %d minuten",
+
+        "%s is running": "%s is actief",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Draait op de achtergrond en herinnert je eraan te "
+            "knipperen\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Klik met rechts op het pictogram naast de klok.",
+        "Got it": "Begrepen",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s draait al.\n\nZoek het pictogram in het systeemvak, naast de "
+            "klok — misschien moet je op de pijl ^ klikken om het te zien. "
+            "Klik met rechts op het pictogram voor instellingen.",
+
+        "A gentle nudge on every screen.":
+            "Een rustige herinnering op elk scherm.",
+        "Start with Windows": "Starten met Windows",
+        "Startup: managed by Windows": "Opstarten: beheerd door Windows",
+        "Startup: turned off in Task Manager":
+            "Opstarten: uit in Taakbeheer",
+        "Preview blink": "Knipperen testen",
+        "Preview break": "Pauze testen",
+        "Cancel": "Annuleren",
+        "Save": "Opslaan",
+        "Save the changes you made?": "Wijzigingen opslaan?",
+
+        "Blink": "Knipperen",
+        "Remind me every": "Herinner me elke",
+        "seconds": "seconden",
+        "minutes": "minuten",
+
+        "Break": "Pauze",
+        "Look at trees!": "Kijk naar de bomen!",
+        "Remind me to look away": "Herinner me weg te kijken",
+        "min": "min",
+
+        "A dot": "Een stip",
+        "A word": "Een woord",
+        "Dim screen": "Dimmen",
+        "Strength": "Sterkte",
+        "Colour": "Kleur",
+        "Change...": "Wijzigen…",
+        "Play a sound": "Geluid afspelen",
+        "  Advanced settings": "  Geavanceerde instellingen",
+
+        "Advanced settings - Blink": "Geavanceerde instellingen — Knipperen",
+        "Blink timing and sound": "Knipperen: tijd en geluid",
+        "Blink look": "Uiterlijk van het knipperen",
+        "Advanced settings - Break": "Geavanceerde instellingen — Pauze",
+        "Break timing and sound": "Pauze: tijd en geluid",
+        "Break look": "Uiterlijk van de pauze",
+        "Flash style": "Flitsstijl",
+        "Gentle": "Zacht",
+        "Standard": "Normaal",
+        "Sharp": "Scherp",
+        "Custom": "Eigen",
+        "Hold (s)": "Duur (s)",
+        "Fade (s)": "Vervaging (s)",
+        "Pulses": "Aantal",
+        "Gap between pulses": "Tussenpoos",
+        "Sound": "Geluid",
+        "Ding": "Ping",
+        "Chord": "Akkoord",
+        "Chime": "Bel",
+        "Notify": "Signaal",
+        "Volume": "Volume",
+        "Test": "Test",
+        "Dot size": "Grootte van de stip",
+        "Word to show": "Te tonen woord",
+        "Word size": "Woordgrootte",
+        "Position": "Positie",
+        "Centre": "Midden",
+        "Top left": "Linksboven",
+        "Top right": "Rechtsboven",
+        "Bottom left": "Linksonder",
+        "Bottom right": "Rechtsonder",
+        "Edge margin": "Afstand tot de rand",
+        "Show on every monitor": "Op elk scherm tonen",
+        "Done": "Klaar",
+
+        "Look into the distance": "Kijk in de verte",
     },
 }

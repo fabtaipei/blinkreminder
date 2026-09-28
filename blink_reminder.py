@@ -123,6 +123,16 @@ PRIMARY_LANGUAGES = {
     0x1F: "tr",   # Turkish
     0x21: "id",   # Indonesian
     0x2A: "vi",   # Vietnamese
+    0x05: "cs",   # Czech
+    0x06: "da",   # Danish
+    0x08: "el",   # Greek
+    0x0B: "fi",   # Finnish
+    0x0E: "hu",   # Hungarian
+    0x13: "nl",   # Dutch
+    0x14: "nb",   # Norwegian, both Bokmal and Nynorsk
+    0x18: "ro",   # Romanian
+    0x1D: "sv",   # Swedish
+    0x22: "uk",   # Ukrainian
 }
 
 # Chinese sublanguages written in Traditional characters: Taiwan, Hong Kong,
@@ -3490,8 +3500,12 @@ class SettingsWindow:
     # gutter between the preview pair and Cancel/Save, so widening them costs
     # nothing and it is the one change that stops every European language
     # rediscovering the same four buttons.
+    # 168 and 124 leave a 16px gutter between the two groups, which is the
+    # least the footer can give and still fit both the longest preview
+    # label ("Aperçu clignement", 132px) and the longest Save ("Αποθήκευση",
+    # 91px). Greek is what pushed the pair from 112 to 124.
     BTN_PREVIEW_W = 168
-    BTN_FOOTER_W = 112
+    BTN_FOOTER_W = 124
     # The Startup row is a switch when this app decides, and a wider button
     # when Windows does -- "Autozapusk: otklyuchyon v Dispetchere zadach" is
     # 311px, and a switch's label never gets near that.
