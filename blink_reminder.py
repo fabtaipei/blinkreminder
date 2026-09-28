@@ -52,7 +52,11 @@ from PIL import Image, ImageDraw
 # locale is a name nobody can search for.
 # --------------------------------------------------------------------------
 
-from blink_i18n import LANGUAGES, LANGUAGE_FONTS, STRINGS
+from blink_i18n import LANGUAGES, LANGUAGE_FONTS, RTL_LANGUAGES, STRINGS
+
+# U+202B RIGHT-TO-LEFT EMBEDDING and U+202C POP DIRECTIONAL FORMATTING.
+# Zero width, so they cost nothing in measurement or layout.
+RLE, PDF = "‫", "‬"
 
 # Resolved once, at startup, from config.json or from Windows. Module-level
 # rather than threaded through every call because every string in the app
@@ -65,8 +69,15 @@ def T(text):
 
     Falls back to the English key, so an untranslated string is readable
     English rather than a hole in the interface.
+
+    Right-to-left languages come back wrapped, which declares the base
+    direction of the run. Without it a label -- a left-to-right widget --
+    lays Arabic out with a left-to-right base, and any Latin word or
+    numeral inside lands in the wrong place. The wrap is two zero-width
+    characters and changes nothing for every other language.
     """
-    return STRINGS.get(_LANG, {}).get(text, text)
+    out = STRINGS.get(_LANG, {}).get(text, text)
+    return RLE + out + PDF if _LANG in RTL_LANGUAGES else out
 
 
 def translated(pairs):
@@ -99,6 +110,13 @@ PRIMARY_LANGUAGES = {
     0x0A: "es",   # Spanish, every variety
     0x0C: "fr",   # French, every variety
     0x10: "it",   # Italian
+    0x16: "pt",   # Portuguese, Brazil and Portugal alike
+    0x11: "ja",   # Japanese
+    0x12: "ko",   # Korean
+    0x39: "hi",   # Hindi
+    0x45: "bn",   # Bengali
+    0x01: "ar",   # Arabic, every variety
+    0x20: "ur",   # Urdu
 }
 
 # Chinese sublanguages written in Traditional characters: Taiwan, Hong Kong,
@@ -143,7 +161,11 @@ def text_cells(message):
     so a four-character Chinese word is not given the room of a
     four-character English one and then cropped.
     """
-    return sum(2 if unicodedata.east_asian_width(ch) in ("W", "F") else 1
+    # Format characters -- the bidi marks T() adds, among others -- take no
+    # room at all, so counting them would pad the pane by a character each.
+    return sum(0 if unicodedata.category(ch) == "Cf"
+               else 2 if unicodedata.east_asian_width(ch) in ("W", "F")
+               else 1
                for ch in message)
 
 
@@ -2290,6 +2312,37 @@ def _arrow(master, size, colour, right=True, thick=1.5):
     return _sprite(master, size, size, paint, keep=False)
 
 
+def _picker_face(master, w, h, colour, thick=1.5):
+    """A globe at the left and a chevron at the right, in one image.
+
+    Drawn as a single sprite because a ttk button takes one image, and the
+    two marks belong at opposite ends with the label between them. The
+    button uses compound="center", so ttk draws the text over the middle of
+    this and the transparent gap is where it lands.
+
+    The globe is there because the picker has to be recognisable to someone
+    who cannot read the language it is currently showing -- which is the
+    whole population it exists for.
+    """
+    def paint(d, W, H, k):
+        line = max(1, int(round(thick * k)))
+        r = H * 0.44                       # globe radius, vertically centred
+        cx, cy = r + line, H / 2.0
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=colour, width=line)
+        d.line([(cx - r, cy), (cx + r, cy)], fill=colour, width=line)
+        # One meridian, drawn as a narrow ellipse: at this size a second one
+        # turns the globe into a smudge.
+        d.ellipse([cx - r * 0.45, cy - r, cx + r * 0.45, cy + r],
+                  outline=colour, width=line)
+        # The chevron, right-aligned, same shape as _arrow's downward form.
+        cw = H * 0.34
+        rx = W - line - cw * 2
+        d.line([(rx, cy - cw * 0.35), (rx + cw, cy + cw * 0.45),
+                (rx + cw * 2, cy - cw * 0.35)],
+               fill=colour, width=line, joint="curve")
+    return _sprite(master, w, h, paint, keep=False)
+
+
 def _switch(master, s, pal, on, hover=False, pressed=False, focus=False, alpha=1.0):
     """The Fluent pill toggle. The off-knob is a solid mid-grey on purpose: a
     pale one reads as disabled rather than as off."""
@@ -3166,18 +3219,19 @@ class _Picker(ttk.Button):
     ROW_H = 32
     LIST_PAD = 6
 
-    def __init__(self, parent, s, pal, pairs, variable, command=None):
+    def __init__(self, parent, s, pal, pairs, variable, width, command=None):
         self.s, self.pal = s, pal
         self.pairs = list(pairs)
         self.var = variable
         self.on_pick = command
         self.popup = None
+        self.width = width
         # keep=False, and the button holds the only reference: the panel is
         # opened and closed freely, and a kept sprite per open would pile up
         # in _THEME_IMAGES for the life of the process.
-        self._chev = _arrow(parent, s(12), pal["muted"], right=False,
-                            thick=s(1.5))
-        super().__init__(parent, image=self._chev, compound="right",
+        self._face = _picker_face(parent, s(width - 32), s(20), pal["muted"],
+                                  s(1.5))
+        super().__init__(parent, image=self._face, compound="center",
                          style="Secondary.TButton", command=self.toggle)
         variable.trace_add("write", lambda *_a: self._sync())
         self._sync()
@@ -3186,7 +3240,7 @@ class _Picker(ttk.Button):
         # The variable outlives the widget when the panel is rebuilt, so a
         # late write must not reach a destroyed button.
         if self.winfo_exists():
-            self.configure(text=self.var.get() + "  ")
+            self.configure(text=self.var.get())
 
     # -- the list -----------------------------------------------------------
 
@@ -3894,6 +3948,7 @@ class SettingsWindow:
         # 32 high like every other control, and its top edge on the title's,
         # which is the alignment the eye actually checks.
         self.lang_picker = _Picker(outer, s, pal, LANGUAGES, self.v_lang,
+                                   self.LANG_W,
                                    command=self._language_changed)
         self.lang_picker.place(x=s(self.WIN_W - 20 - self.LANG_W), y=s(15),
                                width=s(self.LANG_W), height=s(32))

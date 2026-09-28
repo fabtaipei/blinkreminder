@@ -54,6 +54,13 @@ LANGUAGES = [
     ("Español", "es"),
     ("Deutsch", "de"),
     ("Italiano", "it"),
+    ("Português", "pt"),
+    ("日本語", "ja"),
+    ("한국어", "ko"),
+    ("हिन्दी", "hi"),
+    ("বাংলা", "bn"),
+    ("العربية", "ar"),
+    ("اردو", "ur"),
 ]
 
 # Families to try AHEAD of the Latin stacks, per language. Segoe UI Variable
@@ -65,6 +72,15 @@ LANGUAGES = [
 # ending at two fonts drawn for other languages: YaHei sets the same characters
 # in mainland typographic conventions and Yu Gothic in Japanese ones, which is
 # a compromise on how the text LOOKS and never on whether it can be read at all.
+# Languages written right to left. Tk shapes and reverses their text
+# correctly on its own, but a LABEL is a left-to-right widget, so Tk lays
+# its text out with a left-to-right base paragraph direction -- and that
+# misplaces any Latin run inside. Measured: "التشغيل مع Windows" renders
+# with Windows at the FRONT, which is simply the wrong sentence. T() wraps
+# these languages in U+202B ... U+202C to state the base direction, which
+# puts it back where it belongs.
+RTL_LANGUAGES = frozenset(("ar", "ur"))
+
 LANGUAGE_FONTS = {
     "zh-Hant": ("Microsoft JhengHei UI", "Microsoft JhengHei", "PMingLiU",
                 "MingLiU", "Microsoft YaHei UI", "Yu Gothic UI"),
@@ -74,8 +90,23 @@ LANGUAGE_FONTS = {
     # text looks and never on whether it can be read.
     "zh-Hans": ("Microsoft YaHei UI", "Microsoft YaHei", "SimSun", "NSimSun",
                 "Microsoft JhengHei UI", "Yu Gothic UI"),
-    # French, Spanish, German and Italian need nothing: Segoe UI Variable
-    # covers every Latin-script language, and Cyrillic and Greek besides.
+    "ja": ("Yu Gothic UI", "Meiryo UI", "MS UI Gothic",
+           "Microsoft JhengHei UI"),
+    "ko": ("Malgun Gothic", "Gulim", "Dotum", "Microsoft JhengHei UI"),
+    # Nirmala UI is Windows' own face for the Indic scripts and covers both
+    # Devanagari and Bengali. Tk shapes them correctly through Windows --
+    # conjuncts form and vowel marks reorder, measured at 0.49 and 0.64 of
+    # the width of the same characters laid out singly.
+    "hi": ("Nirmala UI", "Mangal"),
+    "bn": ("Nirmala UI", "Vrinda", "Shonar Bangla"),
+    # Arabic and Urdu also shape and run right to left correctly. Segoe UI
+    # carries Arabic; Urdu Typesetting is the nastaliq face Windows ships
+    # for Urdu, but it is calligraphic and sets far too tall for a 32px row,
+    # so the naskh in Segoe UI is the better fit for an interface.
+    "ar": ("Segoe UI", "Tahoma", "Arial"),
+    "ur": ("Segoe UI", "Tahoma", "Arial"),
+    # French, Spanish, German, Italian and Portuguese need nothing: Segoe UI
+    # Variable covers every Latin-script language, and Cyrillic and Greek.
 }
 
 # Traditional Chinese, in Taiwan's vocabulary: 螢幕 rather than 屏幕, 設定
@@ -689,5 +720,686 @@ STRINGS = {
         "Done": "Fatto",
 
         "Look into the distance": "Guarda lontano",
+    },
+
+    # Portuguese, written for Brazil, which is where almost all the Store's
+    # Portuguese-speaking customers are. "Tela" rather than "ecrã", "você"
+    # rather than "tu".
+    "pt": {
+        "Blink now": "Piscar agora",
+        "Resume reminders": "Retomar lembretes",
+        "Snooze 30 minutes": "Adiar por 30 minutos",
+        "Settings": "Configurações",
+        "Buy me a coffee": "Me pague um café",
+        "Quit": "Sair",
+
+        "every second": "a cada segundo",
+        "every %d seconds": "a cada %d segundos",
+        "every minute": "a cada minuto",
+        "every %d minutes": "a cada %d minutos",
+
+        "%s is running": "%s está em execução",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "Fica em segundo plano e vai lembrar você de piscar\n%s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "Clique com o botão direito no ícone ao lado do relógio.",
+        "Got it": "Entendi",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s já está em execução.\n\nProcure o ícone na área de "
+            "notificação, ao lado do relógio — talvez seja preciso clicar na "
+            "seta ^ para vê-lo. Clique com o botão direito para abrir as "
+            "configurações.",
+
+        "A gentle nudge on every screen.": "Um lembrete discreto em cada tela.",
+        "Start with Windows": "Iniciar com o Windows",
+        "Startup: managed by Windows": "Inicialização: pelo Windows",
+        "Startup: turned off in Task Manager":
+            "Inicialização: desativada (Gerenciador)",
+        "Preview blink": "Testar piscada",
+        "Preview break": "Testar pausa",
+        "Cancel": "Cancelar",
+        "Save": "Salvar",
+        "Save the changes you made?": "Salvar as alterações?",
+
+        "Blink": "Piscada",
+        "Remind me every": "Lembrar a cada",
+        "seconds": "segundos",
+        "minutes": "minutos",
+
+        "Break": "Pausa",
+        "Look at trees!": "Olhe as árvores!",
+        "Remind me to look away": "Lembrar de olhar para longe",
+        "min": "min",
+
+        "A dot": "Um ponto",
+        "A word": "Palavra",
+        "Dim screen": "Escurecer",
+        # "Intensidade" is 77px and the label has 74 before the slider.
+        "Strength": "Força",
+        "Colour": "Cor",
+        "Change...": "Alterar…",
+        "Play a sound": "Tocar um som",
+        "  Advanced settings": "  Configurações avançadas",
+
+        "Advanced settings - Blink": "Configurações avançadas — Piscada",
+        "Blink timing and sound": "Piscada: tempo e som",
+        "Blink look": "Aparência da piscada",
+        "Advanced settings - Break": "Configurações avançadas — Pausa",
+        "Break timing and sound": "Pausa: tempo e som",
+        "Break look": "Aparência da pausa",
+        "Flash style": "Estilo do brilho",
+        "Gentle": "Suave",
+        "Standard": "Padrão",
+        "Sharp": "Marcado",
+        "Custom": "Person.",
+        "Hold (s)": "Duração (s)",
+        "Fade (s)": "Fusão (s)",
+        "Pulses": "Pulsos",
+        "Gap between pulses": "Intervalo entre pulsos",
+        "Sound": "Som",
+        "Ding": "Ding",
+        "Chord": "Acorde",
+        "Chime": "Sino",
+        "Notify": "Aviso",
+        "Volume": "Volume",
+        "Test": "Testar",
+        "Dot size": "Tamanho do ponto",
+        "Word to show": "Palavra a exibir",
+        "Word size": "Tamanho do texto",
+        "Position": "Posição",
+        "Centre": "Centro",
+        "Top left": "Acima à esquerda",
+        "Top right": "Acima à direita",
+        "Bottom left": "Abaixo à esquerda",
+        "Bottom right": "Abaixo à direita",
+        "Edge margin": "Margem da borda",
+        "Show on every monitor": "Mostrar em todas as telas",
+        "Done": "Concluir",
+
+        "Look into the distance": "Olhe para longe",
+    },
+
+    # Japanese. Interface Japanese is terse -- ですます endings are dropped
+    # from labels and kept only in the two full sentences the notice shows.
+    "ja": {
+        "Blink now": "今すぐまばたき",
+        "Resume reminders": "通知を再開",
+        "Snooze 30 minutes": "30 分停止",
+        "Settings": "設定",
+        "Buy me a coffee": "コーヒーをおごる",
+        "Quit": "終了",
+
+        "every second": "毎秒",
+        "every %d seconds": "%d 秒ごとに",
+        "every minute": "毎分",
+        "every %d minutes": "%d 分ごとに",
+
+        "%s is running": "%s は実行中です",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "バックグラウンドで動き、%sまばたきをお知らせします。",
+        "Right-click the tray icon, by the clock, for settings.":
+            "時計の横のアイコンを右クリックすると設定が開きます。",
+        "Got it": "閉じる",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s はすでに実行中です。\n\n時計の横の通知領域にアイコンがあります"
+            "— ^ をクリックしないと見えないことがあります。"
+            "アイコンを右クリックすると設定が開きます。",
+
+        "A gentle nudge on every screen.": "すべての画面にそっとお知らせします。",
+        "Start with Windows": "Windows 起動時に開始",
+        "Startup: managed by Windows": "起動：Windows が管理",
+        "Startup: turned off in Task Manager": "起動：タスクマネージャーで無効",
+        "Preview blink": "まばたきを試す",
+        "Preview break": "休憩を試す",
+        "Cancel": "キャンセル",
+        "Save": "保存",
+        "Save the changes you made?": "変更を保存しますか？",
+
+        "Blink": "まばたき",
+        "Remind me every": "通知の間隔",
+        "seconds": "秒",
+        "minutes": "分",
+
+        "Break": "休憩",
+        "Look at trees!": "緑を見よう！",
+        "Remind me to look away": "遠くを見るよう通知",
+        "min": "分",
+
+        "A dot": "点",
+        "A word": "文字",
+        "Dim screen": "画面を暗く",
+        "Strength": "強さ",
+        "Colour": "色",
+        "Change...": "変更…",
+        "Play a sound": "音を鳴らす",
+        "  Advanced settings": "　詳細設定",
+
+        "Advanced settings - Blink": "詳細設定 — まばたき",
+        "Blink timing and sound": "まばたきの時間と音",
+        "Blink look": "まばたきの見た目",
+        "Advanced settings - Break": "詳細設定 — 休憩",
+        "Break timing and sound": "休憩の時間と音",
+        "Break look": "休憩の見た目",
+        "Flash style": "光り方",
+        "Gentle": "やさしく",
+        "Standard": "標準",
+        "Sharp": "はっきり",
+        "Custom": "カスタム",
+        "Hold (s)": "表示（秒）",
+        "Fade (s)": "フェード（秒）",
+        "Pulses": "回数",
+        "Gap between pulses": "各回の間隔",
+        "Sound": "音",
+        "Ding": "ディン",
+        "Chord": "和音",
+        "Chime": "チャイム",
+        "Notify": "通知",
+        "Volume": "音量",
+        "Test": "試聴",
+        "Dot size": "点の大きさ",
+        "Word to show": "表示する文字",
+        "Word size": "文字の大きさ",
+        "Position": "位置",
+        "Centre": "中央",
+        "Top left": "左上",
+        "Top right": "右上",
+        "Bottom left": "左下",
+        "Bottom right": "右下",
+        "Edge margin": "端からの余白",
+        "Show on every monitor": "すべての画面に表示",
+        "Done": "完了",
+
+        "Look into the distance": "遠くを見る",
+    },
+
+    # Korean. Spacing follows 한글 맞춤법: "눈 깜박임" is two words, and the
+    # interface style drops 하십시오체 endings from labels.
+    "ko": {
+        "Blink now": "지금 깜박이기",
+        "Resume reminders": "알림 다시 시작",
+        "Snooze 30 minutes": "30분 미루기",
+        "Settings": "설정",
+        "Buy me a coffee": "커피 한 잔 사주기",
+        "Quit": "종료",
+
+        "every second": "매초",
+        "every %d seconds": "%d초마다",
+        "every minute": "매분",
+        "every %d minutes": "%d분마다",
+
+        "%s is running": "%s 실행 중",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "백그라운드에서 실행되며 %s 눈 깜박임을 알려 줍니다.",
+        # The full "마우스 오른쪽 버튼으로 누르면" is 448px in a 408px card.
+        "Right-click the tray icon, by the clock, for settings.":
+            "시계 옆 아이콘을 오른쪽 클릭하면 설정이 열립니다.",
+        "Got it": "확인",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s이(가) 이미 실행 중입니다.\n\n시계 옆 알림 영역에서 아이콘을 "
+            "찾아보세요 — ^ 화살표를 눌러야 보일 수도 있습니다. 아이콘을 "
+            "오른쪽 버튼으로 누르면 설정이 열립니다.",
+
+        "A gentle nudge on every screen.": "모든 화면에 조용히 알려 줍니다.",
+        "Start with Windows": "Windows 시작 시 실행",
+        "Startup: managed by Windows": "시작: Windows가 관리",
+        "Startup: turned off in Task Manager": "시작: 작업 관리자에서 해제됨",
+        "Preview blink": "깜박임 미리보기",
+        "Preview break": "휴식 미리보기",
+        "Cancel": "취소",
+        "Save": "저장",
+        "Save the changes you made?": "변경 내용을 저장할까요?",
+
+        "Blink": "눈 깜박임",
+        "Remind me every": "알림 간격",
+        "seconds": "초",
+        "minutes": "분",
+
+        "Break": "휴식",
+        "Look at trees!": "나무를 보세요!",
+        "Remind me to look away": "먼 곳 보기 알림",
+        "min": "분",
+
+        "A dot": "점",
+        "A word": "글자",
+        "Dim screen": "어둡게",
+        "Strength": "세기",
+        "Colour": "색",
+        "Change...": "변경…",
+        "Play a sound": "소리 재생",
+        "  Advanced settings": "　고급 설정",
+
+        "Advanced settings - Blink": "고급 설정 — 눈 깜박임",
+        "Blink timing and sound": "깜박임 시간과 소리",
+        "Blink look": "깜박임 모양",
+        "Advanced settings - Break": "고급 설정 — 휴식",
+        "Break timing and sound": "휴식 시간과 소리",
+        "Break look": "휴식 모양",
+        "Flash style": "번쩍임 방식",
+        "Gentle": "부드럽게",
+        "Standard": "표준",
+        "Sharp": "뚜렷하게",
+        "Custom": "사용자",
+        "Hold (s)": "유지(초)",
+        "Fade (s)": "페이드(초)",
+        "Pulses": "횟수",
+        "Gap between pulses": "각 회 사이 간격",
+        "Sound": "소리",
+        "Ding": "딩",
+        "Chord": "화음",
+        "Chime": "차임",
+        "Notify": "알림",
+        "Volume": "음량",
+        "Test": "듣기",
+        "Dot size": "점 크기",
+        "Word to show": "표시할 글자",
+        "Word size": "글자 크기",
+        "Position": "위치",
+        "Centre": "가운데",
+        "Top left": "왼쪽 위",
+        "Top right": "오른쪽 위",
+        "Bottom left": "왼쪽 아래",
+        "Bottom right": "오른쪽 아래",
+        "Edge margin": "가장자리 여백",
+        "Show on every monitor": "모든 화면에 표시",
+        "Done": "완료",
+
+        "Look into the distance": "먼 곳을 보세요",
+    },
+
+    # Hindi. Devanagari, shaped correctly by Windows through Tk.
+    "hi": {
+        "Blink now": "अभी पलक झपकाएँ",
+        "Resume reminders": "याद दिलाना फिर शुरू",
+        "Snooze 30 minutes": "30 मिनट रोकें",
+        "Settings": "सेटिंग्स",
+        "Buy me a coffee": "मुझे कॉफ़ी पिलाएँ",
+        "Quit": "बंद करें",
+
+        "every second": "हर सेकंड",
+        "every %d seconds": "हर %d सेकंड",
+        "every minute": "हर मिनट",
+        "every %d minutes": "हर %d मिनट",
+
+        "%s is running": "%s चल रहा है",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "यह पृष्ठभूमि में चलता है और %s पलक झपकाने की याद दिलाएगा।",
+        "Right-click the tray icon, by the clock, for settings.":
+            "घड़ी के पास वाले आइकन पर राइट-क्लिक करें।",
+        "Got it": "ठीक है",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s पहले से चल रहा है।\n\nघड़ी के पास सूचना क्षेत्र में इसका आइकन "
+            "देखें — दिखने के लिए ^ तीर पर क्लिक करना पड़ सकता है। सेटिंग्स के "
+            "लिए आइकन पर राइट-क्लिक करें।",
+
+        "A gentle nudge on every screen.": "हर स्क्रीन पर एक हल्का संकेत।",
+        "Start with Windows": "Windows के साथ शुरू",
+        "Startup: managed by Windows": "शुरुआत: Windows द्वारा",
+        "Startup: turned off in Task Manager": "शुरुआत: टास्क मैनेजर में बंद",
+        "Preview blink": "पलक देखें",
+        "Preview break": "विराम देखें",
+        "Cancel": "रद्द करें",
+        "Save": "सहेजें",
+        "Save the changes you made?": "बदलाव सहेजें?",
+
+        "Blink": "पलक",
+        "Remind me every": "याद दिलाएँ हर",
+        "seconds": "सेकंड",
+        "minutes": "मिनट",
+
+        "Break": "विराम",
+        "Look at trees!": "पेड़ों को देखें!",
+        "Remind me to look away": "दूर देखने की याद दिलाएँ",
+        "min": "मि",
+
+        "A dot": "बिंदु",
+        "A word": "शब्द",
+        "Dim screen": "मंद करें",
+        "Strength": "तीव्रता",
+        "Colour": "रंग",
+        "Change...": "बदलें…",
+        "Play a sound": "ध्वनि बजाएँ",
+        "  Advanced settings": "  उन्नत सेटिंग्स",
+
+        "Advanced settings - Blink": "उन्नत सेटिंग्स — पलक",
+        "Blink timing and sound": "पलक: समय और ध्वनि",
+        "Blink look": "पलक का रूप",
+        "Advanced settings - Break": "उन्नत सेटिंग्स — विराम",
+        "Break timing and sound": "विराम: समय और ध्वनि",
+        "Break look": "विराम का रूप",
+        "Flash style": "चमक का ढंग",
+        "Gentle": "हल्का",
+        "Standard": "सामान्य",
+        "Sharp": "तेज़",
+        "Custom": "अपना",
+        "Hold (s)": "ठहराव (से)",
+        "Fade (s)": "फ़ेड (से)",
+        "Pulses": "बार",
+        "Gap between pulses": "हर बार के बीच अंतर",
+        "Sound": "ध्वनि",
+        "Ding": "डिंग",
+        "Chord": "स्वर",
+        "Chime": "घंटी",
+        "Notify": "सूचना",
+        "Volume": "आवाज़",
+        "Test": "सुनें",
+        "Dot size": "बिंदु का आकार",
+        "Word to show": "दिखाने का शब्द",
+        "Word size": "शब्द का आकार",
+        "Position": "स्थान",
+        "Centre": "बीच में",
+        "Top left": "ऊपर बाएँ",
+        "Top right": "ऊपर दाएँ",
+        "Bottom left": "नीचे बाएँ",
+        "Bottom right": "नीचे दाएँ",
+        "Edge margin": "किनारे से दूरी",
+        "Show on every monitor": "हर स्क्रीन पर दिखाएँ",
+        "Done": "हो गया",
+
+        "Look into the distance": "दूर देखें",
+    },
+
+    # Bengali. Nirmala UI covers it, and the conjuncts form correctly.
+    "bn": {
+        "Blink now": "এখনই চোখ পিটপিট",
+        "Resume reminders": "মনে করানো চালু",
+        "Snooze 30 minutes": "৩০ মিনিট থামান",
+        "Settings": "সেটিংস",
+        "Buy me a coffee": "আমাকে কফি খাওয়ান",
+        "Quit": "বন্ধ করুন",
+
+        "every second": "প্রতি সেকেন্ডে",
+        "every %d seconds": "প্রতি %d সেকেন্ডে",
+        "every minute": "প্রতি মিনিটে",
+        "every %d minutes": "প্রতি %d মিনিটে",
+
+        "%s is running": "%s চলছে",
+        # Broken across two lines like the English, which is what keeps it
+        # inside the notice: on one line it runs 446px of the 440 available.
+        "It stays in the background and will nudge you to blink\n%s.":
+            "এটি পটভূমিতে চলে এবং\n%s চোখের পলক ফেলার কথা মনে করাবে।",
+        "Right-click the tray icon, by the clock, for settings.":
+            "ঘড়ির পাশের আইকনে ডান-ক্লিক করুন।",
+        "Got it": "বুঝেছি",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s ইতিমধ্যে চলছে।\n\nঘড়ির পাশে বিজ্ঞপ্তি এলাকায় এর আইকন "
+            "খুঁজুন — দেখতে ^ তিরে ক্লিক করতে হতে পারে। সেটিংসের জন্য আইকনে "
+            "ডান-ক্লিক করুন।",
+
+        "A gentle nudge on every screen.": "প্রতিটি পর্দায় নরম একটি ইঙ্গিত।",
+        "Start with Windows": "Windows চালু হলে শুরু",
+        "Startup: managed by Windows": "শুরু: Windows পরিচালিত",
+        "Startup: turned off in Task Manager": "শুরু: টাস্ক ম্যানেজারে বন্ধ",
+        "Preview blink": "পলক দেখুন",
+        "Preview break": "বিরতি দেখুন",
+        "Cancel": "বাতিল",
+        "Save": "সংরক্ষণ",
+        "Save the changes you made?": "পরিবর্তন সংরক্ষণ করবেন?",
+
+        "Blink": "পলক",
+        "Remind me every": "মনে করান প্রতি",
+        "seconds": "সেকেন্ড",
+        "minutes": "মিনিট",
+
+        "Break": "বিরতি",
+        "Look at trees!": "গাছের দিকে তাকান!",
+        "Remind me to look away": "দূরে তাকাতে মনে করান",
+        "min": "মি",
+
+        "A dot": "বিন্দু",
+        "A word": "শব্দ",
+        "Dim screen": "আবছা",
+        "Strength": "তীব্রতা",
+        "Colour": "রঙ",
+        "Change...": "বদলান…",
+        "Play a sound": "শব্দ বাজান",
+        "  Advanced settings": "  উন্নত সেটিংস",
+
+        "Advanced settings - Blink": "উন্নত সেটিংস — পলক",
+        "Blink timing and sound": "পলক: সময় ও শব্দ",
+        "Blink look": "পলকের চেহারা",
+        "Advanced settings - Break": "উন্নত সেটিংস — বিরতি",
+        "Break timing and sound": "বিরতি: সময় ও শব্দ",
+        "Break look": "বিরতির চেহারা",
+        "Flash style": "ঝলকের ধরন",
+        "Gentle": "নরম",
+        "Standard": "সাধারণ",
+        "Sharp": "স্পষ্ট",
+        "Custom": "নিজের",
+        "Hold (s)": "স্থায়ী (সে)",
+        "Fade (s)": "ফেড (সে)",
+        "Pulses": "বার",
+        "Gap between pulses": "প্রতি বারের ব্যবধান",
+        "Sound": "শব্দ",
+        "Ding": "ডিং",
+        "Chord": "সুর",
+        "Chime": "ঘণ্টা",
+        "Notify": "বিজ্ঞপ্তি",
+        "Volume": "আওয়াজ",
+        "Test": "শুনুন",
+        "Dot size": "বিন্দুর আকার",
+        "Word to show": "যে শব্দ দেখাবে",
+        "Word size": "শব্দের আকার",
+        "Position": "অবস্থান",
+        "Centre": "মাঝখানে",
+        "Top left": "উপরে বাঁয়ে",
+        "Top right": "উপরে ডানে",
+        "Bottom left": "নিচে বাঁয়ে",
+        "Bottom right": "নিচে ডানে",
+        "Edge margin": "কিনারা থেকে দূরত্ব",
+        "Show on every monitor": "প্রতিটি পর্দায় দেখান",
+        "Done": "সম্পন্ন",
+
+        "Look into the distance": "দূরে তাকান",
+    },
+
+    # Arabic. The TEXT shapes and runs right to left correctly -- Tk gets
+    # that from Windows. The LAYOUT is not mirrored: labels sit on the left
+    # of their rows and controls on the right, as in every other language.
+    # That is a real compromise and it is the honest state of things; see
+    # LOCALISATION.md.
+    "ar": {
+        "Blink now": "ارمش الآن",
+        "Resume reminders": "استئناف التذكيرات",
+        "Snooze 30 minutes": "إيقاف 30 دقيقة",
+        "Settings": "الإعدادات",
+        "Buy me a coffee": "ادعمني بقهوة",
+        "Quit": "إنهاء",
+
+        "every second": "كل ثانية",
+        "every %d seconds": "كل %d ثانية",
+        "every minute": "كل دقيقة",
+        "every %d minutes": "كل %d دقيقة",
+
+        "%s is running": "%s قيد التشغيل",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "يعمل في الخلفية ويذكّرك بالرمش %s.",
+        "Right-click the tray icon, by the clock, for settings.":
+            "انقر بزر الفأرة الأيمن على الأيقونة بجوار الساعة.",
+        "Got it": "حسنًا",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s يعمل بالفعل.\n\nابحث عن أيقونته في منطقة الإشعارات بجوار "
+            "الساعة — قد تحتاج إلى النقر على السهم ^ لرؤيتها. انقر بالزر "
+            "الأيمن على الأيقونة لفتح الإعدادات.",
+
+        "A gentle nudge on every screen.": "تنبيه لطيف على كل شاشة.",
+        "Start with Windows": "التشغيل مع Windows",
+        "Startup: managed by Windows": "بدء التشغيل: يديره Windows",
+        "Startup: turned off in Task Manager": "بدء التشغيل: معطّل في المدير",
+        "Preview blink": "معاينة الرمش",
+        "Preview break": "معاينة الراحة",
+        "Cancel": "إلغاء",
+        "Save": "حفظ",
+        "Save the changes you made?": "حفظ التغييرات؟",
+
+        "Blink": "الرمش",
+        "Remind me every": "ذكّرني كل",
+        "seconds": "ثانية",
+        "minutes": "دقيقة",
+
+        "Break": "راحة",
+        "Look at trees!": "انظر إلى الأشجار!",
+        "Remind me to look away": "ذكّرني بالنظر بعيدًا",
+        "min": "د",
+
+        "A dot": "نقطة",
+        "A word": "كلمة",
+        "Dim screen": "تعتيم",
+        "Strength": "الشدة",
+        "Colour": "اللون",
+        "Change...": "تغيير…",
+        "Play a sound": "تشغيل صوت",
+        "  Advanced settings": "  إعدادات متقدمة",
+
+        "Advanced settings - Blink": "إعدادات متقدمة — الرمش",
+        "Blink timing and sound": "الرمش: التوقيت والصوت",
+        "Blink look": "مظهر الرمش",
+        "Advanced settings - Break": "إعدادات متقدمة — الراحة",
+        "Break timing and sound": "الراحة: التوقيت والصوت",
+        "Break look": "مظهر الراحة",
+        "Flash style": "نمط الوميض",
+        "Gentle": "لطيف",
+        "Standard": "عادي",
+        "Sharp": "واضح",
+        "Custom": "مخصص",
+        "Hold (s)": "الثبات (ث)",
+        "Fade (s)": "التلاشي (ث)",
+        "Pulses": "مرات",
+        "Gap between pulses": "الفاصل بين المرات",
+        "Sound": "الصوت",
+        "Ding": "رنة",
+        "Chord": "وتر",
+        "Chime": "جرس",
+        "Notify": "تنبيه",
+        "Volume": "مستوى الصوت",
+        "Test": "تجربة",
+        "Dot size": "حجم النقطة",
+        "Word to show": "الكلمة المعروضة",
+        "Word size": "حجم الكلمة",
+        "Position": "الموضع",
+        "Centre": "الوسط",
+        "Top left": "أعلى اليسار",
+        "Top right": "أعلى اليمين",
+        "Bottom left": "أسفل اليسار",
+        "Bottom right": "أسفل اليمين",
+        "Edge margin": "المسافة من الحافة",
+        "Show on every monitor": "إظهار على كل شاشة",
+        "Done": "تم",
+
+        "Look into the distance": "انظر بعيدًا",
+    },
+
+    # Urdu. Same caveat as Arabic: the text is right, the layout is not
+    # mirrored. Set in Segoe UI's naskh rather than Windows' nastaliq face,
+    # which is calligraphic and far too tall for a 32-pixel row.
+    "ur": {
+        "Blink now": "ابھی پلک جھپکیں",
+        "Resume reminders": "یاد دہانیاں دوبارہ",
+        "Snooze 30 minutes": "30 منٹ روکیں",
+        "Settings": "ترتیبات",
+        "Buy me a coffee": "مجھے کافی پلائیں",
+        "Quit": "بند کریں",
+
+        "every second": "ہر سیکنڈ",
+        "every %d seconds": "ہر %d سیکنڈ",
+        "every minute": "ہر منٹ",
+        "every %d minutes": "ہر %d منٹ",
+
+        "%s is running": "%s چل رہا ہے",
+        "It stays in the background and will nudge you to blink\n%s.":
+            "یہ پس منظر میں چلتا ہے اور %s پلک جھپکنے کی یاد دلائے گا۔",
+        "Right-click the tray icon, by the clock, for settings.":
+            "گھڑی کے پاس آئیکن پر دائیں کلک کریں۔",
+        "Got it": "ٹھیک ہے",
+
+        "%s is already running.\n\nLook for its icon in the system tray, "
+        "next to the clock -- you may need to click the ^ arrow to see it. "
+        "Right-click the icon for Settings.":
+            "%s پہلے سے چل رہا ہے۔\n\nگھڑی کے پاس اطلاعی حصے میں اس کا آئیکن "
+            "تلاش کریں — دیکھنے کے لیے ^ تیر پر کلک کرنا پڑ سکتا ہے۔ "
+            "ترتیبات کے لیے آئیکن پر دائیں کلک کریں۔",
+
+        "A gentle nudge on every screen.": "ہر اسکرین پر ایک نرم اشارہ۔",
+        "Start with Windows": "Windows کے ساتھ شروع",
+        "Startup: managed by Windows": "آغاز: Windows کے تحت",
+        "Startup: turned off in Task Manager": "آغاز: ٹاسک مینیجر میں بند",
+        "Preview blink": "پلک دیکھیں",
+        "Preview break": "وقفہ دیکھیں",
+        "Cancel": "منسوخ",
+        "Save": "محفوظ",
+        "Save the changes you made?": "تبدیلیاں محفوظ کریں؟",
+
+        "Blink": "پلک",
+        "Remind me every": "یاد دلائیں ہر",
+        "seconds": "سیکنڈ",
+        "minutes": "منٹ",
+
+        "Break": "وقفہ",
+        "Look at trees!": "درختوں کو دیکھیں!",
+        "Remind me to look away": "دور دیکھنے کی یاد دلائیں",
+        "min": "منٹ",
+
+        "A dot": "نقطہ",
+        "A word": "لفظ",
+        "Dim screen": "مدھم",
+        "Strength": "شدت",
+        "Colour": "رنگ",
+        "Change...": "تبدیل…",
+        "Play a sound": "آواز چلائیں",
+        "  Advanced settings": "  اعلیٰ ترتیبات",
+
+        "Advanced settings - Blink": "اعلیٰ ترتیبات — پلک",
+        "Blink timing and sound": "پلک: وقت اور آواز",
+        "Blink look": "پلک کی شکل",
+        "Advanced settings - Break": "اعلیٰ ترتیبات — وقفہ",
+        "Break timing and sound": "وقفہ: وقت اور آواز",
+        "Break look": "وقفے کی شکل",
+        "Flash style": "چمک کا انداز",
+        "Gentle": "نرم",
+        "Standard": "عام",
+        "Sharp": "واضح",
+        "Custom": "اپنا",
+        "Hold (s)": "ٹھہراؤ (س)",
+        "Fade (s)": "دھندلا (س)",
+        "Pulses": "بار",
+        "Gap between pulses": "ہر بار کا وقفہ",
+        "Sound": "آواز",
+        "Ding": "ڈنگ",
+        "Chord": "سُر",
+        "Chime": "گھنٹی",
+        "Notify": "اطلاع",
+        "Volume": "آواز کی سطح",
+        "Test": "سنیں",
+        "Dot size": "نقطے کا سائز",
+        "Word to show": "دکھانے کا لفظ",
+        "Word size": "لفظ کا سائز",
+        "Position": "مقام",
+        "Centre": "درمیان",
+        "Top left": "اوپر بائیں",
+        "Top right": "اوپر دائیں",
+        "Bottom left": "نیچے بائیں",
+        "Bottom right": "نیچے دائیں",
+        "Edge margin": "کنارے سے فاصلہ",
+        "Show on every monitor": "ہر اسکرین پر دکھائیں",
+        "Done": "مکمل",
+
+        "Look into the distance": "دور دیکھیں",
     },
 }

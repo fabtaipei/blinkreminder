@@ -148,8 +148,32 @@ Next candidates, and what each one actually costs:
 | --- | --- |
 | **日本語, 한국어** | Ready to go. CJK runs 75–85% of English, so no layout risk, and the font stacks are the same shape as Chinese's |
 | **Português (pt-BR)** | Ready to go. Latin script, similar length to Spanish |
-| **हिन्दी, বাংলা** | Possible, but not free. Devanagari and Bengali need their own font stacks (Nirmala UI covers both on Windows) and taller line boxes — the panel's 32px rows are tuned to Latin and CJK ascenders |
-| **العربية, اردو** | **No.** Right-to-left. The panel places every widget at a hard-coded x from the left edge; mirroring it is a layout rewrite, not a translation. Adding the strings without the layout would produce a broken interface, which is worse than English |
+| **हिन्दी, বাংলা** | Done. Nirmala UI covers both, and Windows shapes them correctly through Tk — conjuncts form and vowel marks reorder |
+| **العربية, اردو** | Done, with one caveat below |
+
+### Right-to-left: what is true, and what I got wrong
+
+An earlier version of this file said Arabic and Urdu were impossible. That
+was an assumption, not a measurement, and measuring it proved it wrong.
+
+**The text is correct.** Tk gets shaping and bidi from Windows: letters
+join, forms change by position, and the run reads right to left. Measured,
+a shaped Arabic word is 0.94 of the width of its letters laid out singly,
+and Urdu 0.56 — there is no way to get those numbers without real shaping.
+
+**One thing did need fixing.** A label is a left-to-right widget, so Tk
+lays its text out with a left-to-right base paragraph direction, and that
+misplaces any Latin run inside: `التشغيل مع Windows` rendered with Windows
+at the front, which is a different sentence. `T()` now wraps RTL languages
+in U+202B … U+202C to state the base direction. Two zero-width characters,
+and it costs the other twelve languages nothing.
+
+**What is still not done: the LAYOUT is not mirrored.** Labels sit on the
+left of each row and controls on the right, as in every other language. A
+fully localised Arabic build would flip that. It is a real compromise, and
+it is a fair amount of work — every widget is placed at a hard-coded x from
+the left edge — but it is a compromise about polish, not about legibility.
+The panel is readable and usable as it stands.
 
 ### Phase 2 — per language
 
@@ -206,14 +230,19 @@ Only one ordering constraint in the whole plan: **Phase 0 before Phase 2.**
 
 ## Where things stand
 
-- **1.1.6.0 speaks seven languages:** English, 繁體中文, 简体中文, Français,
-  Español, Deutsch, Italiano. Listing copy for all of them is in
-  `store/listing-*.json`.
-- **Only English and 繁體中文 are live on the Store** as of 1.1.5.0. The
-  other five need their listing languages added in Partner Center, then a
-  fresh export, `fill_listing.py`, and an import.
-- The five new languages cost about **50 KB** in the package, which is the
-  whole argument for one package restated with a bigger number.
+- **1.1.7.0 speaks fourteen languages:** English, 繁體中文, 简体中文,
+  Français, Español, Deutsch, Italiano, Português, 日本語, 한국어, हिन्दी,
+  বাংলা, العربية, اردو. 975 translated strings.
+- **Listing copy exists for six** (`store/listing-*.json`): zh-Hant,
+  zh-Hans, fr, es, de, it. The seven added after them — pt, ja, ko, hi, bn,
+  ar, ur — have the APP translated but no listing copy yet. That is the
+  next piece of work, and it is the expensive half.
+- **Only English and 繁體中文 are live on the Store** as of 1.1.5.0.
+  Everything else needs its listing language added in Partner Center, then
+  a fresh export, `fill_listing.py`, and an import.
+- Thirteen non-English languages cost about **130 KB** in the package,
+  which is the whole argument for one package restated with a bigger
+  number.
 - **Shipped in 1.1.4.0:** English + 繁體中文. Listing copy drafted in
   `store/listing-zh-Hant.txt`.
 - **Phase 0: done in 1.1.5.0.** All twelve slots widened; the picker is now
