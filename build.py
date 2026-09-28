@@ -25,7 +25,7 @@ NAME = "Dry Eyes Blink Reminder Lite"
 # DisplayName is matched against that reservation character for character --
 # copy it exactly, trailing punctuation and all, rather than retyping it.
 DISPLAY = "Dry Eyes Blink Reminder Lite"
-VERSION = (1, 1, 6, 0)
+VERSION = (1, 1, 7, 0)
 ICON = os.path.join(HERE, "build", "app.ico")
 VERSION_FILE = os.path.join(HERE, "build", "version.txt")
 ENTRY = os.path.join(HERE, "blink_reminder.py")
