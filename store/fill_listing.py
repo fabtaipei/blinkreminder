@@ -156,6 +156,43 @@ def align_all_trailers(rows, header, base="en-gb"):
         print("     no trailer file loses its last reference")
 
 
+def attach_local_shots(rows, header, shots_dir):
+    """Point screenshot cells at local files, for Import folder.
+
+    Partner Center wants the path to start with the import folder's own
+    name, so it is built from that folder rather than from the path given
+    here -- getting it wrong is an import that silently uploads nothing.
+    """
+    shots_dir = os.path.abspath(shots_dir)
+    root = os.path.basename(os.path.dirname(shots_dir))   # the import folder
+    leaf = os.path.basename(shots_dir)
+    by = {r[0]: r for r in rows[1:] if r}
+    total = 0
+    for code in sorted(os.listdir(shots_dir)):
+        folder = os.path.join(shots_dir, code)
+        if not os.path.isdir(folder):
+            continue
+        col = column(header, code)
+        if col is None:
+            print("  --shots: no %r column; skipped" % code)
+            continue
+        n = 0
+        for name in sorted(os.listdir(folder)):
+            slot, ext = os.path.splitext(name)
+            if not slot.isdigit() or ext.lower() != ".png":
+                continue
+            row = by.get("DesktopScreenshot%s" % slot)
+            if row is None:
+                continue
+            while len(row) <= col:
+                row.append("")
+            row[col] = "%s/%s/%s/%s" % (root, leaf, code, name)
+            n += 1
+        total += n
+    print("  --shots: %d screenshot cell(s) pointed at files under %s/%s"
+          % (total, root, leaf))
+
+
 def load(path):
     with io.open(path, encoding="utf-8") as fh:
         data = json.load(fh)
@@ -183,6 +220,15 @@ def main(argv):
     # is deleted from the account. The run reports each such file by name.
     align_trailers = "--align-trailers" in argv
     argv = [a for a in argv if a != "--align-trailers"]
+    # --shots DIR: point each language's DesktopScreenshotN at a local file
+    # under DIR/<code>/N.png, for a folder import. These OVERRIDE inherited
+    # artwork, which the asset copier never does -- a localised screenshot
+    # is the one case where the base listing's image is the wrong answer.
+    shots = None
+    if "--shots" in argv:
+        i = argv.index("--shots")
+        shots = argv[i + 1]
+        del argv[i:i + 2]
     drops = []
     while "--drop" in argv:
         i = argv.index("--drop")
@@ -324,6 +370,8 @@ def main(argv):
 
     if align_trailers:
         align_all_trailers(rows, header)
+    if shots:
+        attach_local_shots(rows, header, shots)
 
     for code in drops:
         i = column(header, code)
