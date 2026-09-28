@@ -1,0 +1,41 @@
+{
+  "language": "vi",
+  "_comment": ["Vietnamese. Artwork inherited; see fill_listing.py DEFAULT_COPY."],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Bảo lưu mọi quyền.",
+
+  "ShortDescription": "Chớp mắt nhiều hơn và để mắt được nghỉ. Một tín hiệu ngắn, nhẹ trên mọi màn hình — thấy được mà không hề làm gián đoạn. Dry Eyes Blink Reminder Lite nằm yên ở khay hệ thống, không dùng mạng và không bao giờ theo dõi bạn.",
+
+  "Description": "Dry Eyes Blink Reminder Lite là một tiện ích nhỏ và lặng lẽ, nằm ở khay hệ thống. Nó nhắc bạn chớp mắt bằng một tín hiệu hình ảnh ngắn — và trên một bộ hẹn giờ riêng, nhắc bạn rời mắt khỏi màn hình một lát.\n\nTín hiệu được làm nhẹ một cách có chủ ý: một nhịp mờ dịu, một chấm tròn, hoặc một chữ, hiện trong tích tắc rồi biến mất. Bạn có thể nhấp xuyên qua nó: nó không bao giờ chiếm tiêu điểm, không bắt phím, và không cản việc bạn đang làm.\n\nHAI LỜI NHẮC ĐỘC LẬP\n\nLời nhắc chớp mắt xuất hiện theo khoảng thời gian bạn chọn — từ vài giây trở lên. Lời nhắc nghỉ chạy theo đồng hồ, nên luôn rơi vào cùng số phút mỗi giờ, bất kể bạn mở ứng dụng lúc nào. Mỗi lời nhắc có bộ cài đặt riêng hoàn toàn tách biệt: kiểu, màu, kích thước, vị trí, thời gian và âm thanh. Đổi cái này không bao giờ chạm tới cái kia.\n\nLÀM CHO NHIỀU MÀN HÌNH\n\nLời nhắc hiện trên mọi màn hình đang kết nối, đúng kích thước trên từng cái ngay cả khi các màn hình dùng tỉ lệ khác nhau. Một chấm nhỏ ở góc mỗi màn hình cho biết ứng dụng đang chạy, phía trên là đếm ngược tới lần nghỉ kế tiếp.\n\nTÙY BẠN ĐIỀU CHỈNH\n\nChọn làm mờ nhẹ, một chấm màu, hoặc một chữ của riêng bạn. Đặt kích thước, vị trí, độ trong, độ mờ dần và thời lượng. Chọn một trong bốn âm thanh, mỗi âm có âm lượng riêng, hoặc để im lặng. Xem trước mọi thay đổi trước khi lưu.\n\nLẶNG LẼ, VÀ RIÊNG TƯ TỪ THIẾT KẾ\n\nKhông tài khoản, không đăng nhập, không quảng cáo, không phân tích. Không có bất kỳ kết nối mạng nào — ứng dụng không bao giờ liên hệ máy chủ nào, kể cả của chúng tôi. Nó không dùng camera: nó chạy bằng bộ hẹn giờ, không nhìn bạn.\n\nĐIỀU NÊN BIẾT\n\nDry Eyes Blink Reminder Lite chạy ở khay hệ thống và không có cửa sổ chính. Nhấp chuột phải vào biểu tượng để mở cài đặt. Nhịp nháy được giới hạn ngay trong mã: không tổ hợp cài đặt nào có thể vượt quá ba lần nháy mỗi giây.\n\nNgôn ngữ giao diện đổi ở góc trên bên phải cửa sổ cài đặt, và ứng dụng cũng tự động theo ngôn ngữ hiển thị của Windows.",
+
+  "ReleaseNotes": "Ứng dụng nay có tiếng Việt, cùng mười tám ngôn ngữ khác. Ứng dụng tự động theo ngôn ngữ hiển thị của Windows, và bạn có thể đổi ở góc trên bên phải cửa sổ cài đặt.",
+
+  "Feature1": "Nhắc chớp mắt nhẹ nhàng, theo nhịp của bạn",
+  "Feature2": "Lời nhắc nghỉ riêng để nhìn xa, theo đồng hồ",
+  "Feature3": "Nhắc trên mọi màn hình",
+  "Feature4": "Nhấp xuyên qua — không bao giờ chiếm tiêu điểm",
+  "Feature5": "Một chấm, một chữ, hoặc làm mờ nhẹ",
+  "Feature6": "Bốn âm thanh, hoặc im lặng",
+  "Feature7": "Xem trước mọi thay đổi trước khi lưu",
+  "Feature8": "Không tài khoản, không quảng cáo, không phân tích",
+  "Feature9": "Không mạng, không camera, không theo dõi bạn",
+
+  "DesktopScreenshotCaption1": "Một chấm tròn nhắc bạn chớp mắt, theo khoảng thời gian bạn chọn. Chấm này cũng tùy chỉnh được.",
+  "DesktopScreenshotCaption2": "Màn hình mờ đi để nhắc bạn nghỉ, theo khoảng bạn chọn — đúng giờ, mỗi nửa giờ, hoặc tùy bạn.",
+  "DesktopScreenshotCaption3": "Giao diện đơn giản, dễ dùng.",
+  "DesktopScreenshotCaption4": "Một chấm tròn nhắc bạn chớp mắt, theo khoảng thời gian bạn chọn. Chấm này cũng tùy chỉnh được.",
+  "DesktopScreenshotCaption5": "Màn hình mờ đi để nhắc bạn nghỉ, theo khoảng bạn chọn — đúng giờ, mỗi nửa giờ, hoặc tùy bạn.",
+
+  "TrailerTitle1": "Hai lời nhắc trong bản demo",
+  "TrailerTitle2": "Hai lời nhắc trong bản demo",
+
+  "SearchTerm1": "nhắc chớp mắt",
+  "SearchTerm2": "khô mắt",
+  "SearchTerm3": "mỏi mắt",
+  "SearchTerm4": "nghỉ mắt",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "nghỉ giải lao màn hình",
+  "SearchTerm7": "chăm sóc mắt"
+}

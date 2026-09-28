@@ -1,0 +1,41 @@
+{
+  "language": "tr",
+  "_comment": ["Turkish. Artwork inherited; see fill_listing.py DEFAULT_COPY."],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Tüm hakları saklıdır.",
+
+  "ShortDescription": "Daha sık göz kırpın ve gözlerinizi dinlendirin. Her ekranda kısa ve nazik bir işaret — görünür, ama sizi hiç bölmez. Dry Eyes Blink Reminder Lite bildirim alanında sessizce durur, ağ kullanmaz ve sizi hiç izlemez.",
+
+  "Description": "Dry Eyes Blink Reminder Lite, bildirim alanında yaşayan küçük ve sessiz bir araçtır. Göz kırpmanız için kısa görsel bir işaret verir; ayrı bir sayaçla da bir an için ekrandan uzağa bakmanızı hatırlatır.\n\nİşaret bilerek sade tutuldu: yumuşak bir parlama, bir nokta ya da tek bir kelime, saniyenin küçük bir parçası kadar görünür ve kaybolur. Üzerinden tıklayabilirsiniz: odağı asla almaz, bir tuşu asla yakalamaz ve yaptığınız işin önüne asla geçmez.\n\nBİRBİRİNDEN BAĞIMSIZ İKİ HATIRLATMA\n\nGöz kırpma hatırlatması seçtiğiniz aralıkta gelir — birkaç saniyeden başlayarak. Mola hatırlatması saati takip eder, bu yüzden uygulamayı ne zaman açarsanız açın hep saatin aynı dakikalarına denk gelir. Her birinin tamamen ayrı kendi ayarları vardır: biçim, renk, boyut, konum, süre ve ses. Birini değiştirmek diğerine asla dokunmaz.\n\nÇOK EKRAN İÇİN TASARLANDI\n\nHatırlatmalar bağlı her ekranda görünür; ekranlarınız farklı ölçeklerde çalışsa bile her birinde doğru boyutta olur. Her ekranın köşesindeki küçük nokta uygulamanın çalıştığını gösterir, üstünde bir sonraki molaya kalan süre yazar.\n\nİSTEDİĞİNİZ GİBİ AYARLAYIN\n\nYumuşak bir karartma, renkli bir nokta ya da kendi kelimenizi seçin. Boyutu, konumu, saydamlığı, geçişi ve süreyi ayarlayın. Her biri kendi ses düzeyine sahip dört sesten birini seçin ya da sessiz bırakın. Her değişikliği kaydetmeden önce ön izleyin.\n\nSESSİZ VE TASARIMDAN GELEN GİZLİLİK\n\nHesap yok, oturum açma yok, reklam yok, analiz yok. Hiçbir türden ağ bağlantısı yok — uygulama kendi sunucumuz dahil hiçbir sunucuya bağlanmaz. Kameranızı kullanmaz: bir sayaçla çalışır, sizi izlemez.\n\nBİLMEKTE FAYDA VAR\n\nDry Eyes Blink Reminder Lite bildirim alanında çalışır ve ana penceresi yoktur. Ayarlar için simgesine sağ tıklayın. Hatırlatmanın parlama hızı kodda sınırlıdır: hiçbir ayar birleşimi saniyede üç parlamayı aşamaz.\n\nArayüz dili ayarlar penceresinin sağ üst köşesinden değiştirilir; uygulama ayrıca Windows'un görüntüleme dilini otomatik izler.",
+
+  "ReleaseNotes": "Uygulama artık Türkçe, ayrıca on sekiz dilde daha kullanılabiliyor. Windows'un görüntüleme dilini otomatik izler ve ayarlar penceresinin sağ üst köşesinden değiştirebilirsiniz.",
+
+  "Feature1": "Kendi temponuzda, göz kırpmak için nazik bir işaret",
+  "Feature2": "Saate göre gelen ayrı bir uzağa bakma molası",
+  "Feature3": "Her ekranda hatırlatma",
+  "Feature4": "Üzerinden tıklayın — odağı asla almaz",
+  "Feature5": "Bir nokta, bir kelime ya da yumuşak bir karartma",
+  "Feature6": "Dört ses ya da sessizlik",
+  "Feature7": "Her değişikliği kaydetmeden önce ön izleyin",
+  "Feature8": "Hesap yok, reklam yok, analiz yok",
+  "Feature9": "Ağ yok, kamera yok, sizi izleme yok",
+
+  "DesktopScreenshotCaption1": "Yuvarlak bir nokta, seçtiğiniz aralıkta göz kırpmanızı hatırlatır. Nokta da özelleştirilebilir.",
+  "DesktopScreenshotCaption2": "Ekran kararıp dinlenmenizi hatırlatır — tam saatte, her yarım saatte ya da size uyan aralıkta.",
+  "DesktopScreenshotCaption3": "Kullanımı kolay bir arayüz.",
+  "DesktopScreenshotCaption4": "Yuvarlak bir nokta, seçtiğiniz aralıkta göz kırpmanızı hatırlatır. Nokta da özelleştirilebilir.",
+  "DesktopScreenshotCaption5": "Ekran kararıp dinlenmenizi hatırlatır — tam saatte, her yarım saatte ya da size uyan aralıkta.",
+
+  "TrailerTitle1": "Tanıtımdaki iki hatırlatma",
+  "TrailerTitle2": "Tanıtımdaki iki hatırlatma",
+
+  "SearchTerm1": "göz kırpma hatırlatıcı",
+  "SearchTerm2": "kuru göz",
+  "SearchTerm3": "göz yorgunluğu",
+  "SearchTerm4": "göz dinlendirme",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "ekran molası",
+  "SearchTerm7": "göz sağlığı"
+}

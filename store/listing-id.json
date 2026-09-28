@@ -1,0 +1,41 @@
+{
+  "language": "id",
+  "_comment": ["Indonesian. Artwork inherited; see fill_listing.py DEFAULT_COPY."],
+
+  "Title": "Dry Eyes Blink Reminder Lite",
+  "DevStudio": "KennyTechy",
+  "CopyrightTrademarkInformation": "© 2026 KennyTechy. Hak cipta dilindungi.",
+
+  "ShortDescription": "Berkediplah lebih sering, dan istirahatkan mata Anda. Isyarat singkat dan lembut di setiap layar — terlihat tanpa pernah mengganggu. Dry Eyes Blink Reminder Lite diam di area notifikasi, tanpa jaringan, dan tidak pernah mengawasi Anda.",
+
+  "Description": "Dry Eyes Blink Reminder Lite adalah utilitas kecil dan tenang yang tinggal di area notifikasi. Ia memberi isyarat visual singkat untuk berkedip — dan, pada timer terpisah, untuk mengalihkan pandangan dari layar sejenak.\n\nIsyaratnya sengaja dibuat halus: denyut lembut, sebuah titik, atau satu kata, tampil sepersekian detik lalu hilang. Anda bisa mengklik menembusnya: ia tidak pernah mengambil fokus, tidak pernah menangkap ketikan, dan tidak pernah menghalangi pekerjaan Anda.\n\nDUA PENGINGAT YANG TERPISAH\n\nPengingat kedip muncul pada interval yang Anda pilih — mulai dari beberapa detik. Pengingat istirahat mengikuti jam, jadi selalu jatuh pada menit yang sama setiap jam, kapan pun aplikasi dijalankan. Masing-masing punya pengaturan sendiri yang sepenuhnya terpisah: gaya, warna, ukuran, posisi, waktu, dan suara. Mengubah satu tidak pernah menyentuh yang lain.\n\nDIBUAT UNTUK BANYAK LAYAR\n\nPengingat muncul di setiap monitor yang terhubung, dengan ukuran yang tepat di masing-masing meski skala layar Anda berbeda. Titik indikator kecil di sudut setiap layar menunjukkan aplikasi sedang berjalan, dengan hitung mundur ke istirahat berikutnya di atasnya.\n\nBISA DIATUR SESUKA ANDA\n\nPilih peredupan lembut, titik berwarna, atau kata Anda sendiri. Atur ukuran, posisi, transparansi, pudar, dan durasi. Pilih dari empat suara, masing-masing dengan volumenya sendiri, atau biarkan senyap. Lihat pratinjau setiap perubahan sebelum menyimpan.\n\nTENANG, DAN PRIVAT SEJAK DIRANCANG\n\nTanpa akun, tanpa masuk, tanpa iklan, tanpa analitik. Tidak ada koneksi jaringan apa pun — aplikasi tidak pernah menghubungi server mana pun, termasuk milik kami. Tidak memakai kamera Anda: ia bekerja dengan timer, bukan mengawasi.\n\nPERLU DIKETAHUI\n\nDry Eyes Blink Reminder Lite berjalan di area notifikasi dan tidak punya jendela utama. Klik kanan ikonnya untuk pengaturan. Denyut pengingat dibatasi di dalam kode: tidak ada kombinasi pengaturan yang bisa melebihi tiga kilatan per detik.\n\nBahasa antarmuka dapat diubah di kanan atas jendela pengaturan, dan aplikasi juga mengikuti bahasa tampilan Windows secara otomatis.",
+
+  "ReleaseNotes": "Aplikasi kini tersedia dalam bahasa Indonesia, bersama delapan belas bahasa lain. Aplikasi mengikuti bahasa tampilan Windows secara otomatis, dan Anda bisa menggantinya di kanan atas jendela pengaturan.",
+
+  "Feature1": "Isyarat lembut untuk berkedip, sesuai irama Anda",
+  "Feature2": "Istirahat terpisah untuk melihat jauh, mengikuti jam",
+  "Feature3": "Pengingat di setiap layar",
+  "Feature4": "Klik menembusnya — tidak pernah mengambil fokus",
+  "Feature5": "Titik, kata, atau peredupan lembut",
+  "Feature6": "Empat suara, atau senyap",
+  "Feature7": "Pratinjau setiap perubahan sebelum menyimpan",
+  "Feature8": "Tanpa akun, tanpa iklan, tanpa analitik",
+  "Feature9": "Tanpa jaringan, tanpa kamera, tanpa mengawasi",
+
+  "DesktopScreenshotCaption1": "Titik bulat mengingatkan Anda berkedip, pada interval yang Anda pilih. Titiknya juga bisa diatur.",
+  "DesktopScreenshotCaption2": "Layar meredup untuk mengingatkan istirahat, pada interval pilihan Anda — tepat jam, setiap setengah jam, atau sesuai kebiasaan.",
+  "DesktopScreenshotCaption3": "Antarmuka yang mudah dipakai.",
+  "DesktopScreenshotCaption4": "Titik bulat mengingatkan Anda berkedip, pada interval yang Anda pilih. Titiknya juga bisa diatur.",
+  "DesktopScreenshotCaption5": "Layar meredup untuk mengingatkan istirahat, pada interval pilihan Anda — tepat jam, setiap setengah jam, atau sesuai kebiasaan.",
+
+  "TrailerTitle1": "Dua pengingat dalam demonstrasi",
+  "TrailerTitle2": "Dua pengingat dalam demonstrasi",
+
+  "SearchTerm1": "pengingat berkedip",
+  "SearchTerm2": "mata kering",
+  "SearchTerm3": "mata lelah",
+  "SearchTerm4": "istirahat mata",
+  "SearchTerm5": "20-20-20",
+  "SearchTerm6": "istirahat layar",
+  "SearchTerm7": "kesehatan mata"
+}
