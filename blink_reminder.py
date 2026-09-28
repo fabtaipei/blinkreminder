@@ -117,6 +117,12 @@ PRIMARY_LANGUAGES = {
     0x45: "bn",   # Bengali
     0x01: "ar",   # Arabic, every variety
     0x20: "ur",   # Urdu
+    0x15: "pl",   # Polish
+    0x19: "ru",   # Russian
+    0x1E: "th",   # Thai
+    0x1F: "tr",   # Turkish
+    0x21: "id",   # Indonesian
+    0x2A: "vi",   # Vietnamese
 }
 
 # Chinese sublanguages written in Traditional characters: Taiwan, Hong Kong,
@@ -3258,6 +3264,12 @@ class _Picker(ttk.Button):
 
     ROW_H = 32
     LIST_PAD = 6
+    # Rows before the list grows a second column. Twenty languages in one
+    # column is 652 logical pixels, which at 150% scaling is 978 real ones
+    # and runs off the bottom of a 1080p screen; two columns is 332. Ten
+    # also happens to be where this list divides into Roman-script names
+    # and the rest, so the columns read as the two halves they are.
+    MAX_ROWS = 10
 
     def __init__(self, parent, s, pal, pairs, variable, width, command=None):
         self.s, self.pal = s, pal
@@ -3293,9 +3305,15 @@ class _Picker(ttk.Button):
     def show(self):
         s, pal = self.s, self.pal
         self.update_idletasks()
-        w = self.winfo_width() or s(160)
+        col_w = self.winfo_width() or s(self.width)
         edge = max(1, s(1))
-        h = len(self.pairs) * s(self.ROW_H) + 2 * s(self.LIST_PAD)
+        # Balanced columns: 20 languages become 2 x 10, not 10 and a lonely
+        # 10th column. Filled top to bottom then left to right, so the
+        # alphabetical order still reads down the page.
+        cols = max(1, -(-len(self.pairs) // self.MAX_ROWS))
+        rows = -(-len(self.pairs) // cols)
+        w = col_w * cols
+        h = rows * s(self.ROW_H) + 2 * s(self.LIST_PAD)
 
         top = tk.Toplevel(self)
         self.popup = top
@@ -3312,11 +3330,14 @@ class _Picker(ttk.Button):
         for i, (label, _value) in enumerate(self.pairs):
             ttk.Button(body, text=label, style="Ghost.TButton",
                        command=lambda t=label: self._choose(t)).place(
-                x=s(4), y=s(self.LIST_PAD) - edge + i * s(self.ROW_H),
-                width=w - 2 * edge - s(8), height=s(self.ROW_H))
+                x=s(4) + (i // rows) * col_w - edge,
+                y=s(self.LIST_PAD) - edge + (i % rows) * s(self.ROW_H),
+                width=col_w - s(8), height=s(self.ROW_H))
 
+        # Right-aligned to the button rather than left, so a list wider than
+        # the button grows back across the panel instead of off the screen.
         top.geometry("%dx%d+%d+%d"
-                     % (w, h, self.winfo_rootx(),
+                     % (w, h, self.winfo_rootx() + self.winfo_width() - w,
                         self.winfo_rooty() + self.winfo_height() + s(4)))
         top.deiconify()
         top.bind("<Escape>", lambda _e: self.hide())
@@ -3476,10 +3497,11 @@ class SettingsWindow:
     # 311px, and a switch's label never gets near that.
     STARTUP_SWITCH_W = 268
     STARTUP_BUTTON_W = 360
-    # The language picker in the header. Wide enough for a long endonym --
-    # "Português (Brasil)" -- because the button shows one language, not ten,
-    # and the widest one it may ever have to show sets the width.
-    LANG_W = 160
+    # The language picker in the header. The button shows ONE language, so
+    # the widest endonym in the list sets the width -- currently "Bahasa
+    # Indonesia" at 115px, which needed 176 rather than the old 160 once
+    # the globe and the chevron have taken their share.
+    LANG_W = 176
 
     # One advanced window per reminder, identical geometry. Two cards side by
     # side because one column of the same content is ~728 logical and does not
