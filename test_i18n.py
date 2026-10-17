@@ -124,6 +124,11 @@ BUDGETS = [
      SW.STARTUP_BUTTON_W - BTN_PAD, "wide Secondary button"),
     ("Buy me a coffee", "t4b",
      SW.WIN_W - 20 - (20 + SW.STARTUP_BUTTON_W) - 20, "link, right of the switch"),
+    # Its own line, so it has more room than this -- but it sits right-aligned
+    # directly under the coffee link, and held to the same width the two
+    # read as a pair rather than one stretching out under the switch.
+    ("Rate this app", "t4b",
+     SW.WIN_W - 20 - (20 + SW.STARTUP_BUTTON_W) - 20, "link, under the coffee"),
     ("Preview blink", "t4", SW.BTN_PREVIEW_W - BTN_PAD, "footer"),
     ("Preview break", "t4", SW.BTN_PREVIEW_W - BTN_PAD, "footer"),
     ("Cancel", "t4", SW.BTN_FOOTER_W - BTN_PAD, "footer"),

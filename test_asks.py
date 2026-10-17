@@ -13,7 +13,7 @@ Two things are tested here, and both are about counting honestly:
   2. WHICH ASK, WHEN.  An ask is due once its count is REACHED, not only on
      the exact day, so one that could not be shown is late rather than lost.
      At most one a day. "Don't ask again" stops the coffee and never the
-     review. A review is never asked for where the Store would refuse it.
+     review. The review is asked for in every build, standalone exe too.
 
 No window is opened. Every path the code could write to -- the ask file,
 the activity log and the folder they live in -- is pointed at a temporary
@@ -46,8 +46,8 @@ def always(_kind):
     return True
 
 
-def no_store(kind):
-    """The portable exe: a coffee can be asked for, a review cannot."""
+def coffee_only(kind):
+    """A build where one kind of ask cannot be made at all."""
     return kind == "donate"
 
 
@@ -129,10 +129,12 @@ def test_due_ask():
     check("  ...but never the review",
           br.due_ask(at(25, no_donate=True), "d", always), (25, "review"))
 
-    check("the portable build never asks for a review",
-          br.due_ask(at(25, shown=[12]), "d", no_store), None)
-    check("  ...and that does not block the next coffee",
-          br.due_ask(at(55, shown=[12]), "d", no_store), (55, "donate"))
+    check("every build asks for a review, the standalone exe included",
+          br.ask_possible("review"), True)
+    check("a kind that cannot be asked is skipped",
+          br.due_ask(at(25, shown=[12]), "d", coffee_only), None)
+    check("  ...and does not block the next coffee",
+          br.due_ask(at(55, shown=[12]), "d", coffee_only), (55, "donate"))
 
     every = [d for d, _k in br.ASK_SCHEDULE]
     check("all six spent, nothing more ever",
