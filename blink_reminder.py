@@ -852,14 +852,14 @@ QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP = 5, 7
 
 
 def ask_possible(kind):
-    """A review needs a Store install to review; a coffee needs a link.
+    """Whether this kind of ask can be made at all. A coffee needs a link.
 
-    The portable exe was not installed from the Store, and the Store will
-    not take a review from someone who did not get the app there, so its
-    review asks are skipped rather than shown and refused.
+    A review is asked for in every build, the standalone exe included. The
+    author's call: every copy behaves the same, so what is tested is what
+    ships, and anyone on any copy is still pointed at the review form.
     """
     if kind == "review":
-        return PACKAGED
+        return True
     if kind == "donate":
         return bool(SUPPORT_URL)
     return False
@@ -3688,7 +3688,10 @@ class SettingsWindow:
     # Header, the app-wide strip, the footer rule, the buttons and padding.
     # 44 more than it was: the strip below the cards is a new 32-high row plus
     # its gap, and it is what the header used to carry in its top-right corner.
-    CHROME_H = 190
+    # And 28 more again for "Rate this app", on its own line under "Buy me a
+    # coffee" -- under it, not beside it, so the two asks read as a pair.
+    LINK_PITCH = 28
+    CHROME_H = 190 + LINK_PITCH
     WIN_W = 660                    # 20 + 300 + 20 + 300 + 20
 
     # The footer's four buttons, sized for the longest LANGUAGE rather than
@@ -3766,6 +3769,7 @@ class SettingsWindow:
         # Built only if a support handle is configured, and _place_chrome runs
         # before the panel is first built, so it needs a value from the start.
         self.link_support = None
+        self.link_review = None
         # One debounce slot per reminder. A single slot meant editing the break
         # cancelled a pending blink preview and left a dead after-id behind.
         self.preview_jobs = {"blink": None, "break": None}
@@ -3794,7 +3798,10 @@ class SettingsWindow:
         # The app-wide strip: everything that belongs to the whole app rather
         # than to this window or to either reminder. Above the rule, so the
         # rule still separates "settings" from "what to do with them".
-        strip = s(win_h - 95)
+        # One link pitch higher than it was, so the review link fits between
+        # the strip and the rule without anything below the cards moving
+        # closer to them.
+        strip = s(win_h - 95 - self.LINK_PITCH)
         self.tog_startup.place_configure(x=s(20), y=strip,
                                          width=s(self.startup_w), height=s(32))
         if self.link_support is not None:
@@ -3802,6 +3809,10 @@ class SettingsWindow:
             # the margin whatever the text measures at this DPI.
             self.link_support.place_configure(x=s(self.WIN_W - 20),
                                               y=strip + s(16), anchor="e")
+        if self.link_review is not None:
+            self.link_review.place_configure(
+                x=s(self.WIN_W - 20), y=strip + s(16 + self.LINK_PITCH),
+                anchor="e")
 
         by = s(win_h - 40)
         pw, fw = self.BTN_PREVIEW_W, self.BTN_FOOTER_W
@@ -4308,6 +4319,11 @@ class SettingsWindow:
         self.link_support = (
             _Link(outer, T("Buy me a coffee"), lambda: open_link(SUPPORT_URL))
             if SUPPORT_URL else None)
+        # In every build, the standalone exe included. Every copy should look
+        # the same and offer the same links, so what is tested is what ships
+        # -- and someone on any copy can still find the review form.
+        self.link_review = _Link(outer, T("Rate this app"),
+                                 lambda: open_link(REVIEW_URL))
 
         colh = s(self.COL_H)
         left = ttk.Frame(outer, style="Ground.TFrame")
@@ -4526,6 +4542,7 @@ class SettingsWindow:
         ]
         if self.link_support is not None:
             self.tab_ring.append(self.link_support)
+        self.tab_ring.append(self.link_review)
         self.tab_ring += [
             self.btn_preview, self.btn_preview_break,
             self.btn_cancel, self.btn_save,
@@ -5383,14 +5400,14 @@ class App:
             items += [pystray.Menu.SEPARATOR,
                       pystray.MenuItem(lambda _i: T("Buy me a coffee"),
                                        push("support"))]
-        # Store installs only: the Store takes reviews from people who got
-        # the app there, so in the portable build this would open a form
-        # that refuses them.
-        if PACKAGED:
-            if not SUPPORT_URL:
-                items.append(pystray.Menu.SEPARATOR)
-            items.append(pystray.MenuItem(lambda _i: T("Rate this app"),
-                                          push("review")))
+        # Directly under the coffee, in every build -- the standalone exe too,
+        # so every copy offers the same menu and the one being tested is the
+        # one that ships. It opens the Store's review form, not the listing,
+        # which has nowhere to leave one.
+        if not SUPPORT_URL:
+            items.append(pystray.Menu.SEPARATOR)
+        items.append(pystray.MenuItem(lambda _i: T("Rate this app"),
+                                      push("review")))
         items += [pystray.Menu.SEPARATOR,
                   pystray.MenuItem(lambda _i: T("Quit"), push("quit"))]
         # Tooltip comes from DISPLAY_NAME, not a literal. It was a literal, and
