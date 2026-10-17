@@ -229,11 +229,17 @@ DEFAULTS = {
     "interval_seconds": 45,   # how often to remind. Minimum is 3, not 300.
     "style": "dot",           # "dim" | "dot" | "text". The break owns dimming now:
                               # two full-screen washes would be indistinguishable.
-    "opacity": 0.304,         # peak opacity of the overlay, 0.02 to 1.0
-    "hold_ms": 550,           # how long the overlay sits at full opacity
-    "fade_ms": 550,           # fade in and fade out time, 0 for an instant cut
+    # The look values below are the author's own, after weeks of daily use.
+    # Every one that changed moved the same way -- stronger, larger,
+    # crisper -- which is the best evidence there is that the earlier
+    # defaults were too faint for someone who does not yet know what to look
+    # for. The interval was deliberately NOT taken from the same config: 30s
+    # is a value you arrive at, not one to start a stranger on.
+    "opacity": 0.345,         # peak opacity of the overlay, 0.02 to 1.0
+    "hold_ms": 500,           # how long the overlay sits at full opacity
+    "fade_ms": 500,           # fade in and fade out time, 0 for an instant cut
     "blinks": 2,              # how many times to pulse per reminder
-    "gap_ms": 120,            # pause between pulses
+    "gap_ms": 150,            # pause between pulses
     # Lime. Chosen over the original warm amber for the same reason amber was
     # chosen over red -- it separates from the blue-greys most interfaces are
     # built from -- but it carries further at low opacity, which is what makes
@@ -246,7 +252,7 @@ DEFAULTS = {
     # the same share of every display. 100 would be a dot as tall as the
     # screen. Stored as a share rather than a pixel count because a pixel
     # count cannot mean the same thing on a 1366x768 laptop and a 4K monitor.
-    "dot_pct": 78,
+    "dot_pct": 90,
     "font_size": 20,          # point size for the "text" style
     "margin": 48,             # distance from the screen edge for dot and text
     "all_monitors": True,     # show the reminder on every monitor, not just the primary
@@ -262,9 +268,13 @@ DEFAULTS = {
     # difference is that they are now editable rather than inherited.
     "break_enabled": True,
     "break_minutes": 30,          # 30 -> :00 and :30 of every hour
+    # The "12:34" pill above each corner dot. Only the pill: the dot is what
+    # says the app is running at all, and that question does not go away
+    # because someone would rather not watch a clock count down.
+    "break_countdown": True,
     "break_style": "dim",         # the whole screen, so it cannot be missed
-    "break_opacity": 0.35,        # a tint over the screen, not a blackout
-    "break_hold_ms": 1400,        # longer than a blink: this one wants noticing
+    "break_opacity": 0.401,       # a tint over the screen, not a blackout
+    "break_hold_ms": 3000,        # longer than a blink: this one wants noticing
     "break_fade_ms": 800,
     "break_blinks": 1,            # one long look away, not a flicker
     "break_gap_ms": 120,
@@ -781,7 +791,10 @@ PACKAGED = PACKAGE_FAMILY is not None
 # until it is dismissed, so one unrecognised string would freeze the tray and
 # put a chooser on the user's screen, which from a background app reads as
 # malware. Refusing is cheap; the chooser is not.
-SAFE_SCHEMES = ("https://", "http://", "ms-settings:")
+# ms-windows-store: is the Store's own review form. Without it here the
+# "Rate this app" item would have been refused by name, silently, in a log
+# line nobody reads -- the same failure this allowlist exists to make loud.
+SAFE_SCHEMES = ("https://", "http://", "ms-settings:", "ms-windows-store:")
 
 
 def open_link(target):
@@ -800,6 +813,190 @@ def open_link(target):
     except OSError:
         log_error("open_link %s" % target)
         return False
+
+
+# --------------------------------------------------------------------------
+# Asking for support
+#
+# Six asks over the life of an install, alternating a coffee and a review,
+# timed in DAYS THE APP RAN rather than days on the calendar. A laptop that
+# spent a month in a bag has not been using this app for a month, and asking
+# its owner for money on that basis is asking at the wrong time.
+#
+# Everything here is plain data and plain functions, deliberately free of Tk,
+# so the counting rules can be tested without putting anything on a screen.
+# --------------------------------------------------------------------------
+
+STORE_PRODUCT_ID = "9NBRV5W24KH5"
+# The review FORM, not just the listing: one click from the ask to typing.
+REVIEW_URL = "ms-windows-store://review/?ProductId=" + STORE_PRODUCT_ID
+
+# Its own file, not config.json. SettingsWindow.collect() rebuilds the config
+# from its controls alone, so any key without a control -- and a day count
+# has none -- would be wiped by the first Save.
+ASKS_PATH = os.path.join(CONFIG_DIR, "asks.json")
+
+# (days used, kind). Reaching the count makes an ask due; showing it spends it.
+ASK_SCHEDULE = ((12, "donate"), (25, "review"), (55, "donate"),
+                (70, "review"), (150, "donate"), (170, "review"))
+
+# Nothing is asked in the first five minutes after launch. At login that is
+# when everything else is clamouring for attention, the startup notice
+# included, and an ask in that crowd reads as one more thing to dismiss.
+ASK_SETTLE_S = 300
+
+# SHQueryUserNotificationState. Only these two mean "someone is here and not
+# busy": the rest are presenting, fullscreen, locked or away -- exactly the
+# moments a request for money must never appear in front of other people.
+QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP = 5, 7
+
+
+def ask_possible(kind):
+    """A review needs a Store install to review; a coffee needs a link.
+
+    The portable exe was not installed from the Store, and the Store will
+    not take a review from someone who did not get the app there, so its
+    review asks are skipped rather than shown and refused.
+    """
+    if kind == "review":
+        return PACKAGED
+    if kind == "donate":
+        return bool(SUPPORT_URL)
+    return False
+
+
+def today_iso():
+    """Today, local time, as YYYY-MM-DD -- a form that sorts chronologically,
+    which is what lets count_day compare dates as plain strings."""
+    return time.strftime("%Y-%m-%d")
+
+
+def fresh_asks():
+    return {"days_used": 0, "last_counted": "", "shown": [],
+            "no_donate": False, "last_ask": ""}
+
+
+def load_asks():
+    """The saved ask state, or a fresh one. Never raises.
+
+    Each field is checked on its own, so one damaged value costs that value
+    and not the rest. The worst an unreadable file can do is start the count
+    again, which delays the asks; it can never make the app fail to start.
+    """
+    state = fresh_asks()
+    try:
+        with open(ASKS_PATH, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError, TypeError):
+        return state
+    if not isinstance(data, dict):
+        return state
+    days = data.get("days_used")
+    if isinstance(days, int) and not isinstance(days, bool) and days >= 0:
+        state["days_used"] = days
+    for key in ("last_counted", "last_ask"):
+        if isinstance(data.get(key), str):
+            state[key] = data[key]
+    shown = data.get("shown")
+    if isinstance(shown, list):
+        state["shown"] = [d for d in shown
+                          if isinstance(d, int) and not isinstance(d, bool)]
+    state["no_donate"] = data.get("no_donate") is True
+    return state
+
+
+def save_asks(state):
+    """Temp file and rename, as save_config does. Never raises: failing to
+    record an ask must not take the heartbeat down with it."""
+    try:
+        os.makedirs(CONFIG_DIR, exist_ok=True)
+        tmp = ASKS_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(state, fh, indent=2)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, ASKS_PATH)
+    except OSError:
+        log_error("save_asks")
+
+
+def count_day(state, today):
+    """Count `today` as a day of use, once. True if the count moved.
+
+    The DATE is the key, not the launch: a laptop opened and shut twenty
+    times in one day sees the same date twenty times and counts it once. A
+    laptop asleep for three days wakes to a later date and counts one --
+    it was not running on the other two.
+
+    A date earlier than the last one counted is ignored, so moving the
+    clock back or crossing a timezone cannot count a day twice. One more
+    than a day AHEAD of today, though, is not a timezone: it is a clock that
+    was once wrong. Left alone it would freeze the count until the calendar
+    caught up with it, so it is pulled back to today instead -- without
+    counting today, which it may already have done under the wrong date.
+    """
+    last = state["last_counted"]
+    if today > last:
+        state["days_used"] += 1
+        state["last_counted"] = today
+        return True
+    if last > today:
+        try:
+            import datetime
+            ahead = (datetime.date.fromisoformat(last)
+                     - datetime.date.fromisoformat(today)).days
+        except ValueError:
+            ahead = 2                     # unparseable: treat it as wrong
+        if ahead > 1:
+            log_event("asks", "last counted day %r is in the future; reset"
+                              % last)
+            state["last_counted"] = today
+    return False
+
+
+def due_ask(state, today, possible=ask_possible):
+    """The ask to show now, as (day, kind), or None.
+
+    The earliest one whose count has been REACHED and not yet shown --
+    "reached" rather than "equal", or an ask that could not be shown on its
+    day (the user was presenting, say) would be lost for good. And at most
+    one a calendar day, so two that fell due together arrive on two days
+    rather than back to back.
+
+    A kind that cannot be asked here is skipped, not counted as shown, and
+    a coffee the user has declined for good is skipped the same way.
+    """
+    if state["last_ask"] == today:
+        return None
+    for day, kind in ASK_SCHEDULE:
+        if state["days_used"] < day or day in state["shown"]:
+            continue
+        if kind == "donate" and state["no_donate"]:
+            continue
+        if not possible(kind):
+            continue
+        return day, kind
+    return None
+
+
+def user_is_available():
+    """False while the user is presenting, fullscreen, locked or away.
+
+    Windows' own answer to "is this a good moment to interrupt?", which is
+    the same question Action Center asks before showing a notification.
+    Anything that goes wrong asking it means "yes": an ask that appears at
+    a slightly worse moment is better than one that never appears at all.
+    """
+    try:
+        fn = ctypes.windll.shell32.SHQueryUserNotificationState
+        fn.argtypes = [ctypes.POINTER(ctypes.c_int)]
+        fn.restype = ctypes.c_long                  # HRESULT
+        state = ctypes.c_int(0)
+        if fn(ctypes.byref(state)) != 0:
+            return True
+        return state.value in (QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP)
+    except (AttributeError, OSError):
+        return True
 
 
 STARTUP_DIR = os.path.join(
@@ -3483,10 +3680,11 @@ class SettingsWindow:
     S9 = 428
     CARD_PAD = 20                  # below the last row of any card
 
-    # Both cards run S1..S7, the last row being the door to that reminder's own
-    # advanced window: 332 + 32 + CARD_PAD is exactly 384.
-    CARD_BLINK_H = CARD_BREAK_H = 384
-    COL_H = 384
+    # Both cards run S1..S6, the last row being the door to that reminder's own
+    # advanced window: 284 + 32 + CARD_PAD is exactly 336. They ran to S7 and
+    # 384 until Colour moved to the advanced window.
+    CARD_BLINK_H = CARD_BREAK_H = 336
+    COL_H = 336
     # Header, the app-wide strip, the footer rule, the buttons and padding.
     # 44 more than it was: the strip below the cards is a new 32-high row plus
     # its gap, and it is what the header used to carry in its top-right corner.
@@ -3523,10 +3721,16 @@ class SettingsWindow:
     ADV_W, ADV_H = 648, 560        # 16 + 300 + 16 + 300 + 16 wide
     # Both cards run S1..S9 and so are the same height: 428 + 32 + CARD_PAD.
     # The left card needed the ninth slot for the volume row; the right one
-    # follows it so the two still end on the same line, and the gap it opens
-    # above "Show on every monitor" reads as the break it already was --
-    # placement settings above, monitor coverage below.
+    # follows it so the two still end on the same line. Its free S8 now holds
+    # Colour, moved in from the main card.
     ADV_LEFT_H = ADV_RIGHT_H = 480
+    # The one place the two windows differ in shape. The break alone has a
+    # countdown to switch off, and its look card was already full, so its
+    # window grows by exactly one slot -- S10 -- for both cards, keeping them
+    # level. The blink's window does not carry an empty row to match: an
+    # empty row reads as a setting that failed to load.
+    S10 = 476
+    ADV_EXTRA = {"blink": 0, "break": 48}
 
     # (window title, timing card, look card) -- the only text that differs
     # between the two advanced windows. Everything else is built by one method,
@@ -3542,18 +3746,17 @@ class SettingsWindow:
     PREFIX = {"blink": "", "break": "break_"}
     CFG_OF = {"blink": blink_cfg, "break": break_cfg}
 
-    # The five look controls on each card, under the flat attribute names the
-    # rest of the class already uses. Irregular on purpose -- pct/break_pct but
-    # btn_colour/btn_break_colour -- because those names predate the split and
-    # renaming them would be churn. self.W[which] is the real home; these are
-    # aliases onto it, the same arrangement _alias_blink_adv already uses.
+    # The look controls on each card, under the flat attribute names the rest
+    # of the class already uses. Irregular on purpose -- pct/break_pct -- because
+    # those names predate the split and renaming them would be churn.
+    # self.W[which] is the real home; these are aliases onto it, the same
+    # arrangement _alias_blink_adv already uses. The colour chip and button
+    # are not here any more: they live in the advanced window, in its slot.
     CARD_ATTRS = {
         "blink": {"style": "seg_style", "slider": "slider", "pct": "pct",
-                  "chip": "chip", "colour_btn": "btn_colour",
                   "sound": "tog_sound", "door": "adv_btn_blink"},
         "break": {"style": "seg_break_style", "slider": "break_slider",
-                  "pct": "break_pct", "chip": "break_chip",
-                  "colour_btn": "btn_break_colour", "sound": "tog_break_sound",
+                  "pct": "break_pct", "sound": "tog_break_sound",
                   "door": "adv_btn_break"},
     }
 
@@ -3668,7 +3871,9 @@ class SettingsWindow:
         w.bind("<Escape>", lambda e: self._close_advanced(which))
         w.bind("<Return>", lambda e: self._close_advanced(which))
 
-        win_w, win_h = s(self.ADV_W), s(self.ADV_H)
+        extra = self.ADV_EXTRA[which]
+        adv_h = self.ADV_H + extra               # logical; s() only at placing
+        win_w, win_h = s(self.ADV_W), s(adv_h)
         # Offset the second window so two open ones do not sit exactly on top
         # of each other, which would look like one window that failed to open.
         other = "break" if which == "blink" else "blink"
@@ -3682,7 +3887,8 @@ class SettingsWindow:
         outer.place(x=0, y=0, width=win_w, height=win_h)
 
         # ---- left card: timing and sound ---------------------------------
-        left = self._card(outer, 16, 16, 300, self.ADV_LEFT_H, left_title)
+        left = self._card(outer, 16, 16, 300, self.ADV_LEFT_H + extra,
+                          left_title)
 
         self._label(left, T("Flash style"), 16, self.S1, anchor="nw")
         seg_feel = _Segmented(left, s, [t for t, _ in feel_pairs()], V["feel"],
@@ -3744,7 +3950,8 @@ class SettingsWindow:
         btn_test.place(x=s(196), y=s(self.S9), width=s(88), height=s(32))
 
         # ---- right card: look --------------------------------------------
-        right = self._card(outer, 332, 16, 300, self.ADV_RIGHT_H, right_title)
+        right = self._card(outer, 332, 16, 300, self.ADV_RIGHT_H + extra,
+                           right_title)
 
         self._label(right, T("Dot size"), 16, self.S1 + 16, group=grp + "dot")
         # 1..100, the whole range the value can hold. The old spinbox was
@@ -3804,22 +4011,48 @@ class SettingsWindow:
         self._label(right, "px", 266, self.S7 + 16, style="Hint.TLabel",
                     group=grp + "margin")
 
+        # Moved in from the main card, at the same x offsets it had there, so
+        # the fit test's two budgets for it still describe it exactly: label
+        # 104 wide to the chip at 120, button 132 wide from 152. In no group:
+        # colour applies to every style, so nothing ever greys it out.
+        self._label(right, T("Colour"), 16, self.S8 + 16)
+        chip = _ColourChip(right, s, self.pal, V["colour"].get(),
+                           lambda: self.pick_colour(which))
+        chip.place(x=s(120), y=s(self.S8 + 16), anchor="w")
+        btn_colour = ttk.Button(right, text=T("Change..."),
+                                style="Secondary.TButton",
+                                command=lambda: self.pick_colour(which))
+        btn_colour.place(x=s(152), y=s(self.S8), width=s(132), height=s(32))
+
         tog_all = ttk.Checkbutton(right, text=T("Show on every monitor"),
                                   variable=V["all"], style="Switch.TCheckbutton",
                                   command=preview)
         tog_all.place(x=s(16), y=s(self.S9), width=s(268), height=s(32))
 
+        # Break only, in the slot ADV_EXTRA added for it. Directly under
+        # "Show on every monitor" because both answer the same question --
+        # what this reminder puts on screen -- and no preview, because the
+        # pill is not part of a pulse and a preview would show nothing.
+        tog_countdown = None
+        if which == "break":
+            tog_countdown = ttk.Checkbutton(
+                right, text=T("Show countdown"), variable=self.v_countdown,
+                style="Switch.TCheckbutton")
+            tog_countdown.place(x=s(16), y=s(self.S10), width=s(268),
+                                height=s(32))
+
         done = ttk.Button(outer, text=T("Done"), style="Primary.TButton",
                           command=lambda: self._close_advanced(which))
-        done.place(x=win_w - s(16) - s(96), y=s(self.ADV_H - 48),
+        done.place(x=win_w - s(16) - s(96), y=s(adv_h - 48),
                    width=s(96), height=s(32))
 
         slot.update(seg_feel=seg_feel, boxes=boxes, sp_gap=sp_gap,
                     seg_sound=seg_sound, sl_vol=sl_vol, pct_vol=pct_vol,
                     btn_test=btn_test, sp_dot=sp_dot,
                     en_word=en_word, sp_font=sp_font, grid_pos=grid_pos,
-                    caption=caption, sp_margin=sp_margin, tog_all=tog_all,
-                    done=done)
+                    caption=caption, sp_margin=sp_margin, chip=chip,
+                    btn_colour=btn_colour, tog_all=tog_all,
+                    tog_countdown=tog_countdown, done=done)
         # Only reachable once the label is in `slot`, so after the update.
         self._show_volume(which)
         if which == "blink":
@@ -3959,6 +4192,11 @@ class SettingsWindow:
                 setattr(self, flat + name, var)
 
         self.v_startup = tk.BooleanVar(value=bool(cfg["start_with_windows"]))
+        # Lives here with the panel, not in the advanced window that shows it:
+        # that window is built and destroyed on demand, and collect() has to
+        # be able to read the value whether it is open or not.
+        self.v_countdown = tk.BooleanVar(
+            value=bool(cfg.get("break_countdown", True)))
         # The language IN FORCE, not the string on disk. On a fresh install
         # that string is "auto", and a picker showing "auto" tells the user
         # nothing about what they are looking at.
@@ -4145,7 +4383,12 @@ class SettingsWindow:
         self._build_look_rows("blink", card, cfg)
 
     def _build_look_rows(self, which, card, cfg):
-        """Rows S3..S7 of a reminder's card: style, strength, colour, sound, door.
+        """Rows S3..S6 of a reminder's card: style, strength, sound, door.
+
+        Colour used to be here too, at S5. It moved to the advanced window:
+        it is chosen once and then never touched, and it was taking a row and
+        a button on both cards to say so. Strength stayed because it is the
+        visibility knob people actually come back to.
 
         One body for both reminders. Their top two rows genuinely differ -- the
         blink asks for an interval, the break for a wall-clock minute -- but
@@ -4157,7 +4400,7 @@ class SettingsWindow:
         The break's rows also join its greying group and the blink's do not,
         which is the only real difference and is what `group` carries.
         """
-        s, p, V = self.s, self.PREFIX[which], self.V[which]
+        s, V = self.s, self.V[which]
         group = "break" if which == "break" else None
         W = self.W[which] = {}
 
@@ -4182,23 +4425,10 @@ class SettingsWindow:
         W["pct"] = owned(ttk.Label(card, text="", style="Pct.TLabel", anchor="e"))
         W["pct"].place(x=s(284), y=s(self.S4 + 16), anchor="e")
 
-        self._label(card, T("Colour"), 16, self.S5 + 16, group=group)
-        # Chip and button both moved left of where they were, to buy the
-        # button 32 more pixels: "Изменить…" is 86px and the old 100-wide
-        # button offered 68. The label keeps 104, which is twice what the
-        # longest translation of "Colour" asks for.
-        W["chip"] = owned(_ColourChip(card, s, self.pal, cfg[p + "colour"],
-                                      lambda: self.pick_colour(which)))
-        W["chip"].place(x=s(120), y=s(self.S5 + 16), anchor="w")
-        W["colour_btn"] = owned(ttk.Button(
-            card, text=T("Change..."), style="Secondary.TButton",
-            command=lambda: self.pick_colour(which)))
-        W["colour_btn"].place(x=s(152), y=s(self.S5), width=s(132), height=s(32))
-
         W["sound"] = owned(ttk.Checkbutton(
             card, text=T("Play a sound"), variable=V["sound"],
             style="Switch.TCheckbutton"))
-        W["sound"].place(x=s(16), y=s(self.S6), width=s(268), height=s(32))
+        W["sound"].place(x=s(16), y=s(self.S5), width=s(268), height=s(32))
 
         # In the break's group, so switching the break off greys its door too:
         # the window it opens is entirely about a feature that is not running.
@@ -4222,7 +4452,7 @@ class SettingsWindow:
                             compound="left", style="Ghost.TButton",
                             command=lambda: self._open_advanced(which))
         button.image = icon
-        button.place(x=s(16), y=s(self.S7), width=s(268), height=s(32))
+        button.place(x=s(16), y=s(self.S6), width=s(268), height=s(32))
         return button
 
     def _build_break(self, col, cfg):
@@ -4286,11 +4516,10 @@ class SettingsWindow:
             self.lang_picker,
             # Blink, in the order the card reads, ending at its own door
             self.sp_every, self.seg_unit, self.seg_style, self.slider,
-            self.chip, self.btn_colour, self.tog_sound, self.adv_btn_blink,
+            self.tog_sound, self.adv_btn_blink,
             # Break, the same order, ending at its own door
             self.tog_break, self.seg_break_min, self.seg_break_style,
-            self.break_slider, self.break_chip, self.btn_break_colour,
-            self.tog_break_sound, self.adv_btn_break,
+            self.break_slider, self.tog_break_sound, self.adv_btn_break,
             # The app-wide strip, then the footer -- the same order the eye
             # takes down the window, which is what tab order is for.
             self.tog_startup,
@@ -4530,11 +4759,18 @@ class SettingsWindow:
         self.app.overlay.pulse(self.CFG_OF[which](self.collect()))
 
     def pick_colour(self, which="blink"):
+        """The chip and its button live in the advanced window now, so the
+        dialog is parented there -- parented to the main panel it would open
+        behind the window the user had just clicked in."""
         V = self.V[which]
-        chosen = colorchooser.askcolor(color=V["colour"].get(), parent=self.win)
+        slot = self.adv.get(which) or {}
+        parent = slot.get("win") or self.win
+        chosen = colorchooser.askcolor(color=V["colour"].get(), parent=parent)
         if chosen and chosen[1]:
             V["colour"].set(chosen[1])
-            self.W[which]["chip"].set(chosen[1])
+            chip = slot.get("chip")
+            if chip is not None:
+                chip.set(chosen[1])
             self._preview(which)
 
     # -- reading the panel back ---------------------------------------------
@@ -4572,6 +4808,7 @@ class SettingsWindow:
             "interval_seconds": max(MIN_INTERVAL, every * unit),
             "break_enabled": bool(self.v_break_on.get()),
             "break_minutes": self._int(self.v_break_min, prev["break_minutes"]),
+            "break_countdown": bool(self.v_countdown.get()),
         }
         # The sixteen pulse keys, twice: same controls, same clamps, one set
         # per reminder. Written as a loop so the two can never drift apart.
@@ -4748,6 +4985,301 @@ class StartupNotice:
             self.win = None
 
 
+# Characters that must not begin a line in Chinese or Japanese -- closing
+# punctuation, the long-vowel mark, small kana. A break is never made before
+# one; it stays on the end of the line above instead.
+NO_LINE_START = set("、。，．？！：；）」』〕】〉》・ー…々ゃゅょっぁぃぅぇぉャュョッァィゥェォ"
+                    ",.?!:;)]}%")
+
+
+def _breaks_anywhere(ch):
+    """Han and kana: scripts with no spaces, where a line may break between
+    any two characters. Hangul is not one -- Korean puts spaces between
+    words -- and nor is Thai, whose phrases this app separates with spaces."""
+    o = ord(ch)
+    return (0x3040 <= o <= 0x30FF or 0x3400 <= o <= 0x4DBF
+            or 0x4E00 <= o <= 0x9FFF or 0xF900 <= o <= 0xFAFF
+            or 0x3000 <= o <= 0x303F or 0xFF00 <= o <= 0xFFEF)
+
+
+def wrap_text(text, measure, width):
+    """`text` broken into lines no wider than `width`, as a list.
+
+    Tk's own wraplength is not good enough for thirty languages. It breaks
+    only at spaces, so a Japanese sentence whose one space follows "Microsoft
+    Store" put those two words alone on the first line and dropped the whole
+    rest of the sentence to the second. And it knows nothing of direction:
+    the right-to-left mark T() puts at the front of an Arabic string ends up
+    on line one only, and every line after it is laid out left to right, so
+    its full stop lands at the wrong end.
+
+    So the caller breaks the lines here, with the font that will draw them,
+    and marks each line's direction itself. Whole candidate lines are
+    measured, not words summed, so shaping and kerning are counted as drawn.
+    """
+    tokens, cur, gap = [], None, False       # tokens are [text, space_before]
+    for ch in text:
+        if ch == " ":
+            cur, gap = None, True
+        elif ch in NO_LINE_START and tokens and not gap:
+            tokens[-1][0] += ch
+            cur = tokens[-1] if not _breaks_anywhere(ch) else None
+        elif _breaks_anywhere(ch):
+            tokens.append([ch, gap])
+            cur, gap = None, False
+        elif cur is None:
+            cur = [ch, gap]
+            tokens.append(cur)
+            gap = False
+        else:
+            cur[0] += ch
+
+    lines, line = [], ""
+    for word, space in tokens:
+        joined = line + (" " if space and line else "") + word
+        if not line or measure(joined) <= width:
+            line = joined
+        else:
+            lines.append(line)
+            line = word
+        # One word wider than a whole line: cut it by character, never
+        # between a letter and a mark that belongs on it.
+        while measure(line) > width and len(line) > 1:
+            cut = len(line) - 1
+            while cut > 1 and (measure(line[:cut]) > width
+                               or unicodedata.combining(line[cut])):
+                cut -= 1
+            lines.append(line[:cut])
+            line = line[cut:]
+    if line:
+        lines.append(line)
+    return lines
+
+
+WH_CBT, HCBT_ACTIVATE, HCBT_SETFOCUS = 5, 5, 9
+_HOOKPROC = ctypes.WINFUNCTYPE(ctypes.c_ssize_t, ctypes.c_int,
+                               wintypes.WPARAM, wintypes.LPARAM)
+user32.SetWindowsHookExW.argtypes = [ctypes.c_int, _HOOKPROC,
+                                     wintypes.HINSTANCE, wintypes.DWORD]
+user32.SetWindowsHookExW.restype = wintypes.HHOOK
+user32.CallNextHookEx.argtypes = [wintypes.HHOOK, ctypes.c_int,
+                                  wintypes.WPARAM, wintypes.LPARAM]
+user32.CallNextHookEx.restype = ctypes.c_ssize_t
+user32.UnhookWindowsHookEx.argtypes = [wintypes.HHOOK]
+user32.UnhookWindowsHookEx.restype = wintypes.BOOL
+ctypes.windll.kernel32.GetCurrentThreadId.restype = wintypes.DWORD
+
+
+class NoActivation(object):
+    """While open, no window on this thread may be activated or take focus.
+
+    For building a window that must appear without interrupting anyone.
+    WS_EX_NOACTIVATE is not enough, and that was measured, not assumed: Tk
+    creates a toplevel's frame and ACTIVATES it on the spot, while it is
+    still hidden -- before any style can be applied to it -- and a window
+    that is already active simply carries that into view when it maps. A
+    hook installed only around the map therefore saw nothing to refuse.
+
+    So the veto is a CBT hook on this thread, held from the moment the
+    window is created until it is on screen, refusing every activation and
+    every focus change in between. Thread-local, and only for that span.
+    """
+
+    def __enter__(self):
+        def veto(code, wparam, lparam):
+            if code in (HCBT_ACTIVATE, HCBT_SETFOCUS):
+                return 1                   # nonzero: refused
+            return user32.CallNextHookEx(None, code, wparam, lparam)
+
+        self.proc = _HOOKPROC(veto)        # held alive until unhooked
+        self.hook = user32.SetWindowsHookExW(
+            WH_CBT, self.proc, None,
+            ctypes.windll.kernel32.GetCurrentThreadId())
+        if not self.hook:
+            log_event("asks", "could not guard activation (error %d)"
+                              % ctypes.GetLastError())
+        return self
+
+    def __exit__(self, *exc):
+        if self.hook:
+            user32.UnhookWindowsHookEx(self.hook)
+        self.hook = None
+        return False
+
+
+class AskCard:
+    """The occasional ask for a coffee or a review, in the corner.
+
+    Two properties, and they pull against each other. It has to be SEEN: a
+    tray balloon fades in seconds and cannot be found again, and it cannot
+    carry a button either, so this is a real window with no timeout, like
+    the startup notice. And it must not INTERRUPT, which the startup notice
+    is allowed to do and this is not: it is WS_EX_NOACTIVATE, applied before
+    it maps -- the order _ClickThroughWindow.style_once had to learn -- so it
+    appears without taking the foreground and whatever was being typed keeps
+    going to the window it was being typed into.
+
+    Bottom right of the primary work area, lifted clear of the corner dot
+    and the countdown pill so it never sits on top of them.
+    """
+
+    WIN_W = 400
+    PAD = 20
+    CLOSE_W = 28           # the close mark's square, top right
+    TITLE_Y = 18
+    BODY_Y = 52            # 34 below the title, as in the startup notice
+    ROW_GAP = 20           # body to the button row
+    BTN_H = 32
+    BTN_MIN_W = 96
+    RIGHT = 16             # from the work area's right edge
+    # Up from the work area's bottom edge: the dot sits 12 up and 9 tall, the
+    # pill 8 above it and about 22 tall, which is 51 -- plus a clear gap.
+    BOTTOM = INDICATOR_MARGIN_Y + INDICATOR_SIZE + COUNTDOWN_GAP + 22 + 20
+
+    def __init__(self, app):
+        self.app = app
+        self.win = None
+        self.kind = None
+
+    def showing(self):
+        return self.win is not None
+
+    def show(self, kind):
+        """Build and show the card, start to finish inside NoActivation --
+        the window is activated the instant Tk creates it, so a guard that
+        began any later would be guarding nothing."""
+        if self.win is not None:
+            return
+        with NoActivation():
+            self._build(kind)
+
+    def _build(self, kind):
+        root = self.app.root
+        mode = app_theme_mode()
+        ensure_theme(root, mode)
+        pal = PALETTES[mode]
+        s = _THEME_METRICS["s"]
+        fonts = _THEME_METRICS["fonts"]
+
+        # Each string goes through T() as a literal, which is what lets the
+        # i18n test find it and prove every language has it.
+        if kind == "donate":
+            body = T("It’s free, with no ads and no tracking. If it’s been "
+                     "good for your eyes, a coffee helps keep it that way.")
+            action = T("Buy me a coffee")
+        else:
+            body = T("A short review in the Microsoft Store helps other "
+                     "people with tired eyes find it.")
+            action = T("Rate this app")
+
+        self.kind = kind
+        self.win = w = tk.Toplevel(root)
+        w.withdraw()
+        w.overrideredirect(True)
+        w.attributes("-topmost", True)
+        # No title bar to draw an edge, so the window's own background is a
+        # one-pixel border showing round the frame inset inside it.
+        w.configure(bg=pal["border_strong"])
+        outer = ttk.Frame(w, style="Ground.TFrame")
+        win_w = s(self.WIN_W)
+        inner = self.WIN_W - 2 * self.PAD
+        # Mirrored for Arabic and Urdu: title and text from the right edge,
+        # the close mark and the button on the left. A card this small is
+        # read in one glance, and a right-to-left reader's glance starts on
+        # the right.
+        rtl = language_code() in RTL_LANGUAGES
+        near, far = s(self.PAD), win_w - s(self.PAD)    # start, end of a line
+        if rtl:
+            near, far = far, near
+
+        ttk.Label(outer, text=T("Enjoying the app?"),
+                  style="Title.TLabel").place(
+            x=near, y=s(self.TITLE_Y), anchor="ne" if rtl else "nw")
+        # Drawn in the title's size: in the body's it was a speck that could
+        # barely be seen, let alone hit.
+        close = ttk.Label(outer, text="×", style="Sub.TLabel",
+                          font=fonts["t1"], cursor="hand2", anchor="center")
+        # 8px out into the padding, towards the corner, on either side.
+        close.place(x=far + (-s(8) if rtl else s(8)), y=s(self.TITLE_Y - 4),
+                    width=s(self.CLOSE_W), height=s(self.CLOSE_W),
+                    anchor="nw" if rtl else "ne")
+        close.bind("<Button-1>", lambda e: self.close("closed"))
+
+        # Broken into lines here, not by Tk -- see wrap_text -- and each line
+        # given its own direction mark, because a mark only governs the line
+        # it is drawn on.
+        sub = tkfont.Font(root=root, font=fonts["t2"])
+        plain = body[1:-1] if rtl and body.startswith(RLE) else body
+        lines = wrap_text(plain, sub.measure, s(inner))
+        if rtl:
+            lines = [RLE + line + PDF for line in lines]
+        text = ttk.Label(outer, text="\n".join(lines), style="Sub.TLabel",
+                         justify="right" if rtl else "left")
+        text.place(x=near, y=s(self.BODY_Y), anchor="ne" if rtl else "nw")
+        w.update_idletasks()
+        row_y = s(self.BODY_Y) + text.winfo_reqheight() + s(self.ROW_GAP)
+        win_h = row_y + s(self.BTN_H) + s(self.PAD)
+
+        need = tkfont.Font(root=root, font=fonts["t4b"]).measure(action)
+        btn_w = max(s(self.BTN_MIN_W), need + s(32))
+        # takefocus off on everything clickable: ttk gives a button keyboard
+        # focus when it is clicked, and taking focus activates the window --
+        # the one thing this card exists not to do.
+        btn = ttk.Button(outer, text=action, style="Primary.TButton",
+                         takefocus=False, command=self.act)
+        btn.place(x=far, y=row_y, width=btn_w, height=s(self.BTN_H),
+                  anchor="nw" if rtl else "ne")
+        # Only the coffee can be declined for good. The review ask has no
+        # opt-out -- three asks in the life of the app, by design.
+        if kind == "donate":
+            never = _Link(outer, T("Don’t ask again"), self.never)
+            never.configure(takefocus=False)
+            never.place(x=near, y=row_y + s(self.BTN_H) // 2,
+                        anchor="e" if rtl else "w")
+
+        outer.place(x=1, y=1, width=win_w - 2, height=win_h - 2)
+        wx, wy, ww, wh = primary_work_area()
+        x = wx + ww - s(self.RIGHT) - win_w
+        y = wy + wh - s(self.BOTTOM) - win_h
+        w.geometry("%dx%d+%d+%d" % (win_w, win_h, x, y))
+
+        # Style, THEN map. Mapped first, it would take the foreground and
+        # swallow a keystroke -- measured, on the overlay panes, before they
+        # were fixed. Not LAYERED or TRANSPARENT: this one has to be clicked.
+        # NOACTIVATE keeps a later CLICK from activating it. Creating and
+        # mapping it are covered by the NoActivation that show() holds.
+        w.update_idletasks()
+        hwnd = user32.GetParent(w.winfo_id()) or w.winfo_id()
+        style = user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+        user32.SetWindowLongW(hwnd, GWL_EXSTYLE,
+                              style | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
+        w.deiconify()
+        w.lift()
+        # Tk maps a window at idle time, not in deiconify, so the idle work
+        # is run here, while the guard is still held.
+        w.update_idletasks()
+
+    def act(self):
+        """The button. Opens the page and closes -- and does NOT stop later
+        asks: a click is not a finished review or a coffee bought."""
+        if self.kind == "donate":
+            open_link(SUPPORT_URL)
+        else:
+            open_link(REVIEW_URL)
+        self.close("clicked")
+
+    def never(self):
+        self.app.asks["no_donate"] = True
+        save_asks(self.app.asks)
+        self.close("declined for good")
+
+    def close(self, how="closed"):
+        if self.win is not None:
+            log_event("asks", "%s ask %s" % (self.kind, how))
+            self.win.destroy()
+            self.win = None
+
+
 class App:
     def __init__(self, cfg=None):
         # main() has usually loaded it already, since loading is what settles
@@ -4779,6 +5311,14 @@ class App:
         self.indicator.apply(self.cfg)
         self.settings = SettingsWindow(self)
         self.notice = StartupNotice(self)
+        self.asks = load_asks()
+        # Counted now as well as on the heartbeat, whose first tick is a
+        # minute away: a launch that is over inside that minute still used
+        # the app today.
+        if count_day(self.asks, today_iso()):
+            save_asks(self.asks)
+        self.ask_card = AskCard(self)
+        self.started = time.monotonic()
 
         sync_startup(self.cfg["start_with_windows"])
         self.icon = self.build_tray()
@@ -4843,6 +5383,14 @@ class App:
             items += [pystray.Menu.SEPARATOR,
                       pystray.MenuItem(lambda _i: T("Buy me a coffee"),
                                        push("support"))]
+        # Store installs only: the Store takes reviews from people who got
+        # the app there, so in the portable build this would open a form
+        # that refuses them.
+        if PACKAGED:
+            if not SUPPORT_URL:
+                items.append(pystray.Menu.SEPARATOR)
+            items.append(pystray.MenuItem(lambda _i: T("Rate this app"),
+                                          push("review")))
         items += [pystray.Menu.SEPARATOR,
                   pystray.MenuItem(lambda _i: T("Quit"), push("quit"))]
         # Tooltip comes from DISPLAY_NAME, not a literal. It was a literal, and
@@ -4872,6 +5420,9 @@ class App:
                 elif cmd == "support":
                     log_event("tray", "opened the support link")
                     open_link(SUPPORT_URL)
+                elif cmd == "review":
+                    log_event("tray", "opened the Store review form")
+                    open_link(REVIEW_URL)
                 elif cmd == "quit":
                     self.quit()
                     return
@@ -4884,15 +5435,24 @@ class App:
 
     # -- timing -------------------------------------------------------------
 
+    def countdown_text(self):
+        """What the pill should say right now, or None for no pill at all.
+
+        None covers three cases -- breaks off, snoozed, or the user has
+        switched the countdown off -- and set_text(None) hides the pill for
+        all three by the one path, which is why it is decided in one place.
+        """
+        if (self.cfg.get("break_enabled") and not self.paused
+                and self.cfg.get("break_countdown", True)):
+            left = seconds_to_next_break(self.cfg["break_minutes"])
+            return "%d:%02d" % (left // 60, left % 60)
+        return None
+
     def tick_countdown(self):
         """Refresh the pill once a second. Cheap, and re-read from the clock
         each time so it cannot drift away from the real schedule."""
         try:
-            if self.cfg.get("break_enabled") and not self.paused:
-                left = seconds_to_next_break(self.cfg["break_minutes"])
-                self.countdown.set_text("%d:%02d" % (left // 60, left % 60))
-            else:
-                self.countdown.set_text(None)
+            self.countdown.set_text(self.countdown_text())
         except Exception:
             log_error("tick_countdown")
         finally:
@@ -4962,7 +5522,50 @@ class App:
         if drift > STALL_TOLERANCE_S:
             log_event("stalled", "timer paused ~%.0fs (sleep or throttling)"
                       % (HEARTBEAT_S + drift))
+        try:
+            self.check_asks()
+        except Exception:
+            log_error("check_asks")
         self.root.after(HEARTBEAT_S * 1000, self.heartbeat)
+
+    def check_asks(self):
+        """Count today, and show an ask if one is due and now is a good time.
+
+        On the heartbeat because the heartbeat is the one timer that already
+        notices waking from sleep. A laptop that sleeps and wakes for days
+        without the app ever restarting would barely count a day if this
+        only ran at launch; here, even a two-minute wake counts its day.
+        It costs one string comparison a minute, and a file write only on
+        the minute the date changes.
+        """
+        today = today_iso()
+        if count_day(self.asks, today):
+            save_asks(self.asks)
+            log_event("asks", "day %d of use" % self.asks["days_used"])
+        if self.ask_card.showing():
+            return
+        pick = due_ask(self.asks, today)
+        if pick is None:
+            return
+        # Not now -- the next heartbeat asks again. Each of these is a moment
+        # the user is busy with something, or with this app itself: just
+        # launched, mid-reminder, snoozed, in Settings, reading the notice,
+        # or (Windows says) presenting, fullscreen or away.
+        if (time.monotonic() - self.started < ASK_SETTLE_S
+                or self.overlay.busy or self.paused
+                or self.settings.win is not None
+                or self.notice.win is not None
+                or not user_is_available()):
+            return
+        day, kind = pick
+        # Spent BEFORE it is shown. If showing it fails, that ask is lost --
+        # far better than a card that reappears every minute because the
+        # failure happened before anything was written down.
+        self.asks["shown"].append(day)
+        self.asks["last_ask"] = today
+        save_asks(self.asks)
+        log_event("asks", "showing the %s ask (day %d of use)" % (kind, day))
+        self.ask_card.show(kind)
 
     def schedule(self):
         if self.timer is not None:
@@ -5006,7 +5609,10 @@ class App:
         self.cfg = cfg
         save_config(cfg)
         self.indicator.apply(cfg)
-        self.countdown.render()
+        # set_text rather than render(): render repaints whatever text the
+        # pill last had, so switching the countdown off left it up for the
+        # second until the next tick. set_text both repaints and hides.
+        self.countdown.set_text(self.countdown_text())
         self.schedule_break()
         if startup_changed:
             set_startup(cfg["start_with_windows"])

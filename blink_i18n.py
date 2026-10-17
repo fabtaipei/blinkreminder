@@ -255,6 +255,14 @@ STRINGS = {
 
         # -- the other word the overlay can show -------------------------
         "Look into the distance": "看向遠方",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "喜歡這個程式嗎？",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "它完全免費，沒有廣告，也不追蹤你。如果它對你的眼睛有幫助，請我喝杯咖啡，就能讓它一直保持這樣。",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "在 Microsoft Store 留一則簡短的評論，能幫助其他眼睛疲勞的人找到它。",
+        "Don’t ask again": "不再詢問",
+        "Rate this app": "為這個程式評分",
+        "Show countdown": "顯示倒數計時",
     },
 
     # Simplified Chinese, in mainland vocabulary: 屏幕 rather than 螢幕,
@@ -351,6 +359,14 @@ STRINGS = {
         "Done": "完成",
 
         "Look into the distance": "看向远方",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "喜欢这个应用吗？",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "它完全免费，没有广告，也不追踪你。如果它对你的眼睛有帮助，请我喝杯咖啡，就能让它一直保持这样。",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "在 Microsoft Store 留一条简短的评价，能帮助其他眼睛疲劳的人找到它。",
+        "Don’t ask again": "不再询问",
+        "Rate this app": "为这个应用评分",
+        "Show countdown": "显示倒计时",
     },
 
     # French. Several strings are shorter than the obvious rendering on
@@ -454,6 +470,14 @@ STRINGS = {
         "Done": "Terminé",
 
         "Look into the distance": "Regardez au loin",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Vous appréciez l'application ?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Elle est gratuite, sans publicité ni pistage. Si elle a fait du bien à vos yeux, un café m'aide à la garder ainsi.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Un court avis sur le Microsoft Store aide d'autres personnes aux yeux fatigués à la trouver.",
+        "Don’t ask again": "Ne plus demander",
+        "Rate this app": "Évaluer l'application",
+        "Show countdown": "Afficher le compte à rebours",
     },
 
     # Spanish. "Palabra" rather than "Una palabra" for the style picker:
@@ -552,6 +576,14 @@ STRINGS = {
         "Done": "Listo",
 
         "Look into the distance": "Mira a lo lejos",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "¿Te gusta la app?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Es gratis, sin anuncios ni rastreo. Si le ha sentado bien a tus ojos, un café ayuda a que siga así.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Una reseña breve en Microsoft Store ayuda a otras personas con los ojos cansados a encontrarla.",
+        "Don’t ask again": "No volver a preguntar",
+        "Rate this app": "Valorar esta app",
+        "Show countdown": "Mostrar cuenta atrás",
     },
 
     # German, the longest language measured here at about 117% of English --
@@ -651,6 +683,14 @@ STRINGS = {
         "Done": "Fertig",
 
         "Look into the distance": "In die Ferne schauen",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Gefällt Ihnen die App?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Sie ist kostenlos, ohne Werbung und ohne Tracking. Wenn sie Ihren Augen gutgetan hat, hilft ein Kaffee, dass es so bleibt.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Eine kurze Bewertung im Microsoft Store hilft anderen Menschen mit müden Augen, sie zu finden.",
+        "Don’t ask again": "Nicht mehr fragen",
+        "Rate this app": "App bewerten",
+        "Show countdown": "Countdown anzeigen",
     },
 
     # Italian. The blink card is "Palpebre" rather than "Battito", which on
@@ -750,6 +790,14 @@ STRINGS = {
         "Done": "Fatto",
 
         "Look into the distance": "Guarda lontano",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Ti piace l'app?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "È gratuita, senza pubblicità né tracciamento. Se ha fatto bene ai tuoi occhi, un caffè aiuta a mantenerla così.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Una breve recensione sul Microsoft Store aiuta altre persone con gli occhi stanchi a trovarla.",
+        "Don’t ask again": "Non chiedere più",
+        "Rate this app": "Valuta l'app",
+        "Show countdown": "Mostra il conto alla rovescia",
     },
 
     # Portuguese, written for Brazil, which is where almost all the Store's
@@ -850,6 +898,14 @@ STRINGS = {
         "Done": "Concluir",
 
         "Look into the distance": "Olhe para longe",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Está gostando do app?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "É grátis, sem anúncios e sem rastreamento. Se ele fez bem aos seus olhos, um café ajuda a mantê-lo assim.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Uma avaliação curta na Microsoft Store ajuda outras pessoas com olhos cansados a encontrá-lo.",
+        "Don’t ask again": "Não perguntar de novo",
+        "Rate this app": "Avaliar este app",
+        "Show countdown": "Mostrar contagem regressiva",
     },
 
     # Japanese. Interface Japanese is terse -- ですます endings are dropped
@@ -946,6 +1002,14 @@ STRINGS = {
         "Done": "完了",
 
         "Look into the distance": "遠くを見る",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "気に入っていただけましたか？",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "完全無料で、広告も追跡もありません。目の役に立っているなら、コーヒー1杯の支援でこのまま続けられます。",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store に短いレビューを書いていただくと、目の疲れに悩むほかの方がこのアプリを見つけやすくなります。",
+        "Don’t ask again": "今後は表示しない",
+        "Rate this app": "このアプリを評価",
+        "Show countdown": "カウントダウンを表示",
     },
 
     # Korean. Spacing follows 한글 맞춤법: "눈 깜박임" is two words, and the
@@ -1043,6 +1107,14 @@ STRINGS = {
         "Done": "완료",
 
         "Look into the distance": "먼 곳을 보세요",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "앱이 마음에 드세요?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "무료이고 광고도 추적도 없어요. 눈에 도움이 되었다면 커피 한 잔이 지금처럼 유지하는 데 힘이 돼요.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store에 짧은 리뷰를 남겨 주시면 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요.",
+        "Don’t ask again": "다시 묻지 않기",
+        "Rate this app": "이 앱 평가하기",
+        "Show countdown": "카운트다운 표시",
     },
 
     # Hindi. Devanagari, shaped correctly by Windows through Tk.
@@ -1138,6 +1210,14 @@ STRINGS = {
         "Done": "हो गया",
 
         "Look into the distance": "दूर देखें",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "ऐप पसंद आ रहा है?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "यह मुफ़्त है, न विज्ञापन, न ट्रैकिंग। अगर इससे आपकी आँखों को आराम मिला है, तो एक कॉफ़ी इसे ऐसा ही बनाए रखने में मदद करती है।",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store में एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है।",
+        "Don’t ask again": "फिर से न पूछें",
+        "Rate this app": "इस ऐप को रेट करें",
+        "Show countdown": "उलटी गिनती दिखाएँ",
     },
 
     # Bengali. Nirmala UI covers it, and the conjuncts form correctly.
@@ -1235,6 +1315,14 @@ STRINGS = {
         "Done": "সম্পন্ন",
 
         "Look into the distance": "দূরে তাকান",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "অ্যাপটি ভালো লাগছে?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "এটি বিনামূল্যে, কোনো বিজ্ঞাপন বা ট্র্যাকিং নেই। এটি আপনার চোখের উপকারে এলে, একটি কফি একে এভাবেই রাখতে সাহায্য করে।",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store-এ একটি ছোট রিভিউ ক্লান্ত চোখের অন্য মানুষদের এটি খুঁজে পেতে সাহায্য করে।",
+        "Don’t ask again": "আর দেখাবেন না",
+        "Rate this app": "এই অ্যাপটিকে রেটিং দিন",
+        "Show countdown": "কাউন্টডাউন দেখান",
     },
 
     # Arabic. The TEXT shapes and runs right to left correctly -- Tk gets
@@ -1334,6 +1422,14 @@ STRINGS = {
         "Done": "تم",
 
         "Look into the distance": "انظر بعيدًا",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "هل يعجبك التطبيق؟",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "إنه مجاني، بلا إعلانات ولا تتبّع. إن كان قد أفاد عينيك، فإن ثمن قهوة يساعد على إبقائه كذلك.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "مراجعة قصيرة في Microsoft Store تساعد آخرين يعانون من إجهاد العين على العثور عليه.",
+        "Don’t ask again": "لا تسألني مجددًا",
+        "Rate this app": "قيّم هذا التطبيق",
+        "Show countdown": "إظهار العد التنازلي",
     },
 
     # Urdu. Same caveat as Arabic: the text is right, the layout is not
@@ -1431,6 +1527,14 @@ STRINGS = {
         "Done": "مکمل",
 
         "Look into the distance": "دور دیکھیں",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "کیا ایپ پسند آ رہی ہے؟",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "یہ مفت ہے، نہ اشتہار، نہ ٹریکنگ۔ اگر اس سے آپ کی آنکھوں کو فائدہ ہوا ہے تو ایک کافی اسے ایسا ہی رکھنے میں مدد کرتی ہے۔",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store پر ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔",
+        "Don’t ask again": "دوبارہ نہ پوچھیں",
+        "Rate this app": "اس ایپ کی درجہ بندی کریں",
+        "Show countdown": "الٹی گنتی دکھائیں",
     },
 
     # Indonesian.
@@ -1527,6 +1631,14 @@ STRINGS = {
         "Done": "Selesai",
 
         "Look into the distance": "Lihat ke kejauhan",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Suka aplikasinya?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Gratis, tanpa iklan dan tanpa pelacakan. Jika bermanfaat bagi mata Anda, secangkir kopi membantu menjaganya tetap begitu.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Ulasan singkat di Microsoft Store membantu orang lain yang matanya lelah menemukannya.",
+        "Don’t ask again": "Jangan tanya lagi",
+        "Rate this app": "Beri nilai aplikasi ini",
+        "Show countdown": "Tampilkan hitung mundur",
     },
 
     # Polish. The interval strings use abbreviated units -- "co %d s", not
@@ -1628,6 +1740,14 @@ STRINGS = {
         "Done": "Gotowe",
 
         "Look into the distance": "Popatrz w dal",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Podoba ci się aplikacja?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Jest darmowa, bez reklam i bez śledzenia. Jeśli pomogła twoim oczom, kawa pomoże, żeby tak zostało.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Krótka opinia w Microsoft Store pomoże innym osobom ze zmęczonymi oczami ją znaleźć.",
+        "Don’t ask again": "Nie pytaj więcej",
+        "Rate this app": "Oceń tę aplikację",
+        "Show countdown": "Pokaż odliczanie",
     },
 
     # Turkish.
@@ -1725,6 +1845,14 @@ STRINGS = {
         "Done": "Tamam",
 
         "Look into the distance": "Uzağa bak",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Uygulamayı beğendiniz mi?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ücretsiz; reklam ve takip yok. Gözlerinize iyi geldiyse, bir kahve böyle kalmasına yardımcı olur.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store'da kısa bir değerlendirme, gözleri yorgun başka insanların onu bulmasına yardımcı olur.",
+        "Don’t ask again": "Bir daha sorma",
+        "Rate this app": "Bu uygulamayı değerlendir",
+        "Show countdown": "Geri sayımı göster",
     },
 
     # Vietnamese.
@@ -1822,6 +1950,14 @@ STRINGS = {
         "Done": "Xong",
 
         "Look into the distance": "Nhìn ra xa",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Bạn thích ứng dụng này chứ?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ứng dụng miễn phí, không quảng cáo, không theo dõi. Nếu nó tốt cho mắt bạn, một ly cà phê sẽ giúp giữ nó như vậy.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Một đánh giá ngắn trên Microsoft Store giúp những người mỏi mắt khác tìm thấy nó.",
+        "Don’t ask again": "Đừng hỏi lại",
+        "Rate this app": "Đánh giá ứng dụng này",
+        "Show countdown": "Hiện đếm ngược",
     },
 
     # Russian. Abbreviated interval units for the same reason as Polish:
@@ -1920,6 +2056,14 @@ STRINGS = {
         "Done": "Готово",
 
         "Look into the distance": "Посмотрите вдаль",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Нравится приложение?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Оно бесплатное, без рекламы и слежки. Если оно помогло вашим глазам, чашка кофе поможет сохранить его таким.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Короткий отзыв в Microsoft Store поможет другим людям с уставшими глазами найти его.",
+        "Don’t ask again": "Больше не спрашивать",
+        "Rate this app": "Оценить приложение",
+        "Show countdown": "Показывать обратный отсчёт",
     },
 
     # Thai. Written without spaces between words, so the notice sentences
@@ -2016,6 +2160,14 @@ STRINGS = {
         "Done": "เสร็จ",
 
         "Look into the distance": "มองไปไกล ๆ",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "ชอบแอปนี้ไหม",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "แอปนี้ใช้ฟรี ไม่มีโฆษณาและไม่มีการติดตาม ถ้าช่วยให้ดวงตาของคุณสบายขึ้น กาแฟสักแก้วจะช่วยให้แอปเป็นแบบนี้ต่อไป",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "รีวิวสั้น ๆ ใน Microsoft Store ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ",
+        "Don’t ask again": "ไม่ต้องถามอีก",
+        "Rate this app": "ให้คะแนนแอปนี้",
+        "Show countdown": "แสดงการนับถอยหลัง",
     },
 
     # Ukrainian. Abbreviated interval units, as for Russian and Polish:
@@ -2114,6 +2266,14 @@ STRINGS = {
         "Done": "Готово",
 
         "Look into the distance": "Погляньте вдалечінь",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Подобається застосунок?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Він безкоштовний, без реклами й стеження. Якщо він допоміг вашим очам, чашка кави допоможе зберегти його таким.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Короткий відгук у Microsoft Store допоможе іншим людям із втомленими очима його знайти.",
+        "Don’t ask again": "Більше не питати",
+        "Rate this app": "Оцінити застосунок",
+        "Show countdown": "Показувати зворотний відлік",
     },
 
     # Czech. Same plural problem as the Slavic languages above, same fix.
@@ -2211,6 +2371,14 @@ STRINGS = {
         "Done": "Hotovo",
 
         "Look into the distance": "Podívejte se do dálky",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Líbí se vám aplikace?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Je zdarma, bez reklam a bez sledování. Pokud prospěla vašim očím, káva pomůže, aby to tak zůstalo.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Krátké hodnocení v Microsoft Storu pomůže dalším lidem s unavenýma očima ji najít.",
+        "Don’t ask again": "Už se neptat",
+        "Rate this app": "Ohodnotit aplikaci",
+        "Show countdown": "Zobrazit odpočet",
     },
 
     # Romanian.
@@ -2308,6 +2476,14 @@ STRINGS = {
         "Done": "Gata",
 
         "Look into the distance": "Privește în depărtare",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Îți place aplicația?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Este gratuită, fără reclame și fără urmărire. Dacă ți-a făcut bine la ochi, o cafea ajută ca lucrurile să rămână așa.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "O recenzie scurtă în Microsoft Store îi ajută pe alții cu ochii obosiți să o găsească.",
+        "Don’t ask again": "Nu mai întreba",
+        "Rate this app": "Evaluează aplicația",
+        "Show countdown": "Afișează numărătoarea inversă",
     },
 
     # Hungarian.
@@ -2405,6 +2581,14 @@ STRINGS = {
         "Done": "Kész",
 
         "Look into the distance": "Nézz a távolba",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Tetszik az alkalmazás?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ingyenes, reklámok és követés nélkül. Ha jót tett a szemednek, egy kávé segít, hogy így is maradjon.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Egy rövid értékelés a Microsoft Store-ban segít más fáradt szemű embereknek megtalálni.",
+        "Don’t ask again": "Ne kérdezd többé",
+        "Rate this app": "Értékeld az alkalmazást",
+        "Show countdown": "Visszaszámlálás megjelenítése",
     },
 
     # Greek.
@@ -2503,6 +2687,14 @@ STRINGS = {
         "Done": "Τέλος",
 
         "Look into the distance": "Κοίτα μακριά",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Σου αρέσει η εφαρμογή;",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Είναι δωρεάν, χωρίς διαφημίσεις και χωρίς παρακολούθηση. Αν έκανε καλό στα μάτια σου, ένας καφές βοηθά να μείνει έτσι.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Μια σύντομη κριτική στο Microsoft Store βοηθά άλλους με κουρασμένα μάτια να τη βρουν.",
+        "Don’t ask again": "Να μην ξαναρωτηθώ",
+        "Rate this app": "Βαθμολόγησε την εφαρμογή",
+        "Show countdown": "Αντίστροφη μέτρηση",
     },
 
     # Swedish.
@@ -2600,6 +2792,14 @@ STRINGS = {
         "Done": "Klar",
 
         "Look into the distance": "Titta långt bort",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Gillar du appen?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den är gratis, utan reklam och utan spårning. Om den har gjort gott för dina ögon hjälper en kaffe till att det förblir så.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort recension i Microsoft Store hjälper andra med trötta ögon att hitta den.",
+        "Don’t ask again": "Fråga inte igen",
+        "Rate this app": "Betygsätt appen",
+        "Show countdown": "Visa nedräkning",
     },
 
     # Finnish.
@@ -2697,6 +2897,14 @@ STRINGS = {
         "Done": "Valmis",
 
         "Look into the distance": "Katso kauas",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Pidätkö sovelluksesta?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Se on ilmainen, ilman mainoksia ja seurantaa. Jos se on tehnyt hyvää silmillesi, kahvi auttaa pitämään sen sellaisena.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Lyhyt arvio Microsoft Storessa auttaa muita väsyneistä silmistä kärsiviä löytämään sen.",
+        "Don’t ask again": "Älä kysy uudelleen",
+        "Rate this app": "Arvioi sovellus",
+        "Show countdown": "Näytä lähtölaskenta",
     },
 
     # Danish.
@@ -2794,6 +3002,14 @@ STRINGS = {
         "Done": "Færdig",
 
         "Look into the distance": "Kig langt væk",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Kan du lide appen?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den er gratis, uden reklamer og uden sporing. Hvis den har gjort dine øjne godt, hjælper en kaffe med at holde den sådan.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort anmeldelse i Microsoft Store hjælper andre med trætte øjne med at finde den.",
+        "Don’t ask again": "Spørg ikke igen",
+        "Rate this app": "Bedøm appen",
+        "Show countdown": "Vis nedtælling",
     },
 
     # Norwegian, Bokmal.
@@ -2891,6 +3107,14 @@ STRINGS = {
         "Done": "Ferdig",
 
         "Look into the distance": "Se langt bort",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Liker du appen?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den er gratis, uten reklame og uten sporing. Hvis den har gjort godt for øynene dine, hjelper en kaffe med å holde det slik.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort anmeldelse i Microsoft Store hjelper andre med slitne øyne å finne den.",
+        "Don’t ask again": "Ikke spør igjen",
+        "Rate this app": "Vurder appen",
+        "Show countdown": "Vis nedtelling",
     },
 
     # Dutch.
@@ -2989,5 +3213,13 @@ STRINGS = {
         "Done": "Klaar",
 
         "Look into the distance": "Kijk in de verte",
+
+        # The ask cards, the tray's review item, and the break's countdown switch.
+        "Enjoying the app?": "Bevalt de app?",
+        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Hij is gratis, zonder advertenties en zonder tracking. Als hij je ogen goed heeft gedaan, helpt een koffie om dat zo te houden.",
+        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Een korte review in de Microsoft Store helpt andere mensen met vermoeide ogen hem te vinden.",
+        "Don’t ask again": "Niet meer vragen",
+        "Rate this app": "Beoordeel deze app",
+        "Show countdown": "Aftellen tonen",
     },
 }
