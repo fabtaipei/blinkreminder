@@ -43,6 +43,7 @@ import blink_reminder as br
 
 SW = br.SettingsWindow
 SN = br.StartupNotice
+AC = br.AskCard
 
 FAILURES = []
 
@@ -179,6 +180,7 @@ BUDGETS = [
     ("Bottom right", "t5", 300 - 120 - 16, "caption beside the position grid"),
     ("Edge margin", "t4", 172 - 16 - 8, "label, spinbox at x=172"),
     ("Show on every monitor", "t4", CARD - SWITCH, "switch row"),
+    ("Show countdown", "t4", CARD - SWITCH, "switch row, break's S10"),
     ("Done", "t4b", 96 - BTN_PAD, "advanced footer"),
 
     # -- the startup notice --------------------------------------------
@@ -192,8 +194,45 @@ BUDGETS = [
     ("Resume reminders", "t4", 240, "tray menu"),
     ("Snooze 30 minutes", "t4", 240, "tray menu"),
     ("Settings", "t4", 240, "tray menu"),
+    ("Rate this app", "t4", 240, "tray menu"),
     ("Quit", "t4", 240, "tray menu"),
 ]
+
+# The ask card's two bodies wrap rather than clip, so for them the budget is
+# a number of LINES. Past four the card stops reading as a short aside.
+ASK_BODIES = (
+    "It’s free, with no ads and no tracking. If it’s been good for "
+    "your eyes, a coffee helps keep it that way.",
+    "A short review in the Microsoft Store helps other people with tired "
+    "eyes find it.",
+)
+ASK_BODY_LINES = 4
+
+
+def ask_card_budgets(measure):
+    """The ask card's single-line strings. Its button is as wide as its
+    label needs, so the real constraint is the bottom row: the coffee
+    button and "Don't ask again" have to share it without touching."""
+    inner = AC.WIN_W - 2 * AC.PAD
+    coffee = br.T("Buy me a coffee")
+    coffee_w = max(AC.BTN_MIN_W, measure(coffee, "t4b") + BTN_PAD)
+    return [
+        (br.T("Enjoying the app?"), "t1", AC.WIN_W - 2 * AC.PAD - AC.CLOSE_W,
+         "ask card title, left of the close mark"),
+        (br.T("Don’t ask again"), "t4b", inner - 16 - coffee_w,
+         "link, left of the coffee button with a 16px gap"),
+        (coffee, "t4b", inner - BTN_PAD, "ask card button"),
+        (br.T("Rate this app"), "t4b", inner - BTN_PAD, "ask card button"),
+    ]
+
+
+def wrapped_lines(measure, fkey, text, width):
+    """How many lines the ask card draws `text` in. The card breaks its own
+    lines with br.wrap_text, so this calls the same function rather than
+    modelling it -- a model would be one more thing that could disagree."""
+    if text.startswith(br.RLE) and text.endswith(br.PDF):
+        text = text[1:-1]
+    return len(br.wrap_text(text, lambda t: measure(t, fkey), width))
 
 # Strings whose budget depends on a value only known at runtime.
 def dynamic_budgets():
@@ -232,9 +271,24 @@ def check_fit():
             br.set_language(code)
             br._THEME_METRICS.pop("lang", None)
             fonts = br._resolve_fonts(root)
+            cache = {}
+
+            def measure(text, fkey):
+                if fkey not in cache:
+                    cache[fkey] = tkfont.Font(root=root, font=fonts[fkey])
+                return cache[fkey].measure(text)
+
             worst, over = (0, ""), 0
             rows = ([(br.T(k), f, px, why) for k, f, px, why in BUDGETS]
-                    + dynamic_budgets())
+                    + dynamic_budgets() + ask_card_budgets(measure))
+            for body in ASK_BODIES:
+                text = br.T(body)
+                n = wrapped_lines(measure, "t2", text,
+                                  AC.WIN_W - 2 * AC.PAD)
+                if n > ASK_BODY_LINES:
+                    over += 1
+                    fail("[%s] ask card body wraps to %d lines, max %d"
+                         % (code, n, ASK_BODY_LINES), text)
             for text, fkey, avail, why in rows:
                 font = tkfont.Font(root=root, font=fonts[fkey])
                 need = max(font.measure(line) for line in text.split("\n"))
