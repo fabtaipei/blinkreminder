@@ -5070,6 +5070,19 @@ def wrap_text(text, measure, width):
             line = line[cut:]
     if line:
         lines.append(line)
+
+    # No lone word on the last line. The English review card ended
+    # "...find it. Thank" / "you!" -- a widow, and here one that split a
+    # phrase in half. The word before it comes down to keep it company,
+    # which can only shorten the line above, so nothing new can overflow.
+    # Only between space-separated words, and only if the line above stays
+    # at least 40% full -- a rule by width rather than word count, so it
+    # treats a Thai phrase and an English word alike.
+    if len(lines) >= 2 and " " not in lines[-1].strip() and " " in lines[-2]:
+        head, word = lines[-2].rsplit(" ", 1)
+        moved = word + " " + lines[-1]
+        if measure(moved) <= width and measure(head) >= 0.4 * width:
+            lines[-2:] = [head, moved]
     return lines
 
 
@@ -5180,13 +5193,22 @@ class AskCard:
 
         # Each string goes through T() as a literal, which is what lets the
         # i18n test find it and prove every language has it.
+        #
+        # Short, because a card nobody asked for gets a glance and no more.
+        # And a low bar: "Like the app?", not "Enjoying" (this is a health
+        # tool, not a game) and not "Helping your eyes?" -- someone can like
+        # it without being sure it has helped, and the app cannot promise
+        # that it will. "Independent" is the reason to give at all: people
+        # tip a person, not a company.
         if kind == "donate":
-            body = T("It’s free, with no ads and no tracking. If it’s been "
-                     "good for your eyes, a coffee helps keep it that way.")
+            title = T("Like the app?")
+            body = T("If this independent app works well for you, would you "
+                     "consider a small donation? Thank you!")
             action = T("Buy me a coffee")
         else:
-            body = T("A short review in the Microsoft Store helps other "
-                     "people with tired eyes find it.")
+            title = T("Finding it useful?")
+            body = T("A short review helps others with tired eyes find it. "
+                     "Thank you!")
             action = T("Rate this app")
 
         self.kind = kind
@@ -5209,7 +5231,7 @@ class AskCard:
         if rtl:
             near, far = far, near
 
-        ttk.Label(outer, text=T("Enjoying the app?"),
+        ttk.Label(outer, text=title,
                   style="Title.TLabel").place(
             x=near, y=s(self.TITLE_Y), anchor="ne" if rtl else "nw")
         # Drawn in the title's size: in the body's it was a speck that could

@@ -206,10 +206,9 @@ BUDGETS = [
 # The ask card's two bodies wrap rather than clip, so for them the budget is
 # a number of LINES. Past four the card stops reading as a short aside.
 ASK_BODIES = (
-    "It’s free, with no ads and no tracking. If it’s been good for "
-    "your eyes, a coffee helps keep it that way.",
-    "A short review in the Microsoft Store helps other people with tired "
-    "eyes find it.",
+    "If this independent app works well for you, would you consider a "
+    "small donation? Thank you!",
+    "A short review helps others with tired eyes find it. Thank you!",
 )
 ASK_BODY_LINES = 4
 
@@ -222,8 +221,10 @@ def ask_card_budgets(measure):
     coffee = br.T("Buy me a coffee")
     coffee_w = max(AC.BTN_MIN_W, measure(coffee, "t4b") + BTN_PAD)
     return [
-        (br.T("Enjoying the app?"), "t1", AC.WIN_W - 2 * AC.PAD - AC.CLOSE_W,
-         "ask card title, left of the close mark"),
+        (br.T("Like the app?"), "t1", AC.WIN_W - 2 * AC.PAD - AC.CLOSE_W,
+         "coffee card title, left of the close mark"),
+        (br.T("Finding it useful?"), "t1", AC.WIN_W - 2 * AC.PAD - AC.CLOSE_W,
+         "review card title, left of the close mark"),
         (br.T("Don’t ask again"), "t4b", inner - 16 - coffee_w,
          "link, left of the coffee button with a 16px gap"),
         (coffee, "t4b", inner - BTN_PAD, "ask card button"),
