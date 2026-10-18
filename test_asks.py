@@ -12,8 +12,8 @@ Two things are tested here, and both are about counting honestly:
 
   2. WHICH ASK, WHEN.  An ask is due once its count is REACHED, not only on
      the exact day, so one that could not be shown is late rather than lost.
-     At most one a day. "Don't ask again" stops the coffee and never the
-     review. The review is asked for in every build, standalone exe too.
+     At most one a day. "Don't ask again" -- offered on the coffee card
+     only -- stops every ask still to come, reviews included. The review is asked for in every build, standalone exe too.
 
 No window is opened. Every path the code could write to -- the ask file,
 the activity log and the folder they live in -- is pointed at a temporary
@@ -124,10 +124,12 @@ def test_due_ask():
           br.due_ask(at(31, shown=[12], last_ask="d"), "e", always),
           (25, "review"))
 
-    check("Don't ask again skips the coffee",
-          br.due_ask(at(12, no_donate=True), "d", always), None)
-    check("  ...but never the review",
-          br.due_ask(at(25, no_donate=True), "d", always), (25, "review"))
+    check("Don't ask again stops the coffee",
+          br.due_ask(at(12, opted_out=True), "d", always), None)
+    check("  ...and the review as well",
+          br.due_ask(at(25, shown=[12], opted_out=True), "d", always), None)
+    check("  ...and every ask after it",
+          br.due_ask(at(999, shown=[12], opted_out=True), "d", always), None)
 
     check("every build asks for a review, the standalone exe included",
           br.ask_possible("review"), True)
@@ -151,7 +153,7 @@ def test_file(tmp):
     print("\n3. the file")
     state = br.fresh_asks()
     state.update(days_used=13, last_counted="2026-10-17", shown=[12],
-                 no_donate=True, last_ask="2026-10-17")
+                 opted_out=True, last_ask="2026-10-17")
     br.save_asks(state)
     check("saved and loaded back unchanged", br.load_asks(), state)
     check("no temp file left behind",
@@ -164,13 +166,18 @@ def test_file(tmp):
 
     with open(br.ASKS_PATH, "w", encoding="utf-8") as fh:
         json.dump({"days_used": "lots", "shown": [12, True, "25"],
-                   "no_donate": "yes", "last_counted": "2026-10-01"}, fh)
+                   "opted_out": "yes", "last_counted": "2026-10-01"}, fh)
     got = br.load_asks()
     check("a bad count is dropped, not trusted", got["days_used"], 0)
     check("only real day numbers survive in shown", got["shown"], [12])
-    check("only a real true opts out of the coffee", got["no_donate"], False)
+    check("only a real true opts out", got["opted_out"], False)
     check("the good field next to bad ones is kept", got["last_counted"],
           "2026-10-01")
+
+    with open(br.ASKS_PATH, "w", encoding="utf-8") as fh:
+        json.dump({"days_used": 30, "no_donate": True}, fh)
+    check("someone who opted out under the old name stays out",
+          br.load_asks()["opted_out"], True)
 
     os.remove(br.ASKS_PATH)
     check("no file at all is a fresh start", br.load_asks(), br.fresh_asks())

@@ -873,7 +873,7 @@ def today_iso():
 
 def fresh_asks():
     return {"days_used": 0, "last_counted": "", "shown": [],
-            "no_donate": False, "last_ask": ""}
+            "opted_out": False, "last_ask": ""}
 
 
 def load_asks():
@@ -901,7 +901,10 @@ def load_asks():
     if isinstance(shown, list):
         state["shown"] = [d for d in shown
                           if isinstance(d, int) and not isinstance(d, bool)]
-    state["no_donate"] = data.get("no_donate") is True
+    # "no_donate" is the name this flag had when it stopped only the coffee.
+    # Someone who clicked it then asked not to be asked, so they stay out.
+    state["opted_out"] = (data.get("opted_out") is True
+                          or data.get("no_donate") is True)
     return state
 
 
@@ -963,15 +966,16 @@ def due_ask(state, today, possible=ask_possible):
     one a calendar day, so two that fell due together arrive on two days
     rather than back to back.
 
-    A kind that cannot be asked here is skipped, not counted as shown, and
-    a coffee the user has declined for good is skipped the same way.
+    A kind that cannot be asked here is skipped, not counted as shown.
+
+    "Don't ask again" ends ALL of them, review included. It is offered only
+    on the coffee card, but someone who has said "stop asking me" has not
+    said "stop asking me for money and keep asking me for reviews".
     """
-    if state["last_ask"] == today:
+    if state["opted_out"] or state["last_ask"] == today:
         return None
     for day, kind in ASK_SCHEDULE:
         if state["days_used"] < day or day in state["shown"]:
-            continue
-        if kind == "donate" and state["no_donate"]:
             continue
         if not possible(kind):
             continue
@@ -5170,16 +5174,18 @@ class AskCard:
         self.app = app
         self.win = None
         self.kind = None
+        self.test = False
 
     def showing(self):
         return self.win is not None
 
-    def show(self, kind):
+    def show(self, kind, test=False):
         """Build and show the card, start to finish inside NoActivation --
         the window is activated the instant Tk creates it, so a guard that
         began any later would be guarding nothing."""
         if self.win is not None:
             return
+        self.test = test
         with NoActivation():
             self._build(kind)
 
@@ -5268,8 +5274,8 @@ class AskCard:
                          takefocus=False, command=self.act)
         btn.place(x=far, y=row_y, width=btn_w, height=s(self.BTN_H),
                   anchor="nw" if rtl else "ne")
-        # Only the coffee can be declined for good. The review ask has no
-        # opt-out -- three asks in the life of the app, by design.
+        # Offered on the coffee card only, by design -- but it ends every ask
+        # still to come, reviews included. See due_ask.
         if kind == "donate":
             never = _Link(outer, T("Don’t ask again"), self.never)
             never.configure(takefocus=False)
@@ -5308,9 +5314,14 @@ class AskCard:
         self.close("clicked")
 
     def never(self):
-        self.app.asks["no_donate"] = True
+        if self.test:
+            # A test card proves the link works; it must not opt the
+            # author out of the real asks while doing it.
+            self.close("test: Don't ask again clicked, not saved")
+            return
+        self.app.asks["opted_out"] = True
         save_asks(self.app.asks)
-        self.close("declined for good")
+        self.close("declined: no more asks of any kind")
 
     def close(self, how="closed"):
         if self.win is not None:
@@ -5681,7 +5692,18 @@ def main():
         announce_already_running()
         return
     enable_dpi_awareness()
-    App(cfg).run()
+    app = App(cfg)
+    # --test-ask donate | review: show that card three seconds after launch,
+    # whatever the schedule says, so the author can see and click a card
+    # without waiting twelve days of use for one. Nothing it does is saved:
+    # the day count is untouched and "Don't ask again" is not remembered.
+    if "--test-ask" in sys.argv:
+        i = sys.argv.index("--test-ask")
+        kind = sys.argv[i + 1] if i + 1 < len(sys.argv) else "donate"
+        kind = kind if kind in ("donate", "review") else "donate"
+        log_event("asks", "test card requested: %s" % kind)
+        app.root.after(3000, lambda: app.ask_card.show(kind, test=True))
+    app.run()
 
 
 if __name__ == "__main__":
