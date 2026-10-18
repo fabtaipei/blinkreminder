@@ -257,9 +257,10 @@ STRINGS = {
         "Look into the distance": "看向遠方",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "喜歡這個程式嗎？",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "它完全免費，沒有廣告，也不追蹤你。如果它對你的眼睛有幫助，請我喝杯咖啡，就能讓它一直保持這樣。",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "在 Microsoft Store 留一則簡短的評論，能幫助其他眼睛疲勞的人找到它。",
+        "Like the app?": "喜歡這個程式嗎？",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "如果這個獨立開發的程式對你有用，願意小額捐款支持嗎？謝謝！",
+        "Finding it useful?": "覺得好用嗎？",
+        "A short review helps others with tired eyes find it. Thank you!": "一則簡短的評論，能幫助其他眼睛疲勞的人找到它。謝謝！",
         "Don’t ask again": "不再詢問",
         "Rate this app": "為這個程式評分",
         "Show countdown": "顯示倒數計時",
@@ -361,9 +362,10 @@ STRINGS = {
         "Look into the distance": "看向远方",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "喜欢这个应用吗？",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "它完全免费，没有广告，也不追踪你。如果它对你的眼睛有帮助，请我喝杯咖啡，就能让它一直保持这样。",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "在 Microsoft Store 留一条简短的评价，能帮助其他眼睛疲劳的人找到它。",
+        "Like the app?": "喜欢这个应用吗？",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "如果这个独立开发的应用对你有用，愿意小额捐款支持吗？谢谢！",
+        "Finding it useful?": "觉得好用吗？",
+        "A short review helps others with tired eyes find it. Thank you!": "一条简短的评价，能帮助其他眼睛疲劳的人找到它。谢谢！",
         "Don’t ask again": "不再询问",
         "Rate this app": "为这个应用评分",
         "Show countdown": "显示倒计时",
@@ -472,9 +474,10 @@ STRINGS = {
         "Look into the distance": "Regardez au loin",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Vous appréciez l'application ?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Elle est gratuite, sans publicité ni pistage. Si elle a fait du bien à vos yeux, un café m'aide à la garder ainsi.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Un court avis sur le Microsoft Store aide d'autres personnes aux yeux fatigués à la trouver.",
+        "Like the app?": "Vous aimez l'application ?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Si cette application indépendante vous convient, envisageriez-vous un petit don ? Merci !",
+        "Finding it useful?": "Vous la trouvez utile ?",
+        "A short review helps others with tired eyes find it. Thank you!": "Un court avis aide d'autres personnes aux yeux fatigués à la trouver. Merci !",
         "Don’t ask again": "Ne plus demander",
         "Rate this app": "Évaluer l'application",
         "Show countdown": "Afficher le compte à rebours",
@@ -578,9 +581,10 @@ STRINGS = {
         "Look into the distance": "Mira a lo lejos",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "¿Te gusta la app?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Es gratis, sin anuncios ni rastreo. Si le ha sentado bien a tus ojos, un café ayuda a que siga así.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Una reseña breve en Microsoft Store ayuda a otras personas con los ojos cansados a encontrarla.",
+        "Like the app?": "¿Te gusta la app?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Si esta app independiente te funciona bien, ¿te plantearías hacer un pequeño donativo? ¡Gracias!",
+        "Finding it useful?": "¿Te resulta útil?",
+        "A short review helps others with tired eyes find it. Thank you!": "Una reseña breve ayuda a otras personas con los ojos cansados a encontrarla. ¡Gracias!",
         "Don’t ask again": "No volver a preguntar",
         "Rate this app": "Valorar esta app",
         "Show countdown": "Mostrar cuenta atrás",
@@ -685,9 +689,10 @@ STRINGS = {
         "Look into the distance": "In die Ferne schauen",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Gefällt Ihnen die App?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Sie ist kostenlos, ohne Werbung und ohne Tracking. Wenn sie Ihren Augen gutgetan hat, hilft ein Kaffee, dass es so bleibt.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Eine kurze Bewertung im Microsoft Store hilft anderen Menschen mit müden Augen, sie zu finden.",
+        "Like the app?": "Gefällt Ihnen die App?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Wenn diese unabhängige App gut für Sie funktioniert, würden Sie eine kleine Spende in Betracht ziehen? Danke!",
+        "Finding it useful?": "Finden Sie die App nützlich?",
+        "A short review helps others with tired eyes find it. Thank you!": "Eine kurze Bewertung hilft anderen mit müden Augen, sie zu finden. Danke!",
         "Don’t ask again": "Nicht mehr fragen",
         "Rate this app": "App bewerten",
         "Show countdown": "Countdown anzeigen",
@@ -792,9 +797,10 @@ STRINGS = {
         "Look into the distance": "Guarda lontano",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Ti piace l'app?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "È gratuita, senza pubblicità né tracciamento. Se ha fatto bene ai tuoi occhi, un caffè aiuta a mantenerla così.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Una breve recensione sul Microsoft Store aiuta altre persone con gli occhi stanchi a trovarla.",
+        "Like the app?": "Ti piace l'app?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Se questa app indipendente funziona bene per te, prenderesti in considerazione una piccola donazione? Grazie!",
+        "Finding it useful?": "Ti è utile?",
+        "A short review helps others with tired eyes find it. Thank you!": "Una breve recensione aiuta altre persone con gli occhi stanchi a trovarla. Grazie!",
         "Don’t ask again": "Non chiedere più",
         "Rate this app": "Valuta l'app",
         "Show countdown": "Mostra il conto alla rovescia",
@@ -900,9 +906,10 @@ STRINGS = {
         "Look into the distance": "Olhe para longe",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Está gostando do app?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "É grátis, sem anúncios e sem rastreamento. Se ele fez bem aos seus olhos, um café ajuda a mantê-lo assim.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Uma avaliação curta na Microsoft Store ajuda outras pessoas com olhos cansados a encontrá-lo.",
+        "Like the app?": "Gostou do app?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Se este app independente funciona bem para você, que tal fazer uma pequena doação? Agradeço!",
+        "Finding it useful?": "Está sendo útil?",
+        "A short review helps others with tired eyes find it. Thank you!": "Uma avaliação curta ajuda outras pessoas com olhos cansados a encontrá-lo. Agradeço!",
         "Don’t ask again": "Não perguntar de novo",
         "Rate this app": "Avaliar este app",
         "Show countdown": "Mostrar contagem regressiva",
@@ -1004,9 +1011,10 @@ STRINGS = {
         "Look into the distance": "遠くを見る",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "気に入っていただけましたか？",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "完全無料で、広告も追跡もありません。目の役に立っているなら、コーヒー1杯の支援でこのまま続けられます。",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store に短いレビューを書いていただくと、目の疲れに悩むほかの方がこのアプリを見つけやすくなります。",
+        "Like the app?": "気に入っていただけましたか？",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "この個人開発アプリがお役に立っているなら、少額のご支援をご検討いただけませんか？ありがとうございます！",
+        "Finding it useful?": "役に立っていますか？",
+        "A short review helps others with tired eyes find it. Thank you!": "短いレビューが、目の疲れに悩むほかの方がこのアプリを見つける助けになります。ありがとうございます！",
         "Don’t ask again": "今後は表示しない",
         "Rate this app": "このアプリを評価",
         "Show countdown": "カウントダウンを表示",
@@ -1109,9 +1117,10 @@ STRINGS = {
         "Look into the distance": "먼 곳을 보세요",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "앱이 마음에 드세요?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "무료이고 광고도 추적도 없어요. 눈에 도움이 되었다면 커피 한 잔이 지금처럼 유지하는 데 힘이 돼요.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store에 짧은 리뷰를 남겨 주시면 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요.",
+        "Like the app?": "앱이 마음에 드세요?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "개인이 만든 이 앱이 잘 맞으신다면 작은 후원을 고려해 주시겠어요? 감사합니다!",
+        "Finding it useful?": "유용하게 쓰고 계세요?",
+        "A short review helps others with tired eyes find it. Thank you!": "짧은 리뷰 하나가 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요. 감사합니다!",
         "Don’t ask again": "다시 묻지 않기",
         "Rate this app": "이 앱 평가하기",
         "Show countdown": "카운트다운 표시",
@@ -1212,9 +1221,10 @@ STRINGS = {
         "Look into the distance": "दूर देखें",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "ऐप पसंद आ रहा है?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "यह मुफ़्त है, न विज्ञापन, न ट्रैकिंग। अगर इससे आपकी आँखों को आराम मिला है, तो एक कॉफ़ी इसे ऐसा ही बनाए रखने में मदद करती है।",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store में एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है।",
+        "Like the app?": "ऐप पसंद आया?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "अगर यह स्वतंत्र ऐप आपके लिए अच्छा काम करता है, तो क्या आप एक छोटा-सा दान देने पर विचार करेंगे? धन्यवाद!",
+        "Finding it useful?": "क्या यह उपयोगी लग रहा है?",
+        "A short review helps others with tired eyes find it. Thank you!": "एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है। धन्यवाद!",
         "Don’t ask again": "फिर से न पूछें",
         "Rate this app": "इस ऐप को रेट करें",
         "Show countdown": "उलटी गिनती दिखाएँ",
@@ -1317,9 +1327,10 @@ STRINGS = {
         "Look into the distance": "দূরে তাকান",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "অ্যাপটি ভালো লাগছে?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "এটি বিনামূল্যে, কোনো বিজ্ঞাপন বা ট্র্যাকিং নেই। এটি আপনার চোখের উপকারে এলে, একটি কফি একে এভাবেই রাখতে সাহায্য করে।",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store-এ একটি ছোট রিভিউ ক্লান্ত চোখের অন্য মানুষদের এটি খুঁজে পেতে সাহায্য করে।",
+        "Like the app?": "অ্যাপটি ভালো লাগছে?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "স্বাধীনভাবে তৈরি এই অ্যাপটি আপনার কাজে এলে, একটি ছোট অনুদানের কথা ভাববেন কি? ধন্যবাদ!",
+        "Finding it useful?": "এটি কি কাজে লাগছে?",
+        "A short review helps others with tired eyes find it. Thank you!": "একটি ছোট রিভিউ ক্লান্ত চোখের অন্যদের এটি খুঁজে পেতে সাহায্য করে। ধন্যবাদ!",
         "Don’t ask again": "আর দেখাবেন না",
         "Rate this app": "এই অ্যাপটিকে রেটিং দিন",
         "Show countdown": "কাউন্টডাউন দেখান",
@@ -1424,9 +1435,10 @@ STRINGS = {
         "Look into the distance": "انظر بعيدًا",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "هل يعجبك التطبيق؟",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "إنه مجاني، بلا إعلانات ولا تتبّع. إن كان قد أفاد عينيك، فإن ثمن قهوة يساعد على إبقائه كذلك.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "مراجعة قصيرة في Microsoft Store تساعد آخرين يعانون من إجهاد العين على العثور عليه.",
+        "Like the app?": "هل أعجبك التطبيق؟",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "إن كان هذا التطبيق المستقل يناسبك، فهل تفكر في تبرع صغير؟ شكرًا!",
+        "Finding it useful?": "هل تجده مفيدًا؟",
+        "A short review helps others with tired eyes find it. Thank you!": "مراجعة قصيرة تساعد آخرين يعانون من إجهاد العين على العثور عليه. شكرًا!",
         "Don’t ask again": "لا تسألني مجددًا",
         "Rate this app": "قيّم هذا التطبيق",
         "Show countdown": "إظهار العد التنازلي",
@@ -1529,9 +1541,10 @@ STRINGS = {
         "Look into the distance": "دور دیکھیں",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "کیا ایپ پسند آ رہی ہے؟",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "یہ مفت ہے، نہ اشتہار، نہ ٹریکنگ۔ اگر اس سے آپ کی آنکھوں کو فائدہ ہوا ہے تو ایک کافی اسے ایسا ہی رکھنے میں مدد کرتی ہے۔",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store پر ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔",
+        "Like the app?": "ایپ پسند آئی؟",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "اگر آزادانہ طور پر بنائی گئی یہ ایپ آپ کے کام آ رہی ہے تو کیا آپ ایک چھوٹے سے عطیے پر غور کریں گے؟ شکریہ!",
+        "Finding it useful?": "کیا یہ مفید لگ رہی ہے؟",
+        "A short review helps others with tired eyes find it. Thank you!": "ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔ شکریہ!",
         "Don’t ask again": "دوبارہ نہ پوچھیں",
         "Rate this app": "اس ایپ کی درجہ بندی کریں",
         "Show countdown": "الٹی گنتی دکھائیں",
@@ -1633,9 +1646,10 @@ STRINGS = {
         "Look into the distance": "Lihat ke kejauhan",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Suka aplikasinya?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Gratis, tanpa iklan dan tanpa pelacakan. Jika bermanfaat bagi mata Anda, secangkir kopi membantu menjaganya tetap begitu.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Ulasan singkat di Microsoft Store membantu orang lain yang matanya lelah menemukannya.",
+        "Like the app?": "Suka aplikasinya?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Jika aplikasi independen ini bekerja dengan baik untuk Anda, maukah Anda mempertimbangkan donasi kecil? Terima kasih!",
+        "Finding it useful?": "Apakah bermanfaat?",
+        "A short review helps others with tired eyes find it. Thank you!": "Ulasan singkat membantu orang lain yang matanya lelah menemukannya. Terima kasih!",
         "Don’t ask again": "Jangan tanya lagi",
         "Rate this app": "Beri nilai aplikasi ini",
         "Show countdown": "Tampilkan hitung mundur",
@@ -1742,9 +1756,10 @@ STRINGS = {
         "Look into the distance": "Popatrz w dal",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Podoba ci się aplikacja?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Jest darmowa, bez reklam i bez śledzenia. Jeśli pomogła twoim oczom, kawa pomoże, żeby tak zostało.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Krótka opinia w Microsoft Store pomoże innym osobom ze zmęczonymi oczami ją znaleźć.",
+        "Like the app?": "Podoba ci się aplikacja?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Jeśli ta niezależna aplikacja dobrze ci służy, może rozważysz drobną darowiznę? Dziękuję!",
+        "Finding it useful?": "Przydaje się?",
+        "A short review helps others with tired eyes find it. Thank you!": "Krótka opinia pomoże innym ze zmęczonymi oczami ją znaleźć. Dziękuję!",
         "Don’t ask again": "Nie pytaj więcej",
         "Rate this app": "Oceń tę aplikację",
         "Show countdown": "Pokaż odliczanie",
@@ -1847,9 +1862,10 @@ STRINGS = {
         "Look into the distance": "Uzağa bak",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Uygulamayı beğendiniz mi?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ücretsiz; reklam ve takip yok. Gözlerinize iyi geldiyse, bir kahve böyle kalmasına yardımcı olur.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Microsoft Store'da kısa bir değerlendirme, gözleri yorgun başka insanların onu bulmasına yardımcı olur.",
+        "Like the app?": "Uygulamayı beğendiniz mi?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Bu bağımsız uygulama işinize yarıyorsa, küçük bir bağış yapmayı düşünür müsünüz? Teşekkürler!",
+        "Finding it useful?": "İşinize yarıyor mu?",
+        "A short review helps others with tired eyes find it. Thank you!": "Kısa bir değerlendirme, gözleri yorgun başkalarının onu bulmasına yardımcı olur. Teşekkürler!",
         "Don’t ask again": "Bir daha sorma",
         "Rate this app": "Bu uygulamayı değerlendir",
         "Show countdown": "Geri sayımı göster",
@@ -1952,9 +1968,10 @@ STRINGS = {
         "Look into the distance": "Nhìn ra xa",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Bạn thích ứng dụng này chứ?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ứng dụng miễn phí, không quảng cáo, không theo dõi. Nếu nó tốt cho mắt bạn, một ly cà phê sẽ giúp giữ nó như vậy.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Một đánh giá ngắn trên Microsoft Store giúp những người mỏi mắt khác tìm thấy nó.",
+        "Like the app?": "Bạn thích ứng dụng này chứ?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Nếu ứng dụng độc lập này hữu ích với bạn, bạn có muốn ủng hộ một khoản nhỏ không? Cảm ơn bạn!",
+        "Finding it useful?": "Bạn thấy hữu ích chứ?",
+        "A short review helps others with tired eyes find it. Thank you!": "Một đánh giá ngắn giúp những người mỏi mắt khác tìm thấy nó. Cảm ơn bạn!",
         "Don’t ask again": "Đừng hỏi lại",
         "Rate this app": "Đánh giá ứng dụng này",
         "Show countdown": "Hiện đếm ngược",
@@ -2058,9 +2075,10 @@ STRINGS = {
         "Look into the distance": "Посмотрите вдаль",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Нравится приложение?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Оно бесплатное, без рекламы и слежки. Если оно помогло вашим глазам, чашка кофе поможет сохранить его таким.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Короткий отзыв в Microsoft Store поможет другим людям с уставшими глазами найти его.",
+        "Like the app?": "Нравится приложение?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Если это независимое приложение вам подходит, не рассмотрите ли небольшое пожертвование? Спасибо!",
+        "Finding it useful?": "Приложение полезно?",
+        "A short review helps others with tired eyes find it. Thank you!": "Короткий отзыв поможет другим людям с уставшими глазами найти его. Спасибо!",
         "Don’t ask again": "Больше не спрашивать",
         "Rate this app": "Оценить приложение",
         "Show countdown": "Показывать обратный отсчёт",
@@ -2162,9 +2180,10 @@ STRINGS = {
         "Look into the distance": "มองไปไกล ๆ",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "ชอบแอปนี้ไหม",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "แอปนี้ใช้ฟรี ไม่มีโฆษณาและไม่มีการติดตาม ถ้าช่วยให้ดวงตาของคุณสบายขึ้น กาแฟสักแก้วจะช่วยให้แอปเป็นแบบนี้ต่อไป",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "รีวิวสั้น ๆ ใน Microsoft Store ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ",
+        "Like the app?": "ชอบแอปนี้ไหม",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "ถ้าแอปอิสระนี้ใช้ได้ดีสำหรับคุณ ช่วยพิจารณาบริจาคเล็กน้อยได้ไหม ขอบคุณ!",
+        "Finding it useful?": "มีประโยชน์ไหม",
+        "A short review helps others with tired eyes find it. Thank you!": "รีวิวสั้น ๆ ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ ขอบคุณ!",
         "Don’t ask again": "ไม่ต้องถามอีก",
         "Rate this app": "ให้คะแนนแอปนี้",
         "Show countdown": "แสดงการนับถอยหลัง",
@@ -2268,9 +2287,10 @@ STRINGS = {
         "Look into the distance": "Погляньте вдалечінь",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Подобається застосунок?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Він безкоштовний, без реклами й стеження. Якщо він допоміг вашим очам, чашка кави допоможе зберегти його таким.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Короткий відгук у Microsoft Store допоможе іншим людям із втомленими очима його знайти.",
+        "Like the app?": "Подобається застосунок?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Якщо цей незалежний застосунок вам підходить, чи не розглянете невелику пожертву? Дякую!",
+        "Finding it useful?": "Застосунок корисний?",
+        "A short review helps others with tired eyes find it. Thank you!": "Короткий відгук допоможе іншим людям із втомленими очима його знайти. Дякую!",
         "Don’t ask again": "Більше не питати",
         "Rate this app": "Оцінити застосунок",
         "Show countdown": "Показувати зворотний відлік",
@@ -2373,9 +2393,10 @@ STRINGS = {
         "Look into the distance": "Podívejte se do dálky",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Líbí se vám aplikace?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Je zdarma, bez reklam a bez sledování. Pokud prospěla vašim očím, káva pomůže, aby to tak zůstalo.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Krátké hodnocení v Microsoft Storu pomůže dalším lidem s unavenýma očima ji najít.",
+        "Like the app?": "Líbí se vám aplikace?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Pokud vám tato nezávislá aplikace dobře slouží, zvážili byste malý příspěvek? Děkuji!",
+        "Finding it useful?": "Je pro vás užitečná?",
+        "A short review helps others with tired eyes find it. Thank you!": "Krátké hodnocení pomůže dalším lidem s unavenýma očima ji najít. Děkuji!",
         "Don’t ask again": "Už se neptat",
         "Rate this app": "Ohodnotit aplikaci",
         "Show countdown": "Zobrazit odpočet",
@@ -2478,9 +2499,10 @@ STRINGS = {
         "Look into the distance": "Privește în depărtare",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Îți place aplicația?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Este gratuită, fără reclame și fără urmărire. Dacă ți-a făcut bine la ochi, o cafea ajută ca lucrurile să rămână așa.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "O recenzie scurtă în Microsoft Store îi ajută pe alții cu ochii obosiți să o găsească.",
+        "Like the app?": "Îți place aplicația?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Dacă această aplicație independentă îți este de folos, te-ai gândi la o mică donație? Mulțumesc!",
+        "Finding it useful?": "Îți este utilă?",
+        "A short review helps others with tired eyes find it. Thank you!": "O recenzie scurtă îi ajută pe alții cu ochii obosiți să o găsească. Mulțumesc!",
         "Don’t ask again": "Nu mai întreba",
         "Rate this app": "Evaluează aplicația",
         "Show countdown": "Afișează numărătoarea inversă",
@@ -2583,9 +2605,10 @@ STRINGS = {
         "Look into the distance": "Nézz a távolba",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Tetszik az alkalmazás?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Ingyenes, reklámok és követés nélkül. Ha jót tett a szemednek, egy kávé segít, hogy így is maradjon.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Egy rövid értékelés a Microsoft Store-ban segít más fáradt szemű embereknek megtalálni.",
+        "Like the app?": "Tetszik az alkalmazás?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Ha ez a független alkalmazás beválik neked, megfontolnál egy kis adományt? Köszönöm!",
+        "Finding it useful?": "Hasznosnak találod?",
+        "A short review helps others with tired eyes find it. Thank you!": "Egy rövid értékelés segít más fáradt szemű embereknek megtalálni. Köszönöm!",
         "Don’t ask again": "Ne kérdezd többé",
         "Rate this app": "Értékeld az alkalmazást",
         "Show countdown": "Visszaszámlálás megjelenítése",
@@ -2689,9 +2712,10 @@ STRINGS = {
         "Look into the distance": "Κοίτα μακριά",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Σου αρέσει η εφαρμογή;",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Είναι δωρεάν, χωρίς διαφημίσεις και χωρίς παρακολούθηση. Αν έκανε καλό στα μάτια σου, ένας καφές βοηθά να μείνει έτσι.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Μια σύντομη κριτική στο Microsoft Store βοηθά άλλους με κουρασμένα μάτια να τη βρουν.",
+        "Like the app?": "Σου αρέσει η εφαρμογή;",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Αν αυτή η ανεξάρτητη εφαρμογή σού κάνει, θα σκεφτόσουν μια μικρή δωρεά; Ευχαριστώ!",
+        "Finding it useful?": "Σου φαίνεται χρήσιμη;",
+        "A short review helps others with tired eyes find it. Thank you!": "Μια σύντομη κριτική βοηθά άλλους με κουρασμένα μάτια να τη βρουν. Ευχαριστώ!",
         "Don’t ask again": "Να μην ξαναρωτηθώ",
         "Rate this app": "Βαθμολόγησε την εφαρμογή",
         "Show countdown": "Αντίστροφη μέτρηση",
@@ -2794,9 +2818,10 @@ STRINGS = {
         "Look into the distance": "Titta långt bort",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Gillar du appen?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den är gratis, utan reklam och utan spårning. Om den har gjort gott för dina ögon hjälper en kaffe till att det förblir så.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort recension i Microsoft Store hjälper andra med trötta ögon att hitta den.",
+        "Like the app?": "Gillar du appen?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Om den här oberoende appen fungerar bra för dig, kan du tänka dig att skänka en liten gåva? Tack!",
+        "Finding it useful?": "Har du nytta av den?",
+        "A short review helps others with tired eyes find it. Thank you!": "En kort recension hjälper andra med trötta ögon att hitta den. Tack!",
         "Don’t ask again": "Fråga inte igen",
         "Rate this app": "Betygsätt appen",
         "Show countdown": "Visa nedräkning",
@@ -2899,9 +2924,10 @@ STRINGS = {
         "Look into the distance": "Katso kauas",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Pidätkö sovelluksesta?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Se on ilmainen, ilman mainoksia ja seurantaa. Jos se on tehnyt hyvää silmillesi, kahvi auttaa pitämään sen sellaisena.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Lyhyt arvio Microsoft Storessa auttaa muita väsyneistä silmistä kärsiviä löytämään sen.",
+        "Like the app?": "Pidätkö sovelluksesta?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Jos tämä itsenäinen sovellus toimii sinulle hyvin, harkitsisitko pientä lahjoitusta? Kiitos!",
+        "Finding it useful?": "Onko siitä hyötyä?",
+        "A short review helps others with tired eyes find it. Thank you!": "Lyhyt arvio auttaa muita väsyneistä silmistä kärsiviä löytämään sen. Kiitos!",
         "Don’t ask again": "Älä kysy uudelleen",
         "Rate this app": "Arvioi sovellus",
         "Show countdown": "Näytä lähtölaskenta",
@@ -3004,9 +3030,10 @@ STRINGS = {
         "Look into the distance": "Kig langt væk",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Kan du lide appen?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den er gratis, uden reklamer og uden sporing. Hvis den har gjort dine øjne godt, hjælper en kaffe med at holde den sådan.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort anmeldelse i Microsoft Store hjælper andre med trætte øjne med at finde den.",
+        "Like the app?": "Kan du lide appen?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Hvis denne uafhængige app fungerer godt for dig, vil du så overveje en lille donation? Tak!",
+        "Finding it useful?": "Har du gavn af den?",
+        "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjælper andre med trætte øjne med at finde den. Tak!",
         "Don’t ask again": "Spørg ikke igen",
         "Rate this app": "Bedøm appen",
         "Show countdown": "Vis nedtælling",
@@ -3109,9 +3136,10 @@ STRINGS = {
         "Look into the distance": "Se langt bort",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Liker du appen?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Den er gratis, uten reklame og uten sporing. Hvis den har gjort godt for øynene dine, hjelper en kaffe med å holde det slik.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "En kort anmeldelse i Microsoft Store hjelper andre med slitne øyne å finne den.",
+        "Like the app?": "Liker du appen?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Hvis denne uavhengige appen fungerer bra for deg, kan du tenke deg å gi en liten donasjon? Takk!",
+        "Finding it useful?": "Har du nytte av den?",
+        "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjelper andre med slitne øyne å finne den. Takk!",
         "Don’t ask again": "Ikke spør igjen",
         "Rate this app": "Vurder appen",
         "Show countdown": "Vis nedtelling",
@@ -3215,9 +3243,10 @@ STRINGS = {
         "Look into the distance": "Kijk in de verte",
 
         # The ask cards, the tray's review item, and the break's countdown switch.
-        "Enjoying the app?": "Bevalt de app?",
-        "It’s free, with no ads and no tracking. If it’s been good for your eyes, a coffee helps keep it that way.": "Hij is gratis, zonder advertenties en zonder tracking. Als hij je ogen goed heeft gedaan, helpt een koffie om dat zo te houden.",
-        "A short review in the Microsoft Store helps other people with tired eyes find it.": "Een korte review in de Microsoft Store helpt andere mensen met vermoeide ogen hem te vinden.",
+        "Like the app?": "Bevalt de app?",
+        "If this independent app works well for you, would you consider a small donation? Thank you!": "Als deze onafhankelijke app goed voor je werkt, zou je dan een kleine donatie willen overwegen? Bedankt!",
+        "Finding it useful?": "Heb je er iets aan?",
+        "A short review helps others with tired eyes find it. Thank you!": "Een korte review helpt anderen met vermoeide ogen hem te vinden. Bedankt!",
         "Don’t ask again": "Niet meer vragen",
         "Rate this app": "Beoordeel deze app",
         "Show countdown": "Aftellen tonen",
