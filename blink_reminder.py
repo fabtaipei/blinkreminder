@@ -5162,6 +5162,23 @@ class NoActivation(object):
         return False
 
 
+def _mouse_only(widget):
+    """Make a widget answer the mouse and nothing else.
+
+    The card appears while people are typing. On its first outing its "Don't
+    ask again" link fired four seconds after it appeared, with nobody
+    clicking it: the link, like every _Link, also fires on Space and Enter
+    for keyboard users, and a keystroke meant for something else reached it.
+    A card nobody asked for must only ever act on a deliberate click, so its
+    controls drop their key bindings and swallow every key that arrives.
+    """
+    for key in ("<Return>", "<space>", "<KP_Enter>"):
+        widget.unbind(key)
+    # An instance binding runs before the class's, and "break" stops the
+    # class ones -- ttk's own Space-to-press on a button included.
+    widget.bind("<Key>", lambda e: "break")
+
+
 class AskCard:
     """The occasional ask for a coffee or a review, in the corner.
 
@@ -5302,6 +5319,9 @@ class AskCard:
             never.configure(takefocus=False)
             never.place(x=near, y=row_y + s(self.BTN_H) // 2,
                         anchor="e" if rtl else "w")
+            _mouse_only(never)
+        _mouse_only(btn)
+        _mouse_only(close)
 
         outer.place(x=1, y=1, width=win_w - 2, height=win_h - 2)
         wx, wy, ww, wh = primary_work_area()
