@@ -2734,6 +2734,10 @@ def _theme_fields(root, st, pal, s, f):
     st.map("TEntry", foreground=[("disabled", pal["text_disabled"])])
 
     # Two chevrons stack inside a 32-high field, so each gets 10 logical px.
+    # The names must END in "uparrow" and "downarrow": ttk's spinbox finds
+    # what was clicked with `identify` and matches *uparrow / *downarrow.
+    # Named Sp.up and Sp.down, the arrows drew, lit up on hover, and did
+    # nothing at all when clicked -- in every spinbox in the app.
     AR = s(10)
     rest = _rgba(pal["muted"], 0.55)
     up_n, dn_n = (_chevron(root, AR, rest, False, s(1.3)),
@@ -2744,16 +2748,16 @@ def _theme_fields(root, st, pal, s, f):
                   _chevron(root, AR, pal["accent"], True, s(1.4)))
     up_d, dn_d = (_chevron(root, AR, pal["text_disabled"], False, s(1.3)),
                   _chevron(root, AR, pal["text_disabled"], True, s(1.3)))
-    st.element_create("Sp.up", "image", up_n, ("disabled", up_d), ("pressed", up_a),
+    st.element_create("Sp.uparrow", "image", up_n, ("disabled", up_d), ("pressed", up_a),
                       ("active", up_h), ("hover", up_h),
                       sticky="e", padding=(0, 0, s(7), 0))
-    st.element_create("Sp.down", "image", dn_n, ("disabled", dn_d), ("pressed", dn_a),
+    st.element_create("Sp.downarrow", "image", dn_n, ("disabled", dn_d), ("pressed", dn_a),
                       ("active", dn_h), ("hover", dn_h),
                       sticky="e", padding=(0, 0, s(7), 0))
     st.layout("TSpinbox", [("Fld.bg", {"sticky": "nsew", "children": [
         ("null", {"side": "right", "sticky": "ns", "children": [
-            ("Sp.up", {"side": "top", "sticky": "e"}),
-            ("Sp.down", {"side": "bottom", "sticky": "e"})]}),
+            ("Sp.uparrow", {"side": "top", "sticky": "e"}),
+            ("Sp.downarrow", {"side": "bottom", "sticky": "e"})]}),
         ("Spinbox.padding", {"sticky": "nsew", "children": [
             ("Spinbox.textarea", {"sticky": "nsew"})]})]})])
     st.configure("TSpinbox", foreground=pal["text"], fieldbackground=pal["surface"],
@@ -3633,6 +3637,20 @@ def use_dark_titlebar(win):
         pass
 
 
+def _show_formatted(var, fmt):
+    """Start a spinbox in the format its arrows will use.
+
+    A DoubleVar holding 0.5 displays as "0.5", but the first click on an
+    arrow reformats it to "0.55" through the spinbox's own format -- so the
+    box changed shape the moment it was touched. Same value, shown the same
+    way from the start.
+    """
+    try:
+        var.set(fmt % float(var.get()))
+    except (tk.TclError, ValueError, TypeError):
+        pass
+
+
 class SettingsWindow:
     """The settings panel.
 
@@ -3924,6 +3942,8 @@ class SettingsWindow:
                               command=lambda: self._went_custom(which), **kw)
             box.place(x=s(x), y=s(self.S4), width=s(84), height=s(32))
             box.bind("<FocusOut>", lambda e: self._went_custom(which))
+            if fmt:
+                _show_formatted(var, fmt)
             boxes.append(box)
 
         # Only meaningful once Pulses can exceed 1, which for the break is the
@@ -3934,6 +3954,7 @@ class SettingsWindow:
                              font=fonts["t4"], command=preview)
         sp_gap.place(x=s(200), y=s(self.S5), width=s(84), height=s(32))
         sp_gap.bind("<FocusOut>", preview)
+        _show_formatted(V["gap"], "%.2f")
 
         self._label(left, T("Sound"), 16, self.S6, anchor="nw")
         # Full width: four sounds in the 196 the three aliases used to share
