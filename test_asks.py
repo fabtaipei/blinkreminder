@@ -24,6 +24,13 @@ import json
 import os
 import shutil
 import sys
+
+# Thirty languages go through print(). A console in a legacy code page --
+# GitHub's Windows runner uses cp1252 -- cannot encode Czech or Polish,
+# and this file crashed there on every push from late September while
+# passing locally, where the output was UTF-8 all along.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
