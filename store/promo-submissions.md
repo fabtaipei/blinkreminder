@@ -9,6 +9,7 @@ own account or form, so these are submitted by hand.
 |---|---|
 | Microsoft Store (recommended) | https://apps.microsoft.com/detail/9NBRV5W24KH5 |
 | Standalone exe, always the latest | https://github.com/fabtaipei/blinkreminder/releases/latest |
+| Direct download (for sites that want a file link) | https://github.com/fabtaipei/blinkreminder/releases/latest/download/Dry.Eyes.Blink.Reminder.Lite.exe |
 | Source | https://github.com/fabtaipei/blinkreminder |
 | Install from a terminal | `winget install 9NBRV5W24KH5` |
 | Support | https://buymeacoffee.com/kennytechy |
@@ -62,7 +63,7 @@ The most valuable listing: people arrive there searching for alternatives to app
 - **License:** Freeware
 - **OS:** Windows 11 / Windows 10, 64-bit
 - **Category:** the closest "Desktop Enhancements" or health category offered
-- **Download link:** the GitHub "latest release" link above
+- **Download link:** the Direct download link above (always the newest exe)
 - **Homepage:** the Microsoft Store link
 - **Description:** Short + Long from Shared copy
 
@@ -75,7 +76,7 @@ Softpedia tests what it lists and may award a "100% clean" badge.
 ## Uptodown — uptodown.com → developer console (needs a free account)
 
 - Create the app, add the Long description, the icon and screenshots.
-- For the file, link to the GitHub "latest release" rather than uploading, so it never goes stale.
+- For the file, use the Direct download link rather than uploading, so it never goes stale.
 
 ## A note for every download site
 
