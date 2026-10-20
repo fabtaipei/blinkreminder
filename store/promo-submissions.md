@@ -49,13 +49,40 @@ Images: `store/logos/tile-300x300.png` (icon), `store/screenshots/Blink reminder
 
 ## AlternativeTo — alternativeto.net → "Add application"
 
-The most valuable listing: people arrive there searching for alternatives to apps they already know.
+Mirrors how EyeLeo, the app most people arrive from, is listed there: category
+Sport & Health, tags eye-care / eye-strain / Break Reminder; its top listed
+alternatives are Stretchly, Workrave and BreakTimer. The one line that sets this
+app apart from all four: they block your screen for breaks, this never does.
 
-- **Name, licence, platform, descriptions:** from Shared copy above. Licence: **Free**.
-- **Website:** the Microsoft Store link.
-- **Alternative to** (one at a time, after it's created): **EyeLeo** (discontinued, so its users are actively looking), **Workrave**, **Stretchly**, **20 20 20: Eye Break Reminder**.
-- **Features to tick, where offered:** Lightweight, Ad-free, No tracking, System tray, Multi-monitor support, Portable.
-- **Screenshots:** the two EN screenshots and the icon listed above.
+| Field | Paste |
+|---|---|
+| Name | Dry Eyes Blink Reminder Lite |
+| Developer | KennyTechy |
+| Official website | https://apps.microsoft.com/detail/9NBRV5W24KH5 |
+| Platform | Windows |
+| License | Free (proprietary) — not "Open Source": the repo has no licence |
+| Category | Sport & Health |
+| Languages | 30 (English, Chinese, Japanese, Korean, Spanish, French, German, Arabic, Hindi and 21 more) |
+| Icon | `store/logos/tile-300x300.png` |
+| Screenshots | `store/screenshots/Blink reminder EN.png`, `store/screenshots/Break reminder EN.png` |
+
+**Short description**
+> A tray app that reminds you to blink and to look away from the screen — every cue is click-through, so it never blocks your work.
+
+**Description**
+> Dry Eyes Blink Reminder Lite is a small Windows tray app for dry, tired eyes from long screen days. It gives two independent reminders: a brief cue to blink, on an interval you choose, and a reminder to look away from the screen on the wall clock — every 20, 30 or 60 minutes.
+>
+> Unlike break timers that blank or lock your screen, every cue here is click-through: a soft dot, a word or a gentle dim that never takes focus or steals a keystroke, so you can keep typing straight through it.
+>
+> Works across several monitors with different scaling, in 30 languages. No account, no ads, no analytics, no network connection. Free from the Microsoft Store; also available as a standalone exe and through winget.
+
+**Tags:** break-reminder, eye-care, eye-strain, dry-eyes, 20-20-20, health-and-wellness
+
+**Features (tick the ones offered):** Break reminder, Multi-monitor support, Lightweight, Ad-free, No tracking, Privacy focused, Customizable, System tray, Portable, Works offline
+
+**Alternative to** (add after the listing exists, one at a time): **EyeLeo** (discontinued — its users are actively looking), **Stretchly**, **Workrave**, **BreakTimer**
+
+**After it's live:** like it from your own account (allowed), and add a short "pro" on the EyeLeo page's alternatives list: "Never blocks your screen — click-through reminders".
 
 ## Softpedia — softpedia.com → "Submit program" (footer)
 
