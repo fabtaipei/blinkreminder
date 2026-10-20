@@ -983,6 +983,26 @@ def due_ask(state, today, possible=ask_possible):
     return None
 
 
+# What each SHQueryUserNotificationState answer means, for the log.
+QUNS_NAMES = {1: "locked, asleep or away", 2: "busy with a fullscreen app",
+              3: "running a fullscreen game or video",
+              4: "in presentation mode", 6: "in quiet time"}
+
+
+def notification_state():
+    """Windows' SHQueryUserNotificationState, or None if it cannot answer."""
+    try:
+        fn = ctypes.windll.shell32.SHQueryUserNotificationState
+        fn.argtypes = [ctypes.POINTER(ctypes.c_int)]
+        fn.restype = ctypes.c_long                  # HRESULT
+        state = ctypes.c_int(0)
+        if fn(ctypes.byref(state)) != 0:
+            return None
+        return state.value
+    except (AttributeError, OSError):
+        return None
+
+
 def user_is_available():
     """False while the user is presenting, fullscreen, locked or away.
 
@@ -991,16 +1011,8 @@ def user_is_available():
     Anything that goes wrong asking it means "yes": an ask that appears at
     a slightly worse moment is better than one that never appears at all.
     """
-    try:
-        fn = ctypes.windll.shell32.SHQueryUserNotificationState
-        fn.argtypes = [ctypes.POINTER(ctypes.c_int)]
-        fn.restype = ctypes.c_long                  # HRESULT
-        state = ctypes.c_int(0)
-        if fn(ctypes.byref(state)) != 0:
-            return True
-        return state.value in (QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP)
-    except (AttributeError, OSError):
-        return True
+    state = notification_state()
+    return state is None or state in (QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP)
 
 
 STARTUP_DIR = os.path.join(
@@ -1720,6 +1732,71 @@ class _Pane(_ClickThroughWindow):
         self._map()
 
 
+WS_EX_TOPMOST = 0x00000008
+MONITOR_DEFAULTTONULL = 0
+LWA_ALPHA = 0x2
+DWMWA_CLOAKED = 14
+user32.GetLayeredWindowAttributes.argtypes = [
+    wintypes.HWND, ctypes.POINTER(wintypes.DWORD),
+    ctypes.POINTER(ctypes.c_ubyte), ctypes.POINTER(wintypes.DWORD)]
+user32.GetLayeredWindowAttributes.restype = wintypes.BOOL
+user32.IsWindowVisible.argtypes = [wintypes.HWND]
+user32.IsWindowVisible.restype = wintypes.BOOL
+user32.MonitorFromWindow.argtypes = [wintypes.HWND, wintypes.DWORD]
+user32.MonitorFromWindow.restype = wintypes.HMONITOR
+
+
+def reached_screen_problems(win, opacity):
+    """Why a reminder window is NOT reaching the eye, as a list of phrases.
+
+    An empty list means it is visible, always on top, at the strength asked
+    for, on a real screen, and not hidden by Windows. Each check is a way a
+    reminder can be drawn, logged as sent, and still never be seen:
+
+      hidden          the window is not shown at all
+      not on top      it lost always-on-top and sits under other windows
+      too faint       its transparency never rose to the strength set
+      off every screen  its position is on no monitor that exists
+      cloaked         Windows is hiding it -- above all, because the user
+                      is on a different virtual desktop from it
+
+    Never raises: a check that fails is reported as "unchecked", never
+    allowed to break the reminder it is checking.
+    """
+    try:
+        hwnd = user32.GetParent(win.winfo_id()) or win.winfo_id()
+        found = []
+        if not user32.IsWindowVisible(hwnd):
+            found.append("hidden")
+        if not user32.GetWindowLongW(hwnd, GWL_EXSTYLE) & WS_EX_TOPMOST:
+            found.append("not on top")
+        key, alpha, flags = wintypes.DWORD(), ctypes.c_ubyte(0), wintypes.DWORD()
+        if user32.GetLayeredWindowAttributes(hwnd, ctypes.byref(key),
+                                             ctypes.byref(alpha),
+                                             ctypes.byref(flags))                 and flags.value & LWA_ALPHA:
+            want = int(round(float(opacity) * 255))
+            # 80%: the fade lands on its target, but a frame can round low.
+            if alpha.value < want * 0.8:
+                found.append("too faint (%d of %d)" % (alpha.value, want))
+        if not user32.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONULL):
+            found.append("off every screen")
+        cloaked = ctypes.c_int(0)
+        try:
+            dwm = ctypes.windll.dwmapi.DwmGetWindowAttribute
+            dwm.argtypes = [wintypes.HWND, wintypes.DWORD, ctypes.c_void_p,
+                            wintypes.DWORD]
+            dwm.restype = ctypes.c_long                 # HRESULT
+            if dwm(
+                    wintypes.HWND(hwnd), DWMWA_CLOAKED,
+                    ctypes.byref(cloaked), ctypes.sizeof(cloaked)) == 0                     and cloaked.value:
+                found.append("cloaked (another virtual desktop?)")
+        except (AttributeError, OSError):
+            pass
+        return found
+    except Exception:
+        return ["unchecked"]
+
+
 class Overlay:
     """One pane per monitor, all pulsed together when a reminder fires."""
 
@@ -1728,6 +1805,10 @@ class Overlay:
         self.cfg = None
         self.busy = False
         self.watchdog = None
+        # The last answer to "did it reach the screen?", so the log records
+        # only changes: when reminders stop reaching the eye, and when they
+        # start again. Logging every pulse would be 2,880 lines a day.
+        self.reach_status = "ok"
         self.panes = []    # every pane ever created, reused across pulses
         self.active = []   # the subset showing for the current pulse
         self.indicator = None   # set by App; hidden for the length of a pulse
@@ -1893,12 +1974,44 @@ class Overlay:
         self._fade(0.0, float(self.cfg["opacity"]), lambda: self._hold(remaining))
 
     def _hold(self, remaining):
+        # At the first peak: the moment the reminder is as visible as it will
+        # ever be, so the moment to check that it really is visible.
+        if remaining == int(self.cfg["blinks"]):
+            self._check_reached()
         mine = self.pulse_id
         self.root.after(
             int(self.cfg["hold_ms"]),
             lambda: self._on_gen(mine, lambda: self._fade(
                 float(self.cfg["opacity"]), 0.0, lambda: self._gap(remaining))),
         )
+
+    def _check_reached(self):
+        """Record, on change only, whether this reminder reached the eye.
+
+        Until this existed the log said "fire" for every reminder that was
+        SENT, and nothing about whether anyone could see it -- so a morning
+        of reminders that nobody saw could not be told apart from a morning
+        of reminders nobody noticed.
+        """
+        try:
+            parts = []
+            for n, pane in enumerate(self.active, 1):
+                found = reached_screen_problems(pane.win, self.cfg["opacity"])
+                if found:
+                    parts.append("screen %d of %d: %s"
+                                 % (n, len(self.active), ", ".join(found)))
+            away = QUNS_NAMES.get(notification_state())
+            if away:
+                parts.append("nobody could see it: Windows says %s" % away)
+            status = "; ".join(parts) or "ok"
+            if status != self.reach_status:
+                if status == "ok":
+                    log_event("shown", "reminders are reaching the screen again")
+                else:
+                    log_event("NOT SHOWN", status)
+                self.reach_status = status
+        except Exception:
+            log_error("check_reached")
 
     def _gap(self, remaining):
         if remaining - 1 <= 0:
