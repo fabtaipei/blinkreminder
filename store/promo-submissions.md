@@ -82,7 +82,7 @@ app apart from all four: they block your screen for breaks, this never does.
 
 **Alternative to** (add after the listing exists, one at a time): **EyeLeo** (discontinued — its users are actively looking), **Stretchly**, **Workrave**, **BreakTimer**
 
-**After it's live:** like it from your own account (allowed), and add a short "pro" on the EyeLeo page's alternatives list: "Never blocks your screen — click-through reminders".
+**After it's live:** don't like or upvote it yourself, or from extra accounts. Instead, mention the listing to people who already use the app (your supporters, for instance) and let them like it if they want to.
 
 ## Softpedia — softpedia.com → "Submit program" (footer)
 
