@@ -5,11 +5,11 @@
 - Two independent reminders: blink on a short timer, look-away on the wall clock
 - Click straight through — never steals focus, never blocks a mouse click
 - Every connected monitor, correctly sized, whatever the display scaling
-- English and 繁體中文, picked up from Windows' own display language
+- 30 languages, picked up from Windows' own display language
 - No network, no account, no analytics — the source is right here if you want to check
-- ~20 MB, ~25 MB of RAM while running
+- ~12 MB, ~25 MB of RAM while running
 
-**[Download for Windows](../../releases)** · [Microsoft Store](https://apps.microsoft.com/detail/9NBRV5W24KH5) (same app, auto-updates, no SmartScreen prompt) · macOS: in progress, [details below](#macos)
+**[Microsoft Store](https://apps.microsoft.com/detail/9NBRV5W24KH5)** (recommended: auto-updates, no SmartScreen prompt) · **[Download the .exe](../../releases/latest)** · or from a terminal: `winget install 9NBRV5W24KH5` · macOS: in progress, [details below](#macos)
 
 ---
 
@@ -62,12 +62,12 @@ Right-click the tray icon, then **Settings**. Each reminder has its own card:
 | Remind me every / on the hour | Interval (blink) or wall-clock cadence (break) |
 | Style | `dot`, `text`, or `dim` |
 | Strength | Opacity of the dim, or how solid the dot/text is |
-| Colour | Colour of the dim, dot, or text |
-| Sound | Four built-in sounds, each with its own volume, or silent |
-| Advanced settings | Size, position, pulse count, fade/hold timing |
-| Show on every monitor | Off means primary screen only |
+| Sound | On or off; which sound and how loud are under Advanced settings |
+| Advanced settings | Colour, size, position, pulse count, fade/hold timing, sound and volume |
+| Show on every monitor | Off means primary screen only (Advanced settings) |
+| Show countdown | The "12:34" pill above each corner dot; the dot stays (Break → Advanced settings) |
 | Start with Windows | Adds or removes a Startup shortcut |
-| Language | English / 繁體中文, top right of the panel. Applies immediately |
+| Language | 30 languages, top right of the panel. Applies immediately |
 
 **Preview blink** / **Preview break** show the current settings without
 saving. **Save** applies them.
@@ -97,6 +97,13 @@ accidentally configure their way past.
 - Overlays run at medium integrity and correctly do **not** paint over UAC
   prompts, other elevated windows, or exclusive-fullscreen games. That's
   intended behaviour, not a bug.
+- **Now and then a small card asks for a coffee or a review** — six times in
+  all, spread over months of use (counted in days you actually use the app),
+  never while you're presenting or fullscreen, and it never takes your
+  keyboard. **Don't ask again** on the coffee card stops all of them.
+- If reminders ever seem to stop, `%APPDATA%\BlinkReminder\activity.log`
+  records every one sent, and a `NOT SHOWN` line with the reason if any
+  stopped reaching the screen.
 
 **To uninstall:** untick **Start with Windows** in Settings, right-click the
 tray icon and **Quit**, then delete the exe (and `%APPDATA%\BlinkReminder`
@@ -130,6 +137,8 @@ a Windows build.
 `py test_i18n.py` is the gate for translations: every string exists, every
 string fits the control it goes in, and the package manifest advertises
 exactly the languages the app speaks. CI runs it before every build.
+`py test_asks.py` checks the counting and scheduling behind the
+coffee/review cards.
 
 To run without building: `pythonw blink_reminder.py` (`pythonw`, not
 `python`, so no console window appears).
