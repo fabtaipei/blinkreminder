@@ -34,6 +34,12 @@ jobs:
       - name: Check translations
         run: py test_i18n.py
 
+      # The day counting behind the coffee/review cards: once a day however
+      # often the laptop opens, never twice for a clock moved back, and
+      # "Don't ask again" ending every ask. Pure logic, no window needed.
+      - name: Check the ask schedule
+        run: py test_asks.py
+
       - name: Build
         run: py build.py
 
