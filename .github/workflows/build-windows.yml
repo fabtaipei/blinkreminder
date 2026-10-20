@@ -16,6 +16,12 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    # The workflow's own token is read-only by default, and creating a release
+    # is a write. Without this the tag build passed every check, built the
+    # exe, and then failed at the very last step with 403 "Resource not
+    # accessible by integration" -- so no release was ever published.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
