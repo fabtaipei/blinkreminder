@@ -2650,6 +2650,11 @@ PALETTES = {
         "surface_disabled": "#F7F8FA", "border_disabled": "#EAECF0",
         "accent": "#0F6CBD", "accent_hover": "#115EA3", "accent_pressed": "#0C4A78",
         "accent_subtle": "#EBF3FC", "on_accent": "#FFFFFF",
+        # Light blue, for a row of choices beside one bright-blue button
+        # that ends them -- the question card's four settings and its Got it.
+        # Dark blue text on it measures 8.8:1.
+        "tint": "#D6E8FC", "tint_hover": "#C4DDFA", "tint_pressed": "#B1D2F7",
+        "on_tint": "#0B3D6E",
         "knob_off": "#5D6169", "knob_off_hover": "#3D4148",
         "cell_idle": "#C9CDD6", "cell_hover": "#9AA1AE",
         # The support link: a dark yellow leaning orange, deliberately NOT the
@@ -2675,6 +2680,10 @@ PALETTES = {
         # Near-black, not white: white on #479EF5 is 2.8:1 and fails, and this
         # is what Windows 11's own dark accent buttons do.
         "on_accent": "#101215",
+        # Lighter than the accent on a dark ground, so the four choices read
+        # as light blue beside the bright Got it. Near-black text: 11.6:1.
+        "tint": "#A8CFF8", "tint_hover": "#BCDAFA", "tint_pressed": "#93C3F5",
+        "on_tint": "#101215",
         "knob_off": "#CFCFCF", "knob_off_hover": "#E8E8E8",
         "cell_idle": "#5A5A5A", "cell_hover": "#7A7A7A",
         # The same idea lifted for a dark ground: #9A6300 manages only
@@ -3067,6 +3076,20 @@ def _theme_buttons(root, st, pal, s, f):
             ("Button.label", {"sticky": "nsew"})]})]})])
     st.configure("Secondary.TButton", foreground=pal["text"], anchor="center", font=t4)
     st.map("Secondary.TButton", foreground=[("disabled", pal["text_disabled"])])
+
+    st.element_create(
+        "Tint.bg", "image", btn(pal["tint"]),
+        ("disabled", btn(pal["btn_disabled"])),
+        ("pressed", btn(pal["tint_pressed"])),
+        ("focus", "active", btn(pal["tint_hover"], ring=True)),
+        ("focus", btn(pal["tint"], ring=True)),
+        ("active", btn(pal["tint_hover"])),
+        border=BR, sticky="nsew", padding=(s(16), s(4)))
+    st.layout("Tint.TButton", [("Tint.bg", {"sticky": "nsew", "children": [
+        ("Button.padding", {"sticky": "nsew", "children": [
+            ("Button.label", {"sticky": "nsew"})]})]})])
+    st.configure("Tint.TButton", foreground=pal["on_tint"], anchor="center", font=t4)
+    st.map("Tint.TButton", foreground=[("disabled", pal["text_disabled"])])
 
     # Ghost: the Advanced timing disclosure. No fill until you touch it.
     st.element_create(
@@ -5843,7 +5866,7 @@ class CalibrationCard(_CornerCard):
         # In reading order, so mirrored for Arabic and Urdu.
         for label, target, (dx, y, wd) in zip(labels, self.TARGETS, spots):
             left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
-            self._button(outer, label, "Secondary.TButton",
+            self._button(outer, label, "Tint.TButton",
                          lambda t=target: self.app.calibrate(t, demo=self.demo)).place(
                 x=left, y=y, width=wd, height=s(self.BTN_H))
         # Its own row, at the end a line ends on, as on the coffee card.
