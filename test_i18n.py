@@ -219,15 +219,16 @@ ASK_BODY_LINES = 4
 # Everything else that wraps, as (english, font, width, most lines, where).
 # The cards grow to fit, so a budget here is about staying a glance long.
 WRAPPED = (
-    ("A gentle cue will appear now and then. When you see it, blink fully: "
-     "close, squeeze gently, open.", "t2", SN.WIN_W - 2 * SN.PAD, 4,
+    ("A cue appears periodically, to remind you to blink fully: close, "
+     "squeeze gently, open.", "t2", SN.WIN_W - 2 * SN.PAD, 4,
      "welcome card body"),
-    ("Right-click the tray icon, by the clock, for settings.", "t4",
+    ("Right-click the tray icon for settings.", "t4",
      SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 2, "welcome card hint"),
-    ("Too faint or too strong? Change Strength in Settings.", "t4",
-     SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 2, "welcome card hint"),
-    ("One click adjusts it for you.", "t2", CC.WIN_W - 2 * CC.PAD, 2,
-     "strength question body"),
+    ("Too faint or too strong? Change strength, size, duration and sound "
+     "in Settings.", "t4", SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 3,
+     "welcome card hint"),
+    ("Too weak or intrusive? You can change these:", "t2",
+     CC.WIN_W - 2 * CC.PAD, 2, "question card body"),
 )
 
 # The taught reminder's caption is one line per step, and it is the
@@ -256,11 +257,12 @@ def ask_card_budgets(measure):
 
 
 def tutorial_budgets(measure):
-    """The welcome card's footer and the strength question's buttons.
+    """The welcome card's footer and the question card's buttons.
 
     Both size their buttons to their labels, so what has to fit is the
-    row. The question falls back to one button above another when its
-    three do not fit side by side, so each only has to fit the card."""
+    row. The question falls back to two by two, then to one above another,
+    when its four do not fit side by side, so each only has to fit the
+    card."""
     def btn(text, lo):
         return max(lo, measure(br.T(text), "t4b") + BTN_PAD)
 
@@ -271,9 +273,9 @@ def tutorial_budgets(measure):
         (br.T("How did that feel?"), "t1", CC.WIN_W - 2 * CC.PAD - CC.CLOSE_W,
          "strength question title, left of the close mark"),
     ]
-    for text in ("Too faint", "Just right", "Too strong"):
-        rows.append((br.T(text), "t4b", CC.WIN_W - 2 * CC.PAD - BTN_PAD,
-                     "strength question button"))
+    for text in ("Strength", "Size", "Duration", "Sound"):
+        rows.append((br.T(text), "t4b", CC.WIN_W - 2 * CC.PAD - 24,
+                     "question card button"))
     return rows
 
 

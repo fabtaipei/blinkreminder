@@ -1016,7 +1016,8 @@ def user_is_available():
 # research on onboarding says works -- see docs/tutorial-design.md. One
 # welcome card on the first launch; then the first few reminders carry the
 # instruction itself, "Close... squeeze... open"; then one question, asked
-# straight after an ordinary reminder, about how strong it felt.
+# straight after an ordinary reminder, about how it felt -- whose buttons
+# open Settings at the control that changes it.
 #
 # Plain data and plain functions, like the asks, so the rules can be tested
 # without a window -- and its own file for the same reason asks.json is:
@@ -1027,12 +1028,7 @@ TUTORIAL_PATH = os.path.join(CONFIG_DIR, "tutorial.json")
 
 # Enough repetitions for the instruction to stick, few enough that a lesson
 # does not become the way the reminder always looks.
-TEACH_COUNT = 5
-
-# How many times "Too faint" or "Too strong" can be answered before the
-# question stops. Each answer is one step, and three steps either way covers
-# most of the useful range; past that the Strength slider is the better tool.
-CAL_MAX_ROUNDS = 3
+TEACH_COUNT = 3
 
 # A taught reminder carries words, so it stays long enough to read them and
 # is strong enough for them to be legible, and it pulses once: three words do
@@ -1043,8 +1039,7 @@ TEACH_HOLD_MS = 2200
 
 
 def fresh_tutorial():
-    return {"welcomed": False, "taught": 0, "calibration": "pending",
-            "rounds": 0}
+    return {"welcomed": False, "taught": 0, "calibration": "pending"}
 
 
 def load_tutorial():
@@ -1063,10 +1058,9 @@ def load_tutorial():
         return state
     if isinstance(data.get("welcomed"), bool):
         state["welcomed"] = data["welcomed"]
-    for key in ("taught", "rounds"):
-        n = data.get(key)
-        if isinstance(n, int) and not isinstance(n, bool) and n >= 0:
-            state[key] = n
+    n = data.get("taught")
+    if isinstance(n, int) and not isinstance(n, bool) and n >= 0:
+        state["taught"] = n
     if data.get("calibration") in ("pending", "done"):
         state["calibration"] = data["calibration"]
     return state
@@ -1087,59 +1081,6 @@ def calibration_due(state):
     been the stronger, captioned one, and that is not what is being asked
     about."""
     return not teaching_due(state) and state["calibration"] == "pending"
-
-
-def after_calibration(state, answer):
-    """Record one answer to the strength question.
-
-    "stronger" and "lighter" each spend a round, and the question comes back
-    until CAL_MAX_ROUNDS have been spent. "right", and closing the card, end
-    it for good: closing it is an answer too, and the polite reading of it
-    is "stop asking".
-    """
-    if answer in ("stronger", "lighter"):
-        state["rounds"] += 1
-        if state["rounds"] >= CAL_MAX_ROUNDS:
-            state["calibration"] = "done"
-    else:
-        state["calibration"] = "done"
-    return state
-
-
-def adjust_strength(cfg, direction):
-    """The blink reminder one step "stronger" or "lighter", as a new config.
-
-    Moves the things that make a reminder hard or easy to miss: how opaque
-    it is, how big, how long it stays, and whether it pulses once or twice.
-    Opacity moves by a share of itself, so a step feels the same size
-    wherever it starts. Every value stays inside the range the Settings
-    panel offers, so whatever this does can be seen and undone there.
-
-    Each value only ever moves the way that was asked. One the user has
-    already set past a step's limit is left where they put it, never pulled
-    back towards the middle by a click that asked for more of the same.
-    """
-    out = dict(cfg)
-    up = direction == "stronger"
-
-    def move(key, value, limit, digits=None):
-        value = min(value, limit) if up else max(value, limit)
-        value = max(cfg[key], value) if up else min(cfg[key], value)
-        out[key] = round(value, digits) if digits else int(round(value))
-
-    if up:
-        move("opacity", float(cfg["opacity"]) * 1.3, 0.8, 3)
-        move("dot_pct", int(cfg["dot_pct"]) * 1.15, 100)
-        move("font_size", int(cfg["font_size"]) + 4, 72)
-        move("hold_ms", int(cfg["hold_ms"]) + 150, 1200)
-        out["blinks"] = max(int(cfg["blinks"]), 2)
-    else:
-        move("opacity", float(cfg["opacity"]) * 0.75, 0.12, 3)
-        move("dot_pct", int(cfg["dot_pct"]) * 0.85, 20)
-        move("font_size", int(cfg["font_size"]) - 4, 12)
-        move("hold_ms", int(cfg["hold_ms"]) - 100, 250)
-        out["blinks"] = 1
-    return out
 
 
 # Languages written without spaces between words, where the caption's three
@@ -4412,7 +4353,8 @@ class SettingsWindow:
         done.place(x=win_w - s(16) - s(96), y=s(adv_h - 48),
                    width=s(96), height=s(32))
 
-        slot.update(seg_feel=seg_feel, boxes=boxes, sp_gap=sp_gap,
+        slot.update(left=left, right=right,
+                    seg_feel=seg_feel, boxes=boxes, sp_gap=sp_gap,
                     seg_sound=seg_sound, sl_vol=sl_vol, pct_vol=pct_vol,
                     btn_test=btn_test, sp_dot=sp_dot,
                     en_word=en_word, sp_font=sp_font, grid_pos=grid_pos,
@@ -4720,6 +4662,68 @@ class SettingsWindow:
         self.win.focus_force()
         self.sp_every.focus_set()
 
+    def point_at(self, target):
+        """Open Settings at the blink control `target` names, and ring it.
+
+        For the strength question's buttons. Strength and sound are on the
+        panel's own blink card; size and duration live in the blink's
+        advanced window, which is opened on top. Size is the dot's, or the
+        word's if the blink shows a word.
+        """
+        self.open()
+        which = "blink"
+        if target in ("size", "duration"):
+            # Mapped first: the advanced window places itself against the
+            # panel's position on screen, which a fresh panel does not have
+            # until it is drawn.
+            self.win.update_idletasks()
+            self._open_advanced(which)
+            slot = self.adv[which]
+            if target == "duration":
+                card, rect = slot["left"], (8, self.S3 - 6, 284,
+                                            self.S4 - self.S3 + 44)
+            else:
+                style = self._value_of(translated(self.STYLES),
+                                       self.V[which]["style"].get())
+                row = self.S3 if style == "text" else self.S1
+                card, rect = slot["right"], (8, row - 4, 284, 40)
+        else:
+            row = self.S4 if target == "strength" else self.S5
+            card, rect = self.W[which]["card"], (8, row - 4, 284, 40)
+        card.after(250, lambda: self._ring(card, *rect))
+
+    def _ring(self, card, x, y, w, h):
+        """An accent outline round one control: flashed, then held a while.
+
+        Four thin frames rather than a drawing, because a Tk canvas cannot be
+        see-through; lifted above the control they surround. A pointer, not a
+        decoration, so it goes away again by itself.
+        """
+        if not card.winfo_exists():
+            return
+        s = self.s
+        t = max(2, s(2))
+        X, Y, W, H = s(x), s(y), s(w), s(h)
+        spots = ((X, Y, W, t), (X, Y + H - t, W, t),
+                 (X, Y, t, H), (X + W - t, Y, t, H))
+        bars = [tk.Frame(card, bg=self.pal["accent"], bd=0, highlightthickness=0)
+                for _ in spots]
+
+        def show(on):
+            for bar, (bx, by, bw, bh) in zip(bars, spots):
+                if not bar.winfo_exists():
+                    return
+                if on:
+                    bar.place(x=bx, y=by, width=bw, height=bh)
+                    bar.lift()
+                else:
+                    bar.place_forget()
+
+        for n, on in enumerate((True, False, True, False, True)):
+            card.after(n * 280, lambda on=on: show(on))
+        card.after(5 * 280 + 6000,
+                   lambda: [b.destroy() for b in bars if b.winfo_exists()])
+
     # -- cards ---------------------------------------------------------------
 
     def _build_blink(self, col, cfg):
@@ -4773,7 +4777,7 @@ class SettingsWindow:
         """
         s, V = self.s, self.V[which]
         group = "break" if which == "break" else None
-        W = self.W[which] = {}
+        W = self.W[which] = {"card": card}
 
         def owned(widget):
             if group:
@@ -5352,8 +5356,8 @@ class StartupNotice:
                   style="Title.TLabel").place(x=near, y=s(self.TITLE_Y),
                                               anchor=start)
         body = ttk.Label(outer, style="Sub.TLabel", justify=justify, text=wrapped(
-            T("A gentle cue will appear now and then. When you see it, "
-              "blink fully: close, squeeze gently, open."), "t2", inner))
+            T("A cue appears periodically, to remind you to blink fully: "
+              "close, squeeze gently, open."), "t2", inner))
         body.place(x=near, y=s(self.BODY_Y), anchor=start)
 
         # Where the app lives, and how to make it stronger or lighter: the
@@ -5361,10 +5365,9 @@ class StartupNotice:
         card = ttk.Frame(outer, style="Card.TFrame")
         hint_w = inner - 2 * self.HINT_PAD
         hint = ttk.Label(card, style="Row.TLabel", justify=justify, text="\n".join((
-            wrapped(T("Right-click the tray icon, by the clock, for settings."),
-                    "t4", hint_w),
-            wrapped(T("Too faint or too strong? Change Strength in Settings."),
-                    "t4", hint_w))))
+            wrapped(T("Right-click the tray icon for settings."), "t4", hint_w),
+            wrapped(T("Too faint or too strong? Change strength, size, "
+                      "duration and sound in Settings."), "t4", hint_w))))
         hint.place(x=s(inner - self.HINT_PAD) if rtl else s(self.HINT_PAD),
                    y=s(self.HINT_PAD), anchor=start)
 
@@ -5822,47 +5825,62 @@ class CalibrationCard(_CornerCard):
     """"How did that feel?" -- asked straight after an ordinary reminder,
     so the answer is about something seen a second ago.
 
-    Three answers on one scale, faint to strong, and each acts at once.
-    "Too faint" or "Too strong" moves the reminder a step and plays it
-    again, so the next answer is about the change; "Just right", or closing
-    the card, ends the question for good. It changes only what the Settings
-    panel can change, so anything it does can be seen and undone there.
+    Four buttons, one per thing that makes a reminder stronger or gentler,
+    and each only shows the way: it opens Settings and rings that control.
+    An earlier version changed the reminder itself, a step per click, and
+    replayed it -- and in the few seconds that took, nobody could follow
+    what a click had done. Any button, or closing the card, ends the
+    question for good.
     """
 
     GAP = 8                # between the buttons
+    BTN_MIN_W = 64
+    # The Settings labels these point at, so a button and the control it
+    # rings say the same word.
+    TARGETS = ("strength", "size", "duration", "sound")
 
     def _build(self):
         outer, row_y = self._open(T("How did that feel?"),
-                                  T("One click adjusts it for you."))
+                                  T("Too weak or intrusive? You can change these:"))
         s = _THEME_METRICS["s"]
         fonts = _THEME_METRICS["fonts"]
-        answers = ((T("Too faint"), "stronger", "Secondary.TButton"),
-                   (T("Just right"), "right", "Primary.TButton"),
-                   (T("Too strong"), "lighter", "Secondary.TButton"))
+        labels = (T("Strength"), T("Size"), T("Duration"), T("Sound"))
+        spots = self.layout([tkfont.Font(root=self.app.root, font=fonts["t4b"])
+                             .measure(label) for label in labels], row_y)
+        # In reading order, so mirrored for Arabic and Urdu.
+        for label, target, (dx, y, wd) in zip(labels, self.TARGETS, spots):
+            left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
+            self._button(outer, label, "Secondary.TButton",
+                         lambda t=target: self.answer(t)).place(
+                x=left, y=y, width=wd, height=s(self.BTN_H))
+        self._finish(outer, max(y for _x, y, _w in spots) + s(self.BTN_H)
+                     + s(self.PAD))
 
-        # One row if the three labels fit, sharing out whatever is left over
-        # so the row runs the card's full width; one above another if not.
-        # Measured in bold, the wider of the two buttons' fonts.
-        bold = tkfont.Font(root=self.app.root, font=fonts["t4b"]).measure
+    def layout(self, text_widths, row_y):
+        """Where each button goes, as (x within the row, y, width).
+
+        One row if all four fit, sharing out what is left so the row runs the
+        card's full width; else two by two; else one above another. Tried in
+        that order because a row reads as one choice among equals, and a
+        stack of four looks like a form.
+        """
+        s = _THEME_METRICS["s"]
         inner, gap, btn_h = s(self.WIN_W - 2 * self.PAD), s(self.GAP), s(self.BTN_H)
-        widths = [max(s(self.BTN_MIN_W), bold(label) + s(32))
-                  for label, _a, _st in answers]
-        spare = inner - sum(widths) - gap * (len(widths) - 1)
-        spots, x = [], 0
-        for n, wd in enumerate(widths):
-            if spare >= 0:
-                wd += spare // len(widths)
+        need = [max(s(self.BTN_MIN_W), w + s(24)) for w in text_widths]
+        spare = inner - sum(need) - gap * (len(need) - 1)
+        if spare >= 0:
+            spots, x = [], 0
+            for wd in need:
+                wd += spare // len(need)
                 spots.append((x, row_y, wd))
                 x += wd + gap
-            else:
-                spots.append((0, row_y + n * (btn_h + gap), inner))
-        # Faint to strong reads in the direction the language does.
-        for (label, answer, style), (dx, y, wd) in zip(answers, spots):
-            left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
-            self._button(outer, label, style,
-                         lambda a=answer: self.answer(a)).place(
-                x=left, y=y, width=wd, height=btn_h)
-        self._finish(outer, spots[-1][1] + btn_h + s(self.PAD))
+            return spots
+        for cols in (2, 1):
+            wd = (inner - gap * (cols - 1)) // cols
+            if max(need) <= wd:
+                return [((n % cols) * (wd + gap), row_y + (n // cols) * (btn_h + gap), wd)
+                        for n in range(len(need))]
+        return [(0, row_y + n * (btn_h + gap), inner) for n in range(len(need))]
 
     def answer(self, answer):
         self.close(answer)
@@ -6276,49 +6294,30 @@ class App:
                 or self.settings.win is not None or self.paused
                 or not user_is_available()):
             return
-        log_event("tutorial", "asking how the reminder felt (answer %d of "
-                              "up to %d)" % (self.tutorial["rounds"] + 1,
-                                             CAL_MAX_ROUNDS))
+        log_event("tutorial", "asking how the reminder felt")
         self.cal_card.show(test=self.tutorial_test)
 
     def calibrate(self, answer):
-        """One answer to the strength question, acted on at once."""
-        after_calibration(self.tutorial, answer)
+        """One answer to the question: open Settings where that is changed.
+
+        It changes nothing itself -- see CalibrationCard -- and one answer of
+        any kind, closing the card included, ends the question for good.
+        """
+        self.tutorial["calibration"] = "done"
         self.keep_tutorial()
-        if answer not in ("stronger", "lighter"):
-            return
-        before = self.cfg
-        cfg = adjust_strength(before, answer)
-        log_event("tutorial", "%s: opacity %.2f->%.2f, dot %d->%d%%, "
-                  "hold %d->%dms, pulses %d->%d"
-                  % (answer, before["opacity"], cfg["opacity"],
-                     before["dot_pct"], cfg["dot_pct"], before["hold_ms"],
-                     cfg["hold_ms"], before["blinks"], cfg["blinks"]))
-        # A test run changes the reminder for this session only.
-        self.apply(cfg, persist=not self.tutorial_test)
-        # Shown now rather than at the next reminder, so the change is seen
-        # while the question is still in mind -- and asked about again.
-        if not self.overlay.busy:
-            self.overlay.pulse(blink_cfg(self.cfg))
-            if calibration_due(self.tutorial):
-                self.when_idle(self.ask_calibration)
+        if answer in CalibrationCard.TARGETS:
+            log_event("tutorial", "showing where to change the %s" % answer)
+            self.settings.point_at(answer)
 
     def start_tutorial_test(self):
-        """--test-tutorial: the whole lesson again, with nothing saved.
-
-        Two taught reminders rather than five, so the strength question
-        arrives within a couple of intervals. An answer to it changes the
-        reminder until the app quits; config.json is left alone.
-        """
+        """--test-tutorial: the whole lesson again, with nothing saved."""
         self.tutorial_test = True
         self.tutorial = fresh_tutorial()
-        self.tutorial["taught"] = TEACH_COUNT - 2
 
-    def apply(self, cfg, persist=True):
+    def apply(self, cfg):
         startup_changed = cfg["start_with_windows"] != self.cfg["start_with_windows"]
         self.cfg = cfg
-        if persist:
-            save_config(cfg)
+        save_config(cfg)
         self.indicator.apply(cfg)
         # set_text rather than render(): render repaints whatever text the
         # pill last had, so switching the countdown off left it up for the

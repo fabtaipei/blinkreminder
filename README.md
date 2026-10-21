@@ -99,11 +99,11 @@ accidentally configure their way past.
 - Overlays run at medium integrity and correctly do **not** paint over UAC
   prompts, other elevated windows, or exclusive-fullscreen games. That's
   intended behaviour, not a bug.
-- **The first five blink reminders teach the blink**: each carries
-  "Close… squeeze… open". After the next one, a small card asks how it felt;
-  **Too faint** or **Too strong** adjusts the reminder on the spot (up to
-  three times), and everything it changes stays editable in Settings.
-  **How it works** in the tray menu brings the welcome card back.
+- **The first three blink reminders teach the blink**: each carries
+  "Close… squeeze… open". After the next one, a small card asks how it felt,
+  with four buttons — **Strength**, **Size**, **Duration**, **Sound** — each
+  opening Settings with that control outlined. **How it works** in the tray
+  menu brings the welcome card back.
 - **Now and then a small card asks for a coffee or a review** — six times in
   all, spread over months of use (counted in days you actually use the app),
   never while you're presenting or fullscreen, and it never takes your
