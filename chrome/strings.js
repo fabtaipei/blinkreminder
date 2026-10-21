@@ -38,7 +38,6 @@ export const RTL = ["ar", "ur"];
 
 export const STRINGS = {
  "ar": {
-  "%s is running": "%s قيد التشغيل",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "تظهر إشارة بشكل دوري لتذكيرك بأن ترمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
   "A dot": "نقطة",
   "A short review helps others with tired eyes find it. Thank you!": "مراجعة قصيرة تساعد آخرين يعانون من إجهاد العين على العثور عليه. شكرًا!",
@@ -61,6 +60,7 @@ export const STRINGS = {
   "Full version for Windows": "النسخة الكاملة لنظام Windows",
   "Gentle": "لطيف",
   "Got it": "حسنًا",
+  "How this app works?": "كيف يعمل هذا التطبيق؟",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "إن كان هذا التطبيق المستقل يناسبك، فهل تفكر في تبرع صغير؟ شكرًا!",
   "Like the app?": "هل أعجبك التطبيق؟",
   "Look into the distance": "انظر بعيدًا",
@@ -92,7 +92,6 @@ export const STRINGS = {
   "seconds": "ثانية"
  },
  "bn": {
-  "%s is running": "%s চলছে",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "একটি সংকেত নিয়মিত দেখা দেয়, যাতে আপনি পুরোপুরি চোখের পলক ফেলতে মনে রাখেন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
   "A dot": "বিন্দু",
   "A short review helps others with tired eyes find it. Thank you!": "একটি ছোট রিভিউ ক্লান্ত চোখের অন্যদের এটি খুঁজে পেতে সাহায্য করে। ধন্যবাদ!",
@@ -115,6 +114,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows-এর পূর্ণ সংস্করণ",
   "Gentle": "নরম",
   "Got it": "বুঝেছি",
+  "How this app works?": "এই অ্যাপটি কীভাবে কাজ করে",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "স্বাধীনভাবে তৈরি এই অ্যাপটি আপনার কাজে এলে, একটি ছোট অনুদানের কথা ভাববেন কি? ধন্যবাদ!",
   "Like the app?": "অ্যাপটি ভালো লাগছে?",
   "Look into the distance": "দূরে তাকান",
@@ -146,7 +146,6 @@ export const STRINGS = {
   "seconds": "সেকেন্ড"
  },
  "cs": {
-  "%s is running": "%s běží",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Signál se pravidelně objevuje a připomíná vám, abyste mrkali úplně: zavřete oči, jemně je stiskněte, otevřete.",
   "A dot": "Tečka",
   "A short review helps others with tired eyes find it. Thank you!": "Krátké hodnocení pomůže dalším lidem s unavenýma očima ji najít. Děkuji!",
@@ -169,6 +168,7 @@ export const STRINGS = {
   "Full version for Windows": "Plná verze pro Windows",
   "Gentle": "Jemné",
   "Got it": "Rozumím",
+  "How this app works?": "Jak aplikace funguje",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Pokud vám tato nezávislá aplikace dobře slouží, zvážili byste malý příspěvek? Děkuji!",
   "Like the app?": "Líbí se vám aplikace?",
   "Look into the distance": "Podívejte se do dálky",
@@ -200,7 +200,6 @@ export const STRINGS = {
   "seconds": "sekundy"
  },
  "da": {
-  "%s is running": "%s kører",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jævne mellemrum for at minde dig om at blinke helt: luk øjnene, klem blidt, åbn.",
   "A dot": "En prik",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjælper andre med trætte øjne med at finde den. Tak!",
@@ -223,6 +222,7 @@ export const STRINGS = {
   "Full version for Windows": "Fuld version til Windows",
   "Gentle": "Blid",
   "Got it": "Forstået",
+  "How this app works?": "Sådan virker appen",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Hvis denne uafhængige app fungerer godt for dig, vil du så overveje en lille donation? Tak!",
   "Like the app?": "Kan du lide appen?",
   "Look into the distance": "Kig langt væk",
@@ -254,7 +254,6 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "de": {
-  "%s is running": "%s läuft",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ein Hinweis erscheint regelmäßig und erinnert Sie daran, vollständig zu blinzeln: schließen, sanft zusammenkneifen, öffnen.",
   "A dot": "Punkt",
   "A short review helps others with tired eyes find it. Thank you!": "Eine kurze Bewertung hilft anderen mit müden Augen, sie zu finden. Danke!",
@@ -277,6 +276,7 @@ export const STRINGS = {
   "Full version for Windows": "Vollversion für Windows",
   "Gentle": "Sanft",
   "Got it": "Verstanden",
+  "How this app works?": "So funktioniert die App",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Wenn diese unabhängige App gut für Sie funktioniert, würden Sie eine kleine Spende in Betracht ziehen? Danke!",
   "Like the app?": "Gefällt Ihnen die App?",
   "Look into the distance": "In die Ferne schauen",
@@ -308,7 +308,6 @@ export const STRINGS = {
   "seconds": "Sekunden"
  },
  "el": {
-  "%s is running": "Το %s εκτελείται",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ένα σήμα εμφανίζεται περιοδικά για να σου θυμίζει να ανοιγοκλείνεις πλήρως τα μάτια: κλείσε, σφίξε απαλά, άνοιξε.",
   "A dot": "Κουκκίδα",
   "A short review helps others with tired eyes find it. Thank you!": "Μια σύντομη κριτική βοηθά άλλους με κουρασμένα μάτια να τη βρουν. Ευχαριστώ!",
@@ -331,6 +330,7 @@ export const STRINGS = {
   "Full version for Windows": "Πλήρης έκδοση για Windows",
   "Gentle": "Ήπιο",
   "Got it": "Εντάξει",
+  "How this app works?": "Πώς λειτουργεί η εφαρμογή",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Αν αυτή η ανεξάρτητη εφαρμογή σού κάνει, θα σκεφτόσουν μια μικρή δωρεά; Ευχαριστώ!",
   "Like the app?": "Σου αρέσει η εφαρμογή;",
   "Look into the distance": "Κοίτα μακριά",
@@ -362,7 +362,6 @@ export const STRINGS = {
   "seconds": "δευτ."
  },
  "es": {
-  "%s is running": "%s está en ejecución",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Aparece una señal periódicamente para recordarte parpadear por completo: cierra, aprieta suavemente y abre.",
   "A dot": "Un punto",
   "A short review helps others with tired eyes find it. Thank you!": "Una reseña breve ayuda a otras personas con los ojos cansados a encontrarla. ¡Gracias!",
@@ -385,6 +384,7 @@ export const STRINGS = {
   "Full version for Windows": "Versión completa para Windows",
   "Gentle": "Suave",
   "Got it": "Entendido",
+  "How this app works?": "¿Cómo funciona esta app?",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Si esta app independiente te funciona bien, ¿te plantearías hacer un pequeño donativo? ¡Gracias!",
   "Like the app?": "¿Te gusta la app?",
   "Look into the distance": "Mira a lo lejos",
@@ -416,7 +416,6 @@ export const STRINGS = {
   "seconds": "segundos"
  },
  "fi": {
-  "%s is running": "%s on käynnissä",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Merkki näkyy säännöllisesti muistuttamassa räpäyttämään kunnolla: sulje, purista kevyesti, avaa.",
   "A dot": "Piste",
   "A short review helps others with tired eyes find it. Thank you!": "Lyhyt arvio auttaa muita väsyneistä silmistä kärsiviä löytämään sen. Kiitos!",
@@ -439,6 +438,7 @@ export const STRINGS = {
   "Full version for Windows": "Täysi versio Windowsille",
   "Gentle": "Pehmeä",
   "Got it": "Selvä",
+  "How this app works?": "Näin sovellus toimii",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Jos tämä itsenäinen sovellus toimii sinulle hyvin, harkitsisitko pientä lahjoitusta? Kiitos!",
   "Like the app?": "Pidätkö sovelluksesta?",
   "Look into the distance": "Katso kauas",
@@ -470,7 +470,6 @@ export const STRINGS = {
   "seconds": "sekuntia"
  },
  "fr": {
-  "%s is running": "%s fonctionne",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un signal apparaît régulièrement pour vous rappeler de cligner complètement des yeux : fermez, serrez doucement, ouvrez.",
   "A dot": "Un point",
   "A short review helps others with tired eyes find it. Thank you!": "Un court avis aide d'autres personnes aux yeux fatigués à la trouver. Merci !",
@@ -493,6 +492,7 @@ export const STRINGS = {
   "Full version for Windows": "Version complète pour Windows",
   "Gentle": "Doux",
   "Got it": "Compris",
+  "How this app works?": "Comment fonctionne cette appli ?",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Si cette application indépendante vous convient, envisageriez-vous un petit don ? Merci !",
   "Like the app?": "Vous aimez l'application ?",
   "Look into the distance": "Regardez au loin",
@@ -524,7 +524,6 @@ export const STRINGS = {
   "seconds": "secondes"
  },
  "hi": {
-  "%s is running": "%s चल रहा है",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "एक संकेत समय-समय पर दिखता है, ताकि आपको पूरी तरह पलकें झपकाना याद रहे: आँखें बंद करें, हल्के से भींचें, खोलें।",
   "A dot": "बिंदु",
   "A short review helps others with tired eyes find it. Thank you!": "एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है। धन्यवाद!",
@@ -547,6 +546,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows के लिए पूरा संस्करण",
   "Gentle": "हल्का",
   "Got it": "ठीक है",
+  "How this app works?": "यह ऐप कैसे काम करता है",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "अगर यह स्वतंत्र ऐप आपके लिए अच्छा काम करता है, तो क्या आप एक छोटा-सा दान देने पर विचार करेंगे? धन्यवाद!",
   "Like the app?": "ऐप पसंद आया?",
   "Look into the distance": "दूर देखें",
@@ -578,7 +578,6 @@ export const STRINGS = {
   "seconds": "सेकंड"
  },
  "hu": {
-  "%s is running": "A(z) %s fut",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Időnként megjelenik egy jelzés, hogy emlékeztessen a teljes pislogásra: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
   "A dot": "Pont",
   "A short review helps others with tired eyes find it. Thank you!": "Egy rövid értékelés segít más fáradt szemű embereknek megtalálni. Köszönöm!",
@@ -601,6 +600,7 @@ export const STRINGS = {
   "Full version for Windows": "Teljes verzió Windowsra",
   "Gentle": "Lágy",
   "Got it": "Értem",
+  "How this app works?": "Hogyan működik az app?",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Ha ez a független alkalmazás beválik neked, megfontolnál egy kis adományt? Köszönöm!",
   "Like the app?": "Tetszik az alkalmazás?",
   "Look into the distance": "Nézz a távolba",
@@ -632,7 +632,6 @@ export const STRINGS = {
   "seconds": "mp"
  },
  "id": {
-  "%s is running": "%s sedang berjalan",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Isyarat muncul secara berkala untuk mengingatkan Anda berkedip sepenuhnya: pejamkan, rapatkan perlahan, buka.",
   "A dot": "Titik",
   "A short review helps others with tired eyes find it. Thank you!": "Ulasan singkat membantu orang lain yang matanya lelah menemukannya. Terima kasih!",
@@ -655,6 +654,7 @@ export const STRINGS = {
   "Full version for Windows": "Versi lengkap untuk Windows",
   "Gentle": "Lembut",
   "Got it": "Mengerti",
+  "How this app works?": "Cara kerja aplikasi ini",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Jika aplikasi independen ini bekerja dengan baik untuk Anda, maukah Anda mempertimbangkan donasi kecil? Terima kasih!",
   "Like the app?": "Suka aplikasinya?",
   "Look into the distance": "Lihat ke kejauhan",
@@ -686,7 +686,6 @@ export const STRINGS = {
   "seconds": "detik"
  },
  "it": {
-  "%s is running": "%s è in esecuzione",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un segnale appare periodicamente per ricordarti di sbattere le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
   "A dot": "Un punto",
   "A short review helps others with tired eyes find it. Thank you!": "Una breve recensione aiuta altre persone con gli occhi stanchi a trovarla. Grazie!",
@@ -709,6 +708,7 @@ export const STRINGS = {
   "Full version for Windows": "Versione completa per Windows",
   "Gentle": "Delicato",
   "Got it": "Ho capito",
+  "How this app works?": "Come funziona questa app",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Se questa app indipendente funziona bene per te, prenderesti in considerazione una piccola donazione? Grazie!",
   "Like the app?": "Ti piace l'app?",
   "Look into the distance": "Guarda lontano",
@@ -740,7 +740,6 @@ export const STRINGS = {
   "seconds": "secondi"
  },
  "ja": {
-  "%s is running": "%s は実行中です",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "合図が定期的に表示され、しっかりまばたきするよう促します：目を閉じ、軽くぎゅっとつむって、開く。",
   "A dot": "点",
   "A short review helps others with tired eyes find it. Thank you!": "短いレビューが、目の疲れに悩むほかの方がこのアプリを見つける助けになります。ありがとうございます！",
@@ -763,6 +762,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows 版（フル機能）",
   "Gentle": "やさしく",
   "Got it": "閉じる",
+  "How this app works?": "このアプリの使い方",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "この個人開発アプリがお役に立っているなら、少額のご支援をご検討いただけませんか？ありがとうございます！",
   "Like the app?": "気に入っていただけましたか？",
   "Look into the distance": "遠くを見る",
@@ -794,7 +794,6 @@ export const STRINGS = {
   "seconds": "秒"
  },
  "ko": {
-  "%s is running": "%s 실행 중",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "신호가 주기적으로 나타나 눈을 완전히 깜빡이도록 알려 줍니다: 감고, 살짝 꼭 감았다가, 뜨세요.",
   "A dot": "점",
   "A short review helps others with tired eyes find it. Thank you!": "짧은 리뷰 하나가 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요. 감사합니다!",
@@ -817,6 +816,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows용 정식 버전",
   "Gentle": "부드럽게",
   "Got it": "확인",
+  "How this app works?": "이 앱의 작동 방식",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "개인이 만든 이 앱이 잘 맞으신다면 작은 후원을 고려해 주시겠어요? 감사합니다!",
   "Like the app?": "앱이 마음에 드세요?",
   "Look into the distance": "먼 곳을 보세요",
@@ -848,7 +848,6 @@ export const STRINGS = {
   "seconds": "초"
  },
  "nb": {
-  "%s is running": "%s kjører",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jevne mellomrom for å minne deg på å blunke helt: lukk øynene, klem forsiktig, åpne.",
   "A dot": "En prikk",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjelper andre med slitne øyne å finne den. Takk!",
@@ -871,6 +870,7 @@ export const STRINGS = {
   "Full version for Windows": "Fullversjon for Windows",
   "Gentle": "Mild",
   "Got it": "Skjønner",
+  "How this app works?": "Slik fungerer appen",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Hvis denne uavhengige appen fungerer bra for deg, kan du tenke deg å gi en liten donasjon? Takk!",
   "Like the app?": "Liker du appen?",
   "Look into the distance": "Se langt bort",
@@ -902,7 +902,6 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "nl": {
-  "%s is running": "%s is actief",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Er verschijnt regelmatig een signaal om je eraan te herinneren volledig te knipperen: ogen dicht, zacht knijpen, open.",
   "A dot": "Een stip",
   "A short review helps others with tired eyes find it. Thank you!": "Een korte review helpt anderen met vermoeide ogen hem te vinden. Bedankt!",
@@ -925,6 +924,7 @@ export const STRINGS = {
   "Full version for Windows": "Volledige versie voor Windows",
   "Gentle": "Zacht",
   "Got it": "Begrepen",
+  "How this app works?": "Zo werkt de app",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Als deze onafhankelijke app goed voor je werkt, zou je dan een kleine donatie willen overwegen? Bedankt!",
   "Like the app?": "Bevalt de app?",
   "Look into the distance": "Kijk in de verte",
@@ -956,7 +956,6 @@ export const STRINGS = {
   "seconds": "seconden"
  },
  "pl": {
-  "%s is running": "%s działa",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Sygnał pojawia się regularnie i przypomina, by mrugać do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
   "A dot": "Kropka",
   "A short review helps others with tired eyes find it. Thank you!": "Krótka opinia pomoże innym ze zmęczonymi oczami ją znaleźć. Dziękuję!",
@@ -979,6 +978,7 @@ export const STRINGS = {
   "Full version for Windows": "Pełna wersja dla Windows",
   "Gentle": "Łagodny",
   "Got it": "Rozumiem",
+  "How this app works?": "Jak działa ta aplikacja",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Jeśli ta niezależna aplikacja dobrze ci służy, może rozważysz drobną darowiznę? Dziękuję!",
   "Like the app?": "Podoba ci się aplikacja?",
   "Look into the distance": "Popatrz w dal",
@@ -1010,7 +1010,6 @@ export const STRINGS = {
   "seconds": "sekundy"
  },
  "pt": {
-  "%s is running": "%s está em execução",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Um sinal aparece periodicamente para lembrar você de piscar por completo: feche, aperte de leve e abra.",
   "A dot": "Um ponto",
   "A short review helps others with tired eyes find it. Thank you!": "Uma avaliação curta ajuda outras pessoas com olhos cansados a encontrá-lo. Agradeço!",
@@ -1033,6 +1032,7 @@ export const STRINGS = {
   "Full version for Windows": "Versão completa para Windows",
   "Gentle": "Suave",
   "Got it": "Entendi",
+  "How this app works?": "Como este app funciona",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Se este app independente funciona bem para você, que tal fazer uma pequena doação? Agradeço!",
   "Like the app?": "Gostou do app?",
   "Look into the distance": "Olhe para longe",
@@ -1064,7 +1064,6 @@ export const STRINGS = {
   "seconds": "segundos"
  },
  "ro": {
-  "%s is running": "%s rulează",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un semnal apare periodic ca să-ți amintească să clipești complet: închide ochii, strânge-i ușor, deschide-i.",
   "A dot": "Un punct",
   "A short review helps others with tired eyes find it. Thank you!": "O recenzie scurtă îi ajută pe alții cu ochii obosiți să o găsească. Mulțumesc!",
@@ -1087,6 +1086,7 @@ export const STRINGS = {
   "Full version for Windows": "Versiunea completă pentru Windows",
   "Gentle": "Blând",
   "Got it": "Am înțeles",
+  "How this app works?": "Cum funcționează aplicația",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Dacă această aplicație independentă îți este de folos, te-ai gândi la o mică donație? Mulțumesc!",
   "Like the app?": "Îți place aplicația?",
   "Look into the distance": "Privește în depărtare",
@@ -1118,7 +1118,6 @@ export const STRINGS = {
   "seconds": "secunde"
  },
  "ru": {
-  "%s is running": "%s работает",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал появляется регулярно и напоминает моргать полностью: закройте глаза, мягко сожмите веки, откройте.",
   "A dot": "Точка",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий отзыв поможет другим людям с уставшими глазами найти его. Спасибо!",
@@ -1141,6 +1140,7 @@ export const STRINGS = {
   "Full version for Windows": "Полная версия для Windows",
   "Gentle": "Мягко",
   "Got it": "Понятно",
+  "How this app works?": "Как работает приложение",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Если это независимое приложение вам подходит, не рассмотрите ли небольшое пожертвование? Спасибо!",
   "Like the app?": "Нравится приложение?",
   "Look into the distance": "Посмотрите вдаль",
@@ -1172,7 +1172,6 @@ export const STRINGS = {
   "seconds": "секунды"
  },
  "sv": {
-  "%s is running": "%s körs",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "En signal visas regelbundet för att påminna dig om att blinka ordentligt: blunda, kläm ihop lätt, öppna.",
   "A dot": "En prick",
   "A short review helps others with tired eyes find it. Thank you!": "En kort recension hjälper andra med trötta ögon att hitta den. Tack!",
@@ -1195,6 +1194,7 @@ export const STRINGS = {
   "Full version for Windows": "Fullversion för Windows",
   "Gentle": "Mjuk",
   "Got it": "Uppfattat",
+  "How this app works?": "Så fungerar appen",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Om den här oberoende appen fungerar bra för dig, kan du tänka dig att skänka en liten gåva? Tack!",
   "Like the app?": "Gillar du appen?",
   "Look into the distance": "Titta långt bort",
@@ -1226,7 +1226,6 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "th": {
-  "%s is running": "%s กำลังทำงาน",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เพื่อเตือนให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
   "A dot": "จุด",
   "A short review helps others with tired eyes find it. Thank you!": "รีวิวสั้น ๆ ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ ขอบคุณ!",
@@ -1249,6 +1248,7 @@ export const STRINGS = {
   "Full version for Windows": "เวอร์ชันเต็มสำหรับ Windows",
   "Gentle": "นุ่มนวล",
   "Got it": "เข้าใจแล้ว",
+  "How this app works?": "แอปนี้ทำงานอย่างไร",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "ถ้าแอปอิสระนี้ใช้ได้ดีสำหรับคุณ ช่วยพิจารณาบริจาคเล็กน้อยได้ไหม ขอบคุณ!",
   "Like the app?": "ชอบแอปนี้ไหม",
   "Look into the distance": "มองไปไกล ๆ",
@@ -1280,7 +1280,6 @@ export const STRINGS = {
   "seconds": "วินาที"
  },
  "tr": {
-  "%s is running": "%s çalışıyor",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Gözlerinizi tam kırpmanızı hatırlatmak için düzenli aralıklarla bir uyarı belirir: kapatın, hafifçe sıkın, açın.",
   "A dot": "Nokta",
   "A short review helps others with tired eyes find it. Thank you!": "Kısa bir değerlendirme, gözleri yorgun başkalarının onu bulmasına yardımcı olur. Teşekkürler!",
@@ -1303,6 +1302,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows için tam sürüm",
   "Gentle": "Yumuşak",
   "Got it": "Anladım",
+  "How this app works?": "Bu uygulama nasıl çalışır?",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Bu bağımsız uygulama işinize yarıyorsa, küçük bir bağış yapmayı düşünür müsünüz? Teşekkürler!",
   "Like the app?": "Uygulamayı beğendiniz mi?",
   "Look into the distance": "Uzağa bak",
@@ -1334,7 +1334,6 @@ export const STRINGS = {
   "seconds": "saniye"
  },
  "uk": {
-  "%s is running": "%s працює",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал з’являється регулярно й нагадує кліпати повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
   "A dot": "Крапка",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий відгук допоможе іншим людям із втомленими очима його знайти. Дякую!",
@@ -1357,6 +1356,7 @@ export const STRINGS = {
   "Full version for Windows": "Повна версія для Windows",
   "Gentle": "М'яко",
   "Got it": "Зрозуміло",
+  "How this app works?": "Як працює застосунок",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Якщо цей незалежний застосунок вам підходить, чи не розглянете невелику пожертву? Дякую!",
   "Like the app?": "Подобається застосунок?",
   "Look into the distance": "Погляньте вдалечінь",
@@ -1388,7 +1388,6 @@ export const STRINGS = {
   "seconds": "секунди"
  },
  "ur": {
-  "%s is running": "%s چل رہا ہے",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "ایک اشارہ وقتاً فوقتاً ظاہر ہوتا ہے تاکہ آپ کو پوری طرح پلک جھپکنا یاد رہے: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
   "A dot": "نقطہ",
   "A short review helps others with tired eyes find it. Thank you!": "ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔ شکریہ!",
@@ -1411,6 +1410,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows کے لیے مکمل ورژن",
   "Gentle": "نرم",
   "Got it": "ٹھیک ہے",
+  "How this app works?": "یہ ایپ کیسے کام کرتی ہے",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "اگر آزادانہ طور پر بنائی گئی یہ ایپ آپ کے کام آ رہی ہے تو کیا آپ ایک چھوٹے سے عطیے پر غور کریں گے؟ شکریہ!",
   "Like the app?": "ایپ پسند آئی؟",
   "Look into the distance": "دور دیکھیں",
@@ -1442,7 +1442,6 @@ export const STRINGS = {
   "seconds": "سیکنڈ"
  },
  "vi": {
-  "%s is running": "%s đang chạy",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Tín hiệu xuất hiện định kỳ để nhắc bạn chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
   "A dot": "Chấm tròn",
   "A short review helps others with tired eyes find it. Thank you!": "Một đánh giá ngắn giúp những người mỏi mắt khác tìm thấy nó. Cảm ơn bạn!",
@@ -1465,6 +1464,7 @@ export const STRINGS = {
   "Full version for Windows": "Bản đầy đủ cho Windows",
   "Gentle": "Nhẹ",
   "Got it": "Đã hiểu",
+  "How this app works?": "Cách ứng dụng hoạt động",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "Nếu ứng dụng độc lập này hữu ích với bạn, bạn có muốn ủng hộ một khoản nhỏ không? Cảm ơn bạn!",
   "Like the app?": "Bạn thích ứng dụng này chứ?",
   "Look into the distance": "Nhìn ra xa",
@@ -1496,7 +1496,6 @@ export const STRINGS = {
   "seconds": "giây"
  },
  "zh-Hans": {
-  "%s is running": "%s 正在运行",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示会定期出现，提醒你完整地眨眼：闭上、轻轻闭紧、再睁开。",
   "A dot": "圆点",
   "A short review helps others with tired eyes find it. Thank you!": "一条简短的评价，能帮助其他眼睛疲劳的人找到它。谢谢！",
@@ -1519,6 +1518,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows 完整版",
   "Gentle": "轻柔",
   "Got it": "知道了",
+  "How this app works?": "这个程序如何运作",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "如果这个独立开发的应用对你有用，愿意小额捐款支持吗？谢谢！",
   "Like the app?": "喜欢这个应用吗？",
   "Look into the distance": "看向远方",
@@ -1550,7 +1550,6 @@ export const STRINGS = {
   "seconds": "秒"
  },
  "zh-Hant": {
-  "%s is running": "%s 正在執行",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示會定期出現，提醒你完整地眨眼：閉上、輕輕閉緊、再睜開。",
   "A dot": "圓點",
   "A short review helps others with tired eyes find it. Thank you!": "一則簡短的評論，能幫助其他眼睛疲勞的人找到它。謝謝！",
@@ -1573,6 +1572,7 @@ export const STRINGS = {
   "Full version for Windows": "Windows 完整版",
   "Gentle": "輕柔",
   "Got it": "知道了",
+  "How this app works?": "這個程式如何運作",
   "If this independent app works well for you, would you consider a small donation? Thank you!": "如果這個獨立開發的程式對你有用，願意小額捐款支持嗎？謝謝！",
   "Like the app?": "喜歡這個程式嗎？",
   "Look into the distance": "看向遠方",

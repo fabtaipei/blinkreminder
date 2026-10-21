@@ -135,7 +135,7 @@ async function render() {
   const granted = await chrome.permissions.contains(PAGE_ORIGINS);
 
   $("welcome").hidden = location.hash !== "#welcome";
-  $("welcome-title").textContent = T("%s is running").replace("%s", DISPLAY_NAME);
+  $("welcome-title").textContent = T("How this app works?");
   $("welcome-grant-box").hidden = granted;
 
   // The language IN FORCE, not "auto": a picker reading "auto" tells nobody

@@ -93,16 +93,17 @@ def test_lesson():
     plain = br.blink_cfg(app.cfg)
     for n in range(1, br.TEACH_COUNT + 1):
         cfg, ask = br.App.lesson(app, dict(plain))
-        if n in (1, br.TEACH_COUNT):
-            check("reminder %d is taught" % n, "caption" in cfg, True)
-            check("reminder %d is not followed by the question" % n, ask, False)
+        last = n == br.TEACH_COUNT
+        check("reminder %d is taught" % n, "caption" in cfg, True)
+        check("reminder %d is %sfollowed by the question"
+              % (n, "" if last else "not "), ask, last)
     check("each taught reminder is counted and saved",
           (app.tutorial["taught"], app.saved),
           (br.TEACH_COUNT, br.TEACH_COUNT))
 
     cfg, ask = br.App.lesson(app, dict(plain))
     check("the next reminder is an ordinary one", "caption" in cfg, False)
-    check("... and is followed by the question", ask, True)
+    check("... and asks again while the question is still owed", ask, True)
 
     br.user_is_available = lambda: False
     fresh = Recorder()
@@ -117,11 +118,8 @@ def test_lesson():
           (cfg == plain, ask), (True, False))
 
     taught = br.teaching_cfg(dict(plain))
-    check("a taught reminder is at least TEACH_OPACITY",
-          taught["opacity"] >= br.TEACH_OPACITY, True)
-    check("a taught reminder holds long enough to read",
-          taught["hold_ms"] >= br.TEACH_HOLD_MS, True)
-    check("a taught reminder pulses once", taught["blinks"], 1)
+    check("a taught reminder is the user's own reminder, plus the caption",
+          {k: v for k, v in taught.items() if k != "caption"}, plain)
     check("teaching_cfg leaves the config it was given alone",
           "caption" in plain, False)
 
@@ -130,9 +128,6 @@ def test_lesson():
     check("the word style shows the caption AS its word, on one line",
           ("caption" in taught, "\n" in taught["message"],
            taught["message"] != "Blink"), (False, False, True))
-    dim = br.teaching_cfg(dict(plain, style="dim", opacity=0.1))
-    check("a taught dim needs less opacity than a dot",
-          dim["opacity"], br.TEACH_OPACITY_DIM)
 
     check("dark ink on the lime default", br.caption_ink("#bde401"), "#11161C")
     check("white ink on a dark colour", br.caption_ink("#12233f"), "#FFFFFF")
@@ -161,6 +156,11 @@ def test_question():
         check("%r ends the question for good, opening nothing" % answer,
               (br.calibration_due(app.tutorial), app.pointed, app.saved),
               (False, [], 1))
+
+    app = Recorder()
+    br.App.calibrate(app, "got it", demo=True)
+    check("Got it on the card after Show me does not use up the real one",
+          (app.tutorial["calibration"], app.saved), ("pending", 0))
 
 
 def test_file(tmp):
