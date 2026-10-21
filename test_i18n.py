@@ -222,7 +222,7 @@ WRAPPED = (
     ("A cue appears periodically, to remind you to blink fully: close, "
      "squeeze gently, open.", "t2", SN.WIN_W - 2 * SN.PAD, 4,
      "welcome card body"),
-    ("Too faint or too strong? Change strength, size, duration and sound "
+    ("Too weak or too intrusive? Change strength, size, duration and sound "
      "in Settings.", "t4", SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 3,
      "welcome card hint"),
     ("Too weak or intrusive? You can change these:", "t2",
@@ -266,6 +266,8 @@ def tutorial_budgets(measure):
 
     footer = (SN.WIN_W - 2 * SN.PAD - btn("Got it", SN.BTN_MIN_W) - 16)
     rows = [
+        (br.T("How this app works?"), "t1", SN.WIN_W - 2 * SN.PAD,
+         "welcome card title"),
         (br.T("Show me"), "t4b", footer - BTN_PAD,
          "welcome footer, beside Got it with a 16px gap"),
         (br.T("How did that feel?"), "t1", CC.WIN_W - 2 * CC.PAD - CC.CLOSE_W,
@@ -290,9 +292,6 @@ def wrapped_lines(measure, fkey, text, width):
 # Strings whose budget depends on a value only known at runtime.
 def dynamic_budgets():
     return [
-        # The title interpolates the product name, which is not translated.
-        (br.T("%s is running") % br.DISPLAY_NAME, "t1",
-         SN.WIN_W - 2 * SN.PAD, "notice title"),
         # The picker shows one language at a time, plus its chevron. Its own
         # endonym, never translated.
         (next(l for l, c in blink_i18n.LANGUAGES if c == br.language_code()),

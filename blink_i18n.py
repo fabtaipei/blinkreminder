@@ -154,7 +154,6 @@ STRINGS = {
         "Quit": "結束",
 
         # -- the startup notice ------------------------------------------
-        "%s is running": "%s 正在執行",
         "Got it": "知道了",
 
         # -- launched a second time --------------------------------------
@@ -258,8 +257,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "閉上……\n輕輕閉緊……\n睜開",
         "How did that feel?": "剛才的提醒感覺如何？",
         "How it works": "使用說明",
+        "How this app works?": "這個程式如何運作",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "太弱或太干擾？可在「設定」中調整強度、大小、時長和音效。",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示會定期出現，提醒你完整地眨眼：閉上、輕輕閉緊、再睜開。",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "太淡或太強？可在「設定」中調整強度、大小、時長和音效。",
         "Too weak or intrusive? You can change these:": "太弱或太干擾？你可以調整這些：",
         "Size": "大小",
         "Duration": "時長",
@@ -276,7 +276,6 @@ STRINGS = {
         "Buy me a coffee": "请我喝杯咖啡",
         "Quit": "退出",
 
-        "%s is running": "%s 正在运行",
         "Got it": "知道了",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -365,8 +364,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "闭上……\n轻轻闭紧……\n睁开",
         "How did that feel?": "刚才的提醒感觉如何？",
         "How it works": "使用说明",
+        "How this app works?": "这个程序如何运作",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "太弱或太打扰？可在“设置”中调整强度、大小、时长和声音。",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示会定期出现，提醒你完整地眨眼：闭上、轻轻闭紧、再睁开。",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "太淡或太强？可在“设置”中调整强度、大小、时长和声音。",
         "Too weak or intrusive? You can change these:": "太弱或太打扰？你可以调整这些：",
         "Size": "大小",
         "Duration": "时长",
@@ -386,7 +386,6 @@ STRINGS = {
 
         # Not "est en cours d'exécution": with the product name in front of
         # it that is 464 pixels in a 440-pixel window.
-        "%s is running": "%s fonctionne",
         "Got it": "Compris",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -478,8 +477,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Fermez…\nserrez…\nouvrez",
         "How did that feel?": "Comment l'avez-vous trouvé ?",
         "How it works": "Mode d'emploi",
+        "How this app works?": "Comment fonctionne cette appli ?",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Trop faible ou trop gênant ? Modifiez l'intensité, la taille, la durée et le son dans les Paramètres.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un signal apparaît régulièrement pour vous rappeler de cligner complètement des yeux : fermez, serrez doucement, ouvrez.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Trop discret ou trop fort ? Modifiez l'intensité, la taille, la durée et le son dans les Paramètres.",
         "Too weak or intrusive? You can change these:": "Trop faible ou trop gênant ? Vous pouvez modifier :",
         "Size": "Taille",
         "Duration": "Durée",
@@ -495,7 +495,6 @@ STRINGS = {
         "Buy me a coffee": "Invítame a un café",
         "Quit": "Salir",
 
-        "%s is running": "%s está en ejecución",
         "Got it": "Entendido",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -587,8 +586,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Cierra…\naprieta…\nabre",
         "How did that feel?": "¿Qué te ha parecido?",
         "How it works": "Cómo funciona",
+        "How this app works?": "¿Cómo funciona esta app?",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "¿Demasiado débil o molesto? Cambia la intensidad, el tamaño, la duración y el sonido en Configuración.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Aparece una señal periódicamente para recordarte parpadear por completo: cierra, aprieta suavemente y abre.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "¿Demasiado tenue o demasiado fuerte? Cambia la intensidad, el tamaño, la duración y el sonido en Configuración.",
         "Too weak or intrusive? You can change these:": "¿Demasiado débil o molesto? Puedes cambiar esto:",
         "Size": "Tamaño",
         "Duration": "Duración",
@@ -605,7 +605,6 @@ STRINGS = {
         "Buy me a coffee": "Kaffee spendieren",
         "Quit": "Beenden",
 
-        "%s is running": "%s läuft",
         "Got it": "Verstanden",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -696,8 +695,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Schließen…\nkneifen…\nöffnen",
         "How did that feel?": "Wie war der Hinweis?",
         "How it works": "So funktioniert es",
+        "How this app works?": "So funktioniert die App",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Zu schwach oder zu störend? Stärke, Größe, Dauer und Ton unter Einstellungen ändern.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ein Hinweis erscheint regelmäßig und erinnert Sie daran, vollständig zu blinzeln: schließen, sanft zusammenkneifen, öffnen.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Zu schwach oder zu stark? Stärke, Größe, Dauer und Ton unter Einstellungen ändern.",
         "Too weak or intrusive? You can change these:": "Zu schwach oder zu störend? Sie können Folgendes ändern:",
         "Size": "Größe",
         "Duration": "Dauer",
@@ -714,7 +714,6 @@ STRINGS = {
         "Buy me a coffee": "Offrimi un caffè",
         "Quit": "Esci",
 
-        "%s is running": "%s è in esecuzione",
         "Got it": "Ho capito",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -806,8 +805,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Chiudi…\nstringi…\napri",
         "How did that feel?": "Come ti è sembrato?",
         "How it works": "Come funziona",
+        "How this app works?": "Come funziona questa app",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Troppo debole o invadente? Cambia intensità, dimensione, durata e suono nelle Impostazioni.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un segnale appare periodicamente per ricordarti di sbattere le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Troppo tenue o troppo forte? Cambia intensità, dimensione, durata e suono nelle Impostazioni.",
         "Too weak or intrusive? You can change these:": "Troppo debole o invadente? Puoi modificare:",
         "Size": "Dimensione",
         "Duration": "Durata",
@@ -824,7 +824,6 @@ STRINGS = {
         "Buy me a coffee": "Me pague um café",
         "Quit": "Sair",
 
-        "%s is running": "%s está em execução",
         "Got it": "Entendi",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -917,8 +916,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Feche…\naperte…\nabra",
         "How did that feel?": "O que achou?",
         "How it works": "Como funciona",
+        "How this app works?": "Como este app funciona",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Fraco demais ou incômodo? Mude a força, o tamanho, a duração e o som nas Configurações.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Um sinal aparece periodicamente para lembrar você de piscar por completo: feche, aperte de leve e abra.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Fraco ou forte demais? Mude a força, o tamanho, a duração e o som nas Configurações.",
         "Too weak or intrusive? You can change these:": "Fraco demais ou incômodo? Você pode mudar:",
         "Size": "Tamanho",
         "Duration": "Duração",
@@ -934,7 +934,6 @@ STRINGS = {
         "Buy me a coffee": "コーヒーをおごる",
         "Quit": "終了",
 
-        "%s is running": "%s は実行中です",
         "Got it": "閉じる",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1024,8 +1023,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "閉じて…\nぎゅっと…\n開く",
         "How did that feel?": "いまの合図はどうでしたか？",
         "How it works": "使い方",
+        "How this app works?": "このアプリの使い方",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "弱すぎる、または邪魔なときは、設定で強さ・大きさ・表示時間・音を変更できます。",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "合図が定期的に表示され、しっかりまばたきするよう促します：目を閉じ、軽くぎゅっとつむって、開く。",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "薄すぎる・強すぎるときは、設定で強さ・大きさ・表示時間・音を変更できます。",
         "Too weak or intrusive? You can change these:": "弱すぎる、または邪魔ですか？ 次の項目を変更できます：",
         "Size": "大きさ",
         "Duration": "表示時間",
@@ -1041,7 +1041,6 @@ STRINGS = {
         "Buy me a coffee": "커피 한 잔 사주기",
         "Quit": "종료",
 
-        "%s is running": "%s 실행 중",
         "Got it": "확인",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1131,8 +1130,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "감고…\n꼭 감았다가…\n뜨세요",
         "How did that feel?": "방금 신호는 어떠셨나요?",
         "How it works": "사용 방법",
+        "How this app works?": "이 앱의 작동 방식",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "너무 약하거나 방해되나요? 설정에서 세기, 크기, 지속 시간, 소리를 바꾸세요.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "신호가 주기적으로 나타나 눈을 완전히 깜빡이도록 알려 줍니다: 감고, 살짝 꼭 감았다가, 뜨세요.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "너무 흐리거나 강한가요? 설정에서 세기, 크기, 지속 시간, 소리를 바꾸세요.",
         "Too weak or intrusive? You can change these:": "너무 약하거나 방해되나요? 다음을 바꿀 수 있습니다:",
         "Size": "크기",
         "Duration": "지속 시간",
@@ -1147,7 +1147,6 @@ STRINGS = {
         "Buy me a coffee": "मुझे कॉफ़ी पिलाएँ",
         "Quit": "बंद करें",
 
-        "%s is running": "%s चल रहा है",
         "Got it": "ठीक है",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1237,8 +1236,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "बंद करें…\nभींचें…\nखोलें",
         "How did that feel?": "कैसा लगा?",
         "How it works": "यह कैसे काम करता है",
+        "How this app works?": "यह ऐप कैसे काम करता है",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "बहुत कमज़ोर या खलल डालने वाला? सेटिंग्स में तीव्रता, आकार, अवधि और ध्वनि बदलें।",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "एक संकेत समय-समय पर दिखता है, ताकि आपको पूरी तरह पलकें झपकाना याद रहे: आँखें बंद करें, हल्के से भींचें, खोलें।",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "बहुत हल्का या बहुत तेज़? सेटिंग्स में तीव्रता, आकार, अवधि और ध्वनि बदलें।",
         "Too weak or intrusive? You can change these:": "बहुत कमज़ोर या खलल डालने वाला? आप इन्हें बदल सकते हैं:",
         "Size": "आकार",
         "Duration": "अवधि",
@@ -1253,7 +1253,6 @@ STRINGS = {
         "Buy me a coffee": "আমাকে কফি খাওয়ান",
         "Quit": "বন্ধ করুন",
 
-        "%s is running": "%s চলছে",
         "Got it": "বুঝেছি",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1343,8 +1342,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "বন্ধ করুন…\nআলতো চাপুন…\nখুলুন",
         "How did that feel?": "কেমন লাগল?",
         "How it works": "কীভাবে কাজ করে",
+        "How this app works?": "এই অ্যাপটি কীভাবে কাজ করে",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "খুব দুর্বল বা বিরক্তিকর? সেটিংসে তীব্রতা, আকার, সময়কাল ও শব্দ বদলান।",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "একটি সংকেত নিয়মিত দেখা দেয়, যাতে আপনি পুরোপুরি চোখের পলক ফেলতে মনে রাখেন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "খুব হালকা বা খুব জোরালো? সেটিংসে তীব্রতা, আকার, সময়কাল ও শব্দ বদলান।",
         "Too weak or intrusive? You can change these:": "খুব দুর্বল বা বিরক্তিকর? আপনি এগুলো বদলাতে পারেন:",
         "Size": "আকার",
         "Duration": "সময়কাল",
@@ -1363,7 +1363,6 @@ STRINGS = {
         "Buy me a coffee": "ادعمني بقهوة",
         "Quit": "إنهاء",
 
-        "%s is running": "%s قيد التشغيل",
         "Got it": "حسنًا",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1453,8 +1452,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "أغمض…\nاضغط…\nافتح",
         "How did that feel?": "كيف وجدتها؟",
         "How it works": "طريقة العمل",
+        "How this app works?": "كيف يعمل هذا التطبيق؟",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "ضعيفة جدًا أو مزعجة؟ غيّر الشدة والحجم والمدة والصوت من الإعدادات.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "تظهر إشارة بشكل دوري لتذكيرك بأن ترمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "خافتة جدًا أم قوية جدًا؟ غيّر الشدة والحجم والمدة والصوت من الإعدادات.",
         "Too weak or intrusive? You can change these:": "ضعيفة جدًا أو مزعجة؟ يمكنك تغيير ما يلي:",
         "Size": "الحجم",
         "Duration": "المدة",
@@ -1471,7 +1471,6 @@ STRINGS = {
         "Buy me a coffee": "مجھے کافی پلائیں",
         "Quit": "بند کریں",
 
-        "%s is running": "%s چل رہا ہے",
         "Got it": "ٹھیک ہے",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1561,8 +1560,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "بند کریں…\nبھینچیں…\nکھولیں",
         "How did that feel?": "کیسا لگا؟",
         "How it works": "یہ کیسے کام کرتی ہے",
+        "How this app works?": "یہ ایپ کیسے کام کرتی ہے",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "بہت کمزور یا خلل ڈالنے والا؟ ترتیبات میں شدت، سائز، دورانیہ اور آواز بدلیں۔",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "ایک اشارہ وقتاً فوقتاً ظاہر ہوتا ہے تاکہ آپ کو پوری طرح پلک جھپکنا یاد رہے: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "بہت ہلکا یا بہت تیز؟ ترتیبات میں شدت، سائز، دورانیہ اور آواز بدلیں۔",
         "Too weak or intrusive? You can change these:": "بہت کمزور یا خلل ڈالنے والا؟ آپ یہ بدل سکتے ہیں:",
         "Size": "سائز",
         "Duration": "دورانیہ",
@@ -1577,7 +1577,6 @@ STRINGS = {
         "Buy me a coffee": "Traktir saya kopi",
         "Quit": "Keluar",
 
-        "%s is running": "%s sedang berjalan",
         "Got it": "Mengerti",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1668,8 +1667,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Pejamkan…\nrapatkan…\nbuka",
         "How did that feel?": "Bagaimana rasanya?",
         "How it works": "Cara kerjanya",
+        "How this app works?": "Cara kerja aplikasi ini",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Terlalu lemah atau mengganggu? Ubah kekuatan, ukuran, durasi, dan suara di Pengaturan.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Isyarat muncul secara berkala untuk mengingatkan Anda berkedip sepenuhnya: pejamkan, rapatkan perlahan, buka.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Terlalu samar atau terlalu kuat? Ubah kekuatan, ukuran, durasi, dan suara di Pengaturan.",
         "Too weak or intrusive? You can change these:": "Terlalu lemah atau mengganggu? Anda bisa mengubah:",
         "Size": "Ukuran",
         "Duration": "Durasi",
@@ -1688,7 +1688,6 @@ STRINGS = {
         "Buy me a coffee": "Postaw mi kawę",
         "Quit": "Zakończ",
 
-        "%s is running": "%s działa",
         "Got it": "Rozumiem",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1780,8 +1779,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Zamknij…\nzaciśnij…\notwórz",
         "How did that feel?": "Jak wrażenia?",
         "How it works": "Jak to działa",
+        "How this app works?": "Jak działa ta aplikacja",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Za słaby lub zbyt natrętny? Zmień siłę, rozmiar, czas trwania i dźwięk w Ustawieniach.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Sygnał pojawia się regularnie i przypomina, by mrugać do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Za słaby czy za mocny? Zmień siłę, rozmiar, czas trwania i dźwięk w Ustawieniach.",
         "Too weak or intrusive? You can change these:": "Za słaby lub zbyt natrętny? Możesz zmienić:",
         "Size": "Rozmiar",
         "Duration": "Czas trwania",
@@ -1796,7 +1796,6 @@ STRINGS = {
         "Buy me a coffee": "Bana kahve ısmarla",
         "Quit": "Çıkış",
 
-        "%s is running": "%s çalışıyor",
         "Got it": "Anladım",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1888,8 +1887,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Kapatın…\nsıkın…\naçın",
         "How did that feel?": "Nasıl buldunuz?",
         "How it works": "Nasıl çalışır",
+        "How this app works?": "Bu uygulama nasıl çalışır?",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Çok mu zayıf, çok mu rahatsız edici? Ayarlar'dan şiddeti, boyutu, süreyi ve sesi değiştirin.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Gözlerinizi tam kırpmanızı hatırlatmak için düzenli aralıklarla bir uyarı belirir: kapatın, hafifçe sıkın, açın.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Çok mu soluk, çok mu güçlü? Ayarlar'dan şiddeti, boyutu, süreyi ve sesi değiştirin.",
         "Too weak or intrusive? You can change these:": "Çok mu zayıf, çok mu rahatsız edici? Şunları değiştirebilirsiniz:",
         "Size": "Boyut",
         "Duration": "Süre",
@@ -1904,7 +1904,6 @@ STRINGS = {
         "Buy me a coffee": "Mời tôi ly cà phê",
         "Quit": "Thoát",
 
-        "%s is running": "%s đang chạy",
         "Got it": "Đã hiểu",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -1996,8 +1995,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Nhắm mắt…\nkhép chặt…\nmở ra",
         "How did that feel?": "Bạn thấy thế nào?",
         "How it works": "Cách hoạt động",
+        "How this app works?": "Cách ứng dụng hoạt động",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Quá yếu hay gây phiền? Đổi độ đậm, kích thước, thời lượng và âm thanh trong Cài đặt.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Tín hiệu xuất hiện định kỳ để nhắc bạn chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Quá mờ hay quá đậm? Đổi độ đậm, kích thước, thời lượng và âm thanh trong Cài đặt.",
         "Too weak or intrusive? You can change these:": "Quá yếu hay gây phiền? Bạn có thể thay đổi:",
         "Size": "Kích thước",
         "Duration": "Thời lượng",
@@ -2013,7 +2013,6 @@ STRINGS = {
         "Buy me a coffee": "Купить мне кофе",
         "Quit": "Выход",
 
-        "%s is running": "%s работает",
         "Got it": "Понятно",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2105,8 +2104,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Закройте…\nсожмите…\nоткройте",
         "How did that feel?": "Как вам этот сигнал?",
         "How it works": "Как это работает",
+        "How this app works?": "Как работает приложение",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Слишком слабо или навязчиво? Измените силу, размер, длительность и звук в настройках.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал появляется регулярно и напоминает моргать полностью: закройте глаза, мягко сожмите веки, откройте.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Слишком слабо или слишком сильно? Измените силу, размер, длительность и звук в настройках.",
         "Too weak or intrusive? You can change these:": "Слишком слабо или навязчиво? Можно изменить:",
         "Size": "Размер",
         "Duration": "Длительность",
@@ -2122,7 +2122,6 @@ STRINGS = {
         "Buy me a coffee": "เลี้ยงกาแฟ",
         "Quit": "ออก",
 
-        "%s is running": "%s กำลังทำงาน",
         "Got it": "เข้าใจแล้ว",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2212,8 +2211,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "หลับตา…\nบีบเบาๆ…\nลืมตา",
         "How did that feel?": "รู้สึกอย่างไรบ้าง",
         "How it works": "วิธีใช้งาน",
+        "How this app works?": "แอปนี้ทำงานอย่างไร",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "อ่อนเกินไปหรือรบกวน เปลี่ยนความเข้ม ขนาด ระยะเวลา และเสียงได้ในตั้งค่า",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เพื่อเตือนให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "จางหรือเข้มเกินไป เปลี่ยนความเข้ม ขนาด ระยะเวลา และเสียงได้ในตั้งค่า",
         "Too weak or intrusive? You can change these:": "อ่อนเกินไปหรือรบกวน คุณเปลี่ยนสิ่งเหล่านี้ได้",
         "Size": "ขนาด",
         "Duration": "ระยะเวลา",
@@ -2229,7 +2229,6 @@ STRINGS = {
         "Buy me a coffee": "Пригостити кавою",
         "Quit": "Вийти",
 
-        "%s is running": "%s працює",
         "Got it": "Зрозуміло",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2321,8 +2320,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Заплющте…\nстисніть…\nрозплющте",
         "How did that feel?": "Як вам цей сигнал?",
         "How it works": "Як це працює",
+        "How this app works?": "Як працює застосунок",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Надто слабко чи нав’язливо? Змініть силу, розмір, тривалість і звук у налаштуваннях.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал з’являється регулярно й нагадує кліпати повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Надто слабко чи надто сильно? Змініть силу, розмір, тривалість і звук у налаштуваннях.",
         "Too weak or intrusive? You can change these:": "Надто слабко чи нав’язливо? Можна змінити:",
         "Size": "Розмір",
         "Duration": "Тривалість",
@@ -2337,7 +2337,6 @@ STRINGS = {
         "Buy me a coffee": "Kup mi kávu",
         "Quit": "Ukončit",
 
-        "%s is running": "%s běží",
         "Got it": "Rozumím",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2429,8 +2428,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Zavřete…\nstiskněte…\notevřete",
         "How did that feel?": "Jak na vás působil?",
         "How it works": "Jak to funguje",
+        "How this app works?": "Jak aplikace funguje",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Příliš slabé nebo rušivé? Změňte sílu, velikost, trvání a zvuk v Nastavení.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Signál se pravidelně objevuje a připomíná vám, abyste mrkali úplně: zavřete oči, jemně je stiskněte, otevřete.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Příliš slabé, nebo příliš silné? Změňte sílu, velikost, trvání a zvuk v Nastavení.",
         "Too weak or intrusive? You can change these:": "Příliš slabé nebo rušivé? Můžete změnit:",
         "Size": "Velikost",
         "Duration": "Trvání",
@@ -2445,7 +2445,6 @@ STRINGS = {
         "Buy me a coffee": "Fă-mi cinste cu o cafea",
         "Quit": "Ieșire",
 
-        "%s is running": "%s rulează",
         "Got it": "Am înțeles",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2537,8 +2536,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Închide…\nstrânge…\ndeschide",
         "How did that feel?": "Cum ți s-a părut?",
         "How it works": "Cum funcționează",
+        "How this app works?": "Cum funcționează aplicația",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Prea slab sau deranjant? Schimbă intensitatea, mărimea, durata și sunetul în Setări.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un semnal apare periodic ca să-ți amintească să clipești complet: închide ochii, strânge-i ușor, deschide-i.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Prea slab sau prea puternic? Schimbă intensitatea, mărimea, durata și sunetul în Setări.",
         "Too weak or intrusive? You can change these:": "Prea slab sau deranjant? Poți schimba:",
         "Size": "Mărime",
         "Duration": "Durată",
@@ -2553,7 +2553,6 @@ STRINGS = {
         "Buy me a coffee": "Hívj meg egy kávéra",
         "Quit": "Kilépés",
 
-        "%s is running": "A(z) %s fut",
         "Got it": "Értem",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2645,8 +2644,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Csukd be…\nszorítsd…\nnyisd ki",
         "How did that feel?": "Milyen volt?",
         "How it works": "Hogyan működik",
+        "How this app works?": "Hogyan működik az app?",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Túl gyenge vagy zavaró? Az erősséget, a méretet, az időtartamot és a hangot a Beállításokban módosíthatod.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Időnként megjelenik egy jelzés, hogy emlékeztessen a teljes pislogásra: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Túl halvány vagy túl erős? Az erősséget, a méretet, az időtartamot és a hangot a Beállításokban módosíthatod.",
         "Too weak or intrusive? You can change these:": "Túl gyenge vagy zavaró? Ezeket módosíthatod:",
         "Size": "Méret",
         "Duration": "Időtartam",
@@ -2661,7 +2661,6 @@ STRINGS = {
         "Buy me a coffee": "Κέρασέ με έναν καφέ",
         "Quit": "Έξοδος",
 
-        "%s is running": "Το %s εκτελείται",
         "Got it": "Εντάξει",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2753,8 +2752,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Κλείσε…\nσφίξε…\nάνοιξε",
         "How did that feel?": "Πώς σου φάνηκε;",
         "How it works": "Πώς λειτουργεί",
+        "How this app works?": "Πώς λειτουργεί η εφαρμογή",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Πολύ αδύναμο ή ενοχλητικό; Άλλαξε ένταση, μέγεθος, διάρκεια και ήχο στις Ρυθμίσεις.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ένα σήμα εμφανίζεται περιοδικά για να σου θυμίζει να ανοιγοκλείνεις πλήρως τα μάτια: κλείσε, σφίξε απαλά, άνοιξε.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Πολύ αχνό ή πολύ έντονο; Άλλαξε ένταση, μέγεθος, διάρκεια και ήχο στις Ρυθμίσεις.",
         "Too weak or intrusive? You can change these:": "Πολύ αδύναμο ή ενοχλητικό; Μπορείς να αλλάξεις:",
         "Size": "Μέγεθος",
         "Duration": "Διάρκεια",
@@ -2769,7 +2769,6 @@ STRINGS = {
         "Buy me a coffee": "Bjud på en kaffe",
         "Quit": "Avsluta",
 
-        "%s is running": "%s körs",
         "Got it": "Uppfattat",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2861,8 +2860,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Blunda…\nkläm…\nöppna",
         "How did that feel?": "Hur kändes det?",
         "How it works": "Så fungerar det",
+        "How this app works?": "Så fungerar appen",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "För svag eller störande? Ändra styrka, storlek, varaktighet och ljud i Inställningar.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "En signal visas regelbundet för att påminna dig om att blinka ordentligt: blunda, kläm ihop lätt, öppna.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "För svag eller för stark? Ändra styrka, storlek, varaktighet och ljud i Inställningar.",
         "Too weak or intrusive? You can change these:": "För svag eller störande? Du kan ändra:",
         "Size": "Storlek",
         "Duration": "Varaktighet",
@@ -2877,7 +2877,6 @@ STRINGS = {
         "Buy me a coffee": "Tarjoa kahvit",
         "Quit": "Lopeta",
 
-        "%s is running": "%s on käynnissä",
         "Got it": "Selvä",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -2969,8 +2968,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Sulje…\npurista…\navaa",
         "How did that feel?": "Miltä se tuntui?",
         "How it works": "Näin se toimii",
+        "How this app works?": "Näin sovellus toimii",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Liian heikko tai häiritsevä? Muuta voimaa, kokoa, kestoa ja ääntä asetuksista.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Merkki näkyy säännöllisesti muistuttamassa räpäyttämään kunnolla: sulje, purista kevyesti, avaa.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Liian heikko vai liian voimakas? Muuta voimaa, kokoa, kestoa ja ääntä asetuksista.",
         "Too weak or intrusive? You can change these:": "Liian heikko tai häiritsevä? Voit muuttaa näitä:",
         "Size": "Koko",
         "Duration": "Kesto",
@@ -2985,7 +2985,6 @@ STRINGS = {
         "Buy me a coffee": "Giv mig en kaffe",
         "Quit": "Afslut",
 
-        "%s is running": "%s kører",
         "Got it": "Forstået",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -3077,8 +3076,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Luk…\nklem…\nåbn",
         "How did that feel?": "Hvordan føltes det?",
         "How it works": "Sådan virker det",
+        "How this app works?": "Sådan virker appen",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "For svagt eller forstyrrende? Skift styrke, størrelse, varighed og lyd i Indstillinger.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jævne mellemrum for at minde dig om at blinke helt: luk øjnene, klem blidt, åbn.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "For svagt eller for stærkt? Skift styrke, størrelse, varighed og lyd i Indstillinger.",
         "Too weak or intrusive? You can change these:": "For svagt eller forstyrrende? Du kan ændre:",
         "Size": "Størrelse",
         "Duration": "Varighed",
@@ -3093,7 +3093,6 @@ STRINGS = {
         "Buy me a coffee": "Spander en kaffe",
         "Quit": "Avslutt",
 
-        "%s is running": "%s kjører",
         "Got it": "Skjønner",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -3185,8 +3184,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Lukk…\nklem…\nåpne",
         "How did that feel?": "Hvordan føltes det?",
         "How it works": "Slik fungerer det",
+        "How this app works?": "Slik fungerer appen",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "For svakt eller forstyrrende? Endre styrke, størrelse, varighet og lyd i Innstillinger.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jevne mellomrom for å minne deg på å blunke helt: lukk øynene, klem forsiktig, åpne.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "For svakt eller for sterkt? Endre styrke, størrelse, varighet og lyd i Innstillinger.",
         "Too weak or intrusive? You can change these:": "For svakt eller forstyrrende? Du kan endre:",
         "Size": "Størrelse",
         "Duration": "Varighet",
@@ -3201,7 +3201,6 @@ STRINGS = {
         "Buy me a coffee": "Trakteer op een koffie",
         "Quit": "Afsluiten",
 
-        "%s is running": "%s is actief",
         "Got it": "Begrepen",
 
         "%s is already running.\n\nLook for its icon in the system tray, "
@@ -3293,8 +3292,9 @@ STRINGS = {
         "Close…\nsqueeze…\nopen": "Ogen dicht…\nknijpen…\nopen",
         "How did that feel?": "Hoe voelde dat?",
         "How it works": "Zo werkt het",
+        "How this app works?": "Zo werkt de app",
+        "Too weak or too intrusive? Change strength, size, duration and sound in Settings.": "Te zwak of storend? Wijzig sterkte, grootte, duur en geluid bij Instellingen.",
         "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Er verschijnt regelmatig een signaal om je eraan te herinneren volledig te knipperen: ogen dicht, zacht knijpen, open.",
-        "Too faint or too strong? Change strength, size, duration and sound in Settings.": "Te zwak of te sterk? Wijzig sterkte, grootte, duur en geluid bij Instellingen.",
         "Too weak or intrusive? You can change these:": "Te zwak of storend? Je kunt dit wijzigen:",
         "Size": "Grootte",
         "Duration": "Duur",

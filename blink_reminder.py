@@ -1030,13 +1030,6 @@ TUTORIAL_PATH = os.path.join(CONFIG_DIR, "tutorial.json")
 # does not become the way the reminder always looks.
 TEACH_COUNT = 2
 
-# A taught reminder carries words, so it stays long enough to read them and
-# is strong enough for them to be legible, and it pulses once: three words do
-# not survive a flicker. The dim covers the whole screen, so it needs less.
-TEACH_OPACITY = 0.6
-TEACH_OPACITY_DIM = 0.45
-TEACH_HOLD_MS = 2200
-
 
 def fresh_tutorial():
     return {"welcomed": False, "taught": 0, "calibration": "pending"}
@@ -1076,10 +1069,8 @@ def teaching_due(state):
 
 
 def calibration_due(state):
-    """Whether the next ordinary reminder should be followed by the strength
-    question. Only once the teaching is over: until then every reminder has
-    been the stronger, captioned one, and that is not what is being asked
-    about."""
+    """Whether the question card is still owed: the demos are over and it
+    has not yet been put away with Got it or the close mark."""
     return not teaching_due(state) and state["calibration"] == "pending"
 
 
@@ -1089,7 +1080,11 @@ NO_SPACE_LANGUAGES = frozenset(("zh-Hant", "zh-Hans", "ja"))
 
 
 def teaching_cfg(pcfg):
-    """A pulse config as a taught reminder: captioned, stronger, longer.
+    """A pulse config as a taught reminder: the same reminder, captioned.
+
+    Only the caption is added. An earlier version also made it stronger and
+    longer, so it could be read -- which taught people what a reminder they
+    would never see again looked like, and then asked how it had felt.
 
     The caption is drawn on the dot or the dim. The word style has no room
     beside its word, so there the caption REPLACES the word, on one line.
@@ -1101,10 +1096,6 @@ def teaching_cfg(pcfg):
         out["message"] = joiner.join(caption.split("\n"))
     else:
         out["caption"] = caption
-    floor = TEACH_OPACITY_DIM if out["style"] == "dim" else TEACH_OPACITY
-    out["opacity"] = max(float(out["opacity"]), floor)
-    out["hold_ms"] = max(int(out["hold_ms"]), TEACH_HOLD_MS)
-    out["blinks"] = 1
     return out
 
 
@@ -5350,9 +5341,9 @@ class StartupNotice:
                 lines = [RLE + line + PDF for line in lines]
             return "\n".join(lines)
 
-        # From DISPLAY_NAME, not a literal. It WAS a literal, and it still read
-        # "Blink Reminder is running" three renames later.
-        ttk.Label(outer, text=T("%s is running") % DISPLAY_NAME,
+        # The product's name is in the title bar, so the card's own title
+        # can say what the card is for.
+        ttk.Label(outer, text=T("How this app works?"),
                   style="Title.TLabel").place(x=near, y=s(self.TITLE_Y),
                                               anchor=start)
         body = ttk.Label(outer, style="Sub.TLabel", justify=justify, text=wrapped(
@@ -5364,8 +5355,8 @@ class StartupNotice:
         card = ttk.Frame(outer, style="Card.TFrame")
         hint_w = inner - 2 * self.HINT_PAD
         hint = ttk.Label(card, style="Row.TLabel", justify=justify, text=wrapped(
-            T("Too faint or too strong? Change strength, size, duration and "
-              "sound in Settings."), "t4", hint_w))
+            T("Too weak or too intrusive? Change strength, size, duration "
+              "and sound in Settings."), "t4", hint_w))
         hint.place(x=s(inner - self.HINT_PAD) if rtl else s(self.HINT_PAD),
                    y=s(self.HINT_PAD), anchor=start)
 
@@ -5840,7 +5831,8 @@ class CalibrationCard(_CornerCard):
     # rings say the same word.
     TARGETS = ("strength", "size", "duration", "sound")
 
-    def _build(self):
+    def _build(self, demo=False):
+        self.demo = demo
         outer, row_y = self._open(T("How did that feel?"),
                                   T("Too weak or intrusive? You can change these:"))
         s = _THEME_METRICS["s"]
@@ -5852,7 +5844,7 @@ class CalibrationCard(_CornerCard):
         for label, target, (dx, y, wd) in zip(labels, self.TARGETS, spots):
             left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
             self._button(outer, label, "Secondary.TButton",
-                         lambda t=target: self.app.calibrate(t)).place(
+                         lambda t=target: self.app.calibrate(t, demo=self.demo)).place(
                 x=left, y=y, width=wd, height=s(self.BTN_H))
         # Its own row, at the end a line ends on, as on the coffee card.
         got_y = max(y for _x, y, _w in spots) + s(self.BTN_H) + s(12)
@@ -5893,7 +5885,7 @@ class CalibrationCard(_CornerCard):
 
     def answer(self, answer):
         self.close(answer)
-        self.app.calibrate(answer)
+        self.app.calibrate(answer, demo=self.demo)
 
     def _closed(self):
         self.answer("closed")
@@ -6260,18 +6252,23 @@ class App:
         self.notice.show()
 
     def show_me(self):
-        """The welcome card's "Show me": a real reminder, as taught."""
+        """The welcome card's "Show me": a real reminder, as taught, and the
+        question card once it has faded -- every time, because that is the
+        one moment someone is looking at a reminder on purpose."""
         if not self.overlay.busy:
             log_event("tutorial", "show me")
             self.overlay.pulse(teaching_cfg(blink_cfg(self.cfg)))
+            self.when_idle(lambda: self.ask_calibration(demo=True))
 
     def lesson(self, cfg):
         """This blink as the tutorial wants it, and whether to ask after it.
 
-        The first TEACH_COUNT carry the instruction; the next ordinary one
-        is followed by the strength question. Neither while Windows says
-        nobody can see the screen: a lesson nobody saw is not one learned,
-        and it waits for the next reminder instead of being spent.
+        The first TEACH_COUNT carry the instruction, and the question card
+        follows the last of them -- which, caption apart, looks exactly like
+        every reminder after it. If that card could not be shown, the next
+        reminder asks again. Nothing here while Windows says nobody can see
+        the screen: a lesson nobody saw is not one learned, and it waits for
+        the next reminder instead of being spent.
         """
         t = self.tutorial
         if not (teaching_due(t) or calibration_due(t)):
@@ -6283,7 +6280,7 @@ class App:
             self.keep_tutorial()
             log_event("tutorial", "taught reminder %d of %d"
                       % (t["taught"], TEACH_COUNT))
-            return teaching_cfg(cfg), False
+            return teaching_cfg(cfg), not teaching_due(t)
         return cfg, True
 
     def when_idle(self, step, settle_ms=400):
@@ -6295,31 +6292,42 @@ class App:
                 self.root.after(settle_ms, step)
         check()
 
-    def ask_calibration(self):
-        # Not over another card, the panel, a snooze or a presentation. Each
-        # of these leaves it due, so the next reminder asks again.
-        if (not calibration_due(self.tutorial) or self.cal_card.showing()
-                or self.ask_card.showing() or self.notice.win is not None
-                or self.settings.win is not None or self.paused
-                or not user_is_available()):
-            return
-        log_event("tutorial", "asking how the reminder felt")
-        self.cal_card.show(test=self.tutorial_test)
+    def ask_calibration(self, demo=False):
+        """Show the question card.
 
-    def calibrate(self, answer):
+        `demo` is the one after "Show me": asked for, so asked whatever the
+        tutorial's state, and closing it does not count as the answer. The
+        other is the one after the first ordinary reminder past the demos,
+        and it waits -- not over another card, the panel, a snooze or a
+        presentation, each of which leaves it due for the next reminder.
+        """
+        if self.cal_card.showing() or self.ask_card.showing():
+            return
+        if not demo and (not calibration_due(self.tutorial)
+                         or self.notice.win is not None
+                         or self.settings.win is not None or self.paused
+                         or not user_is_available()):
+            return
+        log_event("tutorial", "asking how the reminder felt%s"
+                  % (" (after Show me)" if demo else ""))
+        self.cal_card.show(demo, test=self.tutorial_test)
+
+    def calibrate(self, answer, demo=False):
         """A click on the question card.
 
         One of its four buttons opens Settings at that control and leaves
         the card up; it changes nothing itself -- see CalibrationCard. "Got
-        it" or the close mark puts the card away, and that ends the question
-        for good.
+        it" or the close mark puts the card away, and on the card that comes
+        after the demos that ends the question for good. The one "Show me"
+        brings up answers nothing: it can come back at the next Show me.
         """
         if answer in CalibrationCard.TARGETS:
             log_event("tutorial", "showing where to change the %s" % answer)
             self.settings.point_at(answer)
             return
-        self.tutorial["calibration"] = "done"
-        self.keep_tutorial()
+        if not demo:
+            self.tutorial["calibration"] = "done"
+            self.keep_tutorial()
 
     def start_tutorial_test(self):
         """--test-tutorial: the whole lesson again, with nothing saved."""
