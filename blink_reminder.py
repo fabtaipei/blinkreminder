@@ -544,17 +544,6 @@ def feel_pairs():
     return [(T(name), name) for name in list(FEELS) + [CUSTOM]]
 
 
-def describe_interval(seconds):
-    """"every 45 seconds" / "every 20 minutes" - whichever a person would say."""
-    seconds = max(1, int(seconds))
-    if seconds >= 120 and seconds % 60 == 0:
-        minutes = seconds // 60
-        return (T("every minute") if minutes == 1
-                else T("every %d minutes") % minutes)
-    return (T("every second") if seconds == 1
-            else T("every %d seconds") % seconds)
-
-
 def feel_of(cfg, prefix=""):
     """Which preset these timings match, or Custom if they were hand-tuned.
 
@@ -849,6 +838,7 @@ ASK_SETTLE_S = 300
 # busy": the rest are presenting, fullscreen, locked or away -- exactly the
 # moments a request for money must never appear in front of other people.
 QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP = 5, 7
+QUNS_BUSY = 2
 
 
 def ask_possible(kind):
@@ -908,19 +898,23 @@ def load_asks():
     return state
 
 
-def save_asks(state):
+def _save_state(path, state, where):
     """Temp file and rename, as save_config does. Never raises: failing to
-    record an ask must not take the heartbeat down with it."""
+    record an ask or a lesson must not take the timer down with it."""
     try:
         os.makedirs(CONFIG_DIR, exist_ok=True)
-        tmp = ASKS_PATH + ".tmp"
+        tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(state, fh, indent=2)
             fh.flush()
             os.fsync(fh.fileno())
-        os.replace(tmp, ASKS_PATH)
+        os.replace(tmp, path)
     except OSError:
-        log_error("save_asks")
+        log_error(where)
+
+
+def save_asks(state):
+    _save_state(ASKS_PATH, state, "save_asks")
 
 
 def count_day(state, today):
@@ -1013,6 +1007,177 @@ def user_is_available():
     """
     state = notification_state()
     return state is None or state in (QUNS_ACCEPTS_NOTIFICATIONS, QUNS_APP)
+
+
+# --------------------------------------------------------------------------
+# The tutorial
+#
+# Taught at the moment it is needed rather than up front, which is what the
+# research on onboarding says works -- see docs/tutorial-design.md. One
+# welcome card on the first launch; then the first few reminders carry the
+# instruction itself, "Close... squeeze... open"; then one question, asked
+# straight after an ordinary reminder, about how strong it felt.
+#
+# Plain data and plain functions, like the asks, so the rules can be tested
+# without a window -- and its own file for the same reason asks.json is:
+# config.json is rebuilt from the panel's controls on every Save.
+# --------------------------------------------------------------------------
+
+TUTORIAL_PATH = os.path.join(CONFIG_DIR, "tutorial.json")
+
+# Enough repetitions for the instruction to stick, few enough that a lesson
+# does not become the way the reminder always looks.
+TEACH_COUNT = 5
+
+# How many times "Too faint" or "Too strong" can be answered before the
+# question stops. Each answer is one step, and three steps either way covers
+# most of the useful range; past that the Strength slider is the better tool.
+CAL_MAX_ROUNDS = 3
+
+# A taught reminder carries words, so it stays long enough to read them and
+# is strong enough for them to be legible, and it pulses once: three words do
+# not survive a flicker. The dim covers the whole screen, so it needs less.
+TEACH_OPACITY = 0.6
+TEACH_OPACITY_DIM = 0.45
+TEACH_HOLD_MS = 2200
+
+
+def fresh_tutorial():
+    return {"welcomed": False, "taught": 0, "calibration": "pending",
+            "rounds": 0}
+
+
+def load_tutorial():
+    """The saved tutorial state, or a fresh one. Never raises.
+
+    As load_asks: each field is checked on its own, and the worst a damaged
+    file can do is teach the lesson a second time.
+    """
+    state = fresh_tutorial()
+    try:
+        with open(TUTORIAL_PATH, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError, TypeError):
+        return state
+    if not isinstance(data, dict):
+        return state
+    if isinstance(data.get("welcomed"), bool):
+        state["welcomed"] = data["welcomed"]
+    for key in ("taught", "rounds"):
+        n = data.get(key)
+        if isinstance(n, int) and not isinstance(n, bool) and n >= 0:
+            state[key] = n
+    if data.get("calibration") in ("pending", "done"):
+        state["calibration"] = data["calibration"]
+    return state
+
+
+def save_tutorial(state):
+    _save_state(TUTORIAL_PATH, state, "save_tutorial")
+
+
+def teaching_due(state):
+    """Whether the next reminder should carry the instruction."""
+    return state["taught"] < TEACH_COUNT
+
+
+def calibration_due(state):
+    """Whether the next ordinary reminder should be followed by the strength
+    question. Only once the teaching is over: until then every reminder has
+    been the stronger, captioned one, and that is not what is being asked
+    about."""
+    return not teaching_due(state) and state["calibration"] == "pending"
+
+
+def after_calibration(state, answer):
+    """Record one answer to the strength question.
+
+    "stronger" and "lighter" each spend a round, and the question comes back
+    until CAL_MAX_ROUNDS have been spent. "right", and closing the card, end
+    it for good: closing it is an answer too, and the polite reading of it
+    is "stop asking".
+    """
+    if answer in ("stronger", "lighter"):
+        state["rounds"] += 1
+        if state["rounds"] >= CAL_MAX_ROUNDS:
+            state["calibration"] = "done"
+    else:
+        state["calibration"] = "done"
+    return state
+
+
+def adjust_strength(cfg, direction):
+    """The blink reminder one step "stronger" or "lighter", as a new config.
+
+    Moves the things that make a reminder hard or easy to miss: how opaque
+    it is, how big, how long it stays, and whether it pulses once or twice.
+    Opacity moves by a share of itself, so a step feels the same size
+    wherever it starts. Every value stays inside the range the Settings
+    panel offers, so whatever this does can be seen and undone there.
+
+    Each value only ever moves the way that was asked. One the user has
+    already set past a step's limit is left where they put it, never pulled
+    back towards the middle by a click that asked for more of the same.
+    """
+    out = dict(cfg)
+    up = direction == "stronger"
+
+    def move(key, value, limit, digits=None):
+        value = min(value, limit) if up else max(value, limit)
+        value = max(cfg[key], value) if up else min(cfg[key], value)
+        out[key] = round(value, digits) if digits else int(round(value))
+
+    if up:
+        move("opacity", float(cfg["opacity"]) * 1.3, 0.8, 3)
+        move("dot_pct", int(cfg["dot_pct"]) * 1.15, 100)
+        move("font_size", int(cfg["font_size"]) + 4, 72)
+        move("hold_ms", int(cfg["hold_ms"]) + 150, 1200)
+        out["blinks"] = max(int(cfg["blinks"]), 2)
+    else:
+        move("opacity", float(cfg["opacity"]) * 0.75, 0.12, 3)
+        move("dot_pct", int(cfg["dot_pct"]) * 0.85, 20)
+        move("font_size", int(cfg["font_size"]) - 4, 12)
+        move("hold_ms", int(cfg["hold_ms"]) - 100, 250)
+        out["blinks"] = 1
+    return out
+
+
+# Languages written without spaces between words, where the caption's three
+# lines join into one with nothing between them.
+NO_SPACE_LANGUAGES = frozenset(("zh-Hant", "zh-Hans", "ja"))
+
+
+def teaching_cfg(pcfg):
+    """A pulse config as a taught reminder: captioned, stronger, longer.
+
+    The caption is drawn on the dot or the dim. The word style has no room
+    beside its word, so there the caption REPLACES the word, on one line.
+    """
+    out = dict(pcfg)
+    caption = T("Close…\nsqueeze…\nopen")
+    if out["style"] == "text":
+        joiner = "" if language_code() in NO_SPACE_LANGUAGES else " "
+        out["message"] = joiner.join(caption.split("\n"))
+    else:
+        out["caption"] = caption
+    floor = TEACH_OPACITY_DIM if out["style"] == "dim" else TEACH_OPACITY
+    out["opacity"] = max(float(out["opacity"]), floor)
+    out["hold_ms"] = max(int(out["hold_ms"]), TEACH_HOLD_MS)
+    out["blinks"] = 1
+    return out
+
+
+def caption_ink(colour):
+    """Near-black on a light reminder colour, white on a dark one.
+
+    Not black: the dot's window punches #010101 out to transparent, and
+    text in that colour would be holes in the dot.
+    """
+    try:
+        r, g, b = (int(colour[i:i + 2], 16) / 255.0 for i in (1, 3, 5))
+    except (ValueError, TypeError, IndexError):
+        return "#FFFFFF"
+    return "#11161C" if 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.45 else "#FFFFFF"
 
 
 STARTUP_DIR = os.path.join(
@@ -1844,6 +2009,8 @@ class Overlay:
             pane.win.geometry("%dx%d+%d+%d" % (w, h, x, y))
             pane.canvas.configure(bg=cfg["colour"], width=w, height=h)
             pane.canvas.delete("all")
+            if cfg.get("caption"):
+                self._caption(pane, cfg, w, h, w * 0.6, h * 0.5)
             return
 
         # The key colour is punched out to transparent, so it must not collide
@@ -1857,6 +2024,11 @@ class Overlay:
 
         if style == "dot":
             pane.canvas.create_oval(2, 2, w - 2, h - 2, fill=cfg["colour"], outline="")
+            if cfg.get("caption"):
+                # The square inscribed in the circle is 0.707 of it; a
+                # little inside that, so no stroke of any letter reaches
+                # the punched-out key colour round the dot and fringes.
+                self._caption(pane, cfg, w, h, w * 0.66, h * 0.66)
         else:
             pane.canvas.create_text(
                 w // 2,
@@ -1866,6 +2038,43 @@ class Overlay:
                 font=(overlay_family(pane.canvas), int(cfg["font_size"]),
                       "normal"),
             )
+
+    def _caption(self, pane, cfg, w, h, box_w, box_h):
+        """A taught reminder's instruction, centred on the dot or the dim.
+
+        As large as fits the box, shrinking from a size set by the reminder
+        itself, so the words are the same share of a big dot on a 4K screen
+        and a small one in a laptop's corner. One line per step: the caption
+        carries its own line breaks, and each is wrapped further only if it
+        must be, with the same wrap_text the cards use.
+        """
+        raw = cfg["caption"]
+        rtl = raw.startswith(RLE)
+        if rtl:
+            raw = raw[1:-1] if raw.endswith(PDF) else raw[1:]
+        family = overlay_family(pane.canvas)
+        # Never started below 16px: on a small corner dot 7.5% is about 12,
+        # which is legible only up close, and the loop shrinks it anyway if
+        # 16 does not fit.
+        px = max(16, int(min(w, h) * 0.075))
+        while True:
+            font = tkfont.Font(root=self.root, family=family, size=-px,
+                               weight="bold")
+            lines = []
+            for part in raw.split("\n"):
+                lines += wrap_text(part, font.measure, int(box_w))
+            fits = (len(lines) * font.metrics("linespace") <= box_h
+                    and max(font.measure(l) for l in lines) <= box_w)
+            if fits or px <= 12:
+                break
+            px = int(px * 0.9)
+        if rtl:
+            lines = [RLE + line + PDF for line in lines]
+        # A tuple, not the Font: a named font is deleted when its Python
+        # object is collected, and the text would fall back to the default.
+        pane.canvas.create_text(w // 2, h // 2, text="\n".join(lines),
+                                fill=caption_ink(cfg["colour"]),
+                                font=(family, -px, "bold"), justify="center")
 
     # -- the pulse ----------------------------------------------------------
 
@@ -2000,7 +2209,15 @@ class Overlay:
                 if found:
                     parts.append("screen %d of %d: %s"
                                  % (n, len(self.active), ", ".join(found)))
-            away = QUNS_NAMES.get(notification_state())
+            state = notification_state()
+            # A dim is a topmost window covering the whole screen, which is
+            # what Windows calls a fullscreen app -- so during a dim, "busy
+            # with a fullscreen app" is this app's own reminder. Taken at
+            # face value it logged every break as NOT SHOWN, on the dot of
+            # :00 and :30, while the break was plainly on screen.
+            if state == QUNS_BUSY and self.cfg["style"] == "dim":
+                state = None
+            away = QUNS_NAMES.get(state)
             if away:
                 parts.append("nobody could see it: Windows says %s" % away)
             status = "; ".join(parts) or "ok"
@@ -5034,105 +5251,178 @@ class SettingsWindow:
 
 
 class StartupNotice:
-    """The "it is running, you just cannot see it" window.
+    """The welcome card: on the first launch, and from "How it works".
 
-    A tray-only app that shows nothing on launch is indistinguishable from one
-    that failed to launch, which is the first thing a new user gets wrong. This
-    says so in plain words and then waits: it has no timeout, because a notice
-    that disappears before it is read has not been read.
+    A tray-only app that shows nothing on launch is indistinguishable from
+    one that failed to launch, so the first launch says so in plain words --
+    and, having the user's attention once, says the one thing worth knowing:
+    what to do when the cue appears. "Show me" plays a real one, because a
+    cue that has been seen is recognised the next time, and one that has
+    only been described is not.
 
+    Once, not at every login. It used to open at every launch, which at
+    login meant a window taking the keyboard just as people started typing,
+    and the corner dot already says the app is running. It opens without
+    taking focus for the same reason -- unless it was asked for from the
+    tray, when focus is exactly what was asked for.
+
+    No timeout: a card that disappears before it is read has not been read.
     Same theme as the settings panel, so the two read as one app.
     """
 
-    # 480 rather than 404. Three of the four things in here overflowed the
-    # narrower window in German and French -- the card's one line of advice
-    # wants 393px, and "Spendier mir einen Kaffee" 181 of the 116 its button
-    # had. A notice is shown once and read once, so it can afford the width.
-    WIN_W, WIN_H = 480, 240
+    # 480 rather than 404: the old notice's one line of advice wanted 393px
+    # in German and French. Shown once and read once, it can afford the width.
+    WIN_W = 480
     PAD = 20
-    BTN_W, SUPPORT_W = 116, 220
+    TITLE_Y = 20
+    BODY_Y = 54
+    BODY_GAP = 16          # body to the hint card
+    HINT_PAD = 16          # inside the hint card
+    BTN_H = 32
+    BTN_MIN_W = 116
 
     def __init__(self, app):
         self.app = app
         self.win = None
-        self.btn_support = None
+        self.btn = None
 
-    def show(self):
+    def show(self, manual=False):
         if self.win is not None and self.win.winfo_exists():
             self.win.deiconify()
             self.win.lift()
-            self.win.focus_force()
+            if manual:
+                self.win.focus_force()
             return
+        if manual:
+            self._build()
+            self.win.focus_force()
+            self.btn.focus_set()
+        else:
+            # The whole build, not just the map: Tk activates a toplevel the
+            # moment it creates it. See NoActivation.
+            with NoActivation():
+                self._build()
 
+    def _build(self):
         root = self.app.root
         mode = app_theme_mode()
         ensure_theme(root, mode)
         pal = PALETTES[mode]
         s = _THEME_METRICS["s"]
+        fonts = _THEME_METRICS["fonts"]
 
-        self.win = tk.Toplevel(root)
-        self.win.title(DISPLAY_NAME)
-        self.win.resizable(False, False)
-        self.win.attributes("-topmost", True)
-        self.win.configure(bg=pal["ground"])
-        self.win.protocol("WM_DELETE_WINDOW", self.close)
-        self.win.bind("<Return>", lambda e: self.close())
-        self.win.bind("<Escape>", lambda e: self.close())
+        self.win = win = tk.Toplevel(root)
+        win.withdraw()
+        win.title(DISPLAY_NAME)
+        win.resizable(False, False)
+        win.attributes("-topmost", True)
+        win.configure(bg=pal["ground"])
+        win.protocol("WM_DELETE_WINDOW", self.close)
+        win.bind("<Return>", lambda e: self.close())
+        win.bind("<Escape>", lambda e: self.close())
 
-        win_w, win_h = s(self.WIN_W), s(self.WIN_H)
+        # Everything hangs off PAD and the window width rather than off
+        # literals, and every height is measured, so a longer language
+        # makes the card taller instead of cutting it off.
+        win_w = s(self.WIN_W)
+        inner = self.WIN_W - 2 * self.PAD
+        outer = ttk.Frame(win, style="Ground.TFrame")
+        # Mirrored for Arabic and Urdu, as the corner cards are.
+        rtl = language_code() in RTL_LANGUAGES
+        near, far = s(self.PAD), win_w - s(self.PAD)
+        if rtl:
+            near, far = far, near
+        start, end = ("ne", "nw") if rtl else ("nw", "ne")
+        justify = "right" if rtl else "left"
+
+        def wrapped(text, fkey, width):
+            """Broken into lines here, with the font that draws them, and
+            each line given its own direction mark -- see wrap_text."""
+            if rtl and text.startswith(RLE):
+                text = text[1:-1]
+            measure = tkfont.Font(root=root, font=fonts[fkey]).measure
+            lines = wrap_text(text, measure, s(width))
+            if rtl:
+                lines = [RLE + line + PDF for line in lines]
+            return "\n".join(lines)
+
+        # From DISPLAY_NAME, not a literal. It WAS a literal, and it still read
+        # "Blink Reminder is running" three renames later.
+        ttk.Label(outer, text=T("%s is running") % DISPLAY_NAME,
+                  style="Title.TLabel").place(x=near, y=s(self.TITLE_Y),
+                                              anchor=start)
+        body = ttk.Label(outer, style="Sub.TLabel", justify=justify, text=wrapped(
+            T("A gentle cue will appear now and then. When you see it, "
+              "blink fully: close, squeeze gently, open."), "t2", inner))
+        body.place(x=near, y=s(self.BODY_Y), anchor=start)
+
+        # Where the app lives, and how to make it stronger or lighter: the
+        # two things someone wants next. Two paragraphs, one card.
+        card = ttk.Frame(outer, style="Card.TFrame")
+        hint_w = inner - 2 * self.HINT_PAD
+        hint = ttk.Label(card, style="Row.TLabel", justify=justify, text="\n".join((
+            wrapped(T("Right-click the tray icon, by the clock, for settings."),
+                    "t4", hint_w),
+            wrapped(T("Too faint or too strong? Change Strength in Settings."),
+                    "t4", hint_w))))
+        hint.place(x=s(inner - self.HINT_PAD) if rtl else s(self.HINT_PAD),
+                   y=s(self.HINT_PAD), anchor=start)
+
+        win.update_idletasks()
+        card_y = s(self.BODY_Y) + body.winfo_reqheight() + s(self.BODY_GAP)
+        card_h = hint.winfo_reqheight() + 2 * s(self.HINT_PAD)
+        card.place(x=s(self.PAD), y=card_y, width=s(inner), height=card_h)
+        rule_y = card_y + card_h + s(20)
+        ttk.Frame(outer, style="Rule.TFrame").place(
+            x=s(self.PAD), y=rule_y, width=s(inner), height=max(1, s(1)))
+        row_y = rule_y + s(12)
+        win_h = row_y + s(self.BTN_H) + s(12)
+
+        # Opposite end of the footer from "Got it", so the eye reaches the
+        # dismiss button first. As wide as their labels need, in bold,
+        # which is the wider of the two buttons' fonts.
+        bold = tkfont.Font(root=root, font=fonts["t4b"]).measure
+        show_w = max(s(self.BTN_MIN_W), bold(T("Show me")) + s(32))
+        got_w = max(s(self.BTN_MIN_W), bold(T("Got it")) + s(32))
+        ttk.Button(outer, text=T("Show me"), style="Secondary.TButton",
+                   command=self.show_me).place(
+            x=near, y=row_y, width=show_w, height=s(self.BTN_H), anchor=start)
+        self.btn = ttk.Button(outer, text=T("Got it"), style="Primary.TButton",
+                              command=self.close)
+        self.btn.place(x=far, y=row_y, width=got_w, height=s(self.BTN_H),
+                       anchor=end)
+
+        outer.place(x=0, y=0, width=win_w, height=win_h)
         mx, my, mw, mh = cursor_work_area()
         x = mx + max(0, (mw - win_w) // 2)
         y = my + max(s(34), (mh - win_h) // 3)   # upper third reads as a notice
-        self.win.geometry("%dx%d+%d+%d" % (win_w, win_h, x, y))
-
-        outer = ttk.Frame(self.win, style="Ground.TFrame")
-        outer.place(x=0, y=0, width=win_w, height=win_h)
-
-        # From DISPLAY_NAME, not a literal. It WAS a literal, and it still read
-        # "Blink Reminder is running" three renames later -- the same bug the
-        # tray tooltip had, in the one window a first-time user is shown.
-        ttk.Label(outer, text=T("%s is running") % DISPLAY_NAME,
-                  style="Title.TLabel").place(x=s(20), y=s(20))
-        ttk.Label(outer, style="Sub.TLabel", justify="left",
-                  text=T("It stays in the background and will nudge you to "
-                         "blink\n%s.")
-                       % describe_interval(self.app.cfg["interval_seconds"])).place(
-            x=s(20), y=s(54))
-
-        # Everything below hangs off PAD and the window width rather than off
-        # literals, so the window can be widened for a longer language in one
-        # place instead of five.
-        inner = self.WIN_W - 2 * self.PAD
-        card = ttk.Frame(outer, style="Card.TFrame")
-        card.place(x=s(self.PAD), y=s(112), width=s(inner), height=s(52))
-        ttk.Label(card,
-                  text=T("Right-click the tray icon, by the clock, "
-                         "for settings."),
-                  style="Row.TLabel").place(x=s(16), y=s(16))
-
-        ttk.Frame(outer, style="Rule.TFrame").place(
-            x=s(self.PAD), y=s(184), width=s(inner), height=max(1, s(1)))
-
-        # Opposite end of the footer from "Got it", so the eye reaches the
-        # dismiss button first and the ask second. Absent when unconfigured.
-        if SUPPORT_URL:
-            self.btn_support = ttk.Button(
-                outer, text=T("Buy me a coffee"), style="Secondary.TButton",
-                command=lambda: open_link(SUPPORT_URL))
-            self.btn_support.place(x=s(self.PAD), y=s(196),
-                                   width=s(self.SUPPORT_W), height=s(32))
-
-        self.btn = ttk.Button(outer, text=T("Got it"), style="Primary.TButton",
-                              command=self.close)
-        self.btn.place(x=s(self.WIN_W - self.PAD - self.BTN_W), y=s(196),
-                       width=s(self.BTN_W), height=s(32))
-
-        self.win.update_idletasks()
+        win.geometry("%dx%d+%d+%d" % (win_w, win_h, x, y))
+        win.deiconify()
+        win.lift()
+        # Tk maps at idle time; run it here, inside the caller's guard.
+        win.update_idletasks()
         if pal["dark_titlebar"]:
-            use_dark_titlebar(self.win)
-        self.win.lift()
-        self.win.focus_force()
-        self.btn.focus_set()
+            use_dark_titlebar(win)
+
+    def show_me(self):
+        """Out of the way while a real, taught reminder plays, then back.
+
+        The card sits in the upper third and the reminder in the middle, and
+        the default dot is most of the screen tall: left up, the card would
+        be read through the dot and the caption through the card.
+        """
+        if self.win is None or self.app.overlay.busy:
+            return
+        self.win.withdraw()
+        self.app.show_me()
+        self.app.when_idle(self._back)
+
+    def _back(self):
+        if self.win is not None:
+            with NoActivation():
+                self.win.deiconify()
+                self.win.lift()
+                self.win.update_idletasks()
 
     def close(self):
         if self.win is not None:
@@ -5292,27 +5582,28 @@ def _mouse_only(widget):
     widget.bind("<Key>", lambda e: "break")
 
 
-class AskCard:
-    """The occasional ask for a coffee or a review, in the corner.
+class _CornerCard:
+    """A small card in the corner: the asks, and the strength question.
 
     Two properties, and they pull against each other. It has to be SEEN: a
     tray balloon fades in seconds and cannot be found again, and it cannot
-    carry a button either, so this is a real window with no timeout, like
-    the startup notice. And it must not INTERRUPT, which the startup notice
-    is allowed to do and this is not: it is WS_EX_NOACTIVATE, applied before
-    it maps -- the order _ClickThroughWindow.style_once had to learn -- so it
-    appears without taking the foreground and whatever was being typed keeps
-    going to the window it was being typed into.
+    carry a button either, so this is a real window with no timeout. And it
+    must not INTERRUPT: it is WS_EX_NOACTIVATE, applied before it maps --
+    the order _ClickThroughWindow.style_once had to learn -- so it appears
+    without taking the foreground and whatever was being typed keeps going
+    to the window it was being typed into.
 
     Bottom right of the primary work area, lifted clear of the corner dot
-    and the countdown pill so it never sits on top of them.
+    and the countdown pill so it never sits on top of them. A subclass
+    builds in _build: _open for the frame, title and text, its own buttons,
+    then _finish to place and show it.
     """
 
     WIN_W = 400
     PAD = 20
     CLOSE_W = 28           # the close mark's square, top right
     TITLE_Y = 18
-    BODY_Y = 52            # 34 below the title, as in the startup notice
+    BODY_Y = 52            # 34 below the title, as in the welcome card
     ROW_GAP = 20           # body to the button row
     BTN_H = 32
     BTN_MIN_W = 96
@@ -5324,13 +5615,12 @@ class AskCard:
     def __init__(self, app):
         self.app = app
         self.win = None
-        self.kind = None
         self.test = False
 
     def showing(self):
         return self.win is not None
 
-    def show(self, kind, test=False):
+    def show(self, *args, test=False):
         """Build and show the card, start to finish inside NoActivation --
         the window is activated the instant Tk creates it, so a guard that
         began any later would be guarding nothing."""
@@ -5338,9 +5628,15 @@ class AskCard:
             return
         self.test = test
         with NoActivation():
-            self._build(kind)
+            self._build(*args)
 
-    def _build(self, kind):
+    def _open(self, title, body):
+        """The window, its title, close mark and wrapped text.
+
+        Returns the frame to build into and the y of the row below the text.
+        Leaves self.rtl, self.near and self.far (where a line starts and
+        ends, mirrored for Arabic and Urdu) for the subclass's buttons.
+        """
         root = self.app.root
         mode = app_theme_mode()
         ensure_theme(root, mode)
@@ -5348,6 +5644,114 @@ class AskCard:
         s = _THEME_METRICS["s"]
         fonts = _THEME_METRICS["fonts"]
 
+        self.win = w = tk.Toplevel(root)
+        w.withdraw()
+        w.overrideredirect(True)
+        w.attributes("-topmost", True)
+        # No title bar to draw an edge, so the window's own background is a
+        # one-pixel border showing round the frame inset inside it.
+        w.configure(bg=pal["border_strong"])
+        outer = ttk.Frame(w, style="Ground.TFrame")
+        self.win_w = win_w = s(self.WIN_W)
+        inner = self.WIN_W - 2 * self.PAD
+        # Mirrored for Arabic and Urdu: title and text from the right edge,
+        # the close mark and the buttons on the left. A card this small is
+        # read in one glance, and a right-to-left reader's glance starts on
+        # the right.
+        self.rtl = rtl = language_code() in RTL_LANGUAGES
+        near, far = s(self.PAD), win_w - s(self.PAD)    # start, end of a line
+        if rtl:
+            near, far = far, near
+        self.near, self.far = near, far
+
+        ttk.Label(outer, text=title,
+                  style="Title.TLabel").place(
+            x=near, y=s(self.TITLE_Y), anchor="ne" if rtl else "nw")
+        # Drawn in the title's size: in the body's it was a speck that could
+        # barely be seen, let alone hit.
+        close = ttk.Label(outer, text="×", style="Sub.TLabel",
+                          font=fonts["t1"], cursor="hand2", anchor="center")
+        # 8px out into the padding, towards the corner, on either side.
+        close.place(x=far + (-s(8) if rtl else s(8)), y=s(self.TITLE_Y - 4),
+                    width=s(self.CLOSE_W), height=s(self.CLOSE_W),
+                    anchor="nw" if rtl else "ne")
+        close.bind("<Button-1>", lambda e: self._closed())
+        _mouse_only(close)
+
+        # Broken into lines here, not by Tk -- see wrap_text -- and each line
+        # given its own direction mark, because a mark only governs the line
+        # it is drawn on.
+        sub = tkfont.Font(root=root, font=fonts["t2"])
+        plain = body[1:-1] if rtl and body.startswith(RLE) else body
+        lines = wrap_text(plain, sub.measure, s(inner))
+        if rtl:
+            lines = [RLE + line + PDF for line in lines]
+        text = ttk.Label(outer, text="\n".join(lines), style="Sub.TLabel",
+                         justify="right" if rtl else "left")
+        text.place(x=near, y=s(self.BODY_Y), anchor="ne" if rtl else "nw")
+        w.update_idletasks()
+        return outer, s(self.BODY_Y) + text.winfo_reqheight() + s(self.ROW_GAP)
+
+    def _button(self, outer, label, style, command):
+        """A button that never takes focus and answers only the mouse.
+
+        takefocus off because ttk gives a button keyboard focus when it is
+        clicked, and taking focus activates the window -- the one thing this
+        card exists not to do. Mouse-only because it appears while people
+        are typing: see _mouse_only.
+        """
+        btn = ttk.Button(outer, text=label, style=style, takefocus=False,
+                         command=command)
+        _mouse_only(btn)
+        return btn
+
+    def _finish(self, outer, win_h):
+        s = _THEME_METRICS["s"]
+        w = self.win
+        outer.place(x=1, y=1, width=self.win_w - 2, height=win_h - 2)
+        wx, wy, ww, wh = primary_work_area()
+        x = wx + ww - s(self.RIGHT) - self.win_w
+        y = wy + wh - s(self.BOTTOM) - win_h
+        w.geometry("%dx%d+%d+%d" % (self.win_w, win_h, x, y))
+
+        # Style, THEN map. Mapped first, it would take the foreground and
+        # swallow a keystroke -- measured, on the overlay panes, before they
+        # were fixed. Not LAYERED or TRANSPARENT: this one has to be clicked.
+        # NOACTIVATE keeps a later CLICK from activating it. Creating and
+        # mapping it are covered by the NoActivation that show() holds.
+        w.update_idletasks()
+        hwnd = user32.GetParent(w.winfo_id()) or w.winfo_id()
+        style = user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+        user32.SetWindowLongW(hwnd, GWL_EXSTYLE,
+                              style | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
+        w.deiconify()
+        w.lift()
+        # Tk maps a window at idle time, not in deiconify, so the idle work
+        # is run here, while the guard is still held.
+        w.update_idletasks()
+
+    def _closed(self):
+        """The close mark."""
+        self.close("closed")
+
+    def _log(self, how):
+        pass
+
+    def close(self, how="closed"):
+        if self.win is not None:
+            self._log(how)
+            self.win.destroy()
+            self.win = None
+
+
+class AskCard(_CornerCard):
+    """The occasional ask for a coffee or a review."""
+
+    def __init__(self, app):
+        super().__init__(app)
+        self.kind = None
+
+    def _build(self, kind):
         # Each string goes through T() as a literal, which is what lets the
         # i18n test find it and prove every language has it.
         #
@@ -5369,94 +5773,27 @@ class AskCard:
             action = T("Rate this app")
 
         self.kind = kind
-        self.win = w = tk.Toplevel(root)
-        w.withdraw()
-        w.overrideredirect(True)
-        w.attributes("-topmost", True)
-        # No title bar to draw an edge, so the window's own background is a
-        # one-pixel border showing round the frame inset inside it.
-        w.configure(bg=pal["border_strong"])
-        outer = ttk.Frame(w, style="Ground.TFrame")
-        win_w = s(self.WIN_W)
-        inner = self.WIN_W - 2 * self.PAD
-        # Mirrored for Arabic and Urdu: title and text from the right edge,
-        # the close mark and the button on the left. A card this small is
-        # read in one glance, and a right-to-left reader's glance starts on
-        # the right.
-        rtl = language_code() in RTL_LANGUAGES
-        near, far = s(self.PAD), win_w - s(self.PAD)    # start, end of a line
-        if rtl:
-            near, far = far, near
+        # _open builds the theme if nothing has yet, so the metrics are
+        # read after it and not before.
+        outer, row_y = self._open(title, body)
+        s = _THEME_METRICS["s"]
+        fonts = _THEME_METRICS["fonts"]
+        rtl = self.rtl
 
-        ttk.Label(outer, text=title,
-                  style="Title.TLabel").place(
-            x=near, y=s(self.TITLE_Y), anchor="ne" if rtl else "nw")
-        # Drawn in the title's size: in the body's it was a speck that could
-        # barely be seen, let alone hit.
-        close = ttk.Label(outer, text="×", style="Sub.TLabel",
-                          font=fonts["t1"], cursor="hand2", anchor="center")
-        # 8px out into the padding, towards the corner, on either side.
-        close.place(x=far + (-s(8) if rtl else s(8)), y=s(self.TITLE_Y - 4),
-                    width=s(self.CLOSE_W), height=s(self.CLOSE_W),
-                    anchor="nw" if rtl else "ne")
-        close.bind("<Button-1>", lambda e: self.close("closed"))
-
-        # Broken into lines here, not by Tk -- see wrap_text -- and each line
-        # given its own direction mark, because a mark only governs the line
-        # it is drawn on.
-        sub = tkfont.Font(root=root, font=fonts["t2"])
-        plain = body[1:-1] if rtl and body.startswith(RLE) else body
-        lines = wrap_text(plain, sub.measure, s(inner))
-        if rtl:
-            lines = [RLE + line + PDF for line in lines]
-        text = ttk.Label(outer, text="\n".join(lines), style="Sub.TLabel",
-                         justify="right" if rtl else "left")
-        text.place(x=near, y=s(self.BODY_Y), anchor="ne" if rtl else "nw")
-        w.update_idletasks()
-        row_y = s(self.BODY_Y) + text.winfo_reqheight() + s(self.ROW_GAP)
-        win_h = row_y + s(self.BTN_H) + s(self.PAD)
-
-        need = tkfont.Font(root=root, font=fonts["t4b"]).measure(action)
+        need = tkfont.Font(root=self.app.root, font=fonts["t4b"]).measure(action)
         btn_w = max(s(self.BTN_MIN_W), need + s(32))
-        # takefocus off on everything clickable: ttk gives a button keyboard
-        # focus when it is clicked, and taking focus activates the window --
-        # the one thing this card exists not to do.
-        btn = ttk.Button(outer, text=action, style="Primary.TButton",
-                         takefocus=False, command=self.act)
-        btn.place(x=far, y=row_y, width=btn_w, height=s(self.BTN_H),
-                  anchor="nw" if rtl else "ne")
+        self._button(outer, action, "Primary.TButton", self.act).place(
+            x=self.far, y=row_y, width=btn_w, height=s(self.BTN_H),
+            anchor="nw" if rtl else "ne")
         # Offered on the coffee card only, by design -- but it ends every ask
         # still to come, reviews included. See due_ask.
         if kind == "donate":
             never = _Link(outer, T("Don’t ask again"), self.never)
             never.configure(takefocus=False)
-            never.place(x=near, y=row_y + s(self.BTN_H) // 2,
+            never.place(x=self.near, y=row_y + s(self.BTN_H) // 2,
                         anchor="e" if rtl else "w")
             _mouse_only(never)
-        _mouse_only(btn)
-        _mouse_only(close)
-
-        outer.place(x=1, y=1, width=win_w - 2, height=win_h - 2)
-        wx, wy, ww, wh = primary_work_area()
-        x = wx + ww - s(self.RIGHT) - win_w
-        y = wy + wh - s(self.BOTTOM) - win_h
-        w.geometry("%dx%d+%d+%d" % (win_w, win_h, x, y))
-
-        # Style, THEN map. Mapped first, it would take the foreground and
-        # swallow a keystroke -- measured, on the overlay panes, before they
-        # were fixed. Not LAYERED or TRANSPARENT: this one has to be clicked.
-        # NOACTIVATE keeps a later CLICK from activating it. Creating and
-        # mapping it are covered by the NoActivation that show() holds.
-        w.update_idletasks()
-        hwnd = user32.GetParent(w.winfo_id()) or w.winfo_id()
-        style = user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-        user32.SetWindowLongW(hwnd, GWL_EXSTYLE,
-                              style | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
-        w.deiconify()
-        w.lift()
-        # Tk maps a window at idle time, not in deiconify, so the idle work
-        # is run here, while the guard is still held.
-        w.update_idletasks()
+        self._finish(outer, row_y + s(self.BTN_H) + s(self.PAD))
 
     def act(self):
         """The button. Opens the page and closes -- and does NOT stop later
@@ -5477,11 +5814,65 @@ class AskCard:
         save_asks(self.app.asks)
         self.close("declined: no more asks of any kind")
 
-    def close(self, how="closed"):
-        if self.win is not None:
-            log_event("asks", "%s ask %s" % (self.kind, how))
-            self.win.destroy()
-            self.win = None
+    def _log(self, how):
+        log_event("asks", "%s ask %s" % (self.kind, how))
+
+
+class CalibrationCard(_CornerCard):
+    """"How did that feel?" -- asked straight after an ordinary reminder,
+    so the answer is about something seen a second ago.
+
+    Three answers on one scale, faint to strong, and each acts at once.
+    "Too faint" or "Too strong" moves the reminder a step and plays it
+    again, so the next answer is about the change; "Just right", or closing
+    the card, ends the question for good. It changes only what the Settings
+    panel can change, so anything it does can be seen and undone there.
+    """
+
+    GAP = 8                # between the buttons
+
+    def _build(self):
+        outer, row_y = self._open(T("How did that feel?"),
+                                  T("One click adjusts it for you."))
+        s = _THEME_METRICS["s"]
+        fonts = _THEME_METRICS["fonts"]
+        answers = ((T("Too faint"), "stronger", "Secondary.TButton"),
+                   (T("Just right"), "right", "Primary.TButton"),
+                   (T("Too strong"), "lighter", "Secondary.TButton"))
+
+        # One row if the three labels fit, sharing out whatever is left over
+        # so the row runs the card's full width; one above another if not.
+        # Measured in bold, the wider of the two buttons' fonts.
+        bold = tkfont.Font(root=self.app.root, font=fonts["t4b"]).measure
+        inner, gap, btn_h = s(self.WIN_W - 2 * self.PAD), s(self.GAP), s(self.BTN_H)
+        widths = [max(s(self.BTN_MIN_W), bold(label) + s(32))
+                  for label, _a, _st in answers]
+        spare = inner - sum(widths) - gap * (len(widths) - 1)
+        spots, x = [], 0
+        for n, wd in enumerate(widths):
+            if spare >= 0:
+                wd += spare // len(widths)
+                spots.append((x, row_y, wd))
+                x += wd + gap
+            else:
+                spots.append((0, row_y + n * (btn_h + gap), inner))
+        # Faint to strong reads in the direction the language does.
+        for (label, answer, style), (dx, y, wd) in zip(answers, spots):
+            left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
+            self._button(outer, label, style,
+                         lambda a=answer: self.answer(a)).place(
+                x=left, y=y, width=wd, height=btn_h)
+        self._finish(outer, spots[-1][1] + btn_h + s(self.PAD))
+
+    def answer(self, answer):
+        self.close(answer)
+        self.app.calibrate(answer)
+
+    def _closed(self):
+        self.answer("closed")
+
+    def _log(self, how):
+        log_event("tutorial", "strength question: %s" % how)
 
 
 class App:
@@ -5522,6 +5913,10 @@ class App:
         if count_day(self.asks, today_iso()):
             save_asks(self.asks)
         self.ask_card = AskCard(self)
+        self.tutorial = load_tutorial()
+        # Set by --test-tutorial: the lesson runs again and nothing is saved.
+        self.tutorial_test = False
+        self.cal_card = CalibrationCard(self)
         self.started = time.monotonic()
 
         sync_startup(self.cfg["start_with_windows"])
@@ -5543,7 +5938,7 @@ class App:
         self.root.after(200, self.indicator.show)
         self.root.after(260, self.tick_countdown)
         # Deferred so the tray icon it points at already exists on screen.
-        self.root.after(400, self.notice.show)
+        self.root.after(400, self.welcome_if_new)
         self.root.after(HEARTBEAT_S * 1000, self.heartbeat)
         self.schedule()
         self.schedule_break()
@@ -5580,6 +5975,9 @@ class App:
                             else T("Snooze 30 minutes")),
                 push("snooze")),
             pystray.MenuItem(lambda _i: T("Settings"), push("settings")),
+            # The welcome card again, Show me and all. Help that can be found
+            # when it is wanted, instead of pushed at every launch.
+            pystray.MenuItem(lambda _i: T("How it works"), push("howto")),
         ]
         # Built as a list rather than inline so the support item can be absent
         # entirely. An item that opens nothing is worse than no item.
@@ -5620,7 +6018,14 @@ class App:
                     else:
                         self.snooze(30)
                 elif cmd == "settings":
+                    # The question would change settings behind the panel's
+                    # back, and its Save would put them straight back. Set
+                    # aside, not answered: it comes back after a reminder.
+                    self.cal_card.close("set aside for Settings")
                     self.settings.open()
+                elif cmd == "howto":
+                    log_event("tray", "how it works")
+                    self.notice.show(manual=True)
                 elif cmd == "support":
                     log_event("tray", "opened the support link")
                     open_link(SUPPORT_URL)
@@ -5746,7 +6151,7 @@ class App:
         if count_day(self.asks, today):
             save_asks(self.asks)
             log_event("asks", "day %d of use" % self.asks["days_used"])
-        if self.ask_card.showing():
+        if self.ask_card.showing() or self.cal_card.showing():
             return
         pick = due_ask(self.asks, today)
         if pick is None:
@@ -5799,7 +6204,10 @@ class App:
                     self.last_fire = now
                     log_event("fire", "gap=%.1fs expected=%ss"
                               % (gap, self.cfg["interval_seconds"]))
-                    self.overlay.pulse(blink_cfg(self.cfg))
+                    cfg, ask = self.lesson(blink_cfg(self.cfg))
+                    self.overlay.pulse(cfg)
+                    if ask:
+                        self.when_idle(self.ask_calibration)
         except Exception:
             log_error("fire")
         finally:
@@ -5808,10 +6216,109 @@ class App:
             else:
                 self.schedule()
 
-    def apply(self, cfg):
+    # -- the tutorial -------------------------------------------------------
+
+    def keep_tutorial(self):
+        if not self.tutorial_test:
+            save_tutorial(self.tutorial)
+
+    def welcome_if_new(self):
+        if self.tutorial["welcomed"]:
+            return
+        # Spent before it is shown, as an ask is: a welcome that failed to
+        # appear is better lost than repeated at every launch.
+        self.tutorial["welcomed"] = True
+        self.keep_tutorial()
+        log_event("tutorial", "welcome card")
+        self.notice.show()
+
+    def show_me(self):
+        """The welcome card's "Show me": a real reminder, as taught."""
+        if not self.overlay.busy:
+            log_event("tutorial", "show me")
+            self.overlay.pulse(teaching_cfg(blink_cfg(self.cfg)))
+
+    def lesson(self, cfg):
+        """This blink as the tutorial wants it, and whether to ask after it.
+
+        The first TEACH_COUNT carry the instruction; the next ordinary one
+        is followed by the strength question. Neither while Windows says
+        nobody can see the screen: a lesson nobody saw is not one learned,
+        and it waits for the next reminder instead of being spent.
+        """
+        t = self.tutorial
+        if not (teaching_due(t) or calibration_due(t)):
+            return cfg, False
+        if not user_is_available():
+            return cfg, False
+        if teaching_due(t):
+            t["taught"] += 1
+            self.keep_tutorial()
+            log_event("tutorial", "taught reminder %d of %d"
+                      % (t["taught"], TEACH_COUNT))
+            return teaching_cfg(cfg), False
+        return cfg, True
+
+    def when_idle(self, step, settle_ms=400):
+        """Run `step` once the reminder on screen has finished."""
+        def check():
+            if self.overlay.busy:
+                self.root.after(200, check)
+            else:
+                self.root.after(settle_ms, step)
+        check()
+
+    def ask_calibration(self):
+        # Not over another card, the panel, a snooze or a presentation. Each
+        # of these leaves it due, so the next reminder asks again.
+        if (not calibration_due(self.tutorial) or self.cal_card.showing()
+                or self.ask_card.showing() or self.notice.win is not None
+                or self.settings.win is not None or self.paused
+                or not user_is_available()):
+            return
+        log_event("tutorial", "asking how the reminder felt (answer %d of "
+                              "up to %d)" % (self.tutorial["rounds"] + 1,
+                                             CAL_MAX_ROUNDS))
+        self.cal_card.show(test=self.tutorial_test)
+
+    def calibrate(self, answer):
+        """One answer to the strength question, acted on at once."""
+        after_calibration(self.tutorial, answer)
+        self.keep_tutorial()
+        if answer not in ("stronger", "lighter"):
+            return
+        before = self.cfg
+        cfg = adjust_strength(before, answer)
+        log_event("tutorial", "%s: opacity %.2f->%.2f, dot %d->%d%%, "
+                  "hold %d->%dms, pulses %d->%d"
+                  % (answer, before["opacity"], cfg["opacity"],
+                     before["dot_pct"], cfg["dot_pct"], before["hold_ms"],
+                     cfg["hold_ms"], before["blinks"], cfg["blinks"]))
+        # A test run changes the reminder for this session only.
+        self.apply(cfg, persist=not self.tutorial_test)
+        # Shown now rather than at the next reminder, so the change is seen
+        # while the question is still in mind -- and asked about again.
+        if not self.overlay.busy:
+            self.overlay.pulse(blink_cfg(self.cfg))
+            if calibration_due(self.tutorial):
+                self.when_idle(self.ask_calibration)
+
+    def start_tutorial_test(self):
+        """--test-tutorial: the whole lesson again, with nothing saved.
+
+        Two taught reminders rather than five, so the strength question
+        arrives within a couple of intervals. An answer to it changes the
+        reminder until the app quits; config.json is left alone.
+        """
+        self.tutorial_test = True
+        self.tutorial = fresh_tutorial()
+        self.tutorial["taught"] = TEACH_COUNT - 2
+
+    def apply(self, cfg, persist=True):
         startup_changed = cfg["start_with_windows"] != self.cfg["start_with_windows"]
         self.cfg = cfg
-        save_config(cfg)
+        if persist:
+            save_config(cfg)
         self.indicator.apply(cfg)
         # set_text rather than render(): render repaints whatever text the
         # pill last had, so switching the countdown off left it up for the
@@ -5857,6 +6364,11 @@ def main():
         kind = kind if kind in ("donate", "review") else "donate"
         log_event("asks", "test card requested: %s" % kind)
         app.root.after(3000, lambda: app.ask_card.show(kind, test=True))
+    # --test-tutorial: the welcome card and the lesson again, as on a first
+    # launch, without recording any of it. See App.start_tutorial_test.
+    if "--test-tutorial" in sys.argv:
+        log_event("tutorial", "test run requested; nothing will be saved")
+        app.start_tutorial_test()
     app.run()
 
 
