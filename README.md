@@ -100,7 +100,7 @@ accidentally configure their way past.
   prompts, other elevated windows, or exclusive-fullscreen games. That's
   intended behaviour, not a bug.
 - **The first two blink reminders teach the blink**: each carries
-  "Close… squeeze… open". After the second, a small card asks how it felt,
+  "Close… squeeze… open". After the second, a small card asks "Too weak or intrusive?",
   with four buttons — **Strength**, **Size**, **Duration**, **Sound** — each
   opening Settings with that control outlined, and **Got it** to put it
   away. **How it works** in the tray menu brings the welcome card back, and

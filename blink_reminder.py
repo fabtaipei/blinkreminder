@@ -5811,8 +5811,8 @@ class AskCard(_CornerCard):
 
 
 class CalibrationCard(_CornerCard):
-    """"How did that feel?" -- asked straight after an ordinary reminder,
-    so the answer is about something seen a second ago.
+    """"Too weak or intrusive?" -- asked straight after a reminder, so the
+    answer is about something seen a second ago.
 
     Four buttons, one per thing that makes a reminder stronger or gentler,
     and each only shows the way: it opens Settings and rings that control.
@@ -5833,8 +5833,8 @@ class CalibrationCard(_CornerCard):
 
     def _build(self, demo=False):
         self.demo = demo
-        outer, row_y = self._open(T("How did that feel?"),
-                                  T("Too weak or intrusive? You can change these:"))
+        outer, row_y = self._open(T("Too weak or intrusive?"),
+                                  T("You can change these:"))
         s = _THEME_METRICS["s"]
         fonts = _THEME_METRICS["fonts"]
         labels = (T("Strength"), T("Size"), T("Duration"), T("Sound"))
