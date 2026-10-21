@@ -222,8 +222,6 @@ WRAPPED = (
     ("A cue appears periodically, to remind you to blink fully: close, "
      "squeeze gently, open.", "t2", SN.WIN_W - 2 * SN.PAD, 4,
      "welcome card body"),
-    ("Right-click the tray icon for settings.", "t4",
-     SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 2, "welcome card hint"),
     ("Too faint or too strong? Change strength, size, duration and sound "
      "in Settings.", "t4", SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 3,
      "welcome card hint"),
@@ -276,6 +274,8 @@ def tutorial_budgets(measure):
     for text in ("Strength", "Size", "Duration", "Sound"):
         rows.append((br.T(text), "t4b", CC.WIN_W - 2 * CC.PAD - 24,
                      "question card button"))
+    rows.append((br.T("Got it"), "t4b", CC.WIN_W - 2 * CC.PAD - BTN_PAD,
+                 "question card, its own row"))
     return rows
 
 

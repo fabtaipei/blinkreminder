@@ -10,8 +10,8 @@ Three things are tested here:
      the screen.
 
   2. THE QUESTION.  Each of its four buttons opens Settings at the control
-     it names and changes nothing itself; any answer, closing the card
-     included, ends it.
+     it names, changes nothing itself and leaves the card up; "Got it" or
+     closing the card ends the question for good.
 
   3. THE FILE.  A missing or damaged tutorial.json costs at most a second
      lesson; it can never stop the app starting.
@@ -144,21 +144,23 @@ def test_lesson():
 
 def test_question():
     print("\n2. the question")
-    for target in br.CalibrationCard.TARGETS:
-        app = Recorder()
-        app.tutorial["taught"] = br.TEACH_COUNT
-        br.App.calibrate(app, target)
-        check("%r opens Settings at that control, changing nothing" % target,
-              (app.pointed, app.applied, app.pulsed), ([target], [], []))
-        check("... and ends the question", br.calibration_due(app.tutorial),
-              False)
-
     app = Recorder()
     app.tutorial["taught"] = br.TEACH_COUNT
-    br.App.calibrate(app, "closed")
-    check("closing the card ends it too, opening nothing",
-          (br.calibration_due(app.tutorial), app.pointed), (False, []))
-    check("the question's answer is saved", app.saved, 1)
+    for target in br.CalibrationCard.TARGETS:
+        br.App.calibrate(app, target)
+    check("each button opens Settings at its control, changing nothing",
+          (app.pointed, app.applied, app.pulsed),
+          (list(br.CalibrationCard.TARGETS), [], []))
+    check("... and leaves the question open", br.calibration_due(app.tutorial),
+          True)
+
+    for answer in ("got it", "closed"):
+        app = Recorder()
+        app.tutorial["taught"] = br.TEACH_COUNT
+        br.App.calibrate(app, answer)
+        check("%r ends the question for good, opening nothing" % answer,
+              (br.calibration_due(app.tutorial), app.pointed, app.saved),
+              (False, [], 1))
 
 
 def test_file(tmp):
