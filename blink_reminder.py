@@ -1028,7 +1028,7 @@ TUTORIAL_PATH = os.path.join(CONFIG_DIR, "tutorial.json")
 
 # Enough repetitions for the instruction to stick, few enough that a lesson
 # does not become the way the reminder always looks.
-TEACH_COUNT = 3
+TEACH_COUNT = 2
 
 # A taught reminder carries words, so it stays long enough to read them and
 # is strong enough for them to be legible, and it pulses once: three words do
@@ -5360,14 +5360,12 @@ class StartupNotice:
               "close, squeeze gently, open."), "t2", inner))
         body.place(x=near, y=s(self.BODY_Y), anchor=start)
 
-        # Where the app lives, and how to make it stronger or lighter: the
-        # two things someone wants next. Two paragraphs, one card.
+        # How to make it stronger or lighter: the thing someone wants next.
         card = ttk.Frame(outer, style="Card.TFrame")
         hint_w = inner - 2 * self.HINT_PAD
-        hint = ttk.Label(card, style="Row.TLabel", justify=justify, text="\n".join((
-            wrapped(T("Right-click the tray icon for settings."), "t4", hint_w),
-            wrapped(T("Too faint or too strong? Change strength, size, "
-                      "duration and sound in Settings."), "t4", hint_w))))
+        hint = ttk.Label(card, style="Row.TLabel", justify=justify, text=wrapped(
+            T("Too faint or too strong? Change strength, size, duration and "
+              "sound in Settings."), "t4", hint_w))
         hint.place(x=s(inner - self.HINT_PAD) if rtl else s(self.HINT_PAD),
                    y=s(self.HINT_PAD), anchor=start)
 
@@ -5829,8 +5827,11 @@ class CalibrationCard(_CornerCard):
     and each only shows the way: it opens Settings and rings that control.
     An earlier version changed the reminder itself, a step per click, and
     replayed it -- and in the few seconds that took, nobody could follow
-    what a click had done. Any button, or closing the card, ends the
-    question for good.
+    what a click had done.
+
+    The card stays while Settings is open, so someone can look at one
+    control, then come back for the next. "Got it", or the close mark, is
+    what puts it away -- and ends the question for good.
     """
 
     GAP = 8                # between the buttons
@@ -5851,10 +5852,18 @@ class CalibrationCard(_CornerCard):
         for label, target, (dx, y, wd) in zip(labels, self.TARGETS, spots):
             left = self.win_w - s(self.PAD) - dx - wd if self.rtl else s(self.PAD) + dx
             self._button(outer, label, "Secondary.TButton",
-                         lambda t=target: self.answer(t)).place(
+                         lambda t=target: self.app.calibrate(t)).place(
                 x=left, y=y, width=wd, height=s(self.BTN_H))
-        self._finish(outer, max(y for _x, y, _w in spots) + s(self.BTN_H)
-                     + s(self.PAD))
+        # Its own row, at the end a line ends on, as on the coffee card.
+        got_y = max(y for _x, y, _w in spots) + s(self.BTN_H) + s(12)
+        got = T("Got it")
+        got_w = max(s(96), tkfont.Font(root=self.app.root, font=fonts["t4b"])
+                    .measure(got) + s(32))
+        self._button(outer, got, "Primary.TButton",
+                     lambda: self.answer("got it")).place(
+            x=self.far, y=got_y, width=got_w, height=s(self.BTN_H),
+            anchor="nw" if self.rtl else "ne")
+        self._finish(outer, got_y + s(self.BTN_H) + s(self.PAD))
 
     def layout(self, text_widths, row_y):
         """Where each button goes, as (x within the row, y, width).
@@ -6298,16 +6307,19 @@ class App:
         self.cal_card.show(test=self.tutorial_test)
 
     def calibrate(self, answer):
-        """One answer to the question: open Settings where that is changed.
+        """A click on the question card.
 
-        It changes nothing itself -- see CalibrationCard -- and one answer of
-        any kind, closing the card included, ends the question for good.
+        One of its four buttons opens Settings at that control and leaves
+        the card up; it changes nothing itself -- see CalibrationCard. "Got
+        it" or the close mark puts the card away, and that ends the question
+        for good.
         """
-        self.tutorial["calibration"] = "done"
-        self.keep_tutorial()
         if answer in CalibrationCard.TARGETS:
             log_event("tutorial", "showing where to change the %s" % answer)
             self.settings.point_at(answer)
+            return
+        self.tutorial["calibration"] = "done"
+        self.keep_tutorial()
 
     def start_tutorial_test(self):
         """--test-tutorial: the whole lesson again, with nothing saved."""
