@@ -51,6 +51,7 @@ import blink_reminder as br
 SW = br.SettingsWindow
 SN = br.StartupNotice
 AC = br.AskCard
+CC = br.CalibrationCard
 
 FAILURES = []
 
@@ -195,17 +196,13 @@ BUDGETS = [
     ("Show countdown", "t4", CARD - SWITCH, "switch row, break's S10"),
     ("Done", "t4b", 96 - BTN_PAD, "advanced footer"),
 
-    # -- the startup notice --------------------------------------------
-    ("Right-click the tray icon, by the clock, for settings.", "t4",
-     SN.WIN_W - 2 * SN.PAD - 32, "the notice's one card"),
-    ("Got it", "t4b", SN.BTN_W - BTN_PAD, "notice footer"),
-
     # -- the tray menu has no width of its own, but a runaway string
     #    would still look wrong next to the others.
     ("Blink now", "t4", 240, "tray menu"),
     ("Resume reminders", "t4", 240, "tray menu"),
     ("Snooze 30 minutes", "t4", 240, "tray menu"),
     ("Settings", "t4", 240, "tray menu"),
+    ("How it works", "t4", 240, "tray menu"),
     ("Rate this app", "t4", 240, "tray menu"),
     ("Quit", "t4", 240, "tray menu"),
 ]
@@ -218,6 +215,25 @@ ASK_BODIES = (
     "A short review helps others with tired eyes find it. Thank you!",
 )
 ASK_BODY_LINES = 4
+
+# Everything else that wraps, as (english, font, width, most lines, where).
+# The cards grow to fit, so a budget here is about staying a glance long.
+WRAPPED = (
+    ("A gentle cue will appear now and then. When you see it, blink fully: "
+     "close, squeeze gently, open.", "t2", SN.WIN_W - 2 * SN.PAD, 4,
+     "welcome card body"),
+    ("Right-click the tray icon, by the clock, for settings.", "t4",
+     SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 2, "welcome card hint"),
+    ("Too faint or too strong? Change Strength in Settings.", "t4",
+     SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 2, "welcome card hint"),
+    ("One click adjusts it for you.", "t2", CC.WIN_W - 2 * CC.PAD, 2,
+     "strength question body"),
+)
+
+# The taught reminder's caption is one line per step, and it is the
+# translation that decides where the steps break.
+CAPTION = "Close…\nsqueeze…\nopen"
+CAPTION_LINES = 3
 
 
 def ask_card_budgets(measure):
@@ -239,6 +255,28 @@ def ask_card_budgets(measure):
     ]
 
 
+def tutorial_budgets(measure):
+    """The welcome card's footer and the strength question's buttons.
+
+    Both size their buttons to their labels, so what has to fit is the
+    row. The question falls back to one button above another when its
+    three do not fit side by side, so each only has to fit the card."""
+    def btn(text, lo):
+        return max(lo, measure(br.T(text), "t4b") + BTN_PAD)
+
+    footer = (SN.WIN_W - 2 * SN.PAD - btn("Got it", SN.BTN_MIN_W) - 16)
+    rows = [
+        (br.T("Show me"), "t4b", footer - BTN_PAD,
+         "welcome footer, beside Got it with a 16px gap"),
+        (br.T("How did that feel?"), "t1", CC.WIN_W - 2 * CC.PAD - CC.CLOSE_W,
+         "strength question title, left of the close mark"),
+    ]
+    for text in ("Too faint", "Just right", "Too strong"):
+        rows.append((br.T(text), "t4b", CC.WIN_W - 2 * CC.PAD - BTN_PAD,
+                     "strength question button"))
+    return rows
+
+
 def wrapped_lines(measure, fkey, text, width):
     """How many lines the ask card draws `text` in. The card breaks its own
     lines with br.wrap_text, so this calls the same function rather than
@@ -253,12 +291,6 @@ def dynamic_budgets():
         # The title interpolates the product name, which is not translated.
         (br.T("%s is running") % br.DISPLAY_NAME, "t1",
          SN.WIN_W - 2 * SN.PAD, "notice title"),
-        (br.T("It stays in the background and will nudge you to blink\n%s.")
-         % br.describe_interval(45), "t2",
-         SN.WIN_W - 2 * SN.PAD, "notice body"),
-        # The support button is the notice's, not the panel's link.
-        (br.T("Buy me a coffee"), "t4", SN.SUPPORT_W - BTN_PAD,
-         "notice footer"),
         # The picker shows one language at a time, plus its chevron. Its own
         # endonym, never translated.
         (next(l for l, c in blink_i18n.LANGUAGES if c == br.language_code()),
@@ -293,7 +325,21 @@ def check_fit():
 
             worst, over = (0, ""), 0
             rows = ([(br.T(k), f, px, why) for k, f, px, why in BUDGETS]
-                    + dynamic_budgets() + ask_card_budgets(measure))
+                    + dynamic_budgets() + ask_card_budgets(measure)
+                    + tutorial_budgets(measure))
+            for key, fkey, width, most, why in WRAPPED:
+                text = br.T(key)
+                n = wrapped_lines(measure, fkey, text, width)
+                if n > most:
+                    over += 1
+                    fail("[%s] %s wraps to %d lines, max %d"
+                         % (code, why, n, most), text)
+            caption = br.T(CAPTION)
+            if not 1 <= caption.count("\n") + 1 <= CAPTION_LINES:
+                over += 1
+                fail("[%s] the caption has %d lines, max %d"
+                     % (code, caption.count("\n") + 1, CAPTION_LINES),
+                     caption)
             for body in ASK_BODIES:
                 text = br.T(body)
                 n = wrapped_lines(measure, "t2", text,

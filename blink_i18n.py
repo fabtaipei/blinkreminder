@@ -153,18 +153,8 @@ STRINGS = {
         "Buy me a coffee": "請我喝杯咖啡",
         "Quit": "結束",
 
-        # -- how often a reminder fires, as a person would say it ---------
-        # No plural forms to get wrong here, which is the one way Chinese is
-        # kinder to a translator than English.
-        "every second": "每秒",
-        "every %d seconds": "每 %d 秒",
-        "every minute": "每分鐘",
-        "every %d minutes": "每 %d 分鐘",
-
         # -- the startup notice ------------------------------------------
         "%s is running": "%s 正在執行",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "它會留在背景執行，%s提醒你眨眼。",
         "Right-click the tray icon, by the clock, for settings.":
             "在時鐘旁的圖示上按右鍵即可開啟設定。",
         "Got it": "知道了",
@@ -264,6 +254,18 @@ STRINGS = {
         "Don’t ask again": "不再詢問",
         "Rate this app": "為這個程式評分",
         "Show countdown": "顯示倒數計時",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "畫面上會不時出現溫和的提示。看到時，請完整地眨眼：閉上、輕輕閉緊、再睜開。",
+        "Too faint or too strong? Change Strength in Settings.": "太淡或太強？可在「設定」中調整「強度」。",
+        "Show me": "示範一次",
+        "Close…\nsqueeze…\nopen": "閉上……\n輕輕閉緊……\n睜開",
+        "How did that feel?": "剛才的提醒感覺如何？",
+        "One click adjusts it for you.": "點一下，就會自動調整。",
+        "Too faint": "太淡",
+        "Just right": "剛剛好",
+        "Too strong": "太強",
+        "How it works": "使用說明",
     },
 
     # Simplified Chinese, in mainland vocabulary: 屏幕 rather than 螢幕,
@@ -277,14 +279,7 @@ STRINGS = {
         "Buy me a coffee": "请我喝杯咖啡",
         "Quit": "退出",
 
-        "every second": "每秒",
-        "every %d seconds": "每 %d 秒",
-        "every minute": "每分钟",
-        "every %d minutes": "每 %d 分钟",
-
         "%s is running": "%s 正在运行",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "它会在后台运行，%s提醒你眨眼。",
         "Right-click the tray icon, by the clock, for settings.":
             "在时钟旁的图标上点右键即可打开设置。",
         "Got it": "知道了",
@@ -369,6 +364,18 @@ STRINGS = {
         "Don’t ask again": "不再询问",
         "Rate this app": "为这个应用评分",
         "Show countdown": "显示倒计时",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "屏幕上会不时出现温和的提示。看到时，请完整地眨眼：闭上、轻轻闭紧、再睁开。",
+        "Too faint or too strong? Change Strength in Settings.": "太淡或太强？可在“设置”中调整“强度”。",
+        "Show me": "演示一下",
+        "Close…\nsqueeze…\nopen": "闭上……\n轻轻闭紧……\n睁开",
+        "How did that feel?": "刚才的提醒感觉如何？",
+        "One click adjusts it for you.": "点一下，就会自动调整。",
+        "Too faint": "太淡",
+        "Just right": "刚刚好",
+        "Too strong": "太强",
+        "How it works": "使用说明",
     },
 
     # French. Several strings are shorter than the obvious rendering on
@@ -383,17 +390,9 @@ STRINGS = {
         "Buy me a coffee": "Offrez-moi un café",
         "Quit": "Quitter",
 
-        "every second": "chaque seconde",
-        "every %d seconds": "toutes les %d secondes",
-        "every minute": "chaque minute",
-        "every %d minutes": "toutes les %d minutes",
-
         # Not "est en cours d'exécution": with the product name in front of
         # it that is 464 pixels in a 440-pixel window.
         "%s is running": "%s fonctionne",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Il reste en arrière-plan et vous rappellera de cligner "
-            "des yeux\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Clic droit sur l'icône près de l'horloge pour les paramètres.",
         "Got it": "Compris",
@@ -481,6 +480,18 @@ STRINGS = {
         "Don’t ask again": "Ne plus demander",
         "Rate this app": "Évaluer l'application",
         "Show countdown": "Afficher le compte à rebours",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Un signal discret apparaîtra de temps en temps. Quand vous le voyez, clignez complètement des yeux : fermez, serrez doucement, ouvrez.",
+        "Too faint or too strong? Change Strength in Settings.": "Trop discret ou trop fort ? Modifiez l'Intensité dans les Paramètres.",
+        "Show me": "Montrez-moi",
+        "Close…\nsqueeze…\nopen": "Fermez…\nserrez…\nouvrez",
+        "How did that feel?": "Comment l'avez-vous trouvé ?",
+        "One click adjusts it for you.": "Un clic suffit pour l'ajuster.",
+        "Too faint": "Trop discret",
+        "Just right": "Parfait",
+        "Too strong": "Trop fort",
+        "How it works": "Mode d'emploi",
     },
 
     # Spanish. "Palabra" rather than "Una palabra" for the style picker:
@@ -493,14 +504,7 @@ STRINGS = {
         "Buy me a coffee": "Invítame a un café",
         "Quit": "Salir",
 
-        "every second": "cada segundo",
-        "every %d seconds": "cada %d segundos",
-        "every minute": "cada minuto",
-        "every %d minutes": "cada %d minutos",
-
         "%s is running": "%s está en ejecución",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Se queda en segundo plano y te recordará parpadear\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Clic derecho en el icono junto al reloj para la configuración.",
         "Got it": "Entendido",
@@ -588,6 +592,18 @@ STRINGS = {
         "Don’t ask again": "No volver a preguntar",
         "Rate this app": "Valorar esta app",
         "Show countdown": "Mostrar cuenta atrás",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "De vez en cuando aparecerá una señal discreta. Cuando la veas, parpadea por completo: cierra, aprieta suavemente y abre.",
+        "Too faint or too strong? Change Strength in Settings.": "¿Demasiado tenue o demasiado fuerte? Cambia la Intensidad en Configuración.",
+        "Show me": "Muéstramelo",
+        "Close…\nsqueeze…\nopen": "Cierra…\naprieta…\nabre",
+        "How did that feel?": "¿Qué te ha parecido?",
+        "One click adjusts it for you.": "Un clic y se ajusta solo.",
+        "Too faint": "Muy tenue",
+        "Just right": "Perfecto",
+        "Too strong": "Muy fuerte",
+        "How it works": "Cómo funciona",
     },
 
     # German, the longest language measured here at about 117% of English --
@@ -601,14 +617,7 @@ STRINGS = {
         "Buy me a coffee": "Kaffee spendieren",
         "Quit": "Beenden",
 
-        "every second": "jede Sekunde",
-        "every %d seconds": "alle %d Sekunden",
-        "every minute": "jede Minute",
-        "every %d minutes": "alle %d Minuten",
-
         "%s is running": "%s läuft",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Läuft im Hintergrund und erinnert Sie\n%s ans Blinzeln.",
         # "öffnet die Einstellungen" would be 440 pixels in a 408-pixel card.
         "Right-click the tray icon, by the clock, for settings.":
             "Rechtsklick auf das Symbol neben der Uhr für Einstellungen.",
@@ -696,6 +705,18 @@ STRINGS = {
         "Don’t ask again": "Nicht mehr fragen",
         "Rate this app": "App bewerten",
         "Show countdown": "Countdown anzeigen",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ab und zu erscheint ein dezenter Hinweis. Blinzeln Sie dann vollständig: schließen, sanft zusammenkneifen, öffnen.",
+        "Too faint or too strong? Change Strength in Settings.": "Zu schwach oder zu stark? Stärke unter Einstellungen ändern.",
+        "Show me": "Zeigen",
+        "Close…\nsqueeze…\nopen": "Schließen…\nkneifen…\nöffnen",
+        "How did that feel?": "Wie war der Hinweis?",
+        "One click adjusts it for you.": "Ein Klick passt ihn für Sie an.",
+        "Too faint": "Zu schwach",
+        "Just right": "Genau richtig",
+        "Too strong": "Zu stark",
+        "How it works": "So funktioniert es",
     },
 
     # Italian. The blink card is "Palpebre" rather than "Battito", which on
@@ -709,14 +730,7 @@ STRINGS = {
         "Buy me a coffee": "Offrimi un caffè",
         "Quit": "Esci",
 
-        "every second": "ogni secondo",
-        "every %d seconds": "ogni %d secondi",
-        "every minute": "ogni minuto",
-        "every %d minutes": "ogni %d minuti",
-
         "%s is running": "%s è in esecuzione",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Resta in background e ti ricorderà di battere le palpebre\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Clic destro sull'icona vicino all'orologio per le impostazioni.",
         "Got it": "Ho capito",
@@ -804,6 +818,18 @@ STRINGS = {
         "Don’t ask again": "Non chiedere più",
         "Rate this app": "Valuta l'app",
         "Show countdown": "Mostra il conto alla rovescia",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ogni tanto apparirà un segnale discreto. Quando lo vedi, sbatti le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
+        "Too faint or too strong? Change Strength in Settings.": "Troppo tenue o troppo forte? Cambia l'Intensità nelle Impostazioni.",
+        "Show me": "Mostrami",
+        "Close…\nsqueeze…\nopen": "Chiudi…\nstringi…\napri",
+        "How did that feel?": "Come ti è sembrato?",
+        "One click adjusts it for you.": "Basta un clic per regolarlo.",
+        "Too faint": "Troppo tenue",
+        "Just right": "Perfetto",
+        "Too strong": "Troppo forte",
+        "How it works": "Come funziona",
     },
 
     # Portuguese, written for Brazil, which is where almost all the Store's
@@ -817,14 +843,7 @@ STRINGS = {
         "Buy me a coffee": "Me pague um café",
         "Quit": "Sair",
 
-        "every second": "a cada segundo",
-        "every %d seconds": "a cada %d segundos",
-        "every minute": "a cada minuto",
-        "every %d minutes": "a cada %d minutos",
-
         "%s is running": "%s está em execução",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Fica em segundo plano e vai lembrar você de piscar\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Clique com o botão direito no ícone ao lado do relógio.",
         "Got it": "Entendi",
@@ -913,6 +932,18 @@ STRINGS = {
         "Don’t ask again": "Não perguntar de novo",
         "Rate this app": "Avaliar este app",
         "Show countdown": "Mostrar contagem regressiva",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "De vez em quando, vai aparecer um sinal suave. Quando aparecer, pisque por completo: feche, aperte de leve e abra.",
+        "Too faint or too strong? Change Strength in Settings.": "Fraco ou forte demais? Mude a Força nas Configurações.",
+        "Show me": "Mostrar",
+        "Close…\nsqueeze…\nopen": "Feche…\naperte…\nabra",
+        "How did that feel?": "O que achou?",
+        "One click adjusts it for you.": "Um clique ajusta para você.",
+        "Too faint": "Fraco demais",
+        "Just right": "Na medida",
+        "Too strong": "Forte demais",
+        "How it works": "Como funciona",
     },
 
     # Japanese. Interface Japanese is terse -- ですます endings are dropped
@@ -925,14 +956,7 @@ STRINGS = {
         "Buy me a coffee": "コーヒーをおごる",
         "Quit": "終了",
 
-        "every second": "毎秒",
-        "every %d seconds": "%d 秒ごとに",
-        "every minute": "毎分",
-        "every %d minutes": "%d 分ごとに",
-
         "%s is running": "%s は実行中です",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "バックグラウンドで動き、%sまばたきをお知らせします。",
         "Right-click the tray icon, by the clock, for settings.":
             "時計の横のアイコンを右クリックすると設定が開きます。",
         "Got it": "閉じる",
@@ -1018,6 +1042,18 @@ STRINGS = {
         "Don’t ask again": "今後は表示しない",
         "Rate this app": "このアプリを評価",
         "Show countdown": "カウントダウンを表示",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "ときどき、さりげない合図が表示されます。表示されたら、しっかりまばたきしましょう：目を閉じ、軽くぎゅっとつむって、開く。",
+        "Too faint or too strong? Change Strength in Settings.": "薄すぎる・強すぎるときは、設定の「強さ」で調整できます。",
+        "Show me": "見てみる",
+        "Close…\nsqueeze…\nopen": "閉じて…\nぎゅっと…\n開く",
+        "How did that feel?": "いまの合図はどうでしたか？",
+        "One click adjusts it for you.": "クリックひとつで調整します。",
+        "Too faint": "薄すぎる",
+        "Just right": "ちょうどいい",
+        "Too strong": "強すぎる",
+        "How it works": "使い方",
     },
 
     # Korean. Spacing follows 한글 맞춤법: "눈 깜박임" is two words, and the
@@ -1030,14 +1066,7 @@ STRINGS = {
         "Buy me a coffee": "커피 한 잔 사주기",
         "Quit": "종료",
 
-        "every second": "매초",
-        "every %d seconds": "%d초마다",
-        "every minute": "매분",
-        "every %d minutes": "%d분마다",
-
         "%s is running": "%s 실행 중",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "백그라운드에서 실행되며 %s 눈 깜박임을 알려 줍니다.",
         # The full "마우스 오른쪽 버튼으로 누르면" is 448px in a 408px card.
         "Right-click the tray icon, by the clock, for settings.":
             "시계 옆 아이콘을 오른쪽 클릭하면 설정이 열립니다.",
@@ -1124,6 +1153,18 @@ STRINGS = {
         "Don’t ask again": "다시 묻지 않기",
         "Rate this app": "이 앱 평가하기",
         "Show countdown": "카운트다운 표시",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "가끔 부드러운 신호가 나타납니다. 신호가 보이면 눈을 완전히 깜빡이세요: 감고, 살짝 꼭 감았다가, 뜨세요.",
+        "Too faint or too strong? Change Strength in Settings.": "너무 흐리거나 너무 강한가요? 설정에서 세기를 바꾸세요.",
+        "Show me": "보여 주기",
+        "Close…\nsqueeze…\nopen": "감고…\n꼭 감았다가…\n뜨세요",
+        "How did that feel?": "방금 신호는 어떠셨나요?",
+        "One click adjusts it for you.": "한 번 클릭으로 바로 조정됩니다.",
+        "Too faint": "너무 흐림",
+        "Just right": "딱 좋음",
+        "Too strong": "너무 강함",
+        "How it works": "사용 방법",
     },
 
     # Hindi. Devanagari, shaped correctly by Windows through Tk.
@@ -1135,14 +1176,7 @@ STRINGS = {
         "Buy me a coffee": "मुझे कॉफ़ी पिलाएँ",
         "Quit": "बंद करें",
 
-        "every second": "हर सेकंड",
-        "every %d seconds": "हर %d सेकंड",
-        "every minute": "हर मिनट",
-        "every %d minutes": "हर %d मिनट",
-
         "%s is running": "%s चल रहा है",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "यह पृष्ठभूमि में चलता है और %s पलक झपकाने की याद दिलाएगा।",
         "Right-click the tray icon, by the clock, for settings.":
             "घड़ी के पास वाले आइकन पर राइट-क्लिक करें।",
         "Got it": "ठीक है",
@@ -1228,6 +1262,18 @@ STRINGS = {
         "Don’t ask again": "फिर से न पूछें",
         "Rate this app": "इस ऐप को रेट करें",
         "Show countdown": "उलटी गिनती दिखाएँ",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "बीच-बीच में एक हल्का संकेत दिखेगा। उसे देखते ही पूरी तरह पलकें झपकाएँ: आँखें बंद करें, हल्के से भींचें, खोलें।",
+        "Too faint or too strong? Change Strength in Settings.": "बहुत हल्का या बहुत तेज़? सेटिंग्स में तीव्रता बदलें।",
+        "Show me": "दिखाएँ",
+        "Close…\nsqueeze…\nopen": "बंद करें…\nभींचें…\nखोलें",
+        "How did that feel?": "कैसा लगा?",
+        "One click adjusts it for you.": "एक क्लिक में यह अपने-आप ठीक हो जाएगा।",
+        "Too faint": "बहुत हल्का",
+        "Just right": "बिल्कुल सही",
+        "Too strong": "बहुत तेज़",
+        "How it works": "यह कैसे काम करता है",
     },
 
     # Bengali. Nirmala UI covers it, and the conjuncts form correctly.
@@ -1239,16 +1285,9 @@ STRINGS = {
         "Buy me a coffee": "আমাকে কফি খাওয়ান",
         "Quit": "বন্ধ করুন",
 
-        "every second": "প্রতি সেকেন্ডে",
-        "every %d seconds": "প্রতি %d সেকেন্ডে",
-        "every minute": "প্রতি মিনিটে",
-        "every %d minutes": "প্রতি %d মিনিটে",
-
         "%s is running": "%s চলছে",
         # Broken across two lines like the English, which is what keeps it
         # inside the notice: on one line it runs 446px of the 440 available.
-        "It stays in the background and will nudge you to blink\n%s.":
-            "এটি পটভূমিতে চলে এবং\n%s চোখের পলক ফেলার কথা মনে করাবে।",
         "Right-click the tray icon, by the clock, for settings.":
             "ঘড়ির পাশের আইকনে ডান-ক্লিক করুন।",
         "Got it": "বুঝেছি",
@@ -1334,6 +1373,18 @@ STRINGS = {
         "Don’t ask again": "আর দেখাবেন না",
         "Rate this app": "এই অ্যাপটিকে রেটিং দিন",
         "Show countdown": "কাউন্টডাউন দেখান",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "মাঝে মাঝে একটি মৃদু সংকেত দেখা দেবে। দেখলেই পুরোপুরি চোখের পলক ফেলুন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
+        "Too faint or too strong? Change Strength in Settings.": "খুব হালকা বা খুব জোরালো? সেটিংসে তীব্রতা বদলান।",
+        "Show me": "দেখান",
+        "Close…\nsqueeze…\nopen": "বন্ধ করুন…\nআলতো চাপুন…\nখুলুন",
+        "How did that feel?": "কেমন লাগল?",
+        "One click adjusts it for you.": "এক ক্লিকেই ঠিক হয়ে যাবে।",
+        "Too faint": "খুব হালকা",
+        "Just right": "একদম ঠিক",
+        "Too strong": "খুব জোরালো",
+        "How it works": "কীভাবে কাজ করে",
     },
 
     # Arabic. The TEXT shapes and runs right to left correctly -- Tk gets
@@ -1349,14 +1400,7 @@ STRINGS = {
         "Buy me a coffee": "ادعمني بقهوة",
         "Quit": "إنهاء",
 
-        "every second": "كل ثانية",
-        "every %d seconds": "كل %d ثانية",
-        "every minute": "كل دقيقة",
-        "every %d minutes": "كل %d دقيقة",
-
         "%s is running": "%s قيد التشغيل",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "يعمل في الخلفية ويذكّرك بالرمش %s.",
         "Right-click the tray icon, by the clock, for settings.":
             "انقر بزر الفأرة الأيمن على الأيقونة بجوار الساعة.",
         "Got it": "حسنًا",
@@ -1442,6 +1486,18 @@ STRINGS = {
         "Don’t ask again": "لا تسألني مجددًا",
         "Rate this app": "قيّم هذا التطبيق",
         "Show countdown": "إظهار العد التنازلي",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "ستظهر إشارة لطيفة من حين لآخر. عندما تراها، ارمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
+        "Too faint or too strong? Change Strength in Settings.": "خافتة جدًا أم قوية جدًا؟ غيّر الشدة من الإعدادات.",
+        "Show me": "أرني",
+        "Close…\nsqueeze…\nopen": "أغمض…\nاضغط…\nافتح",
+        "How did that feel?": "كيف وجدتها؟",
+        "One click adjusts it for you.": "نقرة واحدة تضبطها لك.",
+        "Too faint": "خافتة جدًا",
+        "Just right": "مناسبة تمامًا",
+        "Too strong": "قوية جدًا",
+        "How it works": "طريقة العمل",
     },
 
     # Urdu. Same caveat as Arabic: the text is right, the layout is not
@@ -1455,14 +1511,7 @@ STRINGS = {
         "Buy me a coffee": "مجھے کافی پلائیں",
         "Quit": "بند کریں",
 
-        "every second": "ہر سیکنڈ",
-        "every %d seconds": "ہر %d سیکنڈ",
-        "every minute": "ہر منٹ",
-        "every %d minutes": "ہر %d منٹ",
-
         "%s is running": "%s چل رہا ہے",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "یہ پس منظر میں چلتا ہے اور %s پلک جھپکنے کی یاد دلائے گا۔",
         "Right-click the tray icon, by the clock, for settings.":
             "گھڑی کے پاس آئیکن پر دائیں کلک کریں۔",
         "Got it": "ٹھیک ہے",
@@ -1548,6 +1597,18 @@ STRINGS = {
         "Don’t ask again": "دوبارہ نہ پوچھیں",
         "Rate this app": "اس ایپ کی درجہ بندی کریں",
         "Show countdown": "الٹی گنتی دکھائیں",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "وقتاً فوقتاً ایک ہلکا سا اشارہ ظاہر ہوگا۔ اسے دیکھیں تو پوری طرح پلک جھپکیں: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
+        "Too faint or too strong? Change Strength in Settings.": "بہت ہلکا یا بہت تیز؟ ترتیبات میں شدت بدلیں۔",
+        "Show me": "دکھائیں",
+        "Close…\nsqueeze…\nopen": "بند کریں…\nبھینچیں…\nکھولیں",
+        "How did that feel?": "کیسا لگا؟",
+        "One click adjusts it for you.": "ایک کلک سے یہ خود ٹھیک ہو جائے گا۔",
+        "Too faint": "بہت ہلکا",
+        "Just right": "بالکل ٹھیک",
+        "Too strong": "بہت تیز",
+        "How it works": "یہ کیسے کام کرتی ہے",
     },
 
     # Indonesian.
@@ -1559,14 +1620,7 @@ STRINGS = {
         "Buy me a coffee": "Traktir saya kopi",
         "Quit": "Keluar",
 
-        "every second": "setiap detik",
-        "every %d seconds": "setiap %d detik",
-        "every minute": "setiap menit",
-        "every %d minutes": "setiap %d menit",
-
         "%s is running": "%s sedang berjalan",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Berjalan di latar dan akan mengingatkan Anda berkedip\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Klik kanan ikon di sebelah jam untuk pengaturan.",
         "Got it": "Mengerti",
@@ -1653,6 +1707,18 @@ STRINGS = {
         "Don’t ask again": "Jangan tanya lagi",
         "Rate this app": "Beri nilai aplikasi ini",
         "Show countdown": "Tampilkan hitung mundur",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Sesekali akan muncul isyarat lembut. Saat melihatnya, berkediplah sepenuhnya: pejamkan, rapatkan perlahan, buka.",
+        "Too faint or too strong? Change Strength in Settings.": "Terlalu samar atau terlalu kuat? Ubah Kekuatan di Pengaturan.",
+        "Show me": "Tunjukkan",
+        "Close…\nsqueeze…\nopen": "Pejamkan…\nrapatkan…\nbuka",
+        "How did that feel?": "Bagaimana rasanya?",
+        "One click adjusts it for you.": "Sekali klik, langsung disesuaikan.",
+        "Too faint": "Terlalu samar",
+        "Just right": "Pas",
+        "Too strong": "Terlalu kuat",
+        "How it works": "Cara kerjanya",
     },
 
     # Polish. The interval strings use abbreviated units -- "co %d s", not
@@ -1668,14 +1734,7 @@ STRINGS = {
         "Buy me a coffee": "Postaw mi kawę",
         "Quit": "Zakończ",
 
-        "every second": "co sekundę",
-        "every %d seconds": "co %d s",
-        "every minute": "co minutę",
-        "every %d minutes": "co %d min",
-
         "%s is running": "%s działa",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Działa w tle i będzie przypominać o mrugnięciu\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Kliknij prawym przyciskiem ikonę obok zegara.",
         "Got it": "Rozumiem",
@@ -1763,6 +1822,18 @@ STRINGS = {
         "Don’t ask again": "Nie pytaj więcej",
         "Rate this app": "Oceń tę aplikację",
         "Show countdown": "Pokaż odliczanie",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Od czasu do czasu pojawi się delikatny sygnał. Gdy go zobaczysz, mrugnij do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
+        "Too faint or too strong? Change Strength in Settings.": "Za słaby czy za mocny? Zmień Siłę w Ustawieniach.",
+        "Show me": "Pokaż",
+        "Close…\nsqueeze…\nopen": "Zamknij…\nzaciśnij…\notwórz",
+        "How did that feel?": "Jak wrażenia?",
+        "One click adjusts it for you.": "Jedno kliknięcie i gotowe.",
+        "Too faint": "Za słaby",
+        "Just right": "W sam raz",
+        "Too strong": "Za mocny",
+        "How it works": "Jak to działa",
     },
 
     # Turkish.
@@ -1774,14 +1845,7 @@ STRINGS = {
         "Buy me a coffee": "Bana kahve ısmarla",
         "Quit": "Çıkış",
 
-        "every second": "her saniye",
-        "every %d seconds": "her %d saniyede",
-        "every minute": "her dakika",
-        "every %d minutes": "her %d dakikada",
-
         "%s is running": "%s çalışıyor",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Arka planda çalışır ve %s göz kırpmanızı hatırlatır.",
         "Right-click the tray icon, by the clock, for settings.":
             "Saatin yanındaki simgeye sağ tıklayın.",
         "Got it": "Anladım",
@@ -1869,6 +1933,18 @@ STRINGS = {
         "Don’t ask again": "Bir daha sorma",
         "Rate this app": "Bu uygulamayı değerlendir",
         "Show countdown": "Geri sayımı göster",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ara sıra hafif bir uyarı belirecek. Gördüğünüzde gözlerinizi tam kırpın: kapatın, hafifçe sıkın, açın.",
+        "Too faint or too strong? Change Strength in Settings.": "Çok mu soluk, çok mu güçlü? Ayarlar'dan Şiddet'i değiştirin.",
+        "Show me": "Göster",
+        "Close…\nsqueeze…\nopen": "Kapatın…\nsıkın…\naçın",
+        "How did that feel?": "Nasıl buldunuz?",
+        "One click adjusts it for you.": "Tek tıklamayla ayarlanır.",
+        "Too faint": "Çok soluk",
+        "Just right": "Tam kararında",
+        "Too strong": "Çok güçlü",
+        "How it works": "Nasıl çalışır",
     },
 
     # Vietnamese.
@@ -1880,14 +1956,7 @@ STRINGS = {
         "Buy me a coffee": "Mời tôi ly cà phê",
         "Quit": "Thoát",
 
-        "every second": "mỗi giây",
-        "every %d seconds": "mỗi %d giây",
-        "every minute": "mỗi phút",
-        "every %d minutes": "mỗi %d phút",
-
         "%s is running": "%s đang chạy",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Chạy nền và sẽ nhắc bạn chớp mắt\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Nhấp chuột phải vào biểu tượng cạnh đồng hồ.",
         "Got it": "Đã hiểu",
@@ -1975,6 +2044,18 @@ STRINGS = {
         "Don’t ask again": "Đừng hỏi lại",
         "Rate this app": "Đánh giá ứng dụng này",
         "Show countdown": "Hiện đếm ngược",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Thỉnh thoảng sẽ có một tín hiệu nhẹ nhàng xuất hiện. Khi thấy nó, hãy chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
+        "Too faint or too strong? Change Strength in Settings.": "Quá mờ hay quá đậm? Đổi Độ đậm trong Cài đặt.",
+        "Show me": "Cho tôi xem",
+        "Close…\nsqueeze…\nopen": "Nhắm mắt…\nkhép chặt…\nmở ra",
+        "How did that feel?": "Bạn thấy thế nào?",
+        "One click adjusts it for you.": "Chỉ một cú nhấp là điều chỉnh xong.",
+        "Too faint": "Quá mờ",
+        "Just right": "Vừa đủ",
+        "Too strong": "Quá đậm",
+        "How it works": "Cách hoạt động",
     },
 
     # Russian. Abbreviated interval units for the same reason as Polish:
@@ -1987,14 +2068,7 @@ STRINGS = {
         "Buy me a coffee": "Купить мне кофе",
         "Quit": "Выход",
 
-        "every second": "каждую секунду",
-        "every %d seconds": "каждые %d сек.",
-        "every minute": "каждую минуту",
-        "every %d minutes": "каждые %d мин.",
-
         "%s is running": "%s работает",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Работает в фоне и напомнит моргнуть\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Щёлкните правой кнопкой по значку у часов.",
         "Got it": "Понятно",
@@ -2082,6 +2156,18 @@ STRINGS = {
         "Don’t ask again": "Больше не спрашивать",
         "Rate this app": "Оценить приложение",
         "Show countdown": "Показывать обратный отсчёт",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Время от времени будет появляться мягкий сигнал. Увидев его, моргните полностью: закройте глаза, мягко сожмите веки, откройте.",
+        "Too faint or too strong? Change Strength in Settings.": "Слишком слабо или слишком сильно? Измените «Силу» в настройках.",
+        "Show me": "Показать",
+        "Close…\nsqueeze…\nopen": "Закройте…\nсожмите…\nоткройте",
+        "How did that feel?": "Как вам этот сигнал?",
+        "One click adjusts it for you.": "Один щелчок — и всё настроится.",
+        "Too faint": "Слишком слабо",
+        "Just right": "В самый раз",
+        "Too strong": "Слишком сильно",
+        "How it works": "Как это работает",
     },
 
     # Thai. Written without spaces between words, so the notice sentences
@@ -2094,14 +2180,7 @@ STRINGS = {
         "Buy me a coffee": "เลี้ยงกาแฟ",
         "Quit": "ออก",
 
-        "every second": "ทุกวินาที",
-        "every %d seconds": "ทุก %d วินาที",
-        "every minute": "ทุกนาที",
-        "every %d minutes": "ทุก %d นาที",
-
         "%s is running": "%s กำลังทำงาน",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "ทำงานอยู่เบื้องหลัง และจะเตือนให้กะพริบตา\n%s",
         "Right-click the tray icon, by the clock, for settings.":
             "คลิกขวาที่ไอคอนข้างนาฬิกาเพื่อตั้งค่า",
         "Got it": "เข้าใจแล้ว",
@@ -2187,6 +2266,21 @@ STRINGS = {
         "Don’t ask again": "ไม่ต้องถามอีก",
         "Rate this app": "ให้คะแนนแอปนี้",
         "Show countdown": "แสดงการนับถอยหลัง",
+
+        # The welcome card, the taught reminder and the strength question.
+        # Not "จะมีสัญญาณเบาๆ ..." -- opening on that phrase, Tk drew the
+        # line wider than it measured it and split the tone mark of ที่ off
+        # onto a dotted circle. Measured; this wording draws clean.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เมื่อเห็น ให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
+        "Too faint or too strong? Change Strength in Settings.": "จางหรือเข้มเกินไป เปลี่ยนความเข้มได้ในตั้งค่า",
+        "Show me": "ลองดู",
+        "Close…\nsqueeze…\nopen": "หลับตา…\nบีบเบาๆ…\nลืมตา",
+        "How did that feel?": "รู้สึกอย่างไรบ้าง",
+        "One click adjusts it for you.": "คลิกครั้งเดียว ปรับให้ทันที",
+        "Too faint": "จางเกินไป",
+        "Just right": "พอดี",
+        "Too strong": "เข้มเกินไป",
+        "How it works": "วิธีใช้งาน",
     },
 
     # Ukrainian. Abbreviated interval units, as for Russian and Polish:
@@ -2199,14 +2293,7 @@ STRINGS = {
         "Buy me a coffee": "Пригостити кавою",
         "Quit": "Вийти",
 
-        "every second": "щосекунди",
-        "every %d seconds": "кожні %d с",
-        "every minute": "щохвилини",
-        "every %d minutes": "кожні %d хв",
-
         "%s is running": "%s працює",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Працює у фоні й нагадає кліпнути\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Клацніть правою кнопкою по значку біля годинника.",
         "Got it": "Зрозуміло",
@@ -2294,6 +2381,18 @@ STRINGS = {
         "Don’t ask again": "Більше не питати",
         "Rate this app": "Оцінити застосунок",
         "Show countdown": "Показувати зворотний відлік",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Час від часу з’являтиметься м’який сигнал. Побачивши його, кліпніть повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
+        "Too faint or too strong? Change Strength in Settings.": "Надто слабко чи надто сильно? Змініть «Силу» в налаштуваннях.",
+        "Show me": "Показати",
+        "Close…\nsqueeze…\nopen": "Заплющте…\nстисніть…\nрозплющте",
+        "How did that feel?": "Як вам цей сигнал?",
+        "One click adjusts it for you.": "Один клік — і все налаштується.",
+        "Too faint": "Надто слабко",
+        "Just right": "Саме так",
+        "Too strong": "Надто сильно",
+        "How it works": "Як це працює",
     },
 
     # Czech. Same plural problem as the Slavic languages above, same fix.
@@ -2305,14 +2404,7 @@ STRINGS = {
         "Buy me a coffee": "Kup mi kávu",
         "Quit": "Ukončit",
 
-        "every second": "každou sekundu",
-        "every %d seconds": "každých %d s",
-        "every minute": "každou minutu",
-        "every %d minutes": "každých %d min",
-
         "%s is running": "%s běží",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Běží na pozadí a připomene vám mrknout\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Klikněte pravým tlačítkem na ikonu u hodin.",
         "Got it": "Rozumím",
@@ -2400,6 +2492,18 @@ STRINGS = {
         "Don’t ask again": "Už se neptat",
         "Rate this app": "Ohodnotit aplikaci",
         "Show countdown": "Zobrazit odpočet",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Občas se objeví jemný signál. Když ho uvidíte, mrkněte úplně: zavřete oči, jemně je stiskněte, otevřete.",
+        "Too faint or too strong? Change Strength in Settings.": "Příliš slabé, nebo příliš silné? Změňte Sílu v Nastavení.",
+        "Show me": "Ukázat",
+        "Close…\nsqueeze…\nopen": "Zavřete…\nstiskněte…\notevřete",
+        "How did that feel?": "Jak na vás působil?",
+        "One click adjusts it for you.": "Jedním kliknutím se to upraví.",
+        "Too faint": "Příliš slabé",
+        "Just right": "Akorát",
+        "Too strong": "Příliš silné",
+        "How it works": "Jak to funguje",
     },
 
     # Romanian.
@@ -2411,14 +2515,7 @@ STRINGS = {
         "Buy me a coffee": "Fă-mi cinste cu o cafea",
         "Quit": "Ieșire",
 
-        "every second": "în fiecare secundă",
-        "every %d seconds": "la fiecare %d secunde",
-        "every minute": "în fiecare minut",
-        "every %d minutes": "la fiecare %d minute",
-
         "%s is running": "%s rulează",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Rulează în fundal și îți va aminti să clipești\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Clic dreapta pe pictograma de lângă ceas pentru setări.",
         "Got it": "Am înțeles",
@@ -2506,6 +2603,18 @@ STRINGS = {
         "Don’t ask again": "Nu mai întreba",
         "Rate this app": "Evaluează aplicația",
         "Show countdown": "Afișează numărătoarea inversă",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Din când în când va apărea un semnal discret. Când îl vezi, clipește complet: închide ochii, strânge-i ușor, deschide-i.",
+        "Too faint or too strong? Change Strength in Settings.": "Prea slab sau prea puternic? Schimbă Intensitatea în Setări.",
+        "Show me": "Arată-mi",
+        "Close…\nsqueeze…\nopen": "Închide…\nstrânge…\ndeschide",
+        "How did that feel?": "Cum ți s-a părut?",
+        "One click adjusts it for you.": "Un clic și se ajustează.",
+        "Too faint": "Prea slab",
+        "Just right": "Exact bine",
+        "Too strong": "Prea puternic",
+        "How it works": "Cum funcționează",
     },
 
     # Hungarian.
@@ -2517,14 +2626,7 @@ STRINGS = {
         "Buy me a coffee": "Hívj meg egy kávéra",
         "Quit": "Kilépés",
 
-        "every second": "másodpercenként",
-        "every %d seconds": "%d másodpercenként",
-        "every minute": "percenként",
-        "every %d minutes": "%d percenként",
-
         "%s is running": "A(z) %s fut",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "A háttérben fut, és %s emlékeztet a pislogásra.",
         "Right-click the tray icon, by the clock, for settings.":
             "Kattints jobb gombbal az óra melletti ikonra.",
         "Got it": "Értem",
@@ -2612,6 +2714,18 @@ STRINGS = {
         "Don’t ask again": "Ne kérdezd többé",
         "Rate this app": "Értékeld az alkalmazást",
         "Show countdown": "Visszaszámlálás megjelenítése",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Időnként megjelenik egy finom jelzés. Amikor látod, pislogj teljesen: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
+        "Too faint or too strong? Change Strength in Settings.": "Túl halvány vagy túl erős? Módosítsd az Erősséget a Beállításokban.",
+        "Show me": "Mutasd",
+        "Close…\nsqueeze…\nopen": "Csukd be…\nszorítsd…\nnyisd ki",
+        "How did that feel?": "Milyen volt?",
+        "One click adjusts it for you.": "Egy kattintással beállítható.",
+        "Too faint": "Túl halvány",
+        "Just right": "Pont jó",
+        "Too strong": "Túl erős",
+        "How it works": "Hogyan működik",
     },
 
     # Greek.
@@ -2623,15 +2737,7 @@ STRINGS = {
         "Buy me a coffee": "Κέρασέ με έναν καφέ",
         "Quit": "Έξοδος",
 
-        "every second": "κάθε δευτερόλεπτο",
-        "every %d seconds": "κάθε %d δευτ.",
-        "every minute": "κάθε λεπτό",
-        "every %d minutes": "κάθε %d λεπτά",
-
         "%s is running": "Το %s εκτελείται",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Τρέχει στο παρασκήνιο και θα σου θυμίζει να "
-            "ανοιγοκλείνεις\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Δεξί κλικ στο εικονίδιο δίπλα στο ρολόι για ρυθμίσεις.",
         "Got it": "Εντάξει",
@@ -2719,6 +2825,18 @@ STRINGS = {
         "Don’t ask again": "Να μην ξαναρωτηθώ",
         "Rate this app": "Βαθμολόγησε την εφαρμογή",
         "Show countdown": "Αντίστροφη μέτρηση",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Κάθε τόσο θα εμφανίζεται ένα διακριτικό σήμα. Όταν το βλέπεις, ανοιγόκλεισε τα μάτια σου πλήρως: κλείσε, σφίξε απαλά, άνοιξε.",
+        "Too faint or too strong? Change Strength in Settings.": "Πολύ αχνό ή πολύ έντονο; Άλλαξε την Ένταση στις Ρυθμίσεις.",
+        "Show me": "Δείξε μου",
+        "Close…\nsqueeze…\nopen": "Κλείσε…\nσφίξε…\nάνοιξε",
+        "How did that feel?": "Πώς σου φάνηκε;",
+        "One click adjusts it for you.": "Ένα κλικ και ρυθμίζεται.",
+        "Too faint": "Πολύ αχνό",
+        "Just right": "Ιδανικό",
+        "Too strong": "Πολύ έντονο",
+        "How it works": "Πώς λειτουργεί",
     },
 
     # Swedish.
@@ -2730,14 +2848,7 @@ STRINGS = {
         "Buy me a coffee": "Bjud på en kaffe",
         "Quit": "Avsluta",
 
-        "every second": "varje sekund",
-        "every %d seconds": "var %d:e sekund",
-        "every minute": "varje minut",
-        "every %d minutes": "var %d:e minut",
-
         "%s is running": "%s körs",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Den ligger i bakgrunden och påminner dig att blinka\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Högerklicka på ikonen bredvid klockan för inställningar.",
         "Got it": "Uppfattat",
@@ -2825,6 +2936,18 @@ STRINGS = {
         "Don’t ask again": "Fråga inte igen",
         "Rate this app": "Betygsätt appen",
         "Show countdown": "Visa nedräkning",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Då och då visas en diskret signal. När du ser den, blinka ordentligt: blunda, kläm ihop lätt, öppna.",
+        "Too faint or too strong? Change Strength in Settings.": "För svag eller för stark? Ändra Styrka i Inställningar.",
+        "Show me": "Visa mig",
+        "Close…\nsqueeze…\nopen": "Blunda…\nkläm…\nöppna",
+        "How did that feel?": "Hur kändes det?",
+        "One click adjusts it for you.": "Ett klick justerar det åt dig.",
+        "Too faint": "För svag",
+        "Just right": "Lagom",
+        "Too strong": "För stark",
+        "How it works": "Så fungerar det",
     },
 
     # Finnish.
@@ -2836,14 +2959,7 @@ STRINGS = {
         "Buy me a coffee": "Tarjoa kahvit",
         "Quit": "Lopeta",
 
-        "every second": "joka sekunti",
-        "every %d seconds": "%d sekunnin välein",
-        "every minute": "joka minuutti",
-        "every %d minutes": "%d minuutin välein",
-
         "%s is running": "%s on käynnissä",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Se toimii taustalla ja muistuttaa räpäyttämään\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Napsauta kellon vieressä olevaa kuvaketta hiiren oikealla.",
         "Got it": "Selvä",
@@ -2931,6 +3047,18 @@ STRINGS = {
         "Don’t ask again": "Älä kysy uudelleen",
         "Rate this app": "Arvioi sovellus",
         "Show countdown": "Näytä lähtölaskenta",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Silloin tällöin näkyy hienovarainen merkki. Kun näet sen, räpäytä silmiä kunnolla: sulje, purista kevyesti, avaa.",
+        "Too faint or too strong? Change Strength in Settings.": "Liian heikko vai liian voimakas? Muuta Voimaa asetuksista.",
+        "Show me": "Näytä",
+        "Close…\nsqueeze…\nopen": "Sulje…\npurista…\navaa",
+        "How did that feel?": "Miltä se tuntui?",
+        "One click adjusts it for you.": "Yksi napsautus säätää sen puolestasi.",
+        "Too faint": "Liian heikko",
+        "Just right": "Juuri sopiva",
+        "Too strong": "Liian voimakas",
+        "How it works": "Näin se toimii",
     },
 
     # Danish.
@@ -2942,14 +3070,7 @@ STRINGS = {
         "Buy me a coffee": "Giv mig en kaffe",
         "Quit": "Afslut",
 
-        "every second": "hvert sekund",
-        "every %d seconds": "hvert %d. sekund",
-        "every minute": "hvert minut",
-        "every %d minutes": "hvert %d. minut",
-
         "%s is running": "%s kører",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Den kører i baggrunden og minder dig om at blinke\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Højreklik på ikonet ved uret for indstillinger.",
         "Got it": "Forstået",
@@ -3037,6 +3158,18 @@ STRINGS = {
         "Don’t ask again": "Spørg ikke igen",
         "Rate this app": "Bedøm appen",
         "Show countdown": "Vis nedtælling",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "En gang imellem vises et diskret signal. Når du ser det, så blink helt: luk øjnene, klem blidt, åbn.",
+        "Too faint or too strong? Change Strength in Settings.": "For svagt eller for stærkt? Skift Styrke i Indstillinger.",
+        "Show me": "Vis mig",
+        "Close…\nsqueeze…\nopen": "Luk…\nklem…\nåbn",
+        "How did that feel?": "Hvordan føltes det?",
+        "One click adjusts it for you.": "Ét klik justerer det for dig.",
+        "Too faint": "For svagt",
+        "Just right": "Helt rigtigt",
+        "Too strong": "For stærkt",
+        "How it works": "Sådan virker det",
     },
 
     # Norwegian, Bokmal.
@@ -3048,14 +3181,7 @@ STRINGS = {
         "Buy me a coffee": "Spander en kaffe",
         "Quit": "Avslutt",
 
-        "every second": "hvert sekund",
-        "every %d seconds": "hvert %d. sekund",
-        "every minute": "hvert minutt",
-        "every %d minutes": "hvert %d. minutt",
-
         "%s is running": "%s kjører",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Den ligger i bakgrunnen og minner deg på å blunke\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Høyreklikk ikonet ved klokken for innstillinger.",
         "Got it": "Skjønner",
@@ -3143,6 +3269,18 @@ STRINGS = {
         "Don’t ask again": "Ikke spør igjen",
         "Rate this app": "Vurder appen",
         "Show countdown": "Vis nedtelling",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Av og til dukker det opp et diskret signal. Når du ser det, blunk helt: lukk øynene, klem forsiktig, åpne.",
+        "Too faint or too strong? Change Strength in Settings.": "For svakt eller for sterkt? Endre Styrke i Innstillinger.",
+        "Show me": "Vis meg",
+        "Close…\nsqueeze…\nopen": "Lukk…\nklem…\nåpne",
+        "How did that feel?": "Hvordan føltes det?",
+        "One click adjusts it for you.": "Ett klikk justerer det for deg.",
+        "Too faint": "For svakt",
+        "Just right": "Akkurat passe",
+        "Too strong": "For sterkt",
+        "How it works": "Slik fungerer det",
     },
 
     # Dutch.
@@ -3154,15 +3292,7 @@ STRINGS = {
         "Buy me a coffee": "Trakteer op een koffie",
         "Quit": "Afsluiten",
 
-        "every second": "elke seconde",
-        "every %d seconds": "elke %d seconden",
-        "every minute": "elke minuut",
-        "every %d minutes": "elke %d minuten",
-
         "%s is running": "%s is actief",
-        "It stays in the background and will nudge you to blink\n%s.":
-            "Draait op de achtergrond en herinnert je eraan te "
-            "knipperen\n%s.",
         "Right-click the tray icon, by the clock, for settings.":
             "Klik met rechts op het pictogram naast de klok.",
         "Got it": "Begrepen",
@@ -3250,5 +3380,17 @@ STRINGS = {
         "Don’t ask again": "Niet meer vragen",
         "Rate this app": "Beoordeel deze app",
         "Show countdown": "Aftellen tonen",
+
+        # The welcome card, the taught reminder and the strength question.
+        "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Af en toe verschijnt er een zacht signaal. Zie je het, knipper dan volledig: ogen dicht, zacht knijpen, open.",
+        "Too faint or too strong? Change Strength in Settings.": "Te zwak of te sterk? Wijzig de Sterkte bij Instellingen.",
+        "Show me": "Laat zien",
+        "Close…\nsqueeze…\nopen": "Ogen dicht…\nknijpen…\nopen",
+        "How did that feel?": "Hoe voelde dat?",
+        "One click adjusts it for you.": "Eén klik past het voor je aan.",
+        "Too faint": "Te zwak",
+        "Just right": "Precies goed",
+        "Too strong": "Te sterk",
+        "How it works": "Zo werkt het",
     },
 }

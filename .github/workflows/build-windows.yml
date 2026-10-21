@@ -46,6 +46,12 @@ jobs:
       - name: Check the ask schedule
         run: py test_asks.py
 
+      # The first-run lesson: five taught reminders, then the strength
+      # question, its steps staying inside what Settings offers, and a
+      # damaged tutorial file costing nothing worse than a second lesson.
+      - name: Check the tutorial
+        run: py test_tutorial.py
+
       - name: Build
         run: py build.py
 
