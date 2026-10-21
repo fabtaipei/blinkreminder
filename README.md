@@ -148,6 +148,8 @@ exactly the languages the app speaks. CI runs it before every build.
 coffee/review cards, and `py test_tutorial.py` the first-run lesson and the
 strength question. `--test-tutorial` replays the lesson without saving it.
 
+The Chrome extension lives in `chrome/`; see [chrome/README.md](chrome/README.md).
+
 To run without building: `pythonw blink_reminder.py` (`pythonw`, not
 `python`, so no console window appears).
 

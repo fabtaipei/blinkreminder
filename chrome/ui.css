@@ -1,0 +1,110 @@
+/* The desktop app's palette, so the extension reads as the same product.
+   Light and dark follow the system, as the desktop panel follows Windows. */
+
+:root {
+  color-scheme: light dark;
+  --ground: #F4F5F7; --surface: #FFFFFF; --inset: #EDEEF2; --hover: #FAFAFB;
+  --border: #E2E4EA; --border-strong: #CDD1DA;
+  --text: #1A1D23; --muted: #6B7280;
+  --accent: #0F6CBD; --accent-hover: #115EA3; --on-accent: #FFFFFF;
+  --accent-subtle: #EBF3FC;
+  --support: #9A6300; --knob-off: #5D6169;
+  --radius: 8px;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+          "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #202020; --surface: #2B2B2B; --inset: #333333; --hover: #323232;
+    --border: #3A3A3A; --border-strong: #4A4A4A;
+    --text: #F2F3F5; --muted: #A0A6B0;
+    --accent: #479EF5; --accent-hover: #62ABF5; --on-accent: #101215;
+    --accent-subtle: #16324D;
+    --support: #E0A22E; --knob-off: #CFCFCF;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ground); color: var(--text);
+             font: 14px/1.4 var(--font); }
+[hidden] { display: none !important; }
+h1 { font-size: 20px; font-weight: 600; margin: 0; }
+h2 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+p { margin: 0; }
+.muted { color: var(--muted); font-size: 12.5px; }
+a { color: var(--accent); text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+a.support { color: var(--support); font-weight: 600; }
+
+.card { background: var(--surface); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 16px; }
+.row { display: flex; align-items: center; justify-content: space-between;
+       gap: 12px; min-height: 36px; }
+.row > :first-child { flex: 1; }
+
+button { font: inherit; border-radius: 6px; padding: 7px 16px; cursor: pointer;
+         border: 1px solid var(--border-strong); background: var(--surface);
+         color: var(--text); }
+button:hover { background: var(--hover); }
+button.primary { background: var(--accent); border-color: var(--accent);
+                 color: var(--on-accent); font-weight: 600; }
+button.primary:hover { background: var(--accent-hover); }
+button:disabled { opacity: 0.5; cursor: default; }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; }
+
+select, input[type="text"], input[type="number"] {
+  font: inherit; color: var(--text); background: var(--inset);
+  border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; }
+input[type="number"] { width: 72px; }
+input[type="color"] { width: 44px; height: 30px; padding: 2px; border-radius: 6px;
+                      border: 1px solid var(--border); background: var(--inset); }
+input[type="range"] { accent-color: var(--accent); width: 150px; }
+
+/* A switch, from a checkbox with role="switch". */
+input[role="switch"] {
+  appearance: none; flex: none; width: 40px; height: 20px; margin: 0;
+  border-radius: 10px; border: 1px solid var(--knob-off);
+  background: transparent; position: relative; cursor: pointer; }
+input[role="switch"]::after {
+  content: ""; position: absolute; top: 3px; inset-inline-start: 3px;
+  width: 12px; height: 12px; border-radius: 50%; background: var(--knob-off);
+  transition: inset-inline-start 0.12s; }
+input[role="switch"]:checked { background: var(--accent); border-color: var(--accent); }
+input[role="switch"]:checked::after { inset-inline-start: 23px; background: var(--on-accent); }
+label.switch { cursor: pointer; }
+
+/* A row of choices, like the desktop's segmented pickers. */
+.segmented { display: inline-flex; background: var(--inset); border-radius: 6px;
+             padding: 3px; gap: 2px; }
+.segmented button { border: 0; background: transparent; padding: 4px 10px;
+                    font-size: 13px; color: var(--muted); }
+.segmented button[aria-pressed="true"] { background: var(--surface);
+  color: var(--text); font-weight: 600; box-shadow: 0 0 0 1px var(--border-strong); }
+
+.callout { background: var(--accent-subtle); border-radius: var(--radius);
+           padding: 12px 14px; display: grid; gap: 6px; justify-items: start; }
+
+/* ---- the toolbar pop-up ---- */
+body.popup { width: 320px; padding: 14px; display: grid; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.mono { font-variant-numeric: tabular-nums; }
+body.popup > button { width: 100%; }
+body.popup footer { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px;
+                    padding-top: 6px; border-top: 1px solid var(--border); }
+
+/* ---- the settings page ---- */
+body.options main { max-width: 760px; margin: 0 auto; padding: 28px 20px 40px;
+                    display: grid; gap: 16px; }
+.page-head { display: flex; align-items: center; gap: 12px; }
+.page-head h1 { flex: 1; }
+.columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+           gap: 16px; align-items: start; }
+.columns .card { display: grid; gap: 4px; }
+.columns .card > button { justify-self: start; margin-top: 8px; }
+.welcome { display: grid; gap: 12px; border-color: var(--accent); }
+.welcome .buttons { display: flex; justify-content: space-between; }
+.links { display: flex; gap: 20px; flex-wrap: wrap; }
+.pct { min-width: 40px; text-align: end; color: var(--muted);
+       font-variant-numeric: tabular-nums; }
+.control { display: flex; align-items: center; gap: 8px; }

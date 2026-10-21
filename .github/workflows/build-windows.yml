@@ -52,6 +52,22 @@ jobs:
       - name: Check the tutorial
         run: py test_tutorial.py
 
+      # The Chrome extension: its rules under Node, then its strings and
+      # locales regenerated and compared with what is committed -- so a
+      # translation changed in blink_i18n.py cannot leave the extension
+      # quietly showing the old one.
+      - name: Check the Chrome extension
+        working-directory: chrome
+        run: node --test
+
+      # bash, not the default PowerShell, which would carry on past a failed
+      # build and report only whether the diff was clean.
+      - name: Check the Chrome extension's generated files are current
+        shell: bash
+        run: |
+          py chrome/build_extension.py
+          git diff --exit-code -- chrome/strings.js chrome/_locales
+
       - name: Build
         run: py build.py
 
