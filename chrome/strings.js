@@ -39,8 +39,8 @@ export const RTL = ["ar", "ur"];
 export const STRINGS = {
  "ar": {
   "%s is running": "%s قيد التشغيل",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "تظهر إشارة بشكل دوري لتذكيرك بأن ترمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
   "A dot": "نقطة",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "ستظهر إشارة لطيفة من حين لآخر. عندما تراها، ارمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
   "A short review helps others with tired eyes find it. Thank you!": "مراجعة قصيرة تساعد آخرين يعانون من إجهاد العين على العثور عليه. شكرًا!",
   "A word": "كلمة",
   "Blink": "الرمش",
@@ -93,8 +93,8 @@ export const STRINGS = {
  },
  "bn": {
   "%s is running": "%s চলছে",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "একটি সংকেত নিয়মিত দেখা দেয়, যাতে আপনি পুরোপুরি চোখের পলক ফেলতে মনে রাখেন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
   "A dot": "বিন্দু",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "মাঝে মাঝে একটি মৃদু সংকেত দেখা দেবে। দেখলেই পুরোপুরি চোখের পলক ফেলুন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
   "A short review helps others with tired eyes find it. Thank you!": "একটি ছোট রিভিউ ক্লান্ত চোখের অন্যদের এটি খুঁজে পেতে সাহায্য করে। ধন্যবাদ!",
   "A word": "শব্দ",
   "Blink": "পলক",
@@ -147,8 +147,8 @@ export const STRINGS = {
  },
  "cs": {
   "%s is running": "%s běží",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Signál se pravidelně objevuje a připomíná vám, abyste mrkali úplně: zavřete oči, jemně je stiskněte, otevřete.",
   "A dot": "Tečka",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Občas se objeví jemný signál. Když ho uvidíte, mrkněte úplně: zavřete oči, jemně je stiskněte, otevřete.",
   "A short review helps others with tired eyes find it. Thank you!": "Krátké hodnocení pomůže dalším lidem s unavenýma očima ji najít. Děkuji!",
   "A word": "Slovo",
   "Blink": "Mrknutí",
@@ -201,8 +201,8 @@ export const STRINGS = {
  },
  "da": {
   "%s is running": "%s kører",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jævne mellemrum for at minde dig om at blinke helt: luk øjnene, klem blidt, åbn.",
   "A dot": "En prik",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "En gang imellem vises et diskret signal. Når du ser det, så blink helt: luk øjnene, klem blidt, åbn.",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjælper andre med trætte øjne med at finde den. Tak!",
   "A word": "Et ord",
   "Blink": "Blink",
@@ -255,8 +255,8 @@ export const STRINGS = {
  },
  "de": {
   "%s is running": "%s läuft",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ein Hinweis erscheint regelmäßig und erinnert Sie daran, vollständig zu blinzeln: schließen, sanft zusammenkneifen, öffnen.",
   "A dot": "Punkt",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ab und zu erscheint ein dezenter Hinweis. Blinzeln Sie dann vollständig: schließen, sanft zusammenkneifen, öffnen.",
   "A short review helps others with tired eyes find it. Thank you!": "Eine kurze Bewertung hilft anderen mit müden Augen, sie zu finden. Danke!",
   "A word": "Wort",
   "Blink": "Blinzeln",
@@ -309,8 +309,8 @@ export const STRINGS = {
  },
  "el": {
   "%s is running": "Το %s εκτελείται",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ένα σήμα εμφανίζεται περιοδικά για να σου θυμίζει να ανοιγοκλείνεις πλήρως τα μάτια: κλείσε, σφίξε απαλά, άνοιξε.",
   "A dot": "Κουκκίδα",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Κάθε τόσο θα εμφανίζεται ένα διακριτικό σήμα. Όταν το βλέπεις, ανοιγόκλεισε τα μάτια σου πλήρως: κλείσε, σφίξε απαλά, άνοιξε.",
   "A short review helps others with tired eyes find it. Thank you!": "Μια σύντομη κριτική βοηθά άλλους με κουρασμένα μάτια να τη βρουν. Ευχαριστώ!",
   "A word": "Λέξη",
   "Blink": "Βλεφάρισμα",
@@ -363,8 +363,8 @@ export const STRINGS = {
  },
  "es": {
   "%s is running": "%s está en ejecución",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Aparece una señal periódicamente para recordarte parpadear por completo: cierra, aprieta suavemente y abre.",
   "A dot": "Un punto",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "De vez en cuando aparecerá una señal discreta. Cuando la veas, parpadea por completo: cierra, aprieta suavemente y abre.",
   "A short review helps others with tired eyes find it. Thank you!": "Una reseña breve ayuda a otras personas con los ojos cansados a encontrarla. ¡Gracias!",
   "A word": "Palabra",
   "Blink": "Parpadeo",
@@ -417,8 +417,8 @@ export const STRINGS = {
  },
  "fi": {
   "%s is running": "%s on käynnissä",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Merkki näkyy säännöllisesti muistuttamassa räpäyttämään kunnolla: sulje, purista kevyesti, avaa.",
   "A dot": "Piste",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Silloin tällöin näkyy hienovarainen merkki. Kun näet sen, räpäytä silmiä kunnolla: sulje, purista kevyesti, avaa.",
   "A short review helps others with tired eyes find it. Thank you!": "Lyhyt arvio auttaa muita väsyneistä silmistä kärsiviä löytämään sen. Kiitos!",
   "A word": "Sana",
   "Blink": "Räpäytys",
@@ -471,8 +471,8 @@ export const STRINGS = {
  },
  "fr": {
   "%s is running": "%s fonctionne",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un signal apparaît régulièrement pour vous rappeler de cligner complètement des yeux : fermez, serrez doucement, ouvrez.",
   "A dot": "Un point",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Un signal discret apparaîtra de temps en temps. Quand vous le voyez, clignez complètement des yeux : fermez, serrez doucement, ouvrez.",
   "A short review helps others with tired eyes find it. Thank you!": "Un court avis aide d'autres personnes aux yeux fatigués à la trouver. Merci !",
   "A word": "Un mot",
   "Blink": "Clignement",
@@ -525,8 +525,8 @@ export const STRINGS = {
  },
  "hi": {
   "%s is running": "%s चल रहा है",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "एक संकेत समय-समय पर दिखता है, ताकि आपको पूरी तरह पलकें झपकाना याद रहे: आँखें बंद करें, हल्के से भींचें, खोलें।",
   "A dot": "बिंदु",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "बीच-बीच में एक हल्का संकेत दिखेगा। उसे देखते ही पूरी तरह पलकें झपकाएँ: आँखें बंद करें, हल्के से भींचें, खोलें।",
   "A short review helps others with tired eyes find it. Thank you!": "एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है। धन्यवाद!",
   "A word": "शब्द",
   "Blink": "पलक",
@@ -579,8 +579,8 @@ export const STRINGS = {
  },
  "hu": {
   "%s is running": "A(z) %s fut",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Időnként megjelenik egy jelzés, hogy emlékeztessen a teljes pislogásra: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
   "A dot": "Pont",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Időnként megjelenik egy finom jelzés. Amikor látod, pislogj teljesen: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
   "A short review helps others with tired eyes find it. Thank you!": "Egy rövid értékelés segít más fáradt szemű embereknek megtalálni. Köszönöm!",
   "A word": "Szó",
   "Blink": "Pislogás",
@@ -633,8 +633,8 @@ export const STRINGS = {
  },
  "id": {
   "%s is running": "%s sedang berjalan",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Isyarat muncul secara berkala untuk mengingatkan Anda berkedip sepenuhnya: pejamkan, rapatkan perlahan, buka.",
   "A dot": "Titik",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Sesekali akan muncul isyarat lembut. Saat melihatnya, berkediplah sepenuhnya: pejamkan, rapatkan perlahan, buka.",
   "A short review helps others with tired eyes find it. Thank you!": "Ulasan singkat membantu orang lain yang matanya lelah menemukannya. Terima kasih!",
   "A word": "Kata",
   "Blink": "Kedip",
@@ -687,8 +687,8 @@ export const STRINGS = {
  },
  "it": {
   "%s is running": "%s è in esecuzione",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un segnale appare periodicamente per ricordarti di sbattere le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
   "A dot": "Un punto",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ogni tanto apparirà un segnale discreto. Quando lo vedi, sbatti le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
   "A short review helps others with tired eyes find it. Thank you!": "Una breve recensione aiuta altre persone con gli occhi stanchi a trovarla. Grazie!",
   "A word": "Parola",
   "Blink": "Palpebre",
@@ -741,8 +741,8 @@ export const STRINGS = {
  },
  "ja": {
   "%s is running": "%s は実行中です",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "合図が定期的に表示され、しっかりまばたきするよう促します：目を閉じ、軽くぎゅっとつむって、開く。",
   "A dot": "点",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "ときどき、さりげない合図が表示されます。表示されたら、しっかりまばたきしましょう：目を閉じ、軽くぎゅっとつむって、開く。",
   "A short review helps others with tired eyes find it. Thank you!": "短いレビューが、目の疲れに悩むほかの方がこのアプリを見つける助けになります。ありがとうございます！",
   "A word": "文字",
   "Blink": "まばたき",
@@ -795,8 +795,8 @@ export const STRINGS = {
  },
  "ko": {
   "%s is running": "%s 실행 중",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "신호가 주기적으로 나타나 눈을 완전히 깜빡이도록 알려 줍니다: 감고, 살짝 꼭 감았다가, 뜨세요.",
   "A dot": "점",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "가끔 부드러운 신호가 나타납니다. 신호가 보이면 눈을 완전히 깜빡이세요: 감고, 살짝 꼭 감았다가, 뜨세요.",
   "A short review helps others with tired eyes find it. Thank you!": "짧은 리뷰 하나가 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요. 감사합니다!",
   "A word": "글자",
   "Blink": "눈 깜박임",
@@ -849,8 +849,8 @@ export const STRINGS = {
  },
  "nb": {
   "%s is running": "%s kjører",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jevne mellomrom for å minne deg på å blunke helt: lukk øynene, klem forsiktig, åpne.",
   "A dot": "En prikk",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Av og til dukker det opp et diskret signal. Når du ser det, blunk helt: lukk øynene, klem forsiktig, åpne.",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjelper andre med slitne øyne å finne den. Takk!",
   "A word": "Et ord",
   "Blink": "Blunk",
@@ -903,8 +903,8 @@ export const STRINGS = {
  },
  "nl": {
   "%s is running": "%s is actief",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Er verschijnt regelmatig een signaal om je eraan te herinneren volledig te knipperen: ogen dicht, zacht knijpen, open.",
   "A dot": "Een stip",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Af en toe verschijnt er een zacht signaal. Zie je het, knipper dan volledig: ogen dicht, zacht knijpen, open.",
   "A short review helps others with tired eyes find it. Thank you!": "Een korte review helpt anderen met vermoeide ogen hem te vinden. Bedankt!",
   "A word": "Een woord",
   "Blink": "Knipperen",
@@ -957,8 +957,8 @@ export const STRINGS = {
  },
  "pl": {
   "%s is running": "%s działa",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Sygnał pojawia się regularnie i przypomina, by mrugać do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
   "A dot": "Kropka",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Od czasu do czasu pojawi się delikatny sygnał. Gdy go zobaczysz, mrugnij do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
   "A short review helps others with tired eyes find it. Thank you!": "Krótka opinia pomoże innym ze zmęczonymi oczami ją znaleźć. Dziękuję!",
   "A word": "Słowo",
   "Blink": "Mrugnięcie",
@@ -1011,8 +1011,8 @@ export const STRINGS = {
  },
  "pt": {
   "%s is running": "%s está em execução",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Um sinal aparece periodicamente para lembrar você de piscar por completo: feche, aperte de leve e abra.",
   "A dot": "Um ponto",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "De vez em quando, vai aparecer um sinal suave. Quando aparecer, pisque por completo: feche, aperte de leve e abra.",
   "A short review helps others with tired eyes find it. Thank you!": "Uma avaliação curta ajuda outras pessoas com olhos cansados a encontrá-lo. Agradeço!",
   "A word": "Palavra",
   "Blink": "Piscada",
@@ -1065,8 +1065,8 @@ export const STRINGS = {
  },
  "ro": {
   "%s is running": "%s rulează",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un semnal apare periodic ca să-ți amintească să clipești complet: închide ochii, strânge-i ușor, deschide-i.",
   "A dot": "Un punct",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Din când în când va apărea un semnal discret. Când îl vezi, clipește complet: închide ochii, strânge-i ușor, deschide-i.",
   "A short review helps others with tired eyes find it. Thank you!": "O recenzie scurtă îi ajută pe alții cu ochii obosiți să o găsească. Mulțumesc!",
   "A word": "Un cuvânt",
   "Blink": "Clipire",
@@ -1119,8 +1119,8 @@ export const STRINGS = {
  },
  "ru": {
   "%s is running": "%s работает",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал появляется регулярно и напоминает моргать полностью: закройте глаза, мягко сожмите веки, откройте.",
   "A dot": "Точка",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Время от времени будет появляться мягкий сигнал. Увидев его, моргните полностью: закройте глаза, мягко сожмите веки, откройте.",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий отзыв поможет другим людям с уставшими глазами найти его. Спасибо!",
   "A word": "Слово",
   "Blink": "Моргание",
@@ -1173,8 +1173,8 @@ export const STRINGS = {
  },
  "sv": {
   "%s is running": "%s körs",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "En signal visas regelbundet för att påminna dig om att blinka ordentligt: blunda, kläm ihop lätt, öppna.",
   "A dot": "En prick",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Då och då visas en diskret signal. När du ser den, blinka ordentligt: blunda, kläm ihop lätt, öppna.",
   "A short review helps others with tired eyes find it. Thank you!": "En kort recension hjälper andra med trötta ögon att hitta den. Tack!",
   "A word": "Ett ord",
   "Blink": "Blinkning",
@@ -1227,8 +1227,8 @@ export const STRINGS = {
  },
  "th": {
   "%s is running": "%s กำลังทำงาน",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เพื่อเตือนให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
   "A dot": "จุด",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เมื่อเห็น ให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
   "A short review helps others with tired eyes find it. Thank you!": "รีวิวสั้น ๆ ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ ขอบคุณ!",
   "A word": "ข้อความ",
   "Blink": "กะพริบตา",
@@ -1281,8 +1281,8 @@ export const STRINGS = {
  },
  "tr": {
   "%s is running": "%s çalışıyor",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Gözlerinizi tam kırpmanızı hatırlatmak için düzenli aralıklarla bir uyarı belirir: kapatın, hafifçe sıkın, açın.",
   "A dot": "Nokta",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Ara sıra hafif bir uyarı belirecek. Gördüğünüzde gözlerinizi tam kırpın: kapatın, hafifçe sıkın, açın.",
   "A short review helps others with tired eyes find it. Thank you!": "Kısa bir değerlendirme, gözleri yorgun başkalarının onu bulmasına yardımcı olur. Teşekkürler!",
   "A word": "Kelime",
   "Blink": "Göz kırpma",
@@ -1335,8 +1335,8 @@ export const STRINGS = {
  },
  "uk": {
   "%s is running": "%s працює",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал з’являється регулярно й нагадує кліпати повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
   "A dot": "Крапка",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Час від часу з’являтиметься м’який сигнал. Побачивши його, кліпніть повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий відгук допоможе іншим людям із втомленими очима його знайти. Дякую!",
   "A word": "Слово",
   "Blink": "Кліпання",
@@ -1389,8 +1389,8 @@ export const STRINGS = {
  },
  "ur": {
   "%s is running": "%s چل رہا ہے",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "ایک اشارہ وقتاً فوقتاً ظاہر ہوتا ہے تاکہ آپ کو پوری طرح پلک جھپکنا یاد رہے: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
   "A dot": "نقطہ",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "وقتاً فوقتاً ایک ہلکا سا اشارہ ظاہر ہوگا۔ اسے دیکھیں تو پوری طرح پلک جھپکیں: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
   "A short review helps others with tired eyes find it. Thank you!": "ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔ شکریہ!",
   "A word": "لفظ",
   "Blink": "پلک",
@@ -1443,8 +1443,8 @@ export const STRINGS = {
  },
  "vi": {
   "%s is running": "%s đang chạy",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Tín hiệu xuất hiện định kỳ để nhắc bạn chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
   "A dot": "Chấm tròn",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "Thỉnh thoảng sẽ có một tín hiệu nhẹ nhàng xuất hiện. Khi thấy nó, hãy chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
   "A short review helps others with tired eyes find it. Thank you!": "Một đánh giá ngắn giúp những người mỏi mắt khác tìm thấy nó. Cảm ơn bạn!",
   "A word": "Chữ",
   "Blink": "Chớp mắt",
@@ -1497,8 +1497,8 @@ export const STRINGS = {
  },
  "zh-Hans": {
   "%s is running": "%s 正在运行",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示会定期出现，提醒你完整地眨眼：闭上、轻轻闭紧、再睁开。",
   "A dot": "圆点",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "屏幕上会不时出现温和的提示。看到时，请完整地眨眼：闭上、轻轻闭紧、再睁开。",
   "A short review helps others with tired eyes find it. Thank you!": "一条简短的评价，能帮助其他眼睛疲劳的人找到它。谢谢！",
   "A word": "文字",
   "Blink": "眨眼",
@@ -1551,8 +1551,8 @@ export const STRINGS = {
  },
  "zh-Hant": {
   "%s is running": "%s 正在執行",
+  "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示會定期出現，提醒你完整地眨眼：閉上、輕輕閉緊、再睜開。",
   "A dot": "圓點",
-  "A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open.": "畫面上會不時出現溫和的提示。看到時，請完整地眨眼：閉上、輕輕閉緊、再睜開。",
   "A short review helps others with tired eyes find it. Thank you!": "一則簡短的評論，能幫助其他眼睛疲勞的人找到它。謝謝！",
   "A word": "文字",
   "Blink": "眨眼",
