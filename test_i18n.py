@@ -225,8 +225,8 @@ WRAPPED = (
     ("Too weak or too intrusive? Change strength, size, duration and sound "
      "in Settings.", "t4", SN.WIN_W - 2 * SN.PAD - 2 * SN.HINT_PAD, 3,
      "welcome card hint"),
-    ("Too weak or intrusive? You can change these:", "t2",
-     CC.WIN_W - 2 * CC.PAD, 2, "question card body"),
+    ("You can change these:", "t2", CC.WIN_W - 2 * CC.PAD, 2,
+     "question card body"),
 )
 
 # The taught reminder's caption is one line per step, and it is the
@@ -270,8 +270,8 @@ def tutorial_budgets(measure):
          "welcome card title"),
         (br.T("Show me"), "t4b", footer - BTN_PAD,
          "welcome footer, beside Got it with a 16px gap"),
-        (br.T("How did that feel?"), "t1", CC.WIN_W - 2 * CC.PAD - CC.CLOSE_W,
-         "strength question title, left of the close mark"),
+        (br.T("Too weak or intrusive?"), "t1", CC.WIN_W - 2 * CC.PAD - CC.CLOSE_W,
+         "question card title, left of the close mark"),
     ]
     for text in ("Strength", "Size", "Duration", "Sound"):
         rows.append((br.T(text), "t4b", CC.WIN_W - 2 * CC.PAD - 24,
