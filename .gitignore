@@ -24,3 +24,7 @@ Thumbs.db
 store/listings/*-filled.csv
 store/listing-import/
 store/listings/*-changes.csv
+
+# The Chrome extension, built by chrome/build_extension.py --zip.
+/dist-chrome/
+chrome/node_modules/

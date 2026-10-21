@@ -1,0 +1,177 @@
+// The extension's rules, under Node: cd chrome && node --test test/
+//
+// The same promises the desktop's test_asks.py checks, ported with the code:
+// a day of use counts once, an ask is late rather than lost, "Don't ask
+// again" ends them all -- plus the things only the extension has to get
+// right, like which pages it can draw on and which alarms are too stale.
+
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import {
+  DEFAULTS, INTERVALS, normalize, limitFlashRate, pulseOf, pulseMs,
+  msToNextBreak, isStale, drawable, resolveLanguage, freshAsks, loadAsks,
+  countDay, dueAsk, todayIso, feelOf, FEELS, reviewUrl, onWindows,
+} from "../core.js";
+import { LANGUAGES, STRINGS } from "../strings.js";
+
+const CODES = LANGUAGES.map(([, c]) => c);
+
+test("defaults survive normalize unchanged", () => {
+  assert.deepEqual(normalize(undefined), DEFAULTS);
+  assert.deepEqual(normalize(DEFAULTS), DEFAULTS);
+});
+
+test("each damaged setting falls back on its own", () => {
+  const got = normalize({
+    enabled: "yes", blinkInterval: 45, breakMinutes: 30, language: "xx",
+    blink: { opacity: 7, style: "spiral", colour: "red", hold: "500", dotPct: 50 },
+  }, CODES);
+  assert.equal(got.enabled, true);
+  assert.equal(got.blinkInterval, DEFAULTS.blinkInterval, "45 is not a 30s step");
+  assert.equal(got.breakMinutes, 30);
+  assert.equal(got.language, "auto");
+  assert.equal(got.blink.opacity, 1, "clamped, not discarded");
+  assert.equal(got.blink.style, "dot");
+  assert.equal(got.blink.colour, DEFAULTS.blink.colour);
+  assert.equal(got.blink.hold, 500, "a numeric string is still a number");
+  assert.equal(got.blink.dotPct, 50, "the good value next to bad ones is kept");
+});
+
+test("every interval is a 30-second step Chrome can keep", () => {
+  for (const s of INTERVALS) assert.equal(s % 30, 0);
+});
+
+test("a fast repeating pulse is slowed to three flashes a second at most", () => {
+  const p = limitFlashRate({ fade: 0, hold: 50, gap: 0, blinks: 5 });
+  assert.ok(2 * p.fade + p.hold + p.gap >= 350);
+  const one = limitFlashRate({ fade: 0, hold: 50, gap: 0, blinks: 1 });
+  assert.equal(one.gap, 0, "a single pulse cannot flash, so it is left alone");
+});
+
+test("the default word fills in only when none was typed", () => {
+  assert.equal(pulseOf(DEFAULTS, "blink", "Blink").message, "Blink");
+  const typed = normalize({ blink: { message: "Look up" } });
+  assert.equal(pulseOf(typed, "blink", "Blink").message, "Look up");
+  assert.equal(pulseMs({ fade: 500, hold: 500, blinks: 2, gap: 150 }), 3150);
+});
+
+test("breaks land on the wall clock", () => {
+  const at = (h, m, s) => new Date(2026, 9, 21, h, m, s);
+  assert.equal(msToNextBreak(30, at(10, 0, 0)), 30 * 60000);
+  assert.equal(msToNextBreak(30, at(10, 29, 0)), 60000);
+  assert.equal(msToNextBreak(30, at(10, 45, 30)), 14 * 60000 + 30000);
+  assert.equal(msToNextBreak(20, at(23, 59, 0)), 60000, "midnight is a boundary");
+});
+
+test("an alarm fired late after sleep is stale", () => {
+  assert.equal(isStale(1000, 5000, 20000), false);
+  assert.equal(isStale(1000, 3600000, 20000), true);
+});
+
+test("the cue is drawn on web pages only", () => {
+  assert.equal(drawable("https://example.com/a"), true);
+  assert.equal(drawable("http://localhost:8000/"), true);
+  for (const url of ["chrome://settings", "chrome-extension://x/options.html",
+                     "file:///C:/a.pdf", undefined,
+                     "https://chromewebstore.google.com/detail/x",
+                     "https://microsoftedge.microsoft.com/addons/detail/x"]) {
+    assert.equal(drawable(url), false, String(url));
+  }
+});
+
+test("the browser's language resolves to one we speak", () => {
+  assert.equal(resolveLanguage("en-GB", CODES), "en");
+  assert.equal(resolveLanguage("zh-TW", CODES), "zh-Hant");
+  assert.equal(resolveLanguage("zh-HK", CODES), "zh-Hant");
+  assert.equal(resolveLanguage("zh-CN", CODES), "zh-Hans");
+  assert.equal(resolveLanguage("zh", CODES), "zh-Hans");
+  assert.equal(resolveLanguage("pt-BR", CODES), "pt");
+  assert.equal(resolveLanguage("no", CODES), "nb");
+  assert.equal(resolveLanguage("fil", CODES), "en");
+  assert.equal(resolveLanguage("sw", CODES), "en", "unspoken falls back to English");
+});
+
+test("strings.js covers every language with the same keys", () => {
+  const keys = Object.keys(STRINGS.fr).sort();
+  assert.equal(Object.keys(STRINGS).length, CODES.length - 1, "all but English");
+  for (const [code, table] of Object.entries(STRINGS)) {
+    assert.deepEqual(Object.keys(table).sort(), keys, code);
+  }
+});
+
+test("presets are recognised, hand-tuned timings are Custom", () => {
+  assert.equal(feelOf({ ...DEFAULTS.blink, ...FEELS.Gentle }), "Gentle");
+  assert.equal(feelOf(DEFAULTS.blink), "Custom");
+});
+
+test("rate goes to the store this copy came from", () => {
+  assert.match(reviewUrl("abc", "Mozilla/5.0 Chrome/155.0"), /chromewebstore.*abc\/reviews/);
+  assert.match(reviewUrl("abc", "Mozilla/5.0 Chrome/155.0 Edg/155.0"), /microsoftedge/);
+  assert.equal(onWindows("Mozilla/5.0 (Windows NT 10.0; Win64; x64)"), true);
+  assert.equal(onWindows("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"), false);
+});
+
+// -- days of use and the asks: the desktop's rules, ported ------------------
+
+test("a day counts once, however often the browser opens", () => {
+  const st = freshAsks();
+  assert.equal(countDay(st, "2026-10-01"), true);
+  assert.equal(countDay(st, "2026-10-01"), false);
+  assert.equal(countDay(st, "2026-10-04"), true, "three days asleep count one");
+  assert.equal(st.days_used, 2);
+});
+
+test("a clock moved back never counts a day twice", () => {
+  const st = freshAsks();
+  countDay(st, "2026-10-05");
+  assert.equal(countDay(st, "2026-10-04"), false);
+  assert.equal(countDay(st, "2026-10-05"), false);
+  assert.equal(st.days_used, 1);
+});
+
+test("a date once set far in the future is pulled back, not waited out", () => {
+  const st = { ...freshAsks(), days_used: 3, last_counted: "2027-06-01" };
+  assert.equal(countDay(st, "2026-10-05"), false);
+  assert.equal(st.last_counted, "2026-10-05");
+  assert.equal(countDay(st, "2026-10-06"), true);
+});
+
+test("an ask is due once its day is reached, and late rather than lost", () => {
+  const st = { ...freshAsks(), days_used: 11 };
+  assert.equal(dueAsk(st, "d"), null);
+  st.days_used = 30;
+  assert.deepEqual(dueAsk(st, "d"), [12, "donate"], "the earliest unshown first");
+  st.shown.push(12);
+  assert.deepEqual(dueAsk(st, "d"), [25, "review"]);
+});
+
+test("at most one ask a day", () => {
+  const st = { ...freshAsks(), days_used: 30, shown: [12], last_ask: "d" };
+  assert.equal(dueAsk(st, "d"), null);
+  assert.deepEqual(dueAsk(st, "e"), [25, "review"]);
+});
+
+test("Don't ask again ends every ask, reviews included", () => {
+  const st = { ...freshAsks(), days_used: 200, opted_out: true };
+  assert.equal(dueAsk(st, "d"), null);
+});
+
+test("a kind that cannot be asked is skipped, not spent", () => {
+  const st = { ...freshAsks(), days_used: 30 };
+  assert.deepEqual(dueAsk(st, "d", (k) => k === "review"), [25, "review"]);
+  assert.deepEqual(st.shown, []);
+});
+
+test("damaged ask state costs only the damaged field", () => {
+  assert.deepEqual(loadAsks(null), freshAsks());
+  const got = loadAsks({ days_used: -3, last_counted: "2026-10-01",
+                         shown: [12, "25", true], opted_out: "yes" });
+  assert.equal(got.days_used, 0);
+  assert.equal(got.last_counted, "2026-10-01");
+  assert.deepEqual(got.shown, [12]);
+  assert.equal(got.opted_out, false);
+});
+
+test("today is local YYYY-MM-DD, which sorts as dates do", () => {
+  assert.equal(todayIso(new Date(2026, 0, 5)), "2026-01-05");
+});

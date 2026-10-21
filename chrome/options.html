@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="ui.css">
+<title>Dry Eyes Blink Reminder Lite</title>
+</head>
+<body class="options">
+<main>
+  <!-- Shown once, on install: where the on-page cue is switched on. -->
+  <section id="welcome" class="card welcome" hidden>
+    <h1 id="welcome-title"></h1>
+    <p data-t="A gentle cue will appear now and then. When you see it, blink fully: close, squeeze gently, open."></p>
+    <div class="callout" id="welcome-grant-box">
+      <button id="welcome-grant" class="primary" data-t="Show the cue on web pages"></button>
+      <p class="muted"><span data-t="Nothing on the page is read or sent anywhere."></span>
+        <span data-t="Without it, reminders come as notifications."></span></p>
+    </div>
+    <div class="buttons">
+      <button id="show-me" data-t="Show me"></button>
+      <button id="got-it" class="primary" data-t="Got it"></button>
+    </div>
+  </section>
+
+  <header class="page-head">
+    <img src="icons/icon-48.png" width="32" height="32" alt="">
+    <h1>Dry Eyes Blink Reminder Lite</h1>
+    <select id="language" aria-label="Language"></select>
+  </header>
+
+  <section class="card">
+    <label class="row switch">
+      <span data-t="Reminders on"></span>
+      <input type="checkbox" id="enabled" role="switch">
+    </label>
+    <label class="row switch">
+      <span data-t="Show the cue on web pages"></span>
+      <input type="checkbox" id="page-cue" role="switch">
+    </label>
+    <p class="muted"><span data-t="Nothing on the page is read or sent anywhere."></span>
+      <span data-t="Without it, reminders come as notifications."></span></p>
+  </section>
+
+  <div class="columns">
+    <section class="card" id="blink-card">
+      <h2 data-t="Blink"></h2>
+      <div class="row">
+        <label for="blink-interval" data-t="Remind me every"></label>
+        <select id="blink-interval"></select>
+      </div>
+      <div class="look" data-kind="blink"></div>
+      <button class="preview" data-kind="blink" data-t="Preview blink"></button>
+    </section>
+
+    <section class="card" id="break-card">
+      <h2 data-t="Break"></h2>
+      <label class="row switch">
+        <span data-t="Remind me to look away"></span>
+        <input type="checkbox" id="break-enabled" role="switch">
+      </label>
+      <div class="row"><span></span><div id="break-minutes" class="segmented"></div></div>
+      <div class="look" data-kind="brk"></div>
+      <label class="row switch">
+        <span data-t="Show countdown"></span>
+        <input type="checkbox" id="countdown" role="switch">
+      </label>
+      <button class="preview" data-kind="brk" data-t="Preview break"></button>
+    </section>
+  </div>
+
+  <footer class="links">
+    <a id="coffee" class="support" data-t="Buy me a coffee"></a>
+    <a id="rate" data-t="Rate this app"></a>
+    <a id="windows" data-t="Full version for Windows" hidden></a>
+  </footer>
+</main>
+<script src="cue.js"></script>
+<script type="module" src="options.js"></script>
+</body>
+</html>

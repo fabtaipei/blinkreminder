@@ -1,0 +1,295 @@
+// The extension in a real Chrome, headless, end to end.
+//
+//     node chrome/e2e/headless.js [path-to-chrome] [screenshot-folder]
+//
+// Headless, with a throwaway profile and audio muted: nothing appears on
+// screen, nothing touches your own Chrome profile, nothing makes a sound.
+// Notifications are never triggered here -- on Windows they would be real
+// toasts -- so only the on-page path is driven.
+//
+// The test copy is granted site access in its manifest, because the real one
+// asks for it with a click, which a test cannot make.
+
+import { spawn } from "node:child_process";
+import { createServer } from "node:http";
+import { cpSync, mkdtempSync, readFileSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join, dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+// BLINK_EXT_SRC=dist-chrome/unpacked tests the package exactly as built.
+const SRC = resolve(process.env.BLINK_EXT_SRC || resolve(HERE, ".."));
+const CHROME = process.argv[2] ||
+  "C:/Program Files/Google/Chrome/Application/chrome.exe";
+const SHOTS = process.argv[3] || null;
+
+const failures = [];
+function check(what, ok, detail = "") {
+  console.log(`  ${ok ? "ok  " : "FAIL"}  ${what}${detail ? `  (${detail})` : ""}`);
+  if (!ok) failures.push(what);
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const STUB_NOTIFICATIONS = `globalThis.__notified = [];
+  chrome.notifications.create = async (id, opts) => { __notified.push({ id, ...opts }); return id; };
+  chrome.notifications.clear = async () => true; 1`;
+
+// -- a copy of the extension, with site access granted up front --------------
+const work = mkdtempSync(join(tmpdir(), "blink-ext-e2e-"));
+// What Chrome would load: no tests, no tooling, and no __pycache__, whose
+// leading underscore Chrome refuses outright.
+function copyExtension(dest) {
+  cpSync(SRC, dest, { recursive: true,
+    filter: (p) => !/[\\/](e2e|test|node_modules|__pycache__)([\\/]|$)/.test(p) });
+  return dest;
+}
+const ext = copyExtension(join(work, "ext"));
+const manifest = JSON.parse(readFileSync(join(ext, "manifest.json"), "utf8"));
+manifest.host_permissions = ["http://*/*", "https://*/*"];
+writeFileSync(join(ext, "manifest.json"), JSON.stringify(manifest, null, 2));
+
+// -- a page to draw on --------------------------------------------------------
+const server = createServer((req, res) => {
+  res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+  res.end(`<!doctype html><title>page</title>
+    <style>body{font:16px sans-serif;margin:40px;background:#fff}
+    [popover]{background:red!important} div{z-index:99999;position:relative}</style>
+    <h1>An ordinary page</h1><p>With some text, and a hostile stylesheet.</p>
+    <input id="typing" value="typing here">`);
+});
+await new Promise((r) => server.listen(0, "127.0.0.1", r));
+const PAGE = `http://127.0.0.1:${server.address().port}/`;
+
+// -- Chrome, over the DevTools pipe -------------------------------------------
+const chrome = spawn(CHROME, [
+  "--headless=new", `--user-data-dir=${join(work, "profile")}`,
+  "--remote-debugging-pipe", "--enable-unsafe-extension-debugging",
+  "--no-first-run", "--no-default-browser-check", "--mute-audio",
+  "--window-size=1280,800", "about:blank",
+], { stdio: ["ignore", "ignore", "pipe", "pipe", "pipe"] });
+const toChrome = chrome.stdio[3], fromChrome = chrome.stdio[4];
+
+let nextId = 1;
+const pending = new Map();
+const events = [];
+let buffer = "";
+fromChrome.on("data", (chunk) => {
+  buffer += chunk.toString("utf8");
+  let end;
+  while ((end = buffer.indexOf("\0")) >= 0) {
+    const msg = JSON.parse(buffer.slice(0, end));
+    buffer = buffer.slice(end + 1);
+    if (msg.id && pending.has(msg.id)) {
+      const { ok, fail } = pending.get(msg.id);
+      pending.delete(msg.id);
+      msg.error ? fail(new Error(JSON.stringify(msg.error))) : ok(msg.result);
+    } else if (msg.method) {
+      events.push(msg);
+    }
+  }
+});
+
+function send(method, params = {}, sessionId) {
+  const id = nextId++;
+  toChrome.write(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }) + "\0");
+  return new Promise((ok, fail) => {
+    pending.set(id, { ok, fail });
+    setTimeout(() => { if (pending.delete(id)) fail(new Error(`timeout: ${method}`)); }, 15000);
+  });
+}
+
+async function evaluate(sessionId, expression, contextId) {
+  const r = await send("Runtime.evaluate",
+    { expression, awaitPromise: true, returnByValue: true,
+      ...(contextId ? { contextId } : {}) }, sessionId);
+  if (r.exceptionDetails) throw new Error(JSON.stringify(r.exceptionDetails).slice(0, 400));
+  return r.result.value;
+}
+
+async function attach(targetId) {
+  const { sessionId } = await send("Target.attachToTarget", { targetId, flatten: true });
+  await send("Runtime.enable", {}, sessionId);
+  return sessionId;
+}
+
+async function shot(sessionId, name) {
+  if (!SHOTS) return;
+  mkdirSync(SHOTS, { recursive: true });
+  const { data } = await send("Page.captureScreenshot", { format: "png" }, sessionId);
+  writeFileSync(join(SHOTS, `${name}.png`), Buffer.from(data, "base64"));
+}
+
+async function openTab(url) {
+  const { targetId } = await send("Target.createTarget", { url });
+  const sessionId = await attach(targetId);
+  await send("Page.enable", {}, sessionId);
+  await sleep(800);
+  return { targetId, sessionId };
+}
+
+try {
+  await send("Browser.getVersion").then((v) => console.log(v.product));
+  const { id } = await send("Extensions.loadUnpacked", { path: ext });
+  check("the extension loads", !!id, id);
+  await sleep(1500);
+
+  let targets = [];
+  for (let i = 0; i < 20; i++) {
+    targets = (await send("Target.getTargets")).targetInfos;
+    if (targets.some((t) => t.url.includes(`${id}/options.html`))) break;
+    await sleep(250);
+  }
+  const sw = targets.find((t) => t.type === "service_worker" && t.url.includes(id));
+  check("its service worker starts", !!sw);
+  const swS = await attach(sw.targetId);
+
+  const welcome = targets.find((t) => t.url.includes(`${id}/options.html#welcome`));
+  check("installing opens the welcome page", !!welcome,
+        welcome ? "" : targets.map((t) => t.type + " " + t.url).join(", "));
+  // Headless Chrome never sees a person, so it reports "idle"; the timed
+  // paths below would all stop at "away". Tell the worker someone is here.
+  await evaluate(swS, "chrome.idle.queryState = async () => 'active', 1");
+  // Never a real notification: on Windows it would be a toast on the screen
+  // of whoever is running this. Recorded instead, for the checks below.
+  await evaluate(swS, STUB_NOTIFICATIONS);
+
+  const alarms = await evaluate(swS, "chrome.alarms.getAll().then(a => a.map(x => x.name).sort())");
+  check("blink, break and tick alarms are set", JSON.stringify(alarms) === '["blink","break","tick"]',
+        JSON.stringify(alarms));
+  const badge = await evaluate(swS, "chrome.action.getBadgeText({})");
+  check("the badge counts down to the break", /^\d+$/.test(badge) && +badge <= 30, badge);
+
+  // -- the cue on a page ------------------------------------------------------
+  const page = await openTab(PAGE);
+  await send("Target.activateTarget", { targetId: page.targetId });
+  await evaluate(page.sessionId, "document.getElementById('typing').focus(), 1");
+  const focusedWin = await evaluate(swS,
+    "chrome.windows.getLastFocused().then(w => w.focused)");
+  console.log(`  (headless reports the window focused: ${focusedWin})`);
+
+  const result = await evaluate(swS, "__blinkReminder.deliver('blink', { manual: true })");
+  check("Blink now draws on the page", result === "page", result);
+  await sleep(700);                                   // into the hold
+  const seen = await evaluate(page.sessionId, `(() => {
+    const host = document.querySelector('blink-reminder-cue');
+    if (!host) return null;
+    const cs = getComputedStyle(host);
+    return { bg: cs.backgroundColor, focus: document.activeElement.id };
+  })()`);
+  // The fade happens inside a closed shadow root, so it is read from the
+  // extension's own isolated world, where cue.js keeps a way to look.
+  const iso = events.filter((e) => e.method === "Runtime.executionContextCreated" &&
+    e.sessionId === page.sessionId && e.params.context.auxData?.type === "isolated").pop();
+  const st = iso && await evaluate(page.sessionId, "globalThis.__blinkReminderCue.state()",
+                                   iso.params.context.id);
+  check("the cue is on the page", !!seen && !!st);
+  check("it is in the top layer", st?.open === true);
+  check("it is at its peak opacity", Math.abs((st?.opacity ?? 0) - 0.345) < 0.02,
+        String(st?.opacity));
+  check("clicks pass through it", st?.events === "none");
+  check("the page's own [popover] style does not reach it",
+        seen?.bg === "rgba(0, 0, 0, 0)", seen?.bg);
+  check("focus stays where the user left it", seen?.focus === "typing", seen?.focus);
+  await shot(page.sessionId, "page-blink-dot");
+  await sleep(3000);
+  const gone = await evaluate(page.sessionId, "document.querySelector('blink-reminder-cue') === null");
+  check("it removes itself when done", gone);
+
+  // A break, quietly (sound off), in its default dim style.
+  await evaluate(swS, `chrome.storage.local.get('cfg').then(({cfg}) =>
+    chrome.storage.local.set({ cfg: { ...(cfg || {}), brk: { style: 'dim', sound: false } } }))`);
+  await sleep(300);
+  const brk = await evaluate(swS, "__blinkReminder.deliver('break', { manual: true })");
+  check("a break dims the page", brk === "page", brk);
+  await sleep(1500);
+  await shot(page.sessionId, "page-break-dim");
+  const quiet = await evaluate(swS, "__blinkReminder.deliver('blink')");
+  check("a timed blink waits while the break is on screen", quiet === "break showing", quiet);
+
+  // -- the extension's own pages, light and dark, in a few languages -----------
+  for (const [lang, scheme] of [["en", "light"], ["en", "dark"], ["de", "dark"],
+                                ["ar", "light"], ["zh-Hant", "dark"]]) {
+    await evaluate(swS, `chrome.storage.local.get('cfg').then(({cfg}) =>
+      chrome.storage.local.set({ cfg: { ...(cfg || {}), language: '${lang}' } }))`);
+    for (const [file, w, h] of [["options.html#welcome", 1100, 1500], ["popup.html", 320, 420]]) {
+      const tab = await openTab(`chrome-extension://${id}/${file}`);
+      await send("Emulation.setEmulatedMedia", { features: [
+        { name: "prefers-color-scheme", value: scheme }] }, tab.sessionId);
+      await send("Emulation.setDeviceMetricsOverride",
+        { width: w, height: h, deviceScaleFactor: 1, mobile: false }, tab.sessionId);
+      await sleep(500);
+      const info = await evaluate(tab.sessionId, `({ dir: document.dir, lang: document.documentElement.lang,
+        empty: [...document.querySelectorAll('[data-t]')].filter(e => !e.textContent.trim()).length,
+        height: document.documentElement.scrollHeight })`);
+      check(`${file.split(".")[0]} in ${lang}/${scheme}: every label filled`, info.empty === 0,
+            `lang=${info.lang} dir=${info.dir}`);
+      await shot(tab.sessionId, `${file.split(".")[0]}-${lang}-${scheme}`);
+      await send("Target.closeTarget", { targetId: tab.targetId });
+    }
+  }
+
+  // -- as shipped: no site access until someone switches it on -------------
+  const shipped = copyExtension(join(work, "shipped"));
+  const { id: id2 } = await send("Extensions.loadUnpacked", { path: shipped });
+  let sw2;
+  for (let i = 0; i < 20 && !sw2; i++) {
+    await sleep(250);
+    sw2 = (await send("Target.getTargets")).targetInfos.find(
+      (t) => t.type === "service_worker" && t.url.includes(id2));
+  }
+  const sw2S = await attach(sw2.targetId);
+  await evaluate(sw2S, "chrome.idle.queryState = async () => 'active', 1");
+  await evaluate(sw2S, STUB_NOTIFICATIONS);
+  check("as shipped, it has no access to pages",
+        (await evaluate(sw2S, `chrome.permissions.contains(${JSON.stringify({ origins: ["https://*/*"] })})`)) === false);
+  const viaToast = await evaluate(sw2S, "__blinkReminder.deliver('blink', { manual: true })");
+  const toast = await evaluate(sw2S, "__notified.at(-1)");
+  check("without it, a blink comes as a notification", viaToast === "notification", viaToast);
+  check("... carrying the instruction, silently",
+        toast?.message === "Close… squeeze… open" && toast?.silent === true,
+        JSON.stringify(toast?.message));
+  const nothingOnPage = await evaluate(page.sessionId,
+    "document.querySelector('blink-reminder-cue') === null");
+  check("... and nothing is drawn on the page", nothingOnPage);
+
+  // Twelve days of use, long since the browser started: the coffee ask.
+  await evaluate(sw2S, `Promise.all([
+    chrome.storage.local.set({ asks: { days_used: 12, last_counted: "${new Date().toISOString().slice(0, 10)}",
+                                       shown: [], opted_out: false, last_ask: "" } }),
+    chrome.storage.session.set({ startedAt: 1 })])`);
+  await evaluate(sw2S, "__blinkReminder.checkAsks()");
+  const ask = await evaluate(sw2S, "__notified.at(-1)");
+  check("on the twelfth day of use, the coffee ask appears",
+        ask?.id === "ask-donate" && ask?.buttons?.length === 2 && ask?.requireInteraction === true,
+        ask?.id);
+  await evaluate(sw2S, "__blinkReminder.checkAsks()");
+  check("... once, not every minute", (await evaluate(sw2S, "__notified.length")) === 2);
+
+  for (const [file, w, h] of [["options.html#welcome", 1100, 900], ["popup.html", 320, 460]]) {
+    const tab = await openTab(`chrome-extension://${id2}/${file}`);
+    await send("Emulation.setDeviceMetricsOverride",
+      { width: w, height: h, deviceScaleFactor: 1, mobile: false }, tab.sessionId);
+    await sleep(500);
+    const offered = await evaluate(tab.sessionId, file.startsWith("popup")
+      ? "!document.getElementById('page-cue').hidden"
+      : "!document.getElementById('welcome-grant-box').hidden");
+    check(`${file.split(".")[0]} offers to show the cue on pages`, offered);
+    await shot(tab.sessionId, `shipped-${file.split(".")[0]}`);
+    await send("Target.closeTarget", { targetId: tab.targetId });
+  }
+
+  const errors = events.filter((e) => e.method === "Runtime.exceptionThrown");
+  check("no uncaught errors anywhere", errors.length === 0,
+        errors.map((e) => e.params.exceptionDetails.exception?.description?.split("\n")[0]).join("; "));
+} catch (e) {
+  check("the run completed", false, e.message);
+} finally {
+  try { await send("Browser.close"); } catch { /* already gone */ }
+  chrome.kill();
+  server.close();
+  await sleep(500);
+  try { rmSync(work, { recursive: true, force: true }); } catch { /* Chrome may hold a file */ }
+}
+
+console.log(failures.length ? `\n${failures.length} FAILURE(S)` : "\nall checks passed");
+process.exit(failures.length ? 1 : 0);

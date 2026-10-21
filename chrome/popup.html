@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="ui.css">
+<title>Dry Eyes Blink Reminder Lite</title>
+</head>
+<body class="popup">
+  <header class="brand">
+    <img src="icons/icon-32.png" width="20" height="20" alt="">
+    <span>Dry Eyes Blink Reminder Lite</span>
+  </header>
+
+  <label class="row switch">
+    <span data-t="Reminders on"></span>
+    <input type="checkbox" id="enabled" role="switch">
+  </label>
+
+  <button id="blink-now" class="primary" data-t="Blink now"></button>
+
+  <div class="row">
+    <label for="interval" data-t="Remind me every"></label>
+    <select id="interval"></select>
+  </div>
+
+  <div class="row" id="break-row">
+    <span data-t="Break"></span>
+    <span id="countdown" class="mono"></span>
+  </div>
+
+  <button id="snooze"></button>
+
+  <section id="page-cue" class="callout" hidden>
+    <button id="grant" data-t="Show the cue on web pages"></button>
+    <p class="muted" data-t="Without it, reminders come as notifications."></p>
+  </section>
+
+  <footer>
+    <a id="settings" data-t="Settings"></a>
+    <a id="coffee" class="support" data-t="Buy me a coffee"></a>
+    <a id="rate" data-t="Rate this app"></a>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
