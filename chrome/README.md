@@ -13,10 +13,11 @@ on Windows, Mac, Linux and ChromeOS. Design: `docs/chrome-extension-design.md`.
   minutes). If Chrome isn't the window in use, it arrives as a notification.
 - **Toolbar pop-up**: on/off, Blink now, interval, snooze 30 minutes, the
   time to the next break. The toolbar badge counts down the minutes.
-- **Corner dot** (opt-in, off by default): a small dot in the bottom-right of
-  the page while reminders are running, the desktop app's corner indicator as
-  far as a browser allows. It needs the same site access the cue does, and it
-  steps aside while a reminder is on screen.
+- **Corner dot**: a small dot in the bottom-right of the page while reminders
+  are running, the desktop app's corner indicator as far as a browser allows.
+  On by default, and switchable off. It needs the same site access the cue
+  does, so it cannot appear until that has been granted, and it steps aside
+  while a reminder is on screen.
 - **Settings page**: style, strength, colour, size, position, flash style,
   timings and sound for each reminder, and the language — all 30 of the desktop app's,
   Urdu included (Chrome itself has no Urdu).
