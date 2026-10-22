@@ -7,7 +7,8 @@
 // access in its manifest, because a screenshot cannot click Chrome's prompt.
 //
 // It shoots the product, not a mock-up: the real cue, over a real page, at
-// the settings the extension actually ships with.
+// the settings the extension actually ships with. These are the raw frames;
+// store/make_chrome_assets.py lays them out and captions them.
 
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
@@ -38,15 +39,19 @@ writeFileSync(join(ext, "manifest.json"), JSON.stringify(manifest, null, 2));
 // listing is someone else's trade mark.
 const PAGE = `<!doctype html><meta charset="utf-8"><title>An article</title>
 <style>
- :root { color-scheme: light }
- body { margin: 0; background: #fff; color: #1b1f24;
+ /* Dark, because that is where the cue's own default strength reads as it
+    really is. On a white page a 34% lime wash is honestly faint, and a
+    listing image that has to be squinted at tells nobody anything. */
+ :root { color-scheme: dark }
+ body { margin: 0; background: #14171a; color: #c3ccd6;
         font: 16px/1.75 Georgia, "Times New Roman", serif; }
- header { border-bottom: 1px solid #e6e8eb; padding: 14px 0;
-          font: 600 13px/1 system-ui, sans-serif; color: #6b7280;
+ header { border-bottom: 1px solid #262b31; padding: 14px 0;
+          font: 600 13px/1 system-ui, sans-serif; color: #7d8794;
           letter-spacing: .14em; text-transform: uppercase; }
  main { max-width: 640px; margin: 0 auto; padding: 0 24px 60px; }
- h1 { font: 700 34px/1.25 system-ui, sans-serif; margin: 36px 0 6px; }
- .by { color: #6b7280; font: 14px/1 system-ui, sans-serif; margin-bottom: 28px; }
+ h1 { font: 700 34px/1.25 system-ui, sans-serif; margin: 36px 0 6px;
+      color: #e8eef5; }
+ .by { color: #7d8794; font: 14px/1 system-ui, sans-serif; margin-bottom: 28px; }
  p { margin: 0 0 20px; }
 </style>
 <main>
@@ -145,13 +150,13 @@ try {
   // 1. the blink cue, at the strength it ships with
   await evaluate(swS, "__blinkReminder.deliver('blink', { manual: true })");
   await sleep(700);
-  await shot(page.sessionId, "1-blink-cue");
+  await shot(page.sessionId, "1-blink-cue-raw");
   await sleep(3000);
 
   // 2. the break, which dims the whole page
   await evaluate(swS, "__blinkReminder.deliver('break', { manual: true })");
   await sleep(1400);
-  await shot(page.sessionId, "2-break");
+  await shot(page.sessionId, "2-break-raw");
   await sleep(4000);
 
   // 3. the corner dot, saying it is running
@@ -163,7 +168,7 @@ try {
   // 4. the settings
   const opts = await openTab(`chrome-extension://${id}/options.html`);
   await sleep(900);
-  await shot(opts.sessionId, "4-settings");
+  await shot(opts.sessionId, "4-settings-raw");
 
   // 5. the pop-up, at its own size, for compositing
   const pop = await openTab(`chrome-extension://${id}/popup.html`, 320, 430);
