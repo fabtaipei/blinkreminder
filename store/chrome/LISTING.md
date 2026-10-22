@@ -16,7 +16,7 @@ Only the long description below is English-only.
 | Icon (128×128) | taken from the package; `icon-128.png` if a field asks for the file |
 
 Each carries one word across it, as the Windows listing puts BLINK across
-its own: BLINK, CUSTOMISABLE, SNOOZE ANY TIME, TAKE A BREAK, STILL RUNNING.
+its own: BLINK, CUSTOMISABLE, SNOOZE ANY TIME, TAKE A BREAK, WORKING QUIETLY.
 A lime circle over an article could otherwise be anything, and a caption in
 small print at the top does not get read. The demo page is dark because that is where the
 cue's own default strength reads as it really is — on a white page a 34%
