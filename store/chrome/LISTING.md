@@ -9,10 +9,15 @@ Only the long description below is English-only.
 
 ## Images
 
+Screenshots go in **Global assets**, not Localised: global is the set everyone
+sees, and localised overrides it for one language only. The words on them are
+English, so there is nothing to override.
+
 | Field | File |
 |---|---|
 | Screenshots (1280×800, in this order) | `1-blink-cue.png`, `4-settings.png`, `5-popup.png`, `2-break.png`, `3-corner-dot.png` |
 | Small promo tile (440×280) | `promo-440x280.png` |
+| Marquee promo tile (1400×560) | `marquee-1400x560.png` — optional; it is what a featured placement uses |
 | Icon (128×128) | taken from the package; `icon-128.png` if a field asks for the file |
 
 Each carries one word across it, as the Windows listing puts BLINK across
