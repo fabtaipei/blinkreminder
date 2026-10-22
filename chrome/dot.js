@@ -35,6 +35,10 @@
       bottom: `${BOTTOM}px`, right: `${RIGHT}px`,
       width: `${SIZE}px`, height: `${SIZE}px`, "border-radius": "50%",
       background: colour, opacity: String(ALPHA),
+      // A dark ring round the core, for the same reason the desktop's 16px
+      // tray icon keeps two tones: this sits on a background the app did not
+      // choose. Lime alone is nearly invisible on a white page.
+      "box-shadow": "0 0 0 1px rgba(0, 0, 0, 0.55)",
       margin: "0", padding: "0", border: "0",
       // Never in the way: no clicks, no selection, and under the cue rather
       // than over it, so a reminder is never drawn around a hole.
