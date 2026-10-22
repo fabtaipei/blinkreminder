@@ -8,14 +8,16 @@
 </head>
 <body class="options">
 <main>
-  <!-- Shown once, on install: where the on-page cue is switched on. -->
+  <!-- Shown once, on install: what the app does, then the one switch that
+       decides how reminders arrive. The privacy line belongs on the switch
+       in the settings card below, not here -- a card introducing the app
+       should not open by defending it. -->
   <section id="welcome" class="card welcome" hidden>
     <h1 id="welcome-title"></h1>
     <p data-t="A cue appears periodically, to remind you to blink fully: close, squeeze gently, open."></p>
     <div class="callout" id="welcome-grant-box">
       <button id="welcome-grant" class="primary" data-t="Show the cue on web pages"></button>
-      <p class="muted"><span data-t="Nothing on the page is read or sent anywhere."></span>
-        <span data-t="Without it, reminders come as notifications."></span></p>
+      <p class="muted" data-t="Without it, reminders come as notifications."></p>
     </div>
     <div class="buttons">
       <button id="show-me" data-t="Show me"></button>
