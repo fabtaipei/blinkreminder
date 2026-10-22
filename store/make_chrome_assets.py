@@ -106,5 +106,15 @@ d.text((40, 206), "Blink Reminder Lite", font=font(27, True), fill=(242, 243, 24
 d.text((42, 244), "A gentle cue to blink", font=font(15), fill=MUTED)
 save(tile, "promo-440x280.png")
 
-print("\nupload the numbered PNGs as screenshots; promo-440x280.png as the "
-      "small promo tile.")
+# -- the 128x128 store icon ---------------------------------------------------
+# The Store reads this from the package itself, so this copy exists only for a
+# form that asks for the file. Drawn from the same code, so it cannot drift
+# from the icon the extension actually ships -- and written with its alpha
+# kept, not through save(), which flattens to RGB and would leave the ring
+# sitting on a black square.
+_icon = blink_reminder.app_icon(128).convert("RGBA")
+_icon.save(os.path.join(OUT, "icon-128.png"))
+print("  icon-128.png  %dx%d" % _icon.size)
+
+print("\nupload the numbered PNGs as screenshots, promo-440x280.png as the "
+      "small promo tile, icon-128.png only if a field asks for it.")
