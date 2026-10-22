@@ -256,7 +256,11 @@ DEFAULTS = {
     "font_size": 20,          # point size for the "text" style
     "margin": 48,             # distance from the screen edge for dot and text
     "all_monitors": True,     # show the reminder on every monitor, not just the primary
-    "sound_enabled": False,
+    # On, which at the default interval is a chime roughly every 45 seconds.
+    # It shipped off until 1.4.0, and the reason it changed is a reviewer who
+    # said the sound was what made the app work for them. Anyone it does not
+    # suit switches it off in one click, on the card's own face.
+    "sound_enabled": True,
     "sound_name": "ding.wav",
     "sound_volume": 0.6,      # 0.2 to 1.0, see SOUND_TARGET_PEAK
 
