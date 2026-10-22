@@ -8,7 +8,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
-  DEFAULTS, INTERVALS, normalize, limitFlashRate, pulseOf, pulseMs,
+  DEFAULTS, MIN_INTERVAL, intervalUnit, intervalSeconds,
+  normalize, limitFlashRate, pulseOf, pulseMs,
   msToNextBreak, isStale, drawable, resolveLanguage, freshAsks, loadAsks,
   countDay, dueAsk, todayIso, feelOf, FEELS, reviewUrl, onWindows,
 } from "../core.js";
@@ -27,7 +28,7 @@ test("each damaged setting falls back on its own", () => {
     blink: { opacity: 7, style: "spiral", colour: "red", hold: "500", dotPct: 50 },
   }, CODES);
   assert.equal(got.enabled, true);
-  assert.equal(got.blinkInterval, DEFAULTS.blinkInterval, "45 is not a 30s step");
+  assert.equal(got.blinkInterval, 45, "any number of seconds, not a fixed step");
   assert.equal(got.breakMinutes, 30);
   assert.equal(got.language, "auto");
   assert.equal(got.blink.opacity, 1, "clamped, not discarded");
@@ -37,8 +38,22 @@ test("each damaged setting falls back on its own", () => {
   assert.equal(got.blink.dotPct, 50, "the good value next to bad ones is kept");
 });
 
-test("every interval is a 30-second step Chrome can keep", () => {
-  for (const s of INTERVALS) assert.equal(s % 30, 0);
+test("the interval is any number of seconds Chrome can keep", () => {
+  assert.equal(intervalSeconds(45, 1), 45, "not rounded to a step");
+  assert.equal(intervalSeconds(20, 1), MIN_INTERVAL, "under Chrome's floor");
+  assert.equal(intervalSeconds(5, 60), 300, "minutes become seconds");
+  assert.equal(intervalSeconds(9999, 60), 999 * 60, "clamped at the ceiling");
+  assert.equal(intervalSeconds("x", 1), MIN_INTERVAL, "nonsense falls to the floor");
+  assert.equal(normalize({ blinkInterval: 45 }).blinkInterval, 45);
+  assert.equal(normalize({ blinkInterval: 5 }).blinkInterval, MIN_INTERVAL);
+});
+
+test("an interval is shown in the unit a person would say it in", () => {
+  assert.equal(intervalUnit(45), 1);
+  assert.equal(intervalUnit(90), 1, "ninety seconds, not 1.5 minutes");
+  assert.equal(intervalUnit(120), 60);
+  assert.equal(intervalUnit(150), 1, "two and a half minutes reads in seconds");
+  assert.equal(intervalUnit(1200), 60);
 });
 
 test("a fast repeating pulse is slowed to three flashes a second at most", () => {

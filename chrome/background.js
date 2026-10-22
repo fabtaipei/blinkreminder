@@ -111,6 +111,9 @@ async function syncPageDot(cfg) {
     if (!on && already) {
       await chrome.scripting.unregisterContentScripts({ ids: [DOT_SCRIPT.id] });
     }
+    console.log("page dot:", on ? "on" : "off",
+                "registered:", (await chrome.scripting.getRegisteredContentScripts(
+                  { ids: [DOT_SCRIPT.id] })).length);
     if (on === already) return;                       // nothing changed
   } catch (e) {
     console.warn("page dot", e);
@@ -314,6 +317,21 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     await updateBadge(cfg, cfg.enabled && !(await snoozedUntil()));
     await checkAsks(cfg);
   }
+});
+
+// A belt to the registration's braces. A registered content script should
+// reach every page on its own, but it is the one part of this that depends
+// on Chrome having accepted a registration made while the extension was
+// running; injecting again as each page finishes loading costs nothing when
+// the script is already there -- dot.js returns immediately if it is -- and
+// means the dot does not quietly go missing if the registration did not take.
+chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+  if (info.status !== "complete" || !drawable(tab.url)) return;
+  const cfg = await getCfg();
+  if (!cfg.pageDot || !(await chrome.permissions.contains(PAGE_ORIGINS))) return;
+  try {
+    await chrome.scripting.executeScript({ target: { tabId }, files: ["dot.js"] });
+  } catch { /* a page this extension may not touch */ }
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {

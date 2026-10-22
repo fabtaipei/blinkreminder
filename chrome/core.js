@@ -14,9 +14,25 @@ export const WINDOWS_APP_URL = "https://apps.microsoft.com/detail/9NBRV5W24KH5";
 // all your data" warning, and reminders come as notifications instead.
 export const PAGE_ORIGINS = { origins: ["http://*/*", "https://*/*"] };
 
+// Any number of seconds the user likes, as on the desktop -- except that
 // Chrome will not run an extension alarm more often than every 30 seconds,
-// so the blink interval comes in 30-second steps.
-export const INTERVALS = [30, 60, 90, 120, 180, 240, 300, 600, 900, 1200];
+// which is the floor rather than a step. The ceiling is the desktop's: its
+// spinbox holds at most 999 of whichever unit is picked.
+export const MIN_INTERVAL = 30;
+export const MAX_INTERVAL = 999 * 60;
+
+// Which unit to show a stored interval in, and therefore what the number
+// beside the picker reads: whole minutes from two minutes up, seconds below
+// that, which is how a person would say it.
+export function intervalUnit(seconds) {
+  return seconds >= 120 && seconds % 60 === 0 ? 60 : 1;
+}
+
+// A typed number and its unit, as the seconds to store.
+export function intervalSeconds(value, unit) {
+  const n = Math.round(Number(value) * Number(unit));
+  return Math.min(MAX_INTERVAL, Math.max(MIN_INTERVAL, Number.isFinite(n) ? n : MIN_INTERVAL));
+}
 export const BREAK_MINUTES = [15, 20, 30, 60];
 export const SNOOZE_MINUTES = 30;
 export const STYLES = ["dot", "text", "dim"];
@@ -118,7 +134,8 @@ export function normalize(saved, languages = null) {
     enabled: typeof s.enabled === "boolean" ? s.enabled : DEFAULTS.enabled,
     pageDot: typeof s.pageDot === "boolean" ? s.pageDot : DEFAULTS.pageDot,
     language: lang,
-    blinkInterval: pick(Number(s.blinkInterval), INTERVALS, DEFAULTS.blinkInterval),
+    blinkInterval: num(s.blinkInterval, MIN_INTERVAL, MAX_INTERVAL,
+                       DEFAULTS.blinkInterval, true),
     breakEnabled: typeof s.breakEnabled === "boolean"
       ? s.breakEnabled : DEFAULTS.breakEnabled,
     breakMinutes: pick(Number(s.breakMinutes), BREAK_MINUTES, DEFAULTS.breakMinutes),
