@@ -15,8 +15,10 @@ Only the long description below is English-only.
 | Small promo tile (440×280) | `promo-440x280.png` |
 | Icon (128×128) | taken from the package; `icon-128.png` if a field asks for the file |
 
-Each carries a line saying what it is, since a lime circle over an article
-could otherwise be anything. The demo page is dark because that is where the
+Each carries one word across it, as the Windows listing puts BLINK across
+its own: BLINK, CUSTOMISABLE, SNOOZE ANY TIME, TAKE A BREAK, STILL RUNNING.
+A lime circle over an article could otherwise be anything, and a caption in
+small print at the top does not get read. The demo page is dark because that is where the
 cue's own default strength reads as it really is — on a white page a 34%
 wash is honestly faint, and a listing image nobody can see tells nobody
 anything.
