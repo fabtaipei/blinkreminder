@@ -3,9 +3,10 @@
     node chrome/e2e/store-shots.js     # the raw frames, from a real Chrome
     py store/make_chrome_assets.py     # this: composes, captions, writes
 
-A screenshot of a quiet app says nothing on its own -- a lime circle over an
-article could be anything. Each frame is set on a dark card under one line
-saying what it is, the way the Windows listing puts BLINK across its own.
+A screenshot of a quiet app says nothing on its own: a lime circle over an
+article could be anything. Each frame carries one word across it, the way the
+Windows listing puts BLINK across its own. A line of small print at the top
+is not read; a word this size is not missed.
 
 Everything lands in store/chrome/. The numbered PNGs are what gets uploaded,
 1280x800 each; the "-raw" files are the untouched captures, kept so this can
@@ -23,19 +24,18 @@ sys.path.insert(0, REPO)
 from PIL import Image, ImageDraw, ImageFont          # noqa: E402
 
 W, H = 1280, 800
-GROUND = (20, 21, 23)
 TEXT = (242, 243, 245)
 MUTED = (150, 156, 166)
 DARK = (32, 32, 32)
 
-# Each frame, and the one line that says what it is. Short enough to read in
-# the thumbnail strip, which is where most people see them.
+# The word on each frame, and where its middle sits as a fraction of the
+# height -- chosen per frame to fall on the emptiest part of it.
 SHOTS = [
-    ("1-blink-cue", "A gentle cue to blink", "Click and type straight through it"),
-    ("4-settings", "Yours to tune", "Style, strength, size, timing, sound \u2014 and 30 languages"),
-    ("5-popup", "One click from the toolbar", "On, off, snooze, or blink now"),
-    ("2-break", "And a reminder to look away", "On the hour and the half hour"),
-    ("3-corner-dot", "A small dot says it is running", "Switch it off if you would rather not see it"),
+    ("1-blink-cue", "BLINK", 0.62),
+    ("4-settings", "CUSTOMISABLE", 0.86),
+    ("5-popup", "SNOOZE ANY TIME", 0.86),
+    ("2-break", "TAKE A BREAK", 0.62),
+    ("3-corner-dot", "STILL RUNNING", 0.88),
 ]
 
 
@@ -85,35 +85,47 @@ def save(img, name):
     print("  %s  %dx%d" % (name, img.width, img.height))
 
 
-def slide(frame, title, note):
-    """One frame on a dark card, under a line saying what it is."""
-    card = Image.new("RGBA", (W, H), GROUND + (255,))
-    d = ImageDraw.Draw(card)
-    d.text((64, 46), title, font=font(34, True), fill=TEXT)
-    d.text((64, 92), note, font=font(19), fill=MUTED)
+def headline(frame, word, y):
+    """The frame at full size, with one word laid across it.
 
-    # Scaled to leave room for the caption, and kept in proportion: a browser
-    # window stretched to fit would be the one dishonest thing here.
-    inner_w, inner_h = W - 128, H - 206
-    k = min(inner_w / float(frame.width), inner_h / float(frame.height))
-    small = frame.resize((int(frame.width * k), int(frame.height * k)), Image.LANCZOS)
-    at = ((W - small.width) // 2, 158)
-    box = (at[0], at[1], at[0] + small.width, at[1] + small.height)
-    rounded_shadow(card, box, 12, 22, 60)
-    mask = Image.new("L", small.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, small.width - 1, small.height - 1),
-                                           12, fill=255)
-    card.paste(small, at, mask)
+    Set in white, because the cue can be any colour the user picks and white
+    is the one that holds against all of them, and over a soft dark wash so
+    that it stays legible whatever is behind it -- a page can be any colour
+    too. The wash is under the word only, not across the whole frame: it
+    lifts the text off its background without hiding what is being shown.
+    """
+    card = frame.convert("RGBA")
+    d = ImageDraw.Draw(card)
+    size = 104
+    f = font(size, True)
+    while d.textlength(word, font=f) > W - 200 and size > 44:
+        size -= 4
+        f = font(size, True)
+    tw = d.textlength(word, font=f)
+    cx, cy = W // 2, int(H * y)
+
+    wash = Image.new("RGBA", card.size, (0, 0, 0, 0))
+    wd = ImageDraw.Draw(wash)
+    pad_x, pad_y = 100, int(size * 0.92)
+    for i in range(30, 0, -1):
+        a = int(86 * (1 - i / 30.0) ** 1.7)
+        wd.rounded_rectangle((cx - tw / 2 - pad_x - i, cy - pad_y - i,
+                              cx + tw / 2 + pad_x + i, cy + pad_y + i),
+                             pad_y + i, fill=(0, 0, 0, a))
+    card.alpha_composite(wash)
+
+    ImageDraw.Draw(card).text((cx, cy), word, font=f, fill=(255, 255, 255, 255),
+                              anchor="mm")
     return card
 
 
-# -- the two frames that need composing before they are captioned -------------
+# -- the two frames that need composing before the word goes on ---------------
 
 page = shot("3-corner-dot-raw.png")
 # The dot sits 20 in from the right, 14 up from the bottom and 9 across, so
 # the crop is drawn tight around it -- magnifying an inch of blank page would
 # say nothing.
-inset(page, (W - 52, H - 46, W - 4, H - 4), 8, (W - 500, H - 440))
+inset(page, (W - 52, H - 46, W - 4, H - 4), 8, (W - 470, H - 500))
 page.convert("RGB").save(os.path.join(OUT, "3-corner-dot-composed.png"))
 
 back = shot("1-blink-cue-raw.png")
@@ -129,12 +141,12 @@ ImageDraw.Draw(back).rounded_rectangle(
     outline=(90, 95, 104, 255), width=1)
 back.convert("RGB").save(os.path.join(OUT, "5-popup-composed.png"))
 
-# -- the five slides ----------------------------------------------------------
+# -- the five screenshots -----------------------------------------------------
 
 SOURCE = {"3-corner-dot": "3-corner-dot-composed.png",
           "5-popup": "5-popup-composed.png"}
-for name, title, note in SHOTS:
-    save(slide(shot(SOURCE.get(name, name + "-raw.png")), title, note), name + ".png")
+for name, word, y in SHOTS:
+    save(headline(shot(SOURCE.get(name, name + "-raw.png")), word, y), name + ".png")
 for tmp in SOURCE.values():
     os.remove(os.path.join(OUT, tmp))
 
