@@ -35,7 +35,7 @@ SHOTS = [
     ("4-settings", "CUSTOMISABLE", 0.86),
     ("5-popup", "SNOOZE ANY TIME", 0.86),
     ("2-break", "TAKE A BREAK", 0.62),
-    ("3-corner-dot", "STILL RUNNING", 0.88),
+    ("3-corner-dot", "WORKING QUIETLY", 0.88),
 ]
 
 
