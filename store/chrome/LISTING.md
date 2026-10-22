@@ -71,15 +71,21 @@ better alongside the other eye-care extensions.
 
 ## Permission justifications
 
+Short on purpose, but each says why the permission is *needed*, not just what
+it touches. The day count is explained before a reviewer can mistake it for
+usage tracking.
+
 | Permission | Paste this |
 |---|---|
-| `alarms` | Times the blink and break reminders. |
-| `storage` | Keeps the user's settings and the count of days used, on this device only. |
-| `notifications` | Delivers the break reminder when the on-page cue is off or Chrome isn't in front, and the occasional support/review message. |
+| `alarms` | A service worker cannot hold a timer, so the blink interval and the wall-clock break are scheduled with chrome.alarms. |
+| `storage` | Remembers settings between sessions: intervals, cue style, colour, size, timing, sound, language and tutorial progress. Also a count of days used, which only decides when the occasional coffee or review message appears. All kept in chrome.storage.local; nothing synced, nothing sent. |
+| `notifications` | Delivers the break reminder when the cue cannot be drawn on the page, and the occasional coffee or review message. |
 | `idle` | Skips reminders while the computer is idle or locked. |
-| `scripting` | Draws the cue, and the optional corner dot, over the page. |
-| `offscreen` | Plays the reminder chime. A web page may not play a sound unprompted, so it is played from an offscreen document. |
-| Host access (optional) | Requested only when the user switches on the on-page cue. Used solely to draw the cue and the corner dot; page content is never read, and the extension makes no network requests. |
+| `scripting` | Injects the extension's own cue script to draw the reminder and the optional corner dot. Both ship in the package; each adds one element and removes it. No page content is read. |
+| `offscreen` | Plays the reminder chime. A page cannot play a sound unprompted, so it plays from an offscreen document. |
+| Host permissions | Requested only when the user turns on the on-page cue. Used solely to draw the cue and the corner dot; no page content is read, and the extension makes no network requests. |
+
+**Remote code:** no. Every script ships inside the package.
 
 ## Data use
 
