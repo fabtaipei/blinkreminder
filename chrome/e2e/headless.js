@@ -223,6 +223,16 @@ try {
         dot?.events === "none" && dot?.position === "fixed"
         && dot?.bg === "rgb(189, 228, 1)", JSON.stringify(dot));
   await shot(page.sessionId, "page-dot");
+  // A page opened AFTER it was switched on: the registered content script,
+  // not the one-off injection into tabs that were already open.
+  const fresh = await openTab(PAGE);
+  await sleep(900);
+  check("... and on a page opened afterwards",
+        await evaluate(fresh.sessionId,
+          "document.querySelector('blink-reminder-dot') !== null"),
+        JSON.stringify(await evaluate(swS,
+          "chrome.scripting.getRegisteredContentScripts().then(r => r.map(x => x.id))")));
+  await send("Target.closeTarget", { targetId: fresh.targetId });
   await setDot(false);
   await sleep(1500);
   check("... and is removed from an open page when switched off",
