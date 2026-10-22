@@ -13,11 +13,16 @@ Only the long description below is English-only.
 |---|---|
 | Screenshots (1280×800, in this order) | `1-blink-cue.png`, `4-settings.png`, `5-popup.png`, `2-break.png`, `3-corner-dot.png` |
 | Small promo tile (440×280) | `promo-440x280.png` |
-| Icon (128×128) | taken from the package |
+| Icon (128×128) | taken from the package; `icon-128.png` if a field asks for the file |
 
-The corner-dot shot is the weakest — the dot really is nine pixels on an
-empty corner, so most of the frame is blank page. Four screenshots is a fine
-listing; drop it if it looks thin.
+Each carries a line saying what it is, since a lime circle over an article
+could otherwise be anything. The demo page is dark because that is where the
+cue's own default strength reads as it really is — on a white page a 34%
+wash is honestly faint, and a listing image nobody can see tells nobody
+anything.
+
+The `-raw` files are the untouched captures. Re-run the two commands at the
+foot of this file to rebuild everything from them.
 
 ## Category
 
