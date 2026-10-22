@@ -1,10 +1,28 @@
 // The toolbar pop-up: the tray menu of the desktop app, plus the interval.
 
-import { INTERVALS, PAGE_ORIGINS, SUPPORT_URL, normalize, msToNextBreak,
-         reviewUrl } from "./core.js";
-import { CODES, setLanguage, T, localize, intervalLabel } from "./i18n.js";
+import { MIN_INTERVAL, intervalUnit, intervalSeconds, PAGE_ORIGINS,
+         SUPPORT_URL, normalize, msToNextBreak, reviewUrl } from "./core.js";
+import { CODES, setLanguage, T, localize } from "./i18n.js";
 
 const $ = (id) => document.getElementById(id);
+
+// How often to blink: a number and a unit, the same pair the settings page
+// and the desktop panel use. Switching the unit reinterprets the number.
+function intervalControl(cfg, onSet) {
+  const unit = intervalUnit(cfg.blinkInterval);
+  const value = Math.round(cfg.blinkInterval / unit);
+  const box = document.createElement("input");
+  Object.assign(box, { type: "number", min: unit === 60 ? 1 : MIN_INTERVAL,
+                       max: 999, step: 1, value });
+  box.addEventListener("change", () => onSet(intervalSeconds(box.value, unit)));
+  const units = document.createElement("select");
+  for (const [u, label] of [[1, T("seconds")], [60, T("minutes")]]) {
+    units.append(new Option(label, String(u), false, u === unit));
+  }
+  units.addEventListener("change", () =>
+    onSet(intervalSeconds(value, Number(units.value))));
+  return [box, units];
+}
 
 async function load() {
   const { cfg, snoozeUntil } = await chrome.storage.local.get(["cfg", "snoozeUntil"]);
@@ -22,8 +40,10 @@ async function render() {
   localize();
 
   $("enabled").checked = cfg.enabled;
-  $("interval").replaceChildren(...INTERVALS.map((s) =>
-    new Option(intervalLabel(s), s, false, s === cfg.blinkInterval)));
+  $("interval").replaceChildren(...intervalControl(cfg, async (seconds) => {
+    await save({ ...cfg, blinkInterval: seconds });
+    state = await render();
+  }));
   $("snooze").textContent = snoozed ? T("Resume reminders") : T("Snooze 30 minutes");
   $("snooze").disabled = !cfg.enabled;
   $("break-row").hidden = !(cfg.enabled && cfg.breakEnabled && !snoozed);
@@ -45,10 +65,6 @@ let state = await render();
 
 $("enabled").addEventListener("change", async (e) => {
   await save({ ...state.cfg, enabled: e.target.checked });
-  state = await render();
-});
-$("interval").addEventListener("change", async (e) => {
-  await save({ ...state.cfg, blinkInterval: Number(e.target.value) });
   state = await render();
 });
 $("blink-now").addEventListener("click", async () => {

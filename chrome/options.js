@@ -5,11 +5,12 @@
 // the change in storage and reschedules.
 
 import {
-  INTERVALS, BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL,
+  MIN_INTERVAL, intervalUnit, intervalSeconds,
+  BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL,
   WINDOWS_APP_URL, DISPLAY_NAME, normalize, feelOf, pulseOf, reviewUrl,
   onWindows,
 } from "./core.js";
-import { CODES, setLanguage, T, localize, intervalLabel, defaultWord } from "./i18n.js";
+import { CODES, setLanguage, T, localize, defaultWord } from "./i18n.js";
 import { LANGUAGES } from "./strings.js";
 
 const $ = (id) => document.getElementById(id);
@@ -201,6 +202,24 @@ function advanced(kind, l, set, restyle) {
   return box;
 }
 
+// How often to blink: a number and a unit, as the desktop's panel asks it,
+// rather than a list of fixed choices. Switching the unit reinterprets the
+// number -- 60 with minutes picked means every 60 minutes -- which is what
+// the desktop does, and what makes the pair read as one sentence.
+function intervalControl() {
+  const unit = intervalUnit(cfg.blinkInterval);
+  const value = Math.round(cfg.blinkInterval / unit);
+  const apply = (v, u) => {
+    cfg.blinkInterval = intervalSeconds(v, u);
+    save();
+    render();
+  };
+  return [
+    num(value, unit === 60 ? 1 : MIN_INTERVAL, 999, 1, (v) => apply(v, unit)),
+    segmented([[1, T("seconds")], [60, T("minutes")]], unit, (u) => apply(value, u)),
+  ];
+}
+
 function preview(kind) {
   globalThis.__blinkReminderCue(pulseOf(cfg, kind, defaultWord(kind)));
   if (cfg[kind].sound) {
@@ -232,8 +251,7 @@ async function render() {
   $("page-dot").disabled = !granted;
   $("page-dot").closest(".row").classList.toggle("off", !granted);
 
-  $("blink-interval").replaceChildren(...INTERVALS.map((s) =>
-    new Option(intervalLabel(s), s, false, s === cfg.blinkInterval)));
+  $("blink-interval").replaceChildren(...intervalControl());
   $("break-enabled").checked = cfg.breakEnabled;
   $("break-minutes").replaceWith(Object.assign(segmented(
     BREAK_MINUTES.map((m) => [m, `${m} ${T("min")}`]), cfg.breakMinutes,
@@ -251,9 +269,6 @@ $("language").addEventListener("change", (e) => {
 $("enabled").addEventListener("change", (e) => { cfg.enabled = e.target.checked; save(); });
 $("break-enabled").addEventListener("change", (e) => {
   cfg.breakEnabled = e.target.checked; save();
-});
-$("blink-interval").addEventListener("change", (e) => {
-  cfg.blinkInterval = Number(e.target.value); save();
 });
 
 async function setPageCue(on) {

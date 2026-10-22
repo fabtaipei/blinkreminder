@@ -31,12 +31,6 @@ export function defaultWord(kind) {
   return kind === "blink" ? T("Blink") : T("Look into the distance");
 }
 
-// "30 seconds" up to 90, whole minutes from 2.
-export function intervalLabel(seconds) {
-  return seconds < 120 ? `${seconds} ${T("seconds")}`
-                       : `${seconds / 60} ${T("minutes")}`;
-}
-
 // The blink instruction on one line, for a notification.
 export function captionLine() {
   return T("Close…\nsqueeze…\nopen").split("\n")
