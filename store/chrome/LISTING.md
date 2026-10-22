@@ -78,8 +78,8 @@ usage tracking.
 | Permission | Paste this |
 |---|---|
 | `alarms` | A service worker cannot hold a timer, so the blink interval and the wall-clock break are scheduled with chrome.alarms. |
-| `storage` | Remembers settings between sessions: intervals, cue style, colour, size, timing, sound, language and tutorial progress. Also a count of days used, which only decides when the occasional coffee or review message appears. All kept in chrome.storage.local; nothing synced, nothing sent. |
-| `notifications` | Delivers the break reminder when the cue cannot be drawn on the page, and the occasional coffee or review message. |
+| `storage` | Remembers settings between sessions: intervals, cue style, colour, size, timing, sound, language and tutorial progress. It also counts days of use, so that a request for a donation or a review appears only after long use rather than straight away. All kept in chrome.storage.local on the device; nothing synced, nothing sent. |
+| `notifications` | Delivers the break reminder when the cue cannot be drawn on the page, and the occasional donation or review message. |
 | `idle` | Skips reminders while the computer is idle or locked. |
 | `scripting` | Injects the extension's own cue script to draw the reminder and the optional corner dot. Both ship in the package; each adds one element and removes it. No page content is read. |
 | `offscreen` | Plays the reminder chime. A page cannot play a sound unprompted, so it plays from an offscreen document. |
@@ -89,8 +89,14 @@ usage tracking.
 
 ## Data use
 
-Collects **no** user data — tick nothing. No remote code: every script ships
-in the package.
+Collects **no** user data — tick nothing, then tick the three certifications.
+
+The day counter named in the storage justification does not change this. The
+Store's question is about data **collected**, meaning taken off the device;
+a number that never leaves chrome.storage.local is not collected. Declaring
+it in the justification and ticking nothing here is both honest and correct
+— and a reviewer who reads the code will find the counter whether it was
+mentioned or not.
 
 ## Privacy policy URL
 
