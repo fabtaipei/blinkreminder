@@ -169,7 +169,7 @@ try {
 
   const result = await evaluate(swS, "__blinkReminder.deliver('blink', { manual: true })");
   check("Blink now draws on the page", result === "page", result);
-  await sleep(700);                                   // into the hold
+  await sleep(250);
   const seen = await evaluate(page.sessionId, `(() => {
     const host = document.querySelector('blink-reminder-cue');
     if (!host) return null;
@@ -182,10 +182,20 @@ try {
     e.sessionId === page.sessionId && e.params.context.auxData?.type === "isolated").pop();
   const st = iso && await evaluate(page.sessionId, "globalThis.__blinkReminderCue.state()",
                                    iso.params.context.id);
+  // Sampled rather than caught at one moment: the cue fades in, holds and
+  // fades out, and how long deliver() took to return (it may have had to
+  // start an offscreen document for the chime) decides where in that we
+  // would land. The peak is what the setting promises.
+  let peak = st?.opacity ?? 0;
+  for (let i = 0; i < 12 && iso; i++) {
+    peak = Math.max(peak, await evaluate(page.sessionId,
+      "globalThis.__blinkReminderCue.state()?.opacity ?? 0", iso.params.context.id));
+    await sleep(90);
+  }
   check("the cue is on the page", !!seen && !!st);
   check("it is in the top layer", st?.open === true);
-  check("it is at its peak opacity", Math.abs((st?.opacity ?? 0) - 0.345) < 0.02,
-        String(st?.opacity));
+  check("it reaches the strength it was set to", Math.abs(peak - 0.345) < 0.02,
+        String(peak));
   check("clicks pass through it", st?.events === "none");
   check("the page's own [popover] style does not reach it",
         seen?.bg === "rgba(0, 0, 0, 0)", seen?.bg);
@@ -326,9 +336,17 @@ try {
   const viaToast = await evaluate(sw2S, "__blinkReminder.deliver('blink', { manual: true })");
   const toast = await evaluate(sw2S, "__notified.at(-1)");
   check("without it, Blink now still shows something", viaToast === "notification", viaToast);
-  check("... carrying the instruction, silently",
-        toast?.message === "Close… squeeze… open" && toast?.silent === true,
+  check("... carrying the instruction", toast?.message === "Close… squeeze… open",
         JSON.stringify(toast?.message));
+  // Silence follows the reminder's own sound setting, whatever that is set to.
+  check("... and sounding only if that reminder is set to",
+        toast?.silent === false, String(toast?.silent));
+  await evaluate(sw2S, `chrome.storage.local.get('cfg').then(({cfg}) =>
+    chrome.storage.local.set({ cfg: { ...(cfg || {}), blink: { sound: false } } }))`);
+  await sleep(300);
+  await evaluate(sw2S, "__blinkReminder.deliver('blink', { manual: true })");
+  check("... silent when it is not",
+        (await evaluate(sw2S, "__notified.at(-1)"))?.silent === true);
   const nothingOnPage = await evaluate(page.sessionId,
     "document.querySelector('blink-reminder-cue') === null");
   check("... and nothing is drawn on the page", nothingOnPage);

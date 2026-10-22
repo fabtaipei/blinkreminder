@@ -47,9 +47,11 @@ export const DEFAULTS = {
   enabled: true,
   language: "auto",
   // A permanent dot in the corner of the page, saying the extension is
-  // running. Off by default: it is the only thing this extension would
-  // leave on a page for good, so it is asked for rather than assumed.
-  pageDot: false,
+  // running -- the desktop app's corner indicator, which is always on and
+  // has no setting at all. On by default here too, and still invisible
+  // until someone grants access to pages: it cannot appear before the one
+  // decision that matters has been made deliberately.
+  pageDot: true,
   blinkInterval: 60,
   breakEnabled: true,
   breakMinutes: 30,
@@ -57,7 +59,10 @@ export const DEFAULTS = {
   blink: {
     style: "dot", opacity: 0.345, hold: 500, fade: 500, blinks: 2, gap: 150,
     colour: "#bde401", message: null, corner: "center", dotPct: 90,
-    fontSize: 36, margin: 48, sound: false, volume: 0.6,
+    // A chime on every blink, which at the default interval is one a
+    // minute. The desktop ships this off; here it is on, at the author's
+    // call, after a reviewer said the sound was what made it work for them.
+    fontSize: 36, margin: 48, sound: true, volume: 0.6,
   },
   brk: {
     style: "dim", opacity: 0.401, hold: 3000, fade: 800, blinks: 1, gap: 120,
