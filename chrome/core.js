@@ -216,6 +216,60 @@ export function resolveLanguage(uiLanguage, available) {
   return available.includes(code) ? code : "en";
 }
 
+// -------------------------------------------------------------- the tutorial
+// Taught at the moment it is needed rather than up front -- the same design
+// as the desktop app's, and for the same reason. The first few blink
+// reminders carry the instruction itself; after the last of them comes one
+// question about how it felt, whose answers open the settings at the control
+// that changes it.
+
+// Few enough that a lesson does not become the way the reminder always looks.
+export const TEACH_COUNT = 2;
+
+export function freshTutorial() {
+  return { welcomed: false, taught: 0, question: "pending" };
+}
+
+export function loadTutorial(saved) {
+  const t = freshTutorial();
+  if (!saved || typeof saved !== "object") return t;
+  if (typeof saved.welcomed === "boolean") t.welcomed = saved.welcomed;
+  if (Number.isInteger(saved.taught) && saved.taught >= 0) t.taught = saved.taught;
+  if (saved.question === "done") t.question = "done";
+  return t;
+}
+
+export function teachingDue(t) {
+  return t.taught < TEACH_COUNT;
+}
+
+// Owed until it has been put away, so a browser closed while it was up asks
+// again rather than losing it.
+export function questionDue(t) {
+  return !teachingDue(t) && t.question === "pending";
+}
+
+// Near-black on a light cue, white on a dark one, so the instruction can be
+// read whatever colour the cue has been set to.
+export function captionInk(colour) {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(colour || "");
+  if (!m) return "#FFFFFF";
+  const [r, g, b] = m.slice(1).map((h) => parseInt(h, 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.45 ? "#11161C" : "#FFFFFF";
+}
+
+// A pulse as a taught one: the user's own reminder, with the instruction
+// added. Nothing else changes -- an earlier desktop version made it stronger
+// and longer, which taught people what a reminder they would never see again
+// looked like.
+export function teachingPulse(pulse, caption, noSpaces) {
+  const out = { ...pulse };
+  if (out.style === "text") out.message = caption.split("\n").join(noSpaces ? "" : " ");
+  else out.caption = caption;
+  out.ink = captionInk(out.colour);
+  return out;
+}
+
 // ------------------------------------------------------------------ asks
 // Six asks over the life of an install, alternating a coffee and a review,
 // timed in DAYS OF USE. Same schedule and same rules as the desktop app.

@@ -9,6 +9,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   DEFAULTS, MIN_INTERVAL, intervalUnit, intervalSeconds,
+  TEACH_COUNT, freshTutorial, loadTutorial, teachingDue, questionDue,
+  teachingPulse, captionInk,
   normalize, limitFlashRate, pulseOf, pulseMs,
   msToNextBreak, isStale, drawable, resolveLanguage, freshAsks, loadAsks,
   countDay, dueAsk, todayIso, feelOf, FEELS, reviewUrl, onWindows,
@@ -189,4 +191,50 @@ test("damaged ask state costs only the damaged field", () => {
 
 test("today is local YYYY-MM-DD, which sorts as dates do", () => {
   assert.equal(todayIso(new Date(2026, 0, 5)), "2026-01-05");
+});
+
+// -- the tutorial ------------------------------------------------------------
+
+test("the first few reminders are taught, then the question is owed", () => {
+  const t = freshTutorial();
+  for (let n = 1; n <= TEACH_COUNT; n++) {
+    assert.equal(teachingDue(t), true, `reminder ${n}`);
+    assert.equal(questionDue(t), false, "not while still teaching");
+    t.taught += 1;
+  }
+  assert.equal(teachingDue(t), false);
+  assert.equal(questionDue(t), true);
+  t.question = "done";
+  assert.equal(questionDue(t), false, "put away for good");
+});
+
+test("a taught pulse is the user's own reminder plus the instruction", () => {
+  const plain = pulseOf(DEFAULTS, "blink", "Blink");
+  const taught = teachingPulse(plain, "Close…\nsqueeze…\nopen", false);
+  assert.equal(taught.caption, "Close…\nsqueeze…\nopen");
+  for (const k of Object.keys(plain)) assert.deepEqual(taught[k], plain[k], k);
+  assert.equal("caption" in plain, false, "the original is left alone");
+});
+
+test("the word style shows the instruction as its word, on one line", () => {
+  const word = pulseOf({ ...DEFAULTS, blink: { ...DEFAULTS.blink, style: "text" } },
+                       "blink", "Blink");
+  const spaced = teachingPulse(word, "Close…\nsqueeze…\nopen", false);
+  assert.equal("caption" in spaced, false);
+  assert.equal(spaced.message, "Close… squeeze… open");
+  const joined = teachingPulse(word, "閉上\n輕輕閉緊\n睜開", true);
+  assert.equal(joined.message, "閉上輕輕閉緊睜開", "no spaces where none are written");
+});
+
+test("the instruction is readable on whatever colour the cue is", () => {
+  assert.equal(captionInk("#bde401"), "#11161C", "dark ink on lime");
+  assert.equal(captionInk("#12233f"), "#FFFFFF", "white on navy");
+  assert.equal(captionInk("lime"), "#FFFFFF", "a colour that will not parse");
+});
+
+test("damaged tutorial state costs only the damaged field", () => {
+  assert.deepEqual(loadTutorial(null), freshTutorial());
+  const got = loadTutorial({ welcomed: "yes", taught: -2, question: "maybe" });
+  assert.deepEqual(got, freshTutorial());
+  assert.equal(loadTutorial({ welcomed: true, taught: "x" }).welcomed, true);
 });

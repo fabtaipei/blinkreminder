@@ -5,12 +5,13 @@
 // the change in storage and reschedules.
 
 import {
-  MIN_INTERVAL, intervalUnit, intervalSeconds,
+  MIN_INTERVAL, intervalUnit, intervalSeconds, loadTutorial, questionDue,
+  teachingPulse, captionInk,
   BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL,
   WINDOWS_APP_URL, DISPLAY_NAME, normalize, feelOf, pulseOf, reviewUrl,
   onWindows,
 } from "./core.js";
-import { CODES, setLanguage, T, localize, defaultWord } from "./i18n.js";
+import { CODES, setLanguage, T, localize, defaultWord, noSpaces } from "./i18n.js";
 import { LANGUAGES } from "./strings.js";
 
 const $ = (id) => document.getElementById(id);
@@ -118,7 +119,9 @@ function lookControls(kind) {
     l.style, (s) => restyle({ style: s })));
   const strength = row(T("Strength"),
     ...percent(Math.round(l.opacity * 100), 2, (v) => set({ opacity: v / 100 })));
+  strength.dataset.point = "strength";
   const sound = switchRow(T("Play a sound"), l.sound, (s) => set({ sound: s }));
+  sound.dataset.point = "sound";
 
   const btn = el("button", { className: "preview",
     textContent: T(kind === "blink" ? "Preview blink" : "Preview break") });
@@ -141,15 +144,19 @@ function advanced(kind, l, set, restyle) {
   rows.append(row(T("Colour"), colour));
 
   if (l.style === "dot") {
-    rows.append(row(T("Dot size"), ...percent(l.dotPct, 5, (v) => set({ dotPct: v }))));
+    const size = row(T("Dot size"), ...percent(l.dotPct, 5, (v) => set({ dotPct: v })));
+    size.dataset.point = "size";
+    rows.append(size);
   }
   if (l.style === "text") {
     const word = el("input", { type: "text", value: l.message || "",
                                placeholder: defaultWord(kind), maxLength: 60 });
     word.addEventListener("change", () => set({ message: word.value.trim() || null }));
     rows.append(row(T("Word to show"), word));
-    rows.append(row(T("Word size"),
-                    num(l.fontSize, 10, 200, 1, (v) => set({ fontSize: v }))));
+    const size = row(T("Word size"),
+                     num(l.fontSize, 10, 200, 1, (v) => set({ fontSize: v })));
+    size.dataset.point = "size";
+    rows.append(size);
   }
   if (l.style !== "dim") {
     const names = { center: T("Centre"), "top-left": T("Top left"),
@@ -174,7 +181,9 @@ function advanced(kind, l, set, restyle) {
   rows.append(row(T("Flash style"), select(choices, feel, (f) => {
     if (FEELS[f]) restyle({ ...FEELS[f] });
   })));
-  rows.append(row(T("Hold (s)"), secs(l.hold, 0.05, 5, (v) => restyle({ hold: v }))));
+  const hold = row(T("Hold (s)"), secs(l.hold, 0.05, 5, (v) => restyle({ hold: v })));
+  hold.dataset.point = "duration";
+  rows.append(hold);
   rows.append(row(T("Fade (s)"), secs(l.fade, 0, 5, (v) => restyle({ fade: v }))));
   rows.append(row(T("Pulses"), num(l.blinks, 1, 10, 1, (v) => restyle({ blinks: v }))));
   // Only meaningful once a reminder pulses more than once.
@@ -220,6 +229,64 @@ function intervalControl() {
   ];
 }
 
+// -- the tutorial ------------------------------------------------------------
+
+// Which card a question button leads to: the blink's, since the lesson is
+// about the blink reminder.
+const POINTS = ["strength", "size", "duration", "sound"];
+
+async function endQuestion() {
+  const { tutorial } = await chrome.storage.local.get("tutorial");
+  const t = loadTutorial(tutorial);
+  t.question = "done";
+  await chrome.storage.local.set({ tutorial: t });
+  $("question").hidden = true;
+}
+
+// Open whatever has to be open, bring the row into view, and ring it.
+async function pointAt(target) {
+  if (target === "size" || target === "duration") advOpen.blink = true;
+  await render();
+  const row = document.querySelector(`#blink-card [data-point="${target}"]`);
+  if (!row) return;
+  row.scrollIntoView({ block: "center", behavior: "smooth" });
+  row.classList.remove("ring");
+  void row.offsetWidth;                       // restart the animation
+  row.classList.add("ring");
+  setTimeout(() => row.classList.remove("ring"), 6000);
+}
+
+function questionButtons() {
+  const out = POINTS.map((p) => {
+    const b = el("button", { className: "tint",
+      textContent: T(p === "strength" ? "Strength"
+                   : p === "size" ? "Size"
+                   : p === "duration" ? "Duration" : "Sound") });
+    b.addEventListener("click", () => pointAt(p));
+    return b;
+  });
+  const got = el("button", { className: "primary", textContent: T("Got it") });
+  got.addEventListener("click", endQuestion);
+  out.push(got);
+  return out;
+}
+
+// Show me: one reminder exactly as the first few are taught, then the
+// question about it -- the same pairing the desktop welcome card has.
+async function showMe() {
+  const pulse = teachingPulse(pulseOf(cfg, "blink", defaultWord("blink")),
+                              T("Close…\nsqueeze…\nopen"), noSpaces());
+  pulse.ink = captionInk(pulse.colour);
+  globalThis.__blinkReminderCue(pulse);
+  if (cfg.blink.sound) {
+    chrome.runtime.sendMessage({ type: "chime", volume: cfg.blink.volume });
+  }
+  const { tutorial } = await chrome.storage.local.get("tutorial");
+  if (loadTutorial(tutorial).question !== "done") {
+    setTimeout(() => { $("question").hidden = false; }, 1200);
+  }
+}
+
 function preview(kind) {
   globalThis.__blinkReminderCue(pulseOf(cfg, kind, defaultWord(kind)));
   if (cfg[kind].sound) {
@@ -238,6 +305,12 @@ async function render() {
   $("welcome").hidden = location.hash !== "#welcome";
   $("welcome-title").textContent = T("How this app works?");
   $("welcome-grant-box").hidden = granted;
+
+  const { tutorial } = await chrome.storage.local.get("tutorial");
+  const asking = location.hash === "#question" && questionDue(loadTutorial(tutorial));
+  if (asking) $("question").hidden = false;
+  $("question-title").textContent = T("Too weak or intrusive?");
+  $("question-buttons").replaceChildren(...questionButtons());
 
   // The language IN FORCE, not "auto": a picker reading "auto" tells nobody
   // anything. Picking one stores that code, as the desktop does.
@@ -282,7 +355,7 @@ $("page-dot").addEventListener("change", (e) => {
   save();
 });
 $("welcome-grant").addEventListener("click", () => setPageCue(true));
-$("show-me").addEventListener("click", () => preview("blink"));
+$("show-me").addEventListener("click", showMe);
 $("got-it").addEventListener("click", () => {
   history.replaceState(null, "", location.pathname);
   render();

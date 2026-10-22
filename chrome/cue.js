@@ -16,6 +16,7 @@
 
   let current = null;
   let shown = null;      // the frame being faded, for the end-to-end test
+  let caption = null;    // the instruction drawn on it, if any
 
   function css(el, props) {
     for (const [k, v] of Object.entries(props)) el.style.setProperty(k, v, "important");
@@ -78,6 +79,30 @@
       });
       frame.append(cue);
     }
+    // The instruction, on the first reminders of all: centred on the dot or
+    // the dim, and never on the word style, where it replaces the word
+    // instead -- there is no room beside one.
+    if (p.caption && p.style !== "text") {
+      const words = document.createElement("div");
+      words.textContent = p.caption;
+      const box = p.style === "dim"
+        ? Math.min(innerWidth, innerHeight)
+        : Math.max(4, Math.round(p.dotPct / 100 * Math.min(innerWidth, innerHeight)));
+      css(words, {
+        position: "absolute", "text-align": "center", "white-space": "pre-line",
+        color: p.ink || "#11161C", "font-weight": "700",
+        "font-family": 'system-ui, "Segoe UI Variable", "Segoe UI", sans-serif',
+        // A share of the cue, so the words are the same size against a big
+        // dot on a 4K screen and a small one in a corner.
+        "font-size": `${Math.max(11, Math.round(box * 0.075))}px`,
+        "line-height": "1.25", "max-width": `${Math.round(box * 0.66)}px`,
+        "pointer-events": "none",
+      });
+      frame.append(words);
+      css(frame, { position: "fixed", "align-items": "center",
+                   "justify-content": "center" });
+    }
+
     root.append(frame);
     return { host, frame };
   }
@@ -107,6 +132,7 @@
     globalThis.__blinkReminderDot?.suppress(span + 400);
     const { host, frame } = build(p);
     current = host;
+    caption = p.caption || null;
     shown = frame;
     show(host);
     // Fades are motion; someone who has asked for less of it gets a cut.
@@ -131,6 +157,7 @@
   // What is on screen now. Read only by the end-to-end test, from this
   // script's own isolated world -- the page cannot see it.
   globalThis.__blinkReminderCue.state = () => current && {
+    caption: caption,
     opacity: Number(getComputedStyle(shown).opacity),
     open: current.matches(":popover-open"),
     events: getComputedStyle(current).pointerEvents,
