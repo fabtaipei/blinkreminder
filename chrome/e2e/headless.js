@@ -206,6 +206,54 @@ try {
   const quiet = await evaluate(swS, "__blinkReminder.deliver('blink')");
   check("a timed blink waits while the break is on screen", quiet === "break showing", quiet);
 
+  // -- the tutorial: the first reminders carry the instruction ---------------
+  await evaluate(swS, "chrome.storage.local.remove('tutorial')");
+  // The break just shown left the blink quiet for its duration; the lesson
+  // is not about that rule, so clear it rather than waiting it out.
+  await evaluate(swS, "chrome.storage.session.remove('quietUntil')");
+  await evaluate(swS, "__notified.length = 0, 1");
+  for (let n = 1; n <= 3; n++) {
+    const kind = await evaluate(swS, "__blinkReminder.deliver('blink')");
+    await sleep(300);
+    const seen = iso && await evaluate(page.sessionId,
+      "globalThis.__blinkReminderCue.state()?.caption ?? null",
+      iso.params.context.id);
+    const taught = n <= 2;
+    check(`reminder ${n} ${taught ? "carries" : "does not carry"} the instruction`,
+          (seen === "Close\u2026\nsqueeze\u2026\nopen") === taught,
+          `${kind}, caption=${JSON.stringify(seen)}`);
+    if (n === 2) await shot(page.sessionId, "page-taught");
+    await sleep(3200);
+  }
+  const asked = await evaluate(swS, "__notified.at(-1)");
+  check("the question follows the last taught reminder",
+        asked?.id === "question" && asked?.buttons?.length === 2, asked?.id);
+  check("... and is owed until it is put away",
+        (await evaluate(swS, "chrome.storage.local.get('tutorial')")).tutorial?.question,
+        "pending");
+
+  // The question page: four buttons that lead to a control, and Got it.
+  const qt = await openTab(`chrome-extension://${id}/options.html#question`);
+  await sleep(600);
+  const buttons = await evaluate(qt.sessionId,
+    "[...document.querySelectorAll('#question-buttons button')].map(b => b.textContent)");
+  check("the question page offers the four settings and Got it",
+        buttons.length === 5 && buttons[4] === "Got it", JSON.stringify(buttons));
+  await evaluate(qt.sessionId,
+    "document.querySelector('#question-buttons button').click(), 1");
+  await sleep(900);
+  check("a button rings the control it names",
+        await evaluate(qt.sessionId,
+          "!!document.querySelector('#blink-card [data-point=\"strength\"].ring')"));
+  await shot(qt.sessionId, "question");
+  await evaluate(qt.sessionId,
+    "document.querySelectorAll('#question-buttons button')[4].click(), 1");
+  await sleep(600);
+  check("Got it puts the question away for good",
+        (await evaluate(swS, "chrome.storage.local.get('tutorial')")).tutorial?.question,
+        "done");
+  await send("Target.closeTarget", { targetId: qt.targetId });
+
   // -- the corner dot: opt-in, and gone again the moment it is switched off ---
   const setDot = (on) => evaluate(swS, `chrome.storage.local.get('cfg').then(({cfg}) =>
     chrome.storage.local.set({ cfg: { ...(cfg || {}), pageDot: ${on} } }))`);

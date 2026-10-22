@@ -82,6 +82,8 @@ $("grant").addEventListener("click", async () => {
   state = await render();
 });
 $("settings").addEventListener("click", () => chrome.runtime.openOptionsPage());
+$("howto").addEventListener("click", () =>
+  chrome.tabs.create({ url: "options.html#welcome" }));
 $("coffee").addEventListener("click", () => chrome.tabs.create({ url: SUPPORT_URL }));
 $("rate").addEventListener("click", () => chrome.tabs.create(
   { url: reviewUrl(chrome.runtime.id, navigator.userAgent) }));

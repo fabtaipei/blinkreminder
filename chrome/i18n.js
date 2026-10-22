@@ -31,6 +31,12 @@ export function defaultWord(kind) {
   return kind === "blink" ? T("Blink") : T("Look into the distance");
 }
 
+// Languages written without spaces between words, where the instruction's
+// three steps join into one line with nothing between them.
+export function noSpaces() {
+  return NO_SPACES.includes(lang);
+}
+
 // The blink instruction on one line, for a notification.
 export function captionLine() {
   return T("Close…\nsqueeze…\nopen").split("\n")

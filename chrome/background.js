@@ -8,9 +8,10 @@
 import {
   DISPLAY_NAME, SNOOZE_MINUTES, SUPPORT_URL, ASK_SETTLE_MS, normalize, pulseOf,
   pulseMs, msToNextBreak, isStale, drawable, todayIso, loadAsks, countDay,
-  dueAsk, reviewUrl, PAGE_ORIGINS,
+  dueAsk, reviewUrl, PAGE_ORIGINS, TEACH_COUNT, freshTutorial, loadTutorial,
+  teachingDue, questionDue, teachingPulse,
 } from "./core.js";
-import { CODES, setLanguage, T, defaultWord, captionLine } from "./i18n.js";
+import { CODES, setLanguage, T, defaultWord, captionLine, noSpaces } from "./i18n.js";
 
 // The corner dot, while it is switched on: a content script on every page
 // the user has granted, rather than an injection per reminder, because it
@@ -34,6 +35,15 @@ async function getCfg() {
   const c = normalize(cfg, CODES);
   setLanguage(c.language);
   return c;
+}
+
+async function getTutorial() {
+  const { tutorial } = await chrome.storage.local.get("tutorial");
+  return loadTutorial(tutorial);
+}
+
+async function setTutorial(t) {
+  await chrome.storage.local.set({ tutorial: t });
 }
 
 async function snoozedUntil() {
@@ -222,10 +232,24 @@ export async function deliver(kind, { manual = false } = {}) {
       return "break showing";
     }
   }
-  const pulse = pulseOf(cfg, kind, defaultWord(kind));
+  let pulse = pulseOf(cfg, kind, defaultWord(kind));
+  // The first few blink reminders carry the instruction, and the question
+  // follows the last of them. A manual "Blink now" is not one of the few.
+  let teach = false;
+  if (kind === "blink" && !manual) {
+    const t = await getTutorial();
+    if (teachingDue(t)) {
+      t.taught += 1;
+      await setTutorial(t);
+      pulse = teachingPulse(pulse, T("Close…\nsqueeze…\nopen"), noSpaces());
+      teach = !teachingDue(t);
+    }
+  }
   if (kind === "break") {
     await chrome.storage.session.set({ quietUntil: Date.now() + pulseMs(pulse) + 1000 });
   }
+  // Once the reminder it is about has faded, not during it.
+  if (teach) setTimeout(askQuestion, pulseMs(pulse) + 800);
 
   if (await chrome.permissions.contains(PAGE_ORIGINS)) {
     const tab = await frontTab();
@@ -242,6 +266,25 @@ export async function deliver(kind, { manual = false } = {}) {
   }
   await notify(kind, pulse);
   return "notification";
+}
+
+// "Too weak or intrusive?" -- a notification rather than a card drawn on
+// someone's page: the answers lead to the settings, and a notification is
+// where the browser already puts a question it wants answered.
+async function askQuestion() {
+  if (!questionDue(await getTutorial())) return;
+  await chrome.notifications.create("question", {
+    type: "basic", iconUrl: "icons/icon-128.png", requireInteraction: true,
+    title: T("Too weak or intrusive?"),
+    message: [T("Strength"), T("Size"), T("Duration"), T("Sound")].join(" · "),
+    buttons: [{ title: T("Settings") }, { title: T("Got it") }],
+  });
+}
+
+async function endQuestion() {
+  const t = await getTutorial();
+  t.question = "done";
+  await setTutorial(t);
 }
 
 // -- days of use, and the asks ----------------------------------------------
@@ -289,7 +332,10 @@ async function checkAsks(cfg) {
 }
 
 chrome.notifications.onButtonClicked.addListener(async (id, index) => {
-  if (id === "ask-donate" && index === 0) {
+  if (id === "question") {
+    await endQuestion();
+    if (index === 0) await chrome.tabs.create({ url: "options.html#question" });
+  } else if (id === "ask-donate" && index === 0) {
     await chrome.tabs.create({ url: SUPPORT_URL });
   } else if (id === "ask-donate" && index === 1) {
     const st = loadAsks((await chrome.storage.local.get("asks")).asks);

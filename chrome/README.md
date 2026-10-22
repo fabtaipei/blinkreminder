@@ -20,6 +20,11 @@ on Windows, Mac, Linux and ChromeOS. Design: `docs/chrome-extension-design.md`.
 - **Settings page**: style, strength, colour, size, position, flash style,
   timings and sound for each reminder, and the language — all 30 of the desktop app's,
   Urdu included (Chrome itself has no Urdu).
+- **Tutorial**, as in the desktop app: a welcome page on install, the first
+  two blink reminders carrying "Close… squeeze… open", then one question
+  — "Too weak or intrusive?" — whose four answers open the settings with
+  that control ringed. **Show me** plays a taught reminder and asks the same
+  question; **How it works** in the pop-up brings the welcome page back.
 - **Coffee/review asks**: the desktop's schedule exactly (days 12, 25, 55, 70,
   150, 170 of use), as a notification, at most one a day; "Don't ask again"
   ends them all.
