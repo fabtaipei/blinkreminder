@@ -163,6 +163,26 @@ d.text((40, 206), "Blink Reminder Lite", font=font(27, True), fill=TEXT)
 d.text((42, 244), "A gentle cue to blink", font=font(15), fill=MUTED)
 save(tile, "promo-440x280.png")
 
+# -- the 1400x560 marquee tile ------------------------------------------------
+# Wide and mostly empty, because that is what a banner wants: the mark and
+# the name on the left, and on the right the cue itself at the strength it
+# really appears, running off the edge so it reads as something passing
+# across the screen rather than a logo.
+mq = Image.new("RGBA", (1400, 560), (20, 21, 23, 255))
+glow = Image.new("RGBA", mq.size, (0, 0, 0, 0))
+gd = ImageDraw.Draw(glow)
+gd.ellipse((980, -120, 1620, 520), fill=(189, 228, 1, 88))
+mq.alpha_composite(glow)
+
+icon = blink_reminder.app_icon(112).convert("RGBA")
+mq.paste(icon, (96, 96), icon)
+d = ImageDraw.Draw(mq)
+d.text((96, 240), "Dry Eyes", font=font(58, True), fill=TEXT)
+d.text((96, 310), "Blink Reminder Lite", font=font(58, True), fill=TEXT)
+d.text((99, 400), "A gentle cue to blink, and a reminder to look away",
+       font=font(24), fill=MUTED)
+save(mq, "marquee-1400x560.png")
+
 # -- the 128x128 store icon ---------------------------------------------------
 # The Store reads this from the package itself, so this copy exists only for a
 # form that asks for the file. Drawn from the same code, so it cannot drift
