@@ -17,7 +17,6 @@
     <p data-t="A cue appears periodically, to remind you to blink fully: close, squeeze gently, open."></p>
     <div class="callout" id="welcome-grant-box">
       <button id="welcome-grant" class="primary" data-t="Show the cue on web pages"></button>
-      <p class="muted" data-t="Without it, reminders come as notifications."></p>
     </div>
     <div class="buttons">
       <button id="show-me" data-t="Show me"></button>
@@ -40,34 +39,28 @@
       <span data-t="Show the cue on web pages"></span>
       <input type="checkbox" id="page-cue" role="switch">
     </label>
-    <p class="muted"><span data-t="Nothing on the page is read or sent anywhere."></span>
-      <span data-t="Without it, reminders come as notifications."></span></p>
   </section>
 
   <div class="columns">
     <section class="card" id="blink-card">
       <h2 data-t="Blink"></h2>
-      <div class="row">
-        <label for="blink-interval" data-t="Remind me every"></label>
-        <select id="blink-interval"></select>
+      <div class="head">
+        <div class="row"><label for="blink-interval" data-t="Remind me every"></label></div>
+        <div class="row"><span></span><select id="blink-interval"></select></div>
       </div>
       <div class="look" data-kind="blink"></div>
-      <button class="preview" data-kind="blink" data-t="Preview blink"></button>
     </section>
 
     <section class="card" id="break-card">
       <h2 data-t="Break"></h2>
-      <label class="row switch">
-        <span data-t="Remind me to look away"></span>
-        <input type="checkbox" id="break-enabled" role="switch">
-      </label>
-      <div class="row"><span></span><div id="break-minutes" class="segmented"></div></div>
+      <div class="head">
+        <label class="row switch">
+          <span data-t="Remind me to look away"></span>
+          <input type="checkbox" id="break-enabled" role="switch">
+        </label>
+        <div class="row"><span></span><div id="break-minutes" class="segmented"></div></div>
+      </div>
       <div class="look" data-kind="brk"></div>
-      <label class="row switch">
-        <span data-t="Show countdown"></span>
-        <input type="checkbox" id="countdown" role="switch">
-      </label>
-      <button class="preview" data-kind="brk" data-t="Preview break"></button>
     </section>
   </div>
 
