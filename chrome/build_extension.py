@@ -42,7 +42,7 @@ CHROME_LOCALES = {"zh-Hant": "zh_TW", "zh-Hans": "zh_CN", "pt": "pt_BR",
 
 # What gets packed. Everything else in chrome/ is tooling.
 PACKED = ("manifest.json", "background.js", "core.js", "strings.js",
-          "i18n.js", "cue.js", "offscreen.html", "offscreen.js",
+          "i18n.js", "cue.js", "dot.js", "offscreen.html", "offscreen.js",
           "popup.html", "popup.js", "options.html", "options.js",
           "ui.css", "icons", "_locales")
 

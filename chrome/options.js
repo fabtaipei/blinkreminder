@@ -89,70 +89,80 @@ function secs(ms, lo, hi, onSet) {
   return input;
 }
 
-// Grey a row out instead of removing it.
-//
-// Every row exists on both cards whether or not it applies, so the blink's
-// Strength sits level with the break's and the eye can read across. A row
-// that does not apply to the style in force -- Position under a full-screen
-// dim, Word size under a dot -- is dimmed and its controls disabled, which
-// is what the desktop panel does and why its two cards line up.
-function applies(node, on) {
-  node.classList.toggle("off", !on);
-  for (const c of node.querySelectorAll("input, select, button")) c.disabled = !on;
-  return node;
-}
-
 // -- one reminder's controls -------------------------------------------------
 
-// The same rows, in the same order, for both reminders.
+// Both cards show the same four things in the same order -- style, strength,
+// sound, Advanced -- so every row on the blink card sits level with its twin
+// on the break card. What applies to one style and not another, and what is
+// set once and then left alone, goes inside Advanced, where a row that does
+// not apply is simply absent. That split is why the two cards line up, and
+// it is the shape the desktop panel has.
 //
 // The literals are here, not in a table, so the build can find every one and
 // prove all thirty languages have it.
+
+// Advanced is rebuilt on every render, so whether it was open has to be
+// remembered outside it, or changing a control inside would close it.
+const advOpen = { blink: false, brk: false };
+
 function lookControls(kind) {
   const l = cfg[kind];
   const set = (patch) => { Object.assign(l, patch); save(); };
   // A change of style, position or timing changes which rows apply or what
   // they read, so those redraw the card.
   const restyle = (patch) => { Object.assign(l, patch); save(); render(); };
-  const dot = l.style === "dot";
-  const text = l.style === "text";
-  const placed = l.style !== "dim";
-  const out = [];
 
-  out.push(el("div", { className: "row" }, segmented(
+  const style = el("div", { className: "row" }, segmented(
     [["dot", T("A dot")], ["text", T("A word")], ["dim", T("Dim screen")]],
-    l.style, (s) => restyle({ style: s }))));
+    l.style, (s) => restyle({ style: s })));
+  const strength = row(T("Strength"),
+    ...percent(Math.round(l.opacity * 100), 2, (v) => set({ opacity: v / 100 })));
+  const sound = switchRow(T("Play a sound"), l.sound, (s) => set({ sound: s }));
 
-  out.push(row(T("Strength"),
-    ...percent(Math.round(l.opacity * 100), 2, (v) => set({ opacity: v / 100 }))));
+  const btn = el("button", { className: "preview",
+    textContent: T(kind === "blink" ? "Preview blink" : "Preview break") });
+  btn.addEventListener("click", () => preview(kind));
+
+  return [style, strength, sound, advanced(kind, l, set, restyle), btn];
+}
+
+function advanced(kind, l, set, restyle) {
+  const box = el("details", { className: "advanced", open: advOpen[kind] });
+  box.addEventListener("toggle", () => { advOpen[kind] = box.open; });
+  // Trimmed: the desktop's label carries two leading spaces to clear the
+  // arrow drawn beside it, and here the arrow is drawn by CSS.
+  box.append(el("summary", { textContent: T("  Advanced settings").trim() }));
+  const rows = el("div", { className: "adv-rows" });
+  box.append(rows);
 
   const colour = el("input", { type: "color", value: l.colour });
   colour.addEventListener("change", () => set({ colour: colour.value }));
-  out.push(row(T("Colour"), colour));
+  rows.append(row(T("Colour"), colour));
 
-  // The stored size, not a zero: a greyed row still shows what the setting
-  // is, so switching back to a dot holds no surprise.
-  out.push(applies(row(T("Dot size"),
-    ...percent(l.dotPct, 5, (v) => set({ dotPct: v }))), dot));
-
-  const word = el("input", { type: "text", value: text ? l.message || "" : "",
-                             placeholder: defaultWord(kind), maxLength: 60 });
-  word.addEventListener("change", () => set({ message: word.value.trim() || null }));
-  out.push(applies(row(T("Word to show"), word), text));
-  out.push(applies(row(T("Word size"),
-    num(l.fontSize, 10, 200, 1, (v) => set({ fontSize: v }))), text));
-
-  const names = { center: T("Centre"), "top-left": T("Top left"),
-                  "top-right": T("Top right"), "bottom-left": T("Bottom left"),
-                  "bottom-right": T("Bottom right") };
-  out.push(applies(row(T("Position"), select(CORNERS.map((c) => [c, names[c]]),
-    l.corner, (corner) => restyle({ corner }))), placed));
-  // Centring makes the distance from an edge meaningless, so the margin is
-  // dead under a dim AND under a centred cue -- a narrower condition than
-  // the rest of the position row, exactly as on the desktop.
-  out.push(applies(row(T("Edge margin"),
-    num(l.margin, 0, 500, 1, (v) => set({ margin: v }))),
-    placed && l.corner !== "center"));
+  if (l.style === "dot") {
+    rows.append(row(T("Dot size"), ...percent(l.dotPct, 5, (v) => set({ dotPct: v }))));
+  }
+  if (l.style === "text") {
+    const word = el("input", { type: "text", value: l.message || "",
+                               placeholder: defaultWord(kind), maxLength: 60 });
+    word.addEventListener("change", () => set({ message: word.value.trim() || null }));
+    rows.append(row(T("Word to show"), word));
+    rows.append(row(T("Word size"),
+                    num(l.fontSize, 10, 200, 1, (v) => set({ fontSize: v }))));
+  }
+  if (l.style !== "dim") {
+    const names = { center: T("Centre"), "top-left": T("Top left"),
+                    "top-right": T("Top right"), "bottom-left": T("Bottom left"),
+                    "bottom-right": T("Bottom right") };
+    rows.append(row(T("Position"), select(CORNERS.map((c) => [c, names[c]]),
+                                          l.corner, (corner) => restyle({ corner }))));
+    // Centring makes the distance from an edge meaningless, so the control
+    // for it is absent rather than dead.
+    if (l.corner !== "center") {
+      rows.append(row(T("Edge margin"),
+                      num(l.margin, 0, 500, 1, (v) => set({ margin: v }))));
+    }
+  }
 
   // The desktop's three presets. Hand-tuned timings show as Custom, which
   // cannot be picked -- only arrived at, by moving one of the four below it.
@@ -160,38 +170,35 @@ function lookControls(kind) {
   const feel = feelOf(l);
   const choices = Object.keys(FEELS).map((f) => [f, feelNames[f]]);
   if (feel === "Custom") choices.push(["Custom", T("Custom")]);
-  out.push(row(T("Flash style"), select(choices, feel, (f) => {
+  rows.append(row(T("Flash style"), select(choices, feel, (f) => {
     if (FEELS[f]) restyle({ ...FEELS[f] });
   })));
-  out.push(row(T("Hold (s)"), secs(l.hold, 0.05, 5, (v) => restyle({ hold: v }))));
-  out.push(row(T("Fade (s)"), secs(l.fade, 0, 5, (v) => restyle({ fade: v }))));
-  out.push(row(T("Pulses"), num(l.blinks, 1, 10, 1, (v) => restyle({ blinks: v }))));
+  rows.append(row(T("Hold (s)"), secs(l.hold, 0.05, 5, (v) => restyle({ hold: v }))));
+  rows.append(row(T("Fade (s)"), secs(l.fade, 0, 5, (v) => restyle({ fade: v }))));
+  rows.append(row(T("Pulses"), num(l.blinks, 1, 10, 1, (v) => restyle({ blinks: v }))));
   // Only meaningful once a reminder pulses more than once.
-  out.push(applies(row(T("Gap between pulses"),
-    secs(l.gap, 0, 2, (v) => restyle({ gap: v }))), l.blinks > 1));
+  if (l.blinks > 1) {
+    rows.append(row(T("Gap between pulses"),
+                    secs(l.gap, 0, 2, (v) => restyle({ gap: v }))));
+  }
 
-  out.push(switchRow(T("Play a sound"), l.sound, (s) => restyle({ sound: s })));
   // A device can be muted and a volume left at the floor, and neither is
   // visible. Test plays this reminder's chime at this reminder's volume.
   const test = el("button", { textContent: T("Test") });
   test.addEventListener("click", () =>
     chrome.runtime.sendMessage({ type: "chime", volume: l.volume }));
-  out.push(applies(row(T("Volume"),
-    ...percent(Math.round(l.volume * 100), 20, (v) => set({ volume: v / 100 })),
-    test), l.sound));
+  rows.append(row(T("Volume"),
+                  ...percent(Math.round(l.volume * 100), 20,
+                             (v) => set({ volume: v / 100 })), test));
 
-  // The break's countdown has no counterpart on the blink card, so the blink
-  // carries the row dead rather than leaving a hole the break has to fill.
-  out.push(applies(switchRow(T("Show countdown"), cfg.showCountdown, (v) => {
-    cfg.showCountdown = v;
-    save();
-  }), kind === "brk"));
-
-  const btn = el("button", { className: "preview",
-    textContent: T(kind === "blink" ? "Preview blink" : "Preview break") });
-  btn.addEventListener("click", () => preview(kind));
-  out.push(btn);
-  return out;
+  // The break's alone: the blink has no countdown to show.
+  if (kind === "brk") {
+    rows.append(switchRow(T("Show countdown"), cfg.showCountdown, (v) => {
+      cfg.showCountdown = v;
+      save();
+    }));
+  }
+  return box;
 }
 
 function preview(kind) {
@@ -220,6 +227,10 @@ async function render() {
 
   $("enabled").checked = cfg.enabled;
   $("page-cue").checked = granted;
+  // Drawn on the page, so it needs the same access the cue does.
+  $("page-dot").checked = cfg.pageDot && granted;
+  $("page-dot").disabled = !granted;
+  $("page-dot").closest(".row").classList.toggle("off", !granted);
 
   $("blink-interval").replaceChildren(...INTERVALS.map((s) =>
     new Option(intervalLabel(s), s, false, s === cfg.blinkInterval)));
@@ -251,6 +262,10 @@ async function setPageCue(on) {
   render();
 }
 $("page-cue").addEventListener("change", (e) => setPageCue(e.target.checked));
+$("page-dot").addEventListener("change", (e) => {
+  cfg.pageDot = e.target.checked;
+  save();
+});
 $("welcome-grant").addEventListener("click", () => setPageCue(true));
 $("show-me").addEventListener("click", () => preview("blink"));
 $("got-it").addEventListener("click", () => {
