@@ -32,10 +32,16 @@ on Windows, Mac, Linux and ChromeOS. Design: `docs/chrome-extension-design.md`.
 ### Site access is opt-in
 
 Installed, it asks only for timers, storage, notifications and idle detection
-— no "read and change all your data" warning. In that state reminders come as
-notifications. Switching on **Show the cue on web pages** (offered on the
-welcome page and in the pop-up) asks Chrome for access to web pages, which is
-what drawing over them needs. Nothing on any page is read or sent anywhere.
+— no "read and change all your data" warning. Switching on **Show the cue on
+web pages** (offered on the welcome page and in the pop-up) asks Chrome for
+access, which is what drawing over a page needs. Nothing on any page is read
+or sent anywhere.
+
+Until then, **break reminders arrive as notifications and blink reminders are
+not shown** — a blink toast every minute would be the interruption this app
+exists not to be. The extension says so once, with a button to the settings,
+rather than repeating itself. Chrome's own menu also lets someone narrow
+access to a single site, and the cue is drawn there and nowhere else.
 
 ## Build, test, try
 
