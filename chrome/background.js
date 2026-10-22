@@ -8,7 +8,7 @@
 import {
   DISPLAY_NAME, SNOOZE_MINUTES, SUPPORT_URL, ASK_SETTLE_MS, normalize, pulseOf,
   pulseMs, msToNextBreak, isStale, drawable, todayIso, loadAsks, countDay,
-  dueAsk, reviewUrl, PAGE_ORIGINS, TEACH_COUNT, freshTutorial, loadTutorial,
+  dueAsk, reviewUrl, TEACH_COUNT, freshTutorial, loadTutorial,
   teachingDue, questionDue, teachingPulse,
 } from "./core.js";
 import { CODES, setLanguage, T, defaultWord, captionLine, noSpaces } from "./i18n.js";
@@ -114,7 +114,7 @@ async function nextBreakAfterThisOne() {
 async function syncPageDot(cfg) {
   let on = false;
   try {
-    on = cfg.pageDot && await chrome.permissions.contains(PAGE_ORIGINS);
+    on = cfg.pageDot && await anyPageAccess();
     const already = (await chrome.scripting.getRegisteredContentScripts(
       { ids: [DOT_SCRIPT.id] })).length > 0;
     if (on && !already) await chrome.scripting.registerContentScripts([DOT_SCRIPT]);
@@ -159,6 +159,27 @@ async function updateBadge(cfg, live) {
 // -- delivering a reminder --------------------------------------------------
 
 // The active tab of the window in use, or null if Chrome is not in front.
+// May the cue be drawn on THIS page? Chrome lets someone grant one site
+// rather than all of them -- "On github.com" in its own menu -- and that
+// choice has to be honoured site by site. Asking only whether every site
+// was granted would mean a user who allowed one got the cue on none.
+async function mayDraw(url) {
+  try {
+    return await chrome.permissions.contains(
+      { origins: [`${new URL(url).origin}/*`] });
+  } catch {
+    return false;                       // not a URL we could ask about
+  }
+}
+
+// Whether any site at all has been granted. A blink that could have been
+// drawn somewhere is skipped rather than turned into a notification: a toast
+// every minute is the interruption this was built not to be.
+async function anyPageAccess() {
+  const granted = await chrome.permissions.getAll();
+  return (granted.origins || []).length > 0;
+}
+
 async function frontTab() {
   let win;
   try {
@@ -251,19 +272,17 @@ export async function deliver(kind, { manual = false } = {}) {
   // Once the reminder it is about has faded, not during it.
   if (teach) setTimeout(askQuestion, pulseMs(pulse) + 800);
 
-  if (await chrome.permissions.contains(PAGE_ORIGINS)) {
-    const tab = await frontTab();
-    if (tab && drawable(tab.url)) {
-      try {
-        await draw(tab.id, pulse);
-        if (pulse.sound) await chime(pulse.volume);
-        return "page";
-      } catch (e) {
-        console.warn("draw", e);          // the page refused; fall through
-      }
+  const tab = await frontTab();
+  if (tab && drawable(tab.url) && await mayDraw(tab.url)) {
+    try {
+      await draw(tab.id, pulse);
+      if (pulse.sound) await chime(pulse.volume);
+      return "page";
+    } catch (e) {
+      console.warn("draw", e);            // the page refused; fall through
     }
-    if (kind === "blink" && !manual) return "not in front";
   }
+  if (kind === "blink" && !manual && await anyPageAccess()) return "not in front";
   await notify(kind, pulse);
   return "notification";
 }
@@ -374,7 +393,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   if (info.status !== "complete" || !drawable(tab.url)) return;
   const cfg = await getCfg();
-  if (!cfg.pageDot || !(await chrome.permissions.contains(PAGE_ORIGINS))) return;
+  if (!cfg.pageDot || !(await mayDraw(tab.url))) return;
   try {
     await chrome.scripting.executeScript({ target: { tabId }, files: ["dot.js"] });
   } catch { /* a page this extension may not touch */ }
