@@ -206,6 +206,29 @@ try {
   const quiet = await evaluate(swS, "__blinkReminder.deliver('blink')");
   check("a timed blink waits while the break is on screen", quiet === "break showing", quiet);
 
+  // -- the corner dot: opt-in, and gone again the moment it is switched off ---
+  const setDot = (on) => evaluate(swS, `chrome.storage.local.get('cfg').then(({cfg}) =>
+    chrome.storage.local.set({ cfg: { ...(cfg || {}), pageDot: ${on} } }))`);
+  await setDot(true);
+  await sleep(1500);
+  const dot = await evaluate(page.sessionId, `(() => {
+    const d = document.querySelector('blink-reminder-dot');
+    if (!d) return null;
+    const cs = getComputedStyle(d);
+    return { events: cs.pointerEvents, position: cs.position, width: cs.width,
+             bg: cs.backgroundColor };
+  })()`);
+  check("the opt-in corner dot appears", !!dot, JSON.stringify(dot));
+  check("... click-through, fixed, and in the blink's colour",
+        dot?.events === "none" && dot?.position === "fixed"
+        && dot?.bg === "rgb(189, 228, 1)", JSON.stringify(dot));
+  await shot(page.sessionId, "page-dot");
+  await setDot(false);
+  await sleep(1500);
+  check("... and is removed from an open page when switched off",
+        await evaluate(page.sessionId,
+          "document.querySelector('blink-reminder-dot') === null"));
+
   // -- the extension's own pages, light and dark, in a few languages -----------
   for (const [lang, scheme] of [["en", "light"], ["en", "dark"], ["de", "dark"],
                                 ["ar", "light"], ["zh-Hant", "dark"]]) {

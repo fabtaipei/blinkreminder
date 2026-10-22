@@ -13,8 +13,12 @@ on Windows, Mac, Linux and ChromeOS. Design: `docs/chrome-extension-design.md`.
   minutes). If Chrome isn't the window in use, it arrives as a notification.
 - **Toolbar pop-up**: on/off, Blink now, interval, snooze 30 minutes, the
   time to the next break. The toolbar badge counts down the minutes.
-- **Settings page**: style, strength, colour, size, position, flash style and
-  sound for each reminder, and the language — all 30 of the desktop app's,
+- **Corner dot** (opt-in, off by default): a small dot in the bottom-right of
+  the page while reminders are running, the desktop app's corner indicator as
+  far as a browser allows. It needs the same site access the cue does, and it
+  steps aside while a reminder is on screen.
+- **Settings page**: style, strength, colour, size, position, flash style,
+  timings and sound for each reminder, and the language — all 30 of the desktop app's,
   Urdu included (Chrome itself has no Urdu).
 - **Coffee/review asks**: the desktop's schedule exactly (days 12, 25, 55, 70,
   150, 170 of use), as a notification, at most one a day; "Don't ask again"
@@ -61,7 +65,7 @@ One-time US$5 developer registration. Upload `dist-chrome/blink-reminder-chrome-
 | `storage` | Keeps the user's settings and the count of days used, on this device only. |
 | `notifications` | Shows reminders when the on-page cue is off or Chrome isn't in front, and the occasional coffee/review ask. |
 | `idle` | Skips reminders while the computer is idle or locked. |
-| `scripting` | Draws the cue over the active web page. |
+| `scripting` | Draws the cue over the active web page, and the corner dot while that is switched on. |
 | `offscreen` | Plays the optional reminder chime (a web page may not play sound unprompted). |
 | Host access (optional, `http://*/*`, `https://*/*`) | Requested only when the user switches on the on-page cue. Used solely to draw the cue; page content is never read. |
 

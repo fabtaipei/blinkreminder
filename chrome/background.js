@@ -12,6 +12,16 @@ import {
 } from "./core.js";
 import { CODES, setLanguage, T, defaultWord, captionLine } from "./i18n.js";
 
+// The corner dot, while it is switched on: a content script on every page
+// the user has granted, rather than an injection per reminder, because it
+// has to be there the whole time and survive navigation.
+const DOT_SCRIPT = {
+  id: "page-dot",
+  js: ["dot.js"],
+  matches: ["http://*/*", "https://*/*"],
+  runAt: "document_idle",
+};
+
 // A blink this late was missed while the computer slept. Chrome fires every
 // missed alarm on waking; firing them is a burst of noise, not a reminder.
 const BLINK_STALE_MS = 20000;
@@ -63,6 +73,8 @@ async function schedule() {
     await chrome.alarms.clear("break");
   }
 
+  await syncPageDot(cfg);
+
   if (snooze) await chrome.alarms.create("snooze", { when: snooze });
   else await chrome.alarms.clear("snooze");
 
@@ -85,6 +97,37 @@ async function nextBreakAfterThisOne() {
   const ahead = Date.now() + 5000;
   await chrome.alarms.create("break",
     { when: ahead + msToNextBreak(cfg.breakMinutes, new Date(ahead)) });
+}
+
+// Register or remove the corner dot, and bring every page already open
+// into line -- a registered script only reaches pages loaded after it.
+async function syncPageDot(cfg) {
+  let on = false;
+  try {
+    on = cfg.pageDot && await chrome.permissions.contains(PAGE_ORIGINS);
+    const already = (await chrome.scripting.getRegisteredContentScripts(
+      { ids: [DOT_SCRIPT.id] })).length > 0;
+    if (on && !already) await chrome.scripting.registerContentScripts([DOT_SCRIPT]);
+    if (!on && already) {
+      await chrome.scripting.unregisterContentScripts({ ids: [DOT_SCRIPT.id] });
+    }
+    if (on === already) return;                       // nothing changed
+  } catch (e) {
+    console.warn("page dot", e);
+    return;
+  }
+  for (const tab of await chrome.tabs.query({ url: ["http://*/*", "https://*/*"] })) {
+    try {
+      if (on) {
+        await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["dot.js"] });
+      } else {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: () => { globalThis.__blinkReminderDot?.off(); },
+        });
+      }
+    } catch { /* a page this extension may not touch; nothing to do */ }
+  }
 }
 
 async function updateBadge(cfg, live) {

@@ -30,6 +30,10 @@ export const CORNERS = ["center", "top-left", "top-right", "bottom-left",
 export const DEFAULTS = {
   enabled: true,
   language: "auto",
+  // A permanent dot in the corner of the page, saying the extension is
+  // running. Off by default: it is the only thing this extension would
+  // leave on a page for good, so it is asked for rather than assumed.
+  pageDot: false,
   blinkInterval: 60,
   breakEnabled: true,
   breakMinutes: 30,
@@ -112,6 +116,7 @@ export function normalize(saved, languages = null) {
     ? s.language : DEFAULTS.language;
   return {
     enabled: typeof s.enabled === "boolean" ? s.enabled : DEFAULTS.enabled,
+    pageDot: typeof s.pageDot === "boolean" ? s.pageDot : DEFAULTS.pageDot,
     language: lang,
     blinkInterval: pick(Number(s.blinkInterval), INTERVALS, DEFAULTS.blinkInterval),
     breakEnabled: typeof s.breakEnabled === "boolean"

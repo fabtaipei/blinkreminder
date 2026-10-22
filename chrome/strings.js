@@ -38,6 +38,7 @@ export const RTL = ["ar", "ur"];
 
 export const STRINGS = {
  "ar": {
+  "  Advanced settings": "  إعدادات متقدمة",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "تظهر إشارة بشكل دوري لتذكيرك بأن ترمش رمشة كاملة: أغمض عينيك، اضغط جفنيك برفق، ثم افتحهما.",
   "A dot": "نقطة",
   "A short review helps others with tired eyes find it. Thank you!": "مراجعة قصيرة تساعد آخرين يعانون من إجهاد العين على العثور عليه. شكرًا!",
@@ -78,6 +79,7 @@ export const STRINGS = {
   "Resume reminders": "استئناف التذكيرات",
   "Settings": "الإعدادات",
   "Sharp": "واضح",
+  "Show a dot in the corner": "إظهار نقطة في الزاوية",
   "Show countdown": "إظهار العد التنازلي",
   "Show me": "أرني",
   "Show the cue on web pages": "إظهار الإشارة على صفحات الويب",
@@ -96,6 +98,7 @@ export const STRINGS = {
   "seconds": "ثانية"
  },
  "bn": {
+  "  Advanced settings": "  উন্নত সেটিংস",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "একটি সংকেত নিয়মিত দেখা দেয়, যাতে আপনি পুরোপুরি চোখের পলক ফেলতে মনে রাখেন: চোখ বন্ধ করুন, আলতো করে চেপে ধরুন, খুলুন।",
   "A dot": "বিন্দু",
   "A short review helps others with tired eyes find it. Thank you!": "একটি ছোট রিভিউ ক্লান্ত চোখের অন্যদের এটি খুঁজে পেতে সাহায্য করে। ধন্যবাদ!",
@@ -136,6 +139,7 @@ export const STRINGS = {
   "Resume reminders": "মনে করানো চালু",
   "Settings": "সেটিংস",
   "Sharp": "স্পষ্ট",
+  "Show a dot in the corner": "কোণে একটি বিন্দু দেখান",
   "Show countdown": "কাউন্টডাউন দেখান",
   "Show me": "দেখান",
   "Show the cue on web pages": "ওয়েব পেজে সংকেত দেখান",
@@ -154,6 +158,7 @@ export const STRINGS = {
   "seconds": "সেকেন্ড"
  },
  "cs": {
+  "  Advanced settings": "  Pokročilé nastavení",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Signál se pravidelně objevuje a připomíná vám, abyste mrkali úplně: zavřete oči, jemně je stiskněte, otevřete.",
   "A dot": "Tečka",
   "A short review helps others with tired eyes find it. Thank you!": "Krátké hodnocení pomůže dalším lidem s unavenýma očima ji najít. Děkuji!",
@@ -194,6 +199,7 @@ export const STRINGS = {
   "Resume reminders": "Obnovit připomínky",
   "Settings": "Nastavení",
   "Sharp": "Ostré",
+  "Show a dot in the corner": "Zobrazit tečku v rohu",
   "Show countdown": "Zobrazit odpočet",
   "Show me": "Ukázat",
   "Show the cue on web pages": "Zobrazovat signál na webových stránkách",
@@ -212,6 +218,7 @@ export const STRINGS = {
   "seconds": "sekundy"
  },
  "da": {
+  "  Advanced settings": "  Avancerede indstillinger",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jævne mellemrum for at minde dig om at blinke helt: luk øjnene, klem blidt, åbn.",
   "A dot": "En prik",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjælper andre med trætte øjne med at finde den. Tak!",
@@ -252,6 +259,7 @@ export const STRINGS = {
   "Resume reminders": "Genoptag påmindelser",
   "Settings": "Indstillinger",
   "Sharp": "Skarp",
+  "Show a dot in the corner": "Vis en prik i hjørnet",
   "Show countdown": "Vis nedtælling",
   "Show me": "Vis mig",
   "Show the cue on web pages": "Vis signalet på websider",
@@ -270,6 +278,7 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "de": {
+  "  Advanced settings": "  Erweiterte Einstellungen",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ein Hinweis erscheint regelmäßig und erinnert Sie daran, vollständig zu blinzeln: schließen, sanft zusammenkneifen, öffnen.",
   "A dot": "Punkt",
   "A short review helps others with tired eyes find it. Thank you!": "Eine kurze Bewertung hilft anderen mit müden Augen, sie zu finden. Danke!",
@@ -310,6 +319,7 @@ export const STRINGS = {
   "Resume reminders": "Erinnerungen fortsetzen",
   "Settings": "Einstellungen",
   "Sharp": "Deutlich",
+  "Show a dot in the corner": "Punkt in der Ecke anzeigen",
   "Show countdown": "Countdown anzeigen",
   "Show me": "Zeigen",
   "Show the cue on web pages": "Hinweis auf Webseiten anzeigen",
@@ -328,6 +338,7 @@ export const STRINGS = {
   "seconds": "Sekunden"
  },
  "el": {
+  "  Advanced settings": "  Σύνθετες ρυθμίσεις",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Ένα σήμα εμφανίζεται περιοδικά για να σου θυμίζει να ανοιγοκλείνεις πλήρως τα μάτια: κλείσε, σφίξε απαλά, άνοιξε.",
   "A dot": "Κουκκίδα",
   "A short review helps others with tired eyes find it. Thank you!": "Μια σύντομη κριτική βοηθά άλλους με κουρασμένα μάτια να τη βρουν. Ευχαριστώ!",
@@ -368,6 +379,7 @@ export const STRINGS = {
   "Resume reminders": "Συνέχιση υπενθυμίσεων",
   "Settings": "Ρυθμίσεις",
   "Sharp": "Έντονο",
+  "Show a dot in the corner": "Εμφάνιση κουκκίδας στη γωνία",
   "Show countdown": "Αντίστροφη μέτρηση",
   "Show me": "Δείξε μου",
   "Show the cue on web pages": "Εμφάνιση του σήματος σε ιστοσελίδες",
@@ -386,6 +398,7 @@ export const STRINGS = {
   "seconds": "δευτ."
  },
  "es": {
+  "  Advanced settings": "  Configuración avanzada",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Aparece una señal periódicamente para recordarte parpadear por completo: cierra, aprieta suavemente y abre.",
   "A dot": "Un punto",
   "A short review helps others with tired eyes find it. Thank you!": "Una reseña breve ayuda a otras personas con los ojos cansados a encontrarla. ¡Gracias!",
@@ -426,6 +439,7 @@ export const STRINGS = {
   "Resume reminders": "Reanudar recordatorios",
   "Settings": "Configuración",
   "Sharp": "Marcado",
+  "Show a dot in the corner": "Mostrar un punto en la esquina",
   "Show countdown": "Mostrar cuenta atrás",
   "Show me": "Muéstramelo",
   "Show the cue on web pages": "Mostrar la señal en las páginas web",
@@ -444,6 +458,7 @@ export const STRINGS = {
   "seconds": "segundos"
  },
  "fi": {
+  "  Advanced settings": "  Lisäasetukset",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Merkki näkyy säännöllisesti muistuttamassa räpäyttämään kunnolla: sulje, purista kevyesti, avaa.",
   "A dot": "Piste",
   "A short review helps others with tired eyes find it. Thank you!": "Lyhyt arvio auttaa muita väsyneistä silmistä kärsiviä löytämään sen. Kiitos!",
@@ -484,6 +499,7 @@ export const STRINGS = {
   "Resume reminders": "Jatka muistutuksia",
   "Settings": "Asetukset",
   "Sharp": "Terävä",
+  "Show a dot in the corner": "Näytä piste kulmassa",
   "Show countdown": "Näytä lähtölaskenta",
   "Show me": "Näytä",
   "Show the cue on web pages": "Näytä merkki verkkosivuilla",
@@ -502,6 +518,7 @@ export const STRINGS = {
   "seconds": "sekuntia"
  },
  "fr": {
+  "  Advanced settings": "  Paramètres avancés",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un signal apparaît régulièrement pour vous rappeler de cligner complètement des yeux : fermez, serrez doucement, ouvrez.",
   "A dot": "Un point",
   "A short review helps others with tired eyes find it. Thank you!": "Un court avis aide d'autres personnes aux yeux fatigués à la trouver. Merci !",
@@ -542,6 +559,7 @@ export const STRINGS = {
   "Resume reminders": "Reprendre les rappels",
   "Settings": "Paramètres",
   "Sharp": "Net",
+  "Show a dot in the corner": "Afficher un point dans le coin",
   "Show countdown": "Afficher le compte à rebours",
   "Show me": "Montrez-moi",
   "Show the cue on web pages": "Afficher le signal sur les pages web",
@@ -560,6 +578,7 @@ export const STRINGS = {
   "seconds": "secondes"
  },
  "hi": {
+  "  Advanced settings": "  उन्नत सेटिंग्स",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "एक संकेत समय-समय पर दिखता है, ताकि आपको पूरी तरह पलकें झपकाना याद रहे: आँखें बंद करें, हल्के से भींचें, खोलें।",
   "A dot": "बिंदु",
   "A short review helps others with tired eyes find it. Thank you!": "एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है। धन्यवाद!",
@@ -600,6 +619,7 @@ export const STRINGS = {
   "Resume reminders": "याद दिलाना फिर शुरू",
   "Settings": "सेटिंग्स",
   "Sharp": "तेज़",
+  "Show a dot in the corner": "कोने में एक बिंदु दिखाएँ",
   "Show countdown": "उलटी गिनती दिखाएँ",
   "Show me": "दिखाएँ",
   "Show the cue on web pages": "वेब पेजों पर संकेत दिखाएँ",
@@ -618,6 +638,7 @@ export const STRINGS = {
   "seconds": "सेकंड"
  },
  "hu": {
+  "  Advanced settings": "  Speciális beállítások",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Időnként megjelenik egy jelzés, hogy emlékeztessen a teljes pislogásra: csukd be a szemed, szorítsd össze finoman, nyisd ki.",
   "A dot": "Pont",
   "A short review helps others with tired eyes find it. Thank you!": "Egy rövid értékelés segít más fáradt szemű embereknek megtalálni. Köszönöm!",
@@ -658,6 +679,7 @@ export const STRINGS = {
   "Resume reminders": "Emlékeztetők folytatása",
   "Settings": "Beállítások",
   "Sharp": "Éles",
+  "Show a dot in the corner": "Pont megjelenítése a sarokban",
   "Show countdown": "Visszaszámlálás megjelenítése",
   "Show me": "Mutasd",
   "Show the cue on web pages": "Jelzés megjelenítése weboldalakon",
@@ -676,6 +698,7 @@ export const STRINGS = {
   "seconds": "mp"
  },
  "id": {
+  "  Advanced settings": "  Pengaturan lanjutan",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Isyarat muncul secara berkala untuk mengingatkan Anda berkedip sepenuhnya: pejamkan, rapatkan perlahan, buka.",
   "A dot": "Titik",
   "A short review helps others with tired eyes find it. Thank you!": "Ulasan singkat membantu orang lain yang matanya lelah menemukannya. Terima kasih!",
@@ -716,6 +739,7 @@ export const STRINGS = {
   "Resume reminders": "Lanjutkan pengingat",
   "Settings": "Pengaturan",
   "Sharp": "Tegas",
+  "Show a dot in the corner": "Tampilkan titik di sudut",
   "Show countdown": "Tampilkan hitung mundur",
   "Show me": "Tunjukkan",
   "Show the cue on web pages": "Tampilkan isyarat di halaman web",
@@ -734,6 +758,7 @@ export const STRINGS = {
   "seconds": "detik"
  },
  "it": {
+  "  Advanced settings": "  Impostazioni avanzate",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un segnale appare periodicamente per ricordarti di sbattere le palpebre fino in fondo: chiudi, stringi delicatamente, apri.",
   "A dot": "Un punto",
   "A short review helps others with tired eyes find it. Thank you!": "Una breve recensione aiuta altre persone con gli occhi stanchi a trovarla. Grazie!",
@@ -774,6 +799,7 @@ export const STRINGS = {
   "Resume reminders": "Riprendi i promemoria",
   "Settings": "Impostazioni",
   "Sharp": "Netto",
+  "Show a dot in the corner": "Mostra un punto nell'angolo",
   "Show countdown": "Mostra il conto alla rovescia",
   "Show me": "Mostrami",
   "Show the cue on web pages": "Mostra il segnale sulle pagine web",
@@ -792,6 +818,7 @@ export const STRINGS = {
   "seconds": "secondi"
  },
  "ja": {
+  "  Advanced settings": "　詳細設定",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "合図が定期的に表示され、しっかりまばたきするよう促します：目を閉じ、軽くぎゅっとつむって、開く。",
   "A dot": "点",
   "A short review helps others with tired eyes find it. Thank you!": "短いレビューが、目の疲れに悩むほかの方がこのアプリを見つける助けになります。ありがとうございます！",
@@ -832,6 +859,7 @@ export const STRINGS = {
   "Resume reminders": "通知を再開",
   "Settings": "設定",
   "Sharp": "はっきり",
+  "Show a dot in the corner": "隅に点を表示",
   "Show countdown": "カウントダウンを表示",
   "Show me": "見てみる",
   "Show the cue on web pages": "ウェブページに合図を表示",
@@ -850,6 +878,7 @@ export const STRINGS = {
   "seconds": "秒"
  },
  "ko": {
+  "  Advanced settings": "　고급 설정",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "신호가 주기적으로 나타나 눈을 완전히 깜빡이도록 알려 줍니다: 감고, 살짝 꼭 감았다가, 뜨세요.",
   "A dot": "점",
   "A short review helps others with tired eyes find it. Thank you!": "짧은 리뷰 하나가 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요. 감사합니다!",
@@ -890,6 +919,7 @@ export const STRINGS = {
   "Resume reminders": "알림 다시 시작",
   "Settings": "설정",
   "Sharp": "뚜렷하게",
+  "Show a dot in the corner": "모서리에 점 표시",
   "Show countdown": "카운트다운 표시",
   "Show me": "보여 주기",
   "Show the cue on web pages": "웹 페이지에 신호 표시",
@@ -908,6 +938,7 @@ export const STRINGS = {
   "seconds": "초"
  },
  "nb": {
+  "  Advanced settings": "  Avanserte innstillinger",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Et signal vises med jevne mellomrom for å minne deg på å blunke helt: lukk øynene, klem forsiktig, åpne.",
   "A dot": "En prikk",
   "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjelper andre med slitne øyne å finne den. Takk!",
@@ -948,6 +979,7 @@ export const STRINGS = {
   "Resume reminders": "Fortsett påminnelser",
   "Settings": "Innstillinger",
   "Sharp": "Skarp",
+  "Show a dot in the corner": "Vis en prikk i hjørnet",
   "Show countdown": "Vis nedtelling",
   "Show me": "Vis meg",
   "Show the cue on web pages": "Vis signalet på nettsider",
@@ -966,6 +998,7 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "nl": {
+  "  Advanced settings": "  Geavanceerde instellingen",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Er verschijnt regelmatig een signaal om je eraan te herinneren volledig te knipperen: ogen dicht, zacht knijpen, open.",
   "A dot": "Een stip",
   "A short review helps others with tired eyes find it. Thank you!": "Een korte review helpt anderen met vermoeide ogen hem te vinden. Bedankt!",
@@ -1006,6 +1039,7 @@ export const STRINGS = {
   "Resume reminders": "Herinneringen hervatten",
   "Settings": "Instellingen",
   "Sharp": "Scherp",
+  "Show a dot in the corner": "Een stip in de hoek tonen",
   "Show countdown": "Aftellen tonen",
   "Show me": "Laat zien",
   "Show the cue on web pages": "Signaal tonen op webpagina's",
@@ -1024,6 +1058,7 @@ export const STRINGS = {
   "seconds": "seconden"
  },
  "pl": {
+  "  Advanced settings": "  Ustawienia zaawansowane",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Sygnał pojawia się regularnie i przypomina, by mrugać do końca: zamknij oczy, lekko je zaciśnij, otwórz.",
   "A dot": "Kropka",
   "A short review helps others with tired eyes find it. Thank you!": "Krótka opinia pomoże innym ze zmęczonymi oczami ją znaleźć. Dziękuję!",
@@ -1064,6 +1099,7 @@ export const STRINGS = {
   "Resume reminders": "Wznów przypomnienia",
   "Settings": "Ustawienia",
   "Sharp": "Ostry",
+  "Show a dot in the corner": "Pokaż kropkę w rogu",
   "Show countdown": "Pokaż odliczanie",
   "Show me": "Pokaż",
   "Show the cue on web pages": "Pokazuj sygnał na stronach",
@@ -1082,6 +1118,7 @@ export const STRINGS = {
   "seconds": "sekundy"
  },
  "pt": {
+  "  Advanced settings": "  Configurações avançadas",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Um sinal aparece periodicamente para lembrar você de piscar por completo: feche, aperte de leve e abra.",
   "A dot": "Um ponto",
   "A short review helps others with tired eyes find it. Thank you!": "Uma avaliação curta ajuda outras pessoas com olhos cansados a encontrá-lo. Agradeço!",
@@ -1122,6 +1159,7 @@ export const STRINGS = {
   "Resume reminders": "Retomar lembretes",
   "Settings": "Configurações",
   "Sharp": "Marcado",
+  "Show a dot in the corner": "Mostrar um ponto no canto",
   "Show countdown": "Mostrar contagem regressiva",
   "Show me": "Mostrar",
   "Show the cue on web pages": "Mostrar o sinal nas páginas da web",
@@ -1140,6 +1178,7 @@ export const STRINGS = {
   "seconds": "segundos"
  },
  "ro": {
+  "  Advanced settings": "  Setări avansate",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Un semnal apare periodic ca să-ți amintească să clipești complet: închide ochii, strânge-i ușor, deschide-i.",
   "A dot": "Un punct",
   "A short review helps others with tired eyes find it. Thank you!": "O recenzie scurtă îi ajută pe alții cu ochii obosiți să o găsească. Mulțumesc!",
@@ -1180,6 +1219,7 @@ export const STRINGS = {
   "Resume reminders": "Reia mementourile",
   "Settings": "Setări",
   "Sharp": "Clar",
+  "Show a dot in the corner": "Arată un punct în colț",
   "Show countdown": "Afișează numărătoarea inversă",
   "Show me": "Arată-mi",
   "Show the cue on web pages": "Arată semnalul pe paginile web",
@@ -1198,6 +1238,7 @@ export const STRINGS = {
   "seconds": "secunde"
  },
  "ru": {
+  "  Advanced settings": "  Дополнительно",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал появляется регулярно и напоминает моргать полностью: закройте глаза, мягко сожмите веки, откройте.",
   "A dot": "Точка",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий отзыв поможет другим людям с уставшими глазами найти его. Спасибо!",
@@ -1238,6 +1279,7 @@ export const STRINGS = {
   "Resume reminders": "Возобновить напоминания",
   "Settings": "Настройки",
   "Sharp": "Резко",
+  "Show a dot in the corner": "Показывать точку в углу",
   "Show countdown": "Показывать обратный отсчёт",
   "Show me": "Показать",
   "Show the cue on web pages": "Показывать сигнал на веб-страницах",
@@ -1256,6 +1298,7 @@ export const STRINGS = {
   "seconds": "секунды"
  },
  "sv": {
+  "  Advanced settings": "  Avancerade inställningar",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "En signal visas regelbundet för att påminna dig om att blinka ordentligt: blunda, kläm ihop lätt, öppna.",
   "A dot": "En prick",
   "A short review helps others with tired eyes find it. Thank you!": "En kort recension hjälper andra med trötta ögon att hitta den. Tack!",
@@ -1296,6 +1339,7 @@ export const STRINGS = {
   "Resume reminders": "Återuppta påminnelser",
   "Settings": "Inställningar",
   "Sharp": "Skarp",
+  "Show a dot in the corner": "Visa en prick i hörnet",
   "Show countdown": "Visa nedräkning",
   "Show me": "Visa mig",
   "Show the cue on web pages": "Visa signalen på webbsidor",
@@ -1314,6 +1358,7 @@ export const STRINGS = {
   "seconds": "sekunder"
  },
  "th": {
+  "  Advanced settings": "  ตั้งค่าขั้นสูง",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "สัญญาณจะปรากฏขึ้นเป็นระยะ เพื่อเตือนให้กะพริบตาให้เต็มที่ หลับตา บีบตาเบาๆ แล้วลืมตา",
   "A dot": "จุด",
   "A short review helps others with tired eyes find it. Thank you!": "รีวิวสั้น ๆ ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ ขอบคุณ!",
@@ -1354,6 +1399,7 @@ export const STRINGS = {
   "Resume reminders": "เริ่มเตือนอีกครั้ง",
   "Settings": "ตั้งค่า",
   "Sharp": "ชัดเจน",
+  "Show a dot in the corner": "แสดงจุดที่มุมจอ",
   "Show countdown": "แสดงการนับถอยหลัง",
   "Show me": "ลองดู",
   "Show the cue on web pages": "แสดงสัญญาณบนหน้าเว็บ",
@@ -1372,6 +1418,7 @@ export const STRINGS = {
   "seconds": "วินาที"
  },
  "tr": {
+  "  Advanced settings": "  Gelişmiş ayarlar",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Gözlerinizi tam kırpmanızı hatırlatmak için düzenli aralıklarla bir uyarı belirir: kapatın, hafifçe sıkın, açın.",
   "A dot": "Nokta",
   "A short review helps others with tired eyes find it. Thank you!": "Kısa bir değerlendirme, gözleri yorgun başkalarının onu bulmasına yardımcı olur. Teşekkürler!",
@@ -1412,6 +1459,7 @@ export const STRINGS = {
   "Resume reminders": "Hatırlatmaları sürdür",
   "Settings": "Ayarlar",
   "Sharp": "Belirgin",
+  "Show a dot in the corner": "Köşede bir nokta göster",
   "Show countdown": "Geri sayımı göster",
   "Show me": "Göster",
   "Show the cue on web pages": "Uyarıyı web sayfalarında göster",
@@ -1430,6 +1478,7 @@ export const STRINGS = {
   "seconds": "saniye"
  },
  "uk": {
+  "  Advanced settings": "  Додатково",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Сигнал з’являється регулярно й нагадує кліпати повністю: заплющте очі, м’яко стисніть повіки, розплющте.",
   "A dot": "Крапка",
   "A short review helps others with tired eyes find it. Thank you!": "Короткий відгук допоможе іншим людям із втомленими очима його знайти. Дякую!",
@@ -1470,6 +1519,7 @@ export const STRINGS = {
   "Resume reminders": "Відновити нагадування",
   "Settings": "Налаштування",
   "Sharp": "Різко",
+  "Show a dot in the corner": "Показувати крапку в кутку",
   "Show countdown": "Показувати зворотний відлік",
   "Show me": "Показати",
   "Show the cue on web pages": "Показувати сигнал на вебсторінках",
@@ -1488,6 +1538,7 @@ export const STRINGS = {
   "seconds": "секунди"
  },
  "ur": {
+  "  Advanced settings": "  اعلیٰ ترتیبات",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "ایک اشارہ وقتاً فوقتاً ظاہر ہوتا ہے تاکہ آپ کو پوری طرح پلک جھپکنا یاد رہے: آنکھیں بند کریں، ہلکا سا بھینچیں، کھولیں۔",
   "A dot": "نقطہ",
   "A short review helps others with tired eyes find it. Thank you!": "ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔ شکریہ!",
@@ -1528,6 +1579,7 @@ export const STRINGS = {
   "Resume reminders": "یاد دہانیاں دوبارہ",
   "Settings": "ترتیبات",
   "Sharp": "واضح",
+  "Show a dot in the corner": "کونے میں ایک نقطہ دکھائیں",
   "Show countdown": "الٹی گنتی دکھائیں",
   "Show me": "دکھائیں",
   "Show the cue on web pages": "ویب صفحات پر اشارہ دکھائیں",
@@ -1546,6 +1598,7 @@ export const STRINGS = {
   "seconds": "سیکنڈ"
  },
  "vi": {
+  "  Advanced settings": "  Cài đặt nâng cao",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "Tín hiệu xuất hiện định kỳ để nhắc bạn chớp mắt trọn vẹn: nhắm mắt, khép chặt nhẹ nhàng, mở ra.",
   "A dot": "Chấm tròn",
   "A short review helps others with tired eyes find it. Thank you!": "Một đánh giá ngắn giúp những người mỏi mắt khác tìm thấy nó. Cảm ơn bạn!",
@@ -1586,6 +1639,7 @@ export const STRINGS = {
   "Resume reminders": "Tiếp tục nhắc",
   "Settings": "Cài đặt",
   "Sharp": "Rõ",
+  "Show a dot in the corner": "Hiện chấm tròn ở góc",
   "Show countdown": "Hiện đếm ngược",
   "Show me": "Cho tôi xem",
   "Show the cue on web pages": "Hiện tín hiệu trên trang web",
@@ -1604,6 +1658,7 @@ export const STRINGS = {
   "seconds": "giây"
  },
  "zh-Hans": {
+  "  Advanced settings": "　高级设置",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示会定期出现，提醒你完整地眨眼：闭上、轻轻闭紧、再睁开。",
   "A dot": "圆点",
   "A short review helps others with tired eyes find it. Thank you!": "一条简短的评价，能帮助其他眼睛疲劳的人找到它。谢谢！",
@@ -1644,6 +1699,7 @@ export const STRINGS = {
   "Resume reminders": "恢复提醒",
   "Settings": "设置",
   "Sharp": "明显",
+  "Show a dot in the corner": "在角落显示小圆点",
   "Show countdown": "显示倒计时",
   "Show me": "演示一下",
   "Show the cue on web pages": "在网页上显示提示",
@@ -1662,6 +1718,7 @@ export const STRINGS = {
   "seconds": "秒"
  },
  "zh-Hant": {
+  "  Advanced settings": "　進階設定",
   "A cue appears periodically, to remind you to blink fully: close, squeeze gently, open.": "提示會定期出現，提醒你完整地眨眼：閉上、輕輕閉緊、再睜開。",
   "A dot": "圓點",
   "A short review helps others with tired eyes find it. Thank you!": "一則簡短的評論，能幫助其他眼睛疲勞的人找到它。謝謝！",
@@ -1702,6 +1759,7 @@ export const STRINGS = {
   "Resume reminders": "恢復提醒",
   "Settings": "設定",
   "Sharp": "明顯",
+  "Show a dot in the corner": "在角落顯示小圓點",
   "Show countdown": "顯示倒數計時",
   "Show me": "示範一次",
   "Show the cue on web pages": "在網頁上顯示提示",

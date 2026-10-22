@@ -101,6 +101,10 @@
 
   globalThis.__blinkReminderCue = async function (p) {
     if (current) remove(current);
+    // The corner dot steps aside for the length of the reminder, so the two
+    // are never on screen at once -- as the desktop's indicator does.
+    const span = (2 * p.fade + p.hold) * p.blinks + p.gap * (p.blinks - 1);
+    globalThis.__blinkReminderDot?.suppress(span + 400);
     const { host, frame } = build(p);
     current = host;
     shown = frame;
