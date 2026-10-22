@@ -37,12 +37,12 @@ export const DEFAULTS = {
   blink: {
     style: "dot", opacity: 0.345, hold: 500, fade: 500, blinks: 2, gap: 150,
     colour: "#bde401", message: null, corner: "center", dotPct: 90,
-    fontSize: 36, margin: 48, sound: false,
+    fontSize: 36, margin: 48, sound: false, volume: 0.6,
   },
   brk: {
     style: "dim", opacity: 0.401, hold: 3000, fade: 800, blinks: 1, gap: 120,
     colour: "#bde401", message: null, corner: "center", dotPct: 22,
-    fontSize: 36, margin: 48, sound: true,
+    fontSize: 36, margin: 48, sound: true, volume: 0.6,
   },
 };
 
@@ -96,6 +96,9 @@ function look(saved, d) {
     fontSize: num(s.fontSize, 10, 200, d.fontSize, true),
     margin: num(s.margin, 0, 500, d.margin, true),
     sound: typeof s.sound === "boolean" ? s.sound : d.sound,
+    // As on the desktop: below a fifth the chime is inaudible on most
+    // laptop speakers, so that is the floor rather than silence.
+    volume: num(s.volume, 0.2, 1, d.volume),
   };
 }
 

@@ -98,10 +98,25 @@ body.options main { max-width: 760px; margin: 0 auto; padding: 28px 20px 40px;
                     display: grid; gap: 16px; }
 .page-head { display: flex; align-items: center; gap: 12px; }
 .page-head h1 { flex: 1; }
+/* The two reminder cards. Stretched to the same height, each a column, so
+   the rows they share sit level with one another -- the blink's Strength
+   beside the break's. The heads differ (an interval against a wall-clock
+   minute) and are given the same height so that everything under them
+   starts from the same line. */
 .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-           gap: 16px; align-items: start; }
-.columns .card { display: grid; gap: 4px; }
-.columns .card > button { justify-self: start; margin-top: 8px; }
+           gap: 16px; align-items: stretch; }
+.columns .card { display: flex; flex-direction: column; gap: 4px; }
+.head { display: flex; flex-direction: column; gap: 4px; }
+/* A row that does not apply to the style in force. Kept in place so the two
+   cards stay in step; dimmed so it reads as unavailable rather than broken. */
+.row.off { opacity: 0.4; }
+.row.off, .row.off * { cursor: default; }
+/* Not a box of its own: its rows are the card's own children, so Preview can
+   be pushed to the bottom of the card whatever is above it. */
+.look { display: contents; }
+.preview { align-self: start; margin-top: auto; }
+
+.preview { margin-top: 12px; }
 .welcome { display: grid; gap: 12px; border-color: var(--accent); }
 .welcome .buttons { display: flex; justify-content: space-between; }
 .links { display: flex; gap: 20px; flex-wrap: wrap; }

@@ -186,7 +186,7 @@ export async function deliver(kind, { manual = false } = {}) {
     if (tab && drawable(tab.url)) {
       try {
         await draw(tab.id, pulse);
-        if (pulse.sound) await chime();
+        if (pulse.sound) await chime(pulse.volume);
         return "page";
       } catch (e) {
         console.warn("draw", e);          // the page refused; fall through
@@ -284,7 +284,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
     snooze: () => chrome.storage.local.set(
       { snoozeUntil: Date.now() + SNOOZE_MINUTES * 60000 }),
     resume: () => chrome.storage.local.remove("snoozeUntil"),
-    chime: () => chime(),
+    chime: () => chime(msg.volume),
   };
   const job = jobs[msg.type];
   if (!job) return false;
