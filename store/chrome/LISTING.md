@@ -78,7 +78,7 @@ usage tracking.
 | Permission | Paste this |
 |---|---|
 | `alarms` | A service worker cannot hold a timer, so the blink interval and the wall-clock break are scheduled with chrome.alarms. |
-| `storage` | Remembers settings between sessions: intervals, cue style, colour, size, timing, sound, language and tutorial progress. It also counts days of use, so that a request for a donation or a review appears only after long use rather than straight away. All kept in chrome.storage.local on the device; nothing synced, nothing sent. |
+| `storage` | Keeps the user's settings (interval, cue style, colour, size, timing, sound, language) and tutorial progress so they survive a browser restart, plus a count of days used, which times the rare donation or review message. All in chrome.storage.local on the device; nothing is synced or sent. |
 | `notifications` | Delivers the break reminder when the cue cannot be drawn on the page, and the occasional donation or review message. |
 | `idle` | Skips reminders while the computer is idle or locked. |
 | `scripting` | Injects the extension's own cue script to draw the reminder and the optional corner dot. Both ship in the package; each adds one element and removes it. No page content is read. |
