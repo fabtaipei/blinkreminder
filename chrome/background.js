@@ -8,7 +8,7 @@
 import {
   DISPLAY_NAME, SNOOZE_MINUTES, SUPPORT_URL, ASK_SETTLE_MS, normalize, pulseOf,
   pulseMs, msToNextBreak, isStale, drawable, todayIso, loadAsks, countDay,
-  dueAsk, reviewUrl, TEACH_COUNT, freshTutorial, loadTutorial,
+  dueAsk, reviewUrl, PAGE_ORIGINS, TEACH_COUNT, freshTutorial, loadTutorial,
   teachingDue, questionDue, teachingPulse,
 } from "./core.js";
 import { CODES, setLanguage, T, defaultWord, captionLine, noSpaces } from "./i18n.js";
@@ -158,7 +158,6 @@ async function updateBadge(cfg, live) {
 
 // -- delivering a reminder --------------------------------------------------
 
-// The active tab of the window in use, or null if Chrome is not in front.
 // May the cue be drawn on THIS page? Chrome lets someone grant one site
 // rather than all of them -- "On github.com" in its own menu -- and that
 // choice has to be honoured site by site. Asking only whether every site
@@ -172,13 +171,13 @@ async function mayDraw(url) {
   }
 }
 
-// Whether any site at all has been granted. A blink that could have been
-// drawn somewhere is skipped rather than turned into a notification: a toast
-// every minute is the interruption this was built not to be.
+// Whether any site at all has been granted.
 async function anyPageAccess() {
   const granted = await chrome.permissions.getAll();
   return (granted.origins || []).length > 0;
 }
+
+// The active tab of the window in use, or null if Chrome is not in front.
 
 async function frontTab() {
   let win;
@@ -282,10 +281,50 @@ export async function deliver(kind, { manual = false } = {}) {
       console.warn("draw", e);            // the page refused; fall through
     }
   }
-  if (kind === "blink" && !manual && await anyPageAccess()) return "not in front";
+  // A blink is never turned into a notification. One every minute would be a
+  // toast every minute -- stacking in the notification centre, making a
+  // sound, waiting to be dismissed -- which is the interruption this was
+  // built not to be. It is drawn on the page or not shown at all, and the
+  // user is told once, by warnNoAccess, when it has nowhere to draw.
+  if (kind === "blink" && !manual) {
+    if (!(await anyPageAccess())) await warnNoAccess();
+    return "nowhere to draw";
+  }
+
+  // The break still falls back. Once every half hour is not a pestering, and
+  // the break is the one reminder meant to interrupt.
   await notify(kind, pulse);
   return "notification";
 }
+
+// Say once -- not every minute -- that the blink has nowhere to draw: when
+// the cue was never switched on, and when someone narrows Chrome's own site
+// access afterwards. Said again only after access comes back and goes again.
+async function warnNoAccess() {
+  const { accessWarned } = await chrome.storage.local.get("accessWarned");
+  if (accessWarned) return;
+  await chrome.storage.local.set({ accessWarned: true });
+  await chrome.notifications.create("access", {
+    type: "basic", iconUrl: "icons/icon-128.png", requireInteraction: true,
+    title: DISPLAY_NAME,
+    message: T("Blink reminders need access to web pages."),
+    buttons: [{ title: T("Settings") }],
+  });
+}
+
+// Chrome's own menu can narrow or restore site access at any moment. Forget
+// the warning as soon as everything is granted again, so that the next time
+// it is taken away the user is told.
+async function watchAccess() {
+  if (await chrome.permissions.contains(PAGE_ORIGINS)) {
+    await chrome.storage.local.remove("accessWarned");
+    await chrome.notifications.clear("access");
+  } else if ((await getCfg()).enabled) {
+    await warnNoAccess();
+  }
+}
+chrome.permissions.onAdded.addListener(watchAccess);
+chrome.permissions.onRemoved.addListener(watchAccess);
 
 // "Too weak or intrusive?" -- a notification rather than a card drawn on
 // someone's page: the answers lead to the settings, and a notification is
@@ -351,7 +390,9 @@ async function checkAsks(cfg) {
 }
 
 chrome.notifications.onButtonClicked.addListener(async (id, index) => {
-  if (id === "question") {
+  if (id === "access") {
+    await chrome.runtime.openOptionsPage();
+  } else if (id === "question") {
     await endQuestion();
     if (index === 0) await chrome.tabs.create({ url: "options.html#question" });
   } else if (id === "ask-donate" && index === 0) {

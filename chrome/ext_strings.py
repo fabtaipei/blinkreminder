@@ -15,6 +15,7 @@ KEYS = [
     'Full version for Windows',
     'extDescription',
     'Show a dot in the corner',
+    'Blink reminders need access to web pages.',
 ]
 
 ENGLISH_DESCRIPTION = 'A gentle cue to blink, and a reminder to look away from the screen. Free, no ads, nothing collected.'
@@ -35,6 +36,8 @@ STRINGS = {
         "溫和地提醒你眨眼，並提醒你把視線移開螢幕。免費、無廣告、不收集任何資料。",
         # Show a dot in the corner
         "在角落顯示小圓點",
+        # Blink reminders need access to web pages.
+        "眨眼提醒需要存取網頁的權限。",
     ],
     "zh-Hans": [
         # Reminders on
@@ -51,6 +54,8 @@ STRINGS = {
         "温和地提醒你眨眼，并提醒你把视线移开屏幕。免费、无广告、不收集任何数据。",
         # Show a dot in the corner
         "在角落显示小圆点",
+        # Blink reminders need access to web pages.
+        "眨眼提醒需要访问网页的权限。",
     ],
     "ja": [
         # Reminders on
@@ -67,6 +72,8 @@ STRINGS = {
         "まばたきをそっと促し、画面から目を離すよう知らせます。無料・広告なし・データ収集なし。",
         # Show a dot in the corner
         "隅に点を表示",
+        # Blink reminders need access to web pages.
+        "まばたきリマインダーにはウェブページへのアクセスが必要です。",
     ],
     "ko": [
         # Reminders on
@@ -83,6 +90,8 @@ STRINGS = {
         "눈을 깜빡이도록 부드럽게 알려 주고, 화면에서 눈을 떼도록 알려 줍니다. 무료, 광고 없음, 데이터 수집 없음.",
         # Show a dot in the corner
         "모서리에 점 표시",
+        # Blink reminders need access to web pages.
+        "깜빡임 알림에는 웹페이지 접근 권한이 필요합니다.",
     ],
     "fr": [
         # Reminders on
@@ -99,6 +108,8 @@ STRINGS = {
         "Un signal discret pour cligner des yeux et un rappel de regarder ailleurs. Gratuit, sans pub, aucune donnée collectée.",
         # Show a dot in the corner
         "Afficher un point dans le coin",
+        # Blink reminders need access to web pages.
+        "Les rappels de clignement nécessitent l'accès aux pages web.",
     ],
     "es": [
         # Reminders on
@@ -115,6 +126,8 @@ STRINGS = {
         "Una señal discreta para parpadear y un aviso para apartar la vista. Gratis, sin anuncios, sin recopilar datos.",
         # Show a dot in the corner
         "Mostrar un punto en la esquina",
+        # Blink reminders need access to web pages.
+        "Los recordatorios de parpadeo necesitan acceso a las páginas web.",
     ],
     "de": [
         # Reminders on
@@ -131,6 +144,8 @@ STRINGS = {
         "Ein dezenter Hinweis zum Blinzeln und eine Erinnerung, wegzuschauen. Kostenlos, ohne Werbung, ohne Datensammlung.",
         # Show a dot in the corner
         "Punkt in der Ecke anzeigen",
+        # Blink reminders need access to web pages.
+        "Blinzel-Erinnerungen brauchen Zugriff auf Webseiten.",
     ],
     "it": [
         # Reminders on
@@ -147,6 +162,8 @@ STRINGS = {
         "Un segnale discreto per sbattere le palpebre e uno per distogliere lo sguardo. Gratis, senza pubblicità né raccolta di dati.",
         # Show a dot in the corner
         "Mostra un punto nell'angolo",
+        # Blink reminders need access to web pages.
+        "I promemoria per sbattere le palpebre richiedono l'accesso alle pagine web.",
     ],
     "pt": [
         # Reminders on
@@ -163,6 +180,8 @@ STRINGS = {
         "Um sinal suave para piscar e um lembrete para desviar o olhar da tela. Grátis, sem anúncios, sem coleta de dados.",
         # Show a dot in the corner
         "Mostrar um ponto no canto",
+        # Blink reminders need access to web pages.
+        "Os lembretes para piscar precisam de acesso às páginas da web.",
     ],
     "ru": [
         # Reminders on
@@ -179,6 +198,8 @@ STRINGS = {
         "Мягкий сигнал моргнуть и напоминание отвести взгляд от экрана. Бесплатно, без рекламы, без сбора данных.",
         # Show a dot in the corner
         "Показывать точку в углу",
+        # Blink reminders need access to web pages.
+        "Напоминания моргать требуют доступа к веб-страницам.",
     ],
     "uk": [
         # Reminders on
@@ -195,6 +216,8 @@ STRINGS = {
         "М’який сигнал кліпнути й нагадування відвести погляд від екрана. Безкоштовно, без реклами, без збору даних.",
         # Show a dot in the corner
         "Показувати крапку в кутку",
+        # Blink reminders need access to web pages.
+        "Нагадування кліпати потребують доступу до вебсторінок.",
     ],
     "pl": [
         # Reminders on
@@ -211,6 +234,8 @@ STRINGS = {
         "Delikatny sygnał, by mrugnąć, i przypomnienie, by oderwać wzrok od ekranu. Za darmo, bez reklam, bez zbierania danych.",
         # Show a dot in the corner
         "Pokaż kropkę w rogu",
+        # Blink reminders need access to web pages.
+        "Przypomnienia o mruganiu wymagają dostępu do stron.",
     ],
     "cs": [
         # Reminders on
@@ -227,6 +252,8 @@ STRINGS = {
         "Jemný signál k mrknutí a připomínka, abyste odvrátili zrak od obrazovky. Zdarma, bez reklam, bez sběru dat.",
         # Show a dot in the corner
         "Zobrazit tečku v rohu",
+        # Blink reminders need access to web pages.
+        "Připomínky mrkání potřebují přístup k webovým stránkám.",
     ],
     "tr": [
         # Reminders on
@@ -243,6 +270,8 @@ STRINGS = {
         "Göz kırpmanız için hafif bir uyarı ve ekrandan uzağa bakmanız için bir hatırlatma. Ücretsiz, reklamsız, veri toplamaz.",
         # Show a dot in the corner
         "Köşede bir nokta göster",
+        # Blink reminders need access to web pages.
+        "Göz kırpma hatırlatıcıları web sayfalarına erişim gerektirir.",
     ],
     "id": [
         # Reminders on
@@ -259,6 +288,8 @@ STRINGS = {
         "Isyarat lembut untuk berkedip dan pengingat untuk mengalihkan pandangan dari layar. Gratis, tanpa iklan, tanpa pengumpulan data.",
         # Show a dot in the corner
         "Tampilkan titik di sudut",
+        # Blink reminders need access to web pages.
+        "Pengingat berkedip memerlukan akses ke halaman web.",
     ],
     "vi": [
         # Reminders on
@@ -275,6 +306,8 @@ STRINGS = {
         "Tín hiệu nhẹ nhàng nhắc bạn chớp mắt và nhìn ra xa màn hình. Miễn phí, không quảng cáo, không thu thập dữ liệu.",
         # Show a dot in the corner
         "Hiện chấm tròn ở góc",
+        # Blink reminders need access to web pages.
+        "Nhắc chớp mắt cần quyền truy cập trang web.",
     ],
     "th": [
         # Reminders on
@@ -291,6 +324,8 @@ STRINGS = {
         "สัญญาณเบาๆ ให้กะพริบตา และเตือนให้ละสายตาจากหน้าจอ ฟรี ไม่มีโฆษณา ไม่เก็บข้อมูล",
         # Show a dot in the corner
         "แสดงจุดที่มุมจอ",
+        # Blink reminders need access to web pages.
+        "การเตือนให้กะพริบตาต้องเข้าถึงหน้าเว็บ",
     ],
     "hi": [
         # Reminders on
@@ -307,6 +342,8 @@ STRINGS = {
         "पलक झपकाने के लिए एक हल्का संकेत और स्क्रीन से नज़र हटाने की याद। मुफ़्त, कोई विज्ञापन नहीं, कोई डेटा संग्रह नहीं।",
         # Show a dot in the corner
         "कोने में एक बिंदु दिखाएँ",
+        # Blink reminders need access to web pages.
+        "पलक झपकाने के रिमाइंडर को वेब पेजों तक पहुँच चाहिए।",
     ],
     "bn": [
         # Reminders on
@@ -323,6 +360,8 @@ STRINGS = {
         "পলক ফেলার জন্য একটি মৃদু সংকেত এবং স্ক্রিন থেকে চোখ সরানোর রিমাইন্ডার। বিনামূল্যে, বিজ্ঞাপন নেই, কোনো ডেটা সংগ্রহ নেই।",
         # Show a dot in the corner
         "কোণে একটি বিন্দু দেখান",
+        # Blink reminders need access to web pages.
+        "পলক ফেলার রিমাইন্ডারের জন্য ওয়েব পেজে প্রবেশাধিকার দরকার।",
     ],
     "ar": [
         # Reminders on
@@ -339,6 +378,8 @@ STRINGS = {
         "إشارة لطيفة لترمش، وتذكير لتبعد نظرك عن الشاشة. مجاني، بلا إعلانات، ولا يجمع أي بيانات.",
         # Show a dot in the corner
         "إظهار نقطة في الزاوية",
+        # Blink reminders need access to web pages.
+        "تحتاج تذكيرات الرمش إلى الوصول إلى صفحات الويب.",
     ],
     # No Chrome locale for Urdu, so its description is never shown;
     # the rest appear through the extension's own language picker.
@@ -357,6 +398,8 @@ STRINGS = {
         "پلک جھپکنے کا ہلکا سا اشارہ، اور اسکرین سے نظر ہٹانے کی یاد دہانی۔ مفت، بغیر اشتہار، کوئی ڈیٹا جمع نہیں۔",
         # Show a dot in the corner
         "کونے میں ایک نقطہ دکھائیں",
+        # Blink reminders need access to web pages.
+        "پلک جھپکنے کی یاد دہانیوں کو ویب صفحات تک رسائی درکار ہے۔",
     ],
     "ro": [
         # Reminders on
@@ -373,6 +416,8 @@ STRINGS = {
         "Un semnal discret să clipești și un memento să privești în altă parte. Gratuit, fără reclame, fără colectare de date.",
         # Show a dot in the corner
         "Arată un punct în colț",
+        # Blink reminders need access to web pages.
+        "Mementourile de clipit au nevoie de acces la paginile web.",
     ],
     "hu": [
         # Reminders on
@@ -389,6 +434,8 @@ STRINGS = {
         "Finom jelzés a pislogáshoz és emlékeztető, hogy nézz el a képernyőtől. Ingyenes, reklámmentes, nem gyűjt adatot.",
         # Show a dot in the corner
         "Pont megjelenítése a sarokban",
+        # Blink reminders need access to web pages.
+        "A pislogás-emlékeztetőkhöz hozzáférés kell a weboldalakhoz.",
     ],
     "el": [
         # Reminders on
@@ -405,6 +452,8 @@ STRINGS = {
         "Διακριτικό σήμα να ανοιγοκλείνεις τα μάτια και να κοιτάς μακριά. Δωρεάν, χωρίς διαφημίσεις, καμία συλλογή δεδομένων.",
         # Show a dot in the corner
         "Εμφάνιση κουκκίδας στη γωνία",
+        # Blink reminders need access to web pages.
+        "Οι υπενθυμίσεις για ανοιγοκλείσιμο χρειάζονται πρόσβαση στις ιστοσελίδες.",
     ],
     "sv": [
         # Reminders on
@@ -421,6 +470,8 @@ STRINGS = {
         "En diskret signal att blinka och en påminnelse att titta bort från skärmen. Gratis, utan reklam, ingen datainsamling.",
         # Show a dot in the corner
         "Visa en prick i hörnet",
+        # Blink reminders need access to web pages.
+        "Blinkpåminnelser behöver åtkomst till webbsidor.",
     ],
     "fi": [
         # Reminders on
@@ -437,6 +488,8 @@ STRINGS = {
         "Hienovarainen merkki räpäyttää ja muistutus katsoa pois näytöltä. Ilmainen, ei mainoksia, ei tietojen keruuta.",
         # Show a dot in the corner
         "Näytä piste kulmassa",
+        # Blink reminders need access to web pages.
+        "Räpäytysmuistutukset tarvitsevat pääsyn verkkosivuille.",
     ],
     "da": [
         # Reminders on
@@ -453,6 +506,8 @@ STRINGS = {
         "Et diskret signal til at blinke og en påmindelse om at se væk fra skærmen. Gratis, ingen reklamer, ingen dataindsamling.",
         # Show a dot in the corner
         "Vis en prik i hjørnet",
+        # Blink reminders need access to web pages.
+        "Blinkpåmindelser kræver adgang til websider.",
     ],
     "nb": [
         # Reminders on
@@ -469,6 +524,8 @@ STRINGS = {
         "Et diskret signal om å blunke og en påminnelse om å se bort fra skjermen. Gratis, uten reklame, ingen datainnsamling.",
         # Show a dot in the corner
         "Vis en prikk i hjørnet",
+        # Blink reminders need access to web pages.
+        "Blunkepåminnelser krever tilgang til nettsider.",
     ],
     "nl": [
         # Reminders on
@@ -485,5 +542,7 @@ STRINGS = {
         "Een zacht signaal om te knipperen en een herinnering om weg te kijken van het scherm. Gratis, zonder advertenties, verzamelt niets.",
         # Show a dot in the corner
         "Een stip in de hoek tonen",
+        # Blink reminders need access to web pages.
+        "Knipperherinneringen hebben toegang tot webpagina's nodig.",
     ],
 }

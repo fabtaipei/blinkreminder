@@ -325,13 +325,27 @@ try {
         (await evaluate(sw2S, `chrome.permissions.contains(${JSON.stringify({ origins: ["https://*/*"] })})`)) === false);
   const viaToast = await evaluate(sw2S, "__blinkReminder.deliver('blink', { manual: true })");
   const toast = await evaluate(sw2S, "__notified.at(-1)");
-  check("without it, a blink comes as a notification", viaToast === "notification", viaToast);
+  check("without it, Blink now still shows something", viaToast === "notification", viaToast);
   check("... carrying the instruction, silently",
         toast?.message === "Close… squeeze… open" && toast?.silent === true,
         JSON.stringify(toast?.message));
   const nothingOnPage = await evaluate(page.sessionId,
     "document.querySelector('blink-reminder-cue') === null");
   check("... and nothing is drawn on the page", nothingOnPage);
+
+  // A TIMED blink, though, is never turned into a toast: it would be one a
+  // minute. The user is told once that it has nowhere to draw.
+  await evaluate(sw2S, "__notified.length = 0, 1");
+  const timed = await evaluate(sw2S, "__blinkReminder.deliver('blink')");
+  check("a timed blink is not turned into a notification",
+        timed === "nowhere to draw", timed);
+  const warned = await evaluate(sw2S, "__notified.at(-1)");
+  check("... and says once that it has nowhere to draw",
+        warned?.id === "access" && warned?.buttons?.length === 1, warned?.id);
+  await evaluate(sw2S, "__blinkReminder.deliver('blink')");
+  await evaluate(sw2S, "__blinkReminder.deliver('blink')");
+  check("... once, not on every reminder",
+        await evaluate(sw2S, "__notified.length"), 1);
 
   // Twelve days of use, long since the browser started: the coffee ask.
   await evaluate(sw2S, `Promise.all([
