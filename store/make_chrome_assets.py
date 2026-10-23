@@ -180,10 +180,16 @@ def fit(d, text, bold, want, room, floor=12):
     return f
 
 
-def tile(w, h, head, sub, dot_r, dot_c, pad):
+def tile(w, h, lines, sub, dot_r, dot_c, pad):
+    """The cue beside the promise.
+
+    The words stay off the disc. Laid over it they need a dark wash to be
+    legible, and that wash turns the lime olive -- killing the one thing on
+    the tile anyone will recognise. So the disc keeps its colour, and the
+    headline is broken over two lines to stay large in the narrower column.
+    """
     card = Image.new("RGBA", (w, h), TILE_BG + (255,))
 
-    # The cue, drawn as the cue: a soft lime disc running off the right edge.
     glow = Image.new("RGBA", card.size, (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
     for i in range(18, 0, -1):
@@ -195,29 +201,29 @@ def tile(w, h, head, sub, dot_r, dot_c, pad):
     card.alpha_composite(glow)
 
     d = ImageDraw.Draw(card)
-    room = dot_c[0] - dot_r - pad * 2
-    # Big, because the list shows these at about half size and a tile that
-    # has to be squinted at has already lost.
-    fh = fit(d, head, True, int(h * 0.26), room)
-    fs = fit(d, sub, False, int(h * 0.095), room, floor=int(h * 0.05))
+    room = dot_c[0] - dot_r - int(pad * 1.6)
+    widest = max(lines, key=len)
+    fh = fit(d, widest, True, int(h * 0.2), room, floor=int(h * 0.1))
+    fs = fit(d, sub, False, int(h * 0.075), room, floor=int(h * 0.045))
+    lh = int((fh.getbbox(widest)[3] - fh.getbbox(widest)[1]) * 1.32)
+    sh = fs.getbbox(sub)[3] - fs.getbbox(sub)[1]
     gap = int(h * 0.055)
-    block = (fh.getbbox(head)[3] - fh.getbbox(head)[1]
-             + fs.getbbox(sub)[3] - fs.getbbox(sub)[1] + gap)
-    y = (h - block) // 2
-    d.text((pad, y), head, font=fh, fill=TEXT)
-    # Brighter than MUTED: at thumbnail size a low-contrast line is a smudge.
-    d.text((pad + 2, y + (fh.getbbox(head)[3] - fh.getbbox(head)[1]) + gap),
-           sub, font=fs, fill=(186, 193, 203))
+    top = (h - (lh * len(lines) + gap + sh)) // 2
+
+    for i, line in enumerate(lines):
+        d.text((pad, top + i * lh), line, font=fh, fill=(255, 255, 255, 255))
+    d.text((pad + 2, top + lh * len(lines) + gap), sub, font=fs,
+           fill=(186, 193, 203))
     return card
 
 
-# The small tile is read at about half size in a list, so it gets the short
-# line; the marquee has room for the differentiators.
-HEAD = "Blink fully."
-save(tile(440, 280, HEAD, "A quiet reminder.", 104, (356, 140), 34),
+# Frequency is what a reminder can honestly change. The app cannot make a
+# blink complete -- it can only arrive often enough that you take one.
+HEAD = ["Blink", "more often."]
+save(tile(440, 280, HEAD, "Every few minutes.", 100, (360, 140), 32),
      "promo-440x280.png")
-save(tile(1400, 560, HEAD, "A quiet reminder · 30 languages · no tracking",
-          236, (1120, 280), 96), "marquee-1400x560.png")
+save(tile(1400, 560, HEAD, "30 languages · no tracking", 236, (1120, 280), 96),
+     "marquee-1400x560.png")
 
 # -- the 128x128 store icon ---------------------------------------------------
 # The Store reads this from the package itself, so this copy exists only for a
