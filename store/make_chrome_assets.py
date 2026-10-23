@@ -228,26 +228,31 @@ save(tile(1400, 560, HEAD, "30 languages · no tracking", 236, (1120, 280), 96),
 # -- two named tile designs, kept side by side --------------------------------
 # Both put the app's name on the tile. Every strong listing in the category
 # does, even though the Store prints the name beside the image; the ones that
-# show a bare icon on white read as unfinished. "Never blocks your screen" is
-# the supporting line because it is the one thing none of the neighbours can
-# say -- they advertise enforced full-screen breaks.
+# show a bare icon on white read as unfinished. The name carries the what, so
+# the line under it only has to say how the thing feels to live with -- which
+# is the one claim none of the neighbours can make, since they advertise
+# enforced full-screen breaks.
 
 LIME = (189, 228, 1)
 INK = (22, 24, 27)
 
 
-def disc(card, cx, cy, r, glow=True, alpha=255):
+def disc(card, cx, cy, r, glow=True):
     layer = Image.new("RGBA", card.size, (0, 0, 0, 0))
     g = ImageDraw.Draw(layer)
     if glow:
         for i in range(18, 0, -1):
             g.ellipse((cx - r - i * 3, cy - r - i * 3, cx + r + i * 3, cy + r + i * 3),
                       fill=LIME + (int(5 * (1 - i / 18.0) ** 2),))
-    g.ellipse((cx - r, cy - r, cx + r, cy + r), fill=LIME + (alpha,))
+    g.ellipse((cx - r, cy - r, cx + r, cy + r), fill=LIME + (255,))
     card.alpha_composite(layer)
 
 
-NAME_TOP, NAME, NOTE = "DRY EYES", "Blink Reminder", "Never blocks your screen."
+# The name says what it does, so the line under it only has to say how it
+# feels to live with. Both halves earn their place: "consistent" answers
+# whether it works, "no interruptions" answers what it costs you.
+NAME_TOP, NAME = "DRY EYES", "Blink Reminder"
+NOTE = "Consistent nudges, no interruptions."
 
 
 def design_lime(w, h):
@@ -279,9 +284,18 @@ def design_dark(w, h):
     fn = fit(d, max(lines, key=len), True, int(h * 0.17), room)
     lh = int((fn.getbbox("Hg")[3] - fn.getbbox("Hg")[1]) * 1.34)
     fe = font(int(h * 0.064), True)
-    fnote = fit(d, NOTE, False, int(h * 0.061), room)
+    # The disc eats the right-hand half, and the tagline is long enough that
+    # fitting it to what is left shrinks it past reading. So it breaks at its
+    # own comma instead -- two readable lines beat one nobody can see.
+    want = int(h * 0.061)
+    notes = [NOTE]
+    if d.textlength(NOTE, font=font(want)) > room:
+        head, tail = NOTE.split(", ", 1)
+        notes = [head + ",", tail]
+    fnote = fit(d, max(notes, key=len), False, want, room)
     eh = fe.getbbox(NAME_TOP)[3] - fe.getbbox(NAME_TOP)[1]
-    nh = fnote.getbbox(NOTE)[3] - fnote.getbbox(NOTE)[1]
+    nlh = int((fnote.getbbox("Hg")[3] - fnote.getbbox("Hg")[1]) * 1.34)
+    nh = nlh * len(notes) - int(nlh * 0.34)
     # Measured, not placed at fixed fractions: the name takes one line on the
     # marquee and two on the square tile, and a fixed subtitle position put
     # the second line straight through it.
@@ -292,113 +306,13 @@ def design_dark(w, h):
     y += eh + gap1
     for i, line in enumerate(lines):
         d.text((pad - 2, y + i * lh), line, font=fn, fill=(255, 255, 255))
-    d.text((pad, y + lh * len(lines) + gap2), NOTE, font=fnote,
-           fill=(176, 184, 194))
+    ny = y + lh * len(lines) + gap2
+    for i, line in enumerate(notes):
+        d.text((pad, ny + i * nlh), line, font=fnote, fill=(176, 184, 194))
     return c
 
 
-PAPER = (247, 248, 250)
-FULL_NAME = "Dry Eyes Blink Reminder"
-
-
-def design_mark(w, h):
-    """The cue standing in for a letter, so the mark and the name are one
-    object. The most memorable and the least self-explanatory -- it needs
-    the line underneath to say what it is."""
-    c = Image.new("RGBA", (w, h), INK + (255,))
-    d = ImageDraw.Draw(c)
-    left, right = "BL", "NK"
-    size = int(h * 0.3)
-    while True:
-        f = font(size, True)
-        r = int(size * 0.38)
-        total = d.textlength(left, font=f) + r * 2 + size * 0.2 +             d.textlength(right, font=f)
-        if total <= w * 0.8 or size <= 20:
-            break
-        size -= 2
-    wl = d.textlength(left, font=f)
-    x = (w - total) / 2
-    top = h * 0.22
-    d.text((x, top), left, font=f, fill=(255, 255, 255))
-    # Centred on the letters' own middle, not the line box, or it rides high.
-    mid = top + (f.getbbox(left)[3] + f.getbbox(left)[1]) / 2
-    disc(c, int(x + wl + size * 0.1 + r), int(mid), r, glow=False)
-    d = ImageDraw.Draw(c)
-    d.text((x + wl + size * 0.2 + r * 2, top), right, font=f, fill=(255, 255, 255))
-
-    # One line under the mark, not two: at the size the Store actually
-    # shows this, a second grey line is grey mush, and the name has to win.
-    fn = fit(d, FULL_NAME, True, int(h * 0.088), int(w * 0.86))
-    d.text(((w - d.textlength(FULL_NAME, font=fn)) / 2, h * 0.69), FULL_NAME,
-           font=fn, fill=(224, 228, 234))
-    return c
-
-
-def design_page(w, h):
-    """What it actually does: the cue over a page being read.
-
-    The only tile that shows the product instead of naming it, and the one
-    that has to be careful -- a solid lime disc blotting out a paragraph
-    would advertise precisely what this app does not do. So it is drawn the
-    way the real cue is drawn, see-through, with the words carrying on
-    underneath, and it stays inside the page rather than crossing the name.
-    """
-    c = Image.new("RGBA", (w, h), (219, 224, 231, 255))
-    m, bar, gap = int(h * 0.075), int(h * 0.185), int(h * 0.04)
-    rad = int(h * 0.04)
-    card = (m, m, w - m, h - m - bar - gap)
-    rounded_shadow(c, card, rad, spread=int(h * 0.05), strength=46)
-    d = ImageDraw.Draw(c)
-    d.rounded_rectangle(card, rad, fill=(255, 255, 255, 255))
-
-    pad = int(h * 0.09)
-    x0, inner = m + pad, w - m * 2 - pad * 2
-    y, hh = m + pad, int(h * 0.055)
-    d.rounded_rectangle((x0, y, x0 + int(inner * 0.46), y + hh),
-                        int(h * 0.012), fill=(40, 46, 54))
-    y += int(hh * 2)
-    lh, step = int(h * 0.033), int(h * 0.072)
-    for width in (0.97, 0.88, 1.0, 0.82, 0.94, 0.74):
-        if y + lh > card[3] - pad:
-            break
-        d.rounded_rectangle((x0, y, x0 + int(inner * width), y + lh),
-                            int(h * 0.012), fill=(203, 209, 218))
-        y += step
-    disc(c, int(w * 0.72), (m + card[3]) // 2, int(h * 0.2),
-         glow=False, alpha=155)
-
-    d = ImageDraw.Draw(c)
-    top = h - m - bar
-    d.rounded_rectangle((m, top, w - m, h - m), rad, fill=INK)
-    fn = fit(d, FULL_NAME, True, int(h * 0.095), inner)
-    bb = fn.getbbox(FULL_NAME)
-    d.text((x0, top + (bar - bb[3] - bb[1]) / 2), FULL_NAME, font=fn,
-           fill=(255, 255, 255))
-    return c
-
-
-def design_wedge(w, h):
-    """The argument rather than the name: the one thing none of the
-    neighbours can say."""
-    c = Image.new("RGBA", (w, h), INK + (255,))
-    disc(c, int(w * 0.86), int(h * 0.235), int(h * 0.175))
-    d = ImageDraw.Draw(c)
-    pad = int(w * 0.073)
-    room = int(w * 0.72)
-    f = fit(d, "your screen.", True, int(h * 0.15), room)
-    lh = int((f.getbbox("Hg")[3] - f.getbbox("Hg")[1]) * 1.3)
-    top = int(h * 0.3)
-    d.text((pad, top), "It never blocks", font=f, fill=(255, 255, 255))
-    d.text((pad, top + lh), "your screen.", font=f, fill=LIME)
-    fn = fit(d, FULL_NAME, True, int(h * 0.075), room)
-    d.text((pad, top + lh * 2 + int(h * 0.06)), FULL_NAME, font=fn,
-           fill=(208, 214, 222))
-    return c
-
-
-for label, fn in (("lime", design_lime), ("dark", design_dark),
-                  ("mark", design_mark), ("page", design_page),
-                  ("wedge", design_wedge)):
+for label, fn in (("lime", design_lime), ("dark", design_dark)):
     save(fn(440, 280), "tile-%s-440x280.png" % label)
     save(fn(1400, 560), "tile-%s-1400x560.png" % label)
 
