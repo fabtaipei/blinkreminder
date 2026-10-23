@@ -225,6 +225,82 @@ save(tile(440, 280, HEAD, "Every few minutes.", 100, (360, 140), 32),
 save(tile(1400, 560, HEAD, "30 languages · no tracking", 236, (1120, 280), 96),
      "marquee-1400x560.png")
 
+# -- two named tile designs, kept side by side --------------------------------
+# Both put the app's name on the tile. Every strong listing in the category
+# does, even though the Store prints the name beside the image; the ones that
+# show a bare icon on white read as unfinished. "Never blocks your screen" is
+# the supporting line because it is the one thing none of the neighbours can
+# say -- they advertise enforced full-screen breaks.
+
+LIME = (189, 228, 1)
+INK = (22, 24, 27)
+
+
+def disc(card, cx, cy, r, glow=True):
+    layer = Image.new("RGBA", card.size, (0, 0, 0, 0))
+    g = ImageDraw.Draw(layer)
+    if glow:
+        for i in range(18, 0, -1):
+            g.ellipse((cx - r - i * 3, cy - r - i * 3, cx + r + i * 3, cy + r + i * 3),
+                      fill=LIME + (int(5 * (1 - i / 18.0) ** 2),))
+    g.ellipse((cx - r, cy - r, cx + r, cy + r), fill=LIME + (255,))
+    card.alpha_composite(layer)
+
+
+NAME_TOP, NAME, NOTE = "DRY EYES", "Blink Reminder", "Never blocks your screen."
+
+
+def design_lime(w, h):
+    """The name on the brand colour, with the app's own mark."""
+    c = Image.new("RGBA", (w, h), LIME + (255,))
+    d = ImageDraw.Draw(c)
+    pad = int(w * 0.077)
+    icon_px = int(h * 0.19)
+    icon = blink_reminder.app_icon(icon_px).convert("RGBA")
+    c.paste(icon, (pad, int(h * 0.12)), icon)
+    d.text((pad, h * 0.37), NAME_TOP, font=font(int(h * 0.068), True),
+           fill=(60, 72, 10))
+    d.text((pad - 2, h * 0.455),
+           NAME, font=fit(d, NAME, True, int(h * 0.18), w - pad * 2), fill=INK)
+    d.text((pad, h * 0.70), NOTE, font=font(int(h * 0.068)), fill=(52, 62, 12))
+    return c
+
+
+def design_dark(w, h):
+    """The cue itself, beside the name. The only dark tile in a pale list."""
+    c = Image.new("RGBA", (w, h), INK + (255,))
+    r = int(h * 0.37)
+    disc(c, int(w * 0.82), h // 2, r)
+    d = ImageDraw.Draw(c)
+    pad = int(w * 0.077)
+    room = int(w * 0.82) - r - int(pad * 1.5)
+    # Wide enough for one line on the marquee, two on the square tile.
+    lines = [NAME] if w / float(h) > 2 else NAME.split(" ")
+    fn = fit(d, max(lines, key=len), True, int(h * 0.17), room)
+    lh = int((fn.getbbox("Hg")[3] - fn.getbbox("Hg")[1]) * 1.34)
+    fe = font(int(h * 0.064), True)
+    fnote = fit(d, NOTE, False, int(h * 0.061), room)
+    eh = fe.getbbox(NAME_TOP)[3] - fe.getbbox(NAME_TOP)[1]
+    nh = fnote.getbbox(NOTE)[3] - fnote.getbbox(NOTE)[1]
+    # Measured, not placed at fixed fractions: the name takes one line on the
+    # marquee and two on the square tile, and a fixed subtitle position put
+    # the second line straight through it.
+    gap1, gap2 = int(h * 0.055), int(h * 0.09)
+    total = eh + gap1 + lh * len(lines) + gap2 + nh
+    y = (h - total) // 2
+    d.text((pad, y), NAME_TOP, font=fe, fill=(150, 160, 150))
+    y += eh + gap1
+    for i, line in enumerate(lines):
+        d.text((pad - 2, y + i * lh), line, font=fn, fill=(255, 255, 255))
+    d.text((pad, y + lh * len(lines) + gap2), NOTE, font=fnote,
+           fill=(176, 184, 194))
+    return c
+
+
+for label, fn in (("lime", design_lime), ("dark", design_dark)):
+    save(fn(440, 280), "tile-%s-440x280.png" % label)
+    save(fn(1400, 560), "tile-%s-1400x560.png" % label)
+
 # -- the 128x128 store icon ---------------------------------------------------
 # The Store reads this from the package itself, so this copy exists only for a
 # form that asks for the file. Drawn from the same code, so it cannot drift
