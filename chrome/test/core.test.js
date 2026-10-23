@@ -9,7 +9,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   DEFAULTS, MIN_INTERVAL, intervalUnit, intervalSeconds,
-  TEACH_COUNT, freshTutorial, loadTutorial, teachingDue, questionDue,
+  SOUNDS, TEACH_COUNT, freshTutorial, loadTutorial, teachingDue, questionDue,
   teachingPulse, captionInk,
   normalize, limitFlashRate, pulseOf, pulseMs,
   msToNextBreak, isStale, drawable, resolveLanguage, freshAsks, loadAsks,
@@ -237,4 +237,30 @@ test("damaged tutorial state costs only the damaged field", () => {
   const got = loadTutorial({ welcomed: "yes", taught: -2, question: "maybe" });
   assert.deepEqual(got, freshTutorial());
   assert.equal(loadTutorial({ welcomed: true, taught: "x" }).welcomed, true);
+});
+
+test("each reminder picks its own sound, from the four the desktop offers", () => {
+  assert.deepEqual(SOUNDS, ["ding", "chord", "chime", "notify"]);
+  assert.equal(normalize({ blink: { soundName: "chord" } }).blink.soundName, "chord");
+  assert.equal(normalize({ blink: { soundName: "tuba" } }).blink.soundName,
+               DEFAULTS.blink.soundName, "an unknown name falls back");
+  const cfg = normalize({ blink: { soundName: "notify" }, brk: { soundName: "chime" } });
+  assert.notEqual(cfg.blink.soundName, cfg.brk.soundName,
+                  "the two reminders are independent");
+  assert.equal(pulseOf(cfg, "blink", "Blink").soundName, "notify",
+               "the pulse carries it to the player");
+});
+
+test("volume runs from 1% to 100%", () => {
+  assert.equal(normalize({ blink: { volume: 0.01 } }).blink.volume, 0.01);
+  assert.equal(normalize({ blink: { volume: 0.004 } }).blink.volume, 0.01, "clamped up");
+  assert.equal(normalize({ blink: { volume: 3 } }).blink.volume, 1, "clamped down");
+});
+
+test("the shipped defaults are the ones the author settled on", () => {
+  assert.equal(DEFAULTS.blinkInterval, 30);
+  assert.equal(DEFAULTS.blink.fade, 250);
+  assert.equal(DEFAULTS.blink.volume, 0.2);
+  assert.equal(DEFAULTS.blink.sound, true);
+  assert.equal(DEFAULTS.pageDot, true);
 });

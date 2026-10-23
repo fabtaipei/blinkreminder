@@ -5,7 +5,7 @@
 // the change in storage and reschedules.
 
 import {
-  MIN_INTERVAL, intervalUnit, intervalSeconds, loadTutorial, questionDue,
+  MIN_INTERVAL, intervalUnit, intervalSeconds, SOUNDS, loadTutorial, questionDue,
   teachingPulse, captionInk,
   BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL,
   WINDOWS_APP_URL, DISPLAY_NAME, normalize, feelOf, pulseOf, reviewUrl,
@@ -194,11 +194,15 @@ function advanced(kind, l, set, restyle) {
 
   // A device can be muted and a volume left at the floor, and neither is
   // visible. Test plays this reminder's chime at this reminder's volume.
+  const names = { ding: T("Ding"), chord: T("Chord"), chime: T("Chime"),
+                  notify: T("Notify") };
+  rows.append(row(T("Sound"), select(SOUNDS.map((s) => [s, names[s]]), l.soundName,
+                                     (soundName) => restyle({ soundName }))));
   const test = el("button", { textContent: T("Test") });
   test.addEventListener("click", () =>
-    chrome.runtime.sendMessage({ type: "chime", volume: l.volume }));
+    chrome.runtime.sendMessage({ type: "chime", volume: l.volume, name: l.soundName }));
   rows.append(row(T("Volume"),
-                  ...percent(Math.round(l.volume * 100), 20,
+                  ...percent(Math.round(l.volume * 100), 1,
                              (v) => set({ volume: v / 100 })), test));
 
   // The break's alone: the blink has no countdown to show.
@@ -279,7 +283,8 @@ async function showMe() {
   pulse.ink = captionInk(pulse.colour);
   globalThis.__blinkReminderCue(pulse);
   if (cfg.blink.sound) {
-    chrome.runtime.sendMessage({ type: "chime", volume: cfg.blink.volume });
+    chrome.runtime.sendMessage({ type: "chime", volume: cfg.blink.volume,
+                                 name: cfg.blink.soundName });
   }
   const { tutorial } = await chrome.storage.local.get("tutorial");
   if (loadTutorial(tutorial).question !== "done") {
@@ -290,7 +295,8 @@ async function showMe() {
 function preview(kind) {
   globalThis.__blinkReminderCue(pulseOf(cfg, kind, defaultWord(kind)));
   if (cfg[kind].sound) {
-    chrome.runtime.sendMessage({ type: "chime", volume: cfg[kind].volume });
+    chrome.runtime.sendMessage({ type: "chime", volume: cfg[kind].volume,
+                                 name: cfg[kind].soundName });
   }
 }
 
