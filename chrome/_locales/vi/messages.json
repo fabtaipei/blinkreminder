@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Tín hiệu nhẹ nhàng nhắc bạn chớp mắt và nhìn ra xa màn hình. Miễn phí, không quảng cáo, không thu thập dữ liệu."
+  },
+  "cmdSnooze": {
+    "message": "Tạm dừng 30 phút"
+  },
+  "cmdBlink": {
+    "message": "Chớp mắt ngay"
   }
 }

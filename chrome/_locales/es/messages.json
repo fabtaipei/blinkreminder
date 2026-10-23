@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Una señal discreta para parpadear y un aviso para apartar la vista. Gratis, sin anuncios, sin recopilar datos."
+  },
+  "cmdSnooze": {
+    "message": "Posponer 30 minutos"
+  },
+  "cmdBlink": {
+    "message": "Parpadear ahora"
   }
 }

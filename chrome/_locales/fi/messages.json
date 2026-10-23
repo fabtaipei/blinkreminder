@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Hienovarainen merkki räpäyttää ja muistutus katsoa pois näytöltä. Ilmainen, ei mainoksia, ei tietojen keruuta."
+  },
+  "cmdSnooze": {
+    "message": "Tauko 30 minuutiksi"
+  },
+  "cmdBlink": {
+    "message": "Räpäytä nyt"
   }
 }

@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "눈을 깜빡이도록 부드럽게 알려 주고, 화면에서 눈을 떼도록 알려 줍니다. 무료, 광고 없음, 데이터 수집 없음."
+  },
+  "cmdSnooze": {
+    "message": "30분 미루기"
+  },
+  "cmdBlink": {
+    "message": "지금 깜박이기"
   }
 }

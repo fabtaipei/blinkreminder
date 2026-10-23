@@ -41,6 +41,8 @@ a.support { color: var(--support); font-weight: 600; }
 .row { display: flex; align-items: center; justify-content: space-between;
        gap: 12px; min-height: 36px; }
 .row > :first-child { flex: 1; }
+/* The caption is a real <label> now, so it focuses its control when clicked. */
+.row > label:first-child { cursor: pointer; }
 
 button { font: inherit; border-radius: 6px; padding: 7px 16px; cursor: pointer;
          border: 1px solid var(--border-strong); background: var(--surface);

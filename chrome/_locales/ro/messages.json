@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Un semnal discret să clipești și un memento să privești în altă parte. Gratuit, fără reclame, fără colectare de date."
+  },
+  "cmdSnooze": {
+    "message": "Amână 30 de minute"
+  },
+  "cmdBlink": {
+    "message": "Clipește acum"
   }
 }

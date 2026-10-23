@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Un segnale discreto per sbattere le palpebre e uno per distogliere lo sguardo. Gratis, senza pubblicità né raccolta di dati."
+  },
+  "cmdSnooze": {
+    "message": "Posticipa di 30 minuti"
+  },
+  "cmdBlink": {
+    "message": "Batti le palpebre"
   }
 }

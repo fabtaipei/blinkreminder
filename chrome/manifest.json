@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "default_locale": "en",
   "minimum_chrome_version": "120",
   "homepage_url": "https://apps.microsoft.com/detail/9NBRV5W24KH5?cid=chrome-home",
@@ -20,11 +20,38 @@
       "32": "icons/icon-32.png"
     }
   },
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "snooze": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "__MSG_cmdSnooze__"
+    },
+    "blink-now": {
+      "suggested_key": {
+        "default": "Alt+Shift+B"
+      },
+      "description": "__MSG_cmdBlink__"
+    }
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
-  "permissions": ["alarms", "storage", "notifications", "idle", "scripting", "offscreen"],
-  "optional_host_permissions": ["http://*/*", "https://*/*"]
+  "permissions": [
+    "alarms",
+    "storage",
+    "notifications",
+    "idle",
+    "scripting",
+    "offscreen"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
 }

@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "A gentle cue to blink, and a reminder to look away from the screen. Free, no ads, nothing collected."
+  },
+  "cmdSnooze": {
+    "message": "Snooze 30 minutes"
+  },
+  "cmdBlink": {
+    "message": "Blink now"
   }
 }

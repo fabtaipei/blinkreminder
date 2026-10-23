@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Isyarat lembut untuk berkedip dan pengingat untuk mengalihkan pandangan dari layar. Gratis, tanpa iklan, tanpa pengumpulan data."
+  },
+  "cmdSnooze": {
+    "message": "Tunda 30 menit"
+  },
+  "cmdBlink": {
+    "message": "Kedip sekarang"
   }
 }

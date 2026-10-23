@@ -30,8 +30,28 @@ function el(tag, props = {}, ...children) {
   return e;
 }
 
+// Every row names its own control. The label used to be a bare <span>, which
+// left a screen reader on the Sound dropdown or the Volume slider announcing
+// "combo box" or "slider" with nothing to say what it set. Every row on this
+// page comes through here, so naming it here names nearly all of them.
+let fieldSeq = 0;
+
 function row(label, ...controls) {
-  return el("div", { className: "row" }, el("span", { textContent: label }),
+  const id = "row" + (++fieldSeq);
+  const tag = el("label", { id, textContent: label });
+  // The number beside a slider is not the control; skip it when looking.
+  const target = controls.find(
+    (c) => c && c.nodeType === 1 && !c.classList.contains("pct"));
+  if (target && /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName)) {
+    if (!target.id) target.id = "f" + fieldSeq;
+    tag.htmlFor = target.id;
+  } else if (target && target.tagName === "DIV") {
+    // A row of buttons cannot be the target of <label for>, so the group
+    // carries the name instead.
+    target.setAttribute("role", "group");
+    target.setAttribute("aria-labelledby", id);
+  }
+  return el("div", { className: "row" }, tag,
             el("div", { className: "control" }, ...controls));
 }
 
@@ -44,6 +64,7 @@ function switchRow(label, checked, onChange) {
 
 function segmented(choices, value, onPick) {
   const group = el("div", { className: "segmented" });
+  group.setAttribute("role", "group");
   for (const [v, label] of choices) {
     const b = el("button", { type: "button", textContent: label });
     b.setAttribute("aria-pressed", String(v === value));
@@ -114,9 +135,14 @@ function lookControls(kind) {
   // they read, so those redraw the card.
   const restyle = (patch) => { Object.assign(l, patch); save(); render(); };
 
-  const style = el("div", { className: "row" }, segmented(
+  const styles = segmented(
     [["dot", T("A dot")], ["text", T("A word")], ["dim", T("Dim screen")]],
-    l.style, (s) => restyle({ style: s })));
+    l.style, (s) => restyle({ style: s }));
+  // This row carries no caption of its own -- the card's heading is the
+  // caption -- so the group borrows it rather than inventing a word that
+  // would need translating into thirty languages to say what is already there.
+  styles.setAttribute("aria-labelledby", kind === "blink" ? "blink-h" : "break-h");
+  const style = el("div", { className: "row" }, styles);
   const strength = row(T("Strength"),
     ...percent(Math.round(l.opacity * 100), 2, (v) => set({ opacity: v / 100 })));
   strength.dataset.point = "strength";
@@ -227,8 +253,14 @@ function intervalControl() {
     save();
     render();
   };
+  const count = num(value, unit === 60 ? 1 : MIN_INTERVAL, 999, 1,
+                    (v) => apply(v, unit));
+  // The caption for this pair sits in the row above, so the box says what it
+  // is itself; the seconds/minutes buttons are inside the named group and
+  // read as its options.
+  count.setAttribute("aria-label", T("Remind me every"));
   return [
-    num(value, unit === 60 ? 1 : MIN_INTERVAL, 999, 1, (v) => apply(v, unit)),
+    count,
     segmented([[1, T("seconds")], [60, T("minutes")]], unit, (u) => apply(value, u)),
   ];
 }
@@ -331,11 +363,19 @@ async function render() {
   $("page-dot").closest(".row").classList.toggle("off", !granted);
 
   $("blink-interval").replaceChildren(...intervalControl());
+  // The heading sits in the row above these, so say in the group what the
+  // layout says in space.
+  $("blink-interval").setAttribute("role", "group");
+  $("blink-interval").setAttribute("aria-label", T("Remind me every"));
   $("break-enabled").checked = cfg.breakEnabled;
-  $("break-minutes").replaceWith(Object.assign(segmented(
+  const minutes = Object.assign(segmented(
     BREAK_MINUTES.map((m) => [m, `${m} ${T("min")}`]), cfg.breakMinutes,
     (breakMinutes) => { cfg.breakMinutes = breakMinutes; save(); render(); }),
-    { id: "break-minutes" }));
+    { id: "break-minutes" });
+  // No visible caption of its own -- the cards are aligned, and this row is
+  // blank on the blink side -- so the switch above it supplies the name.
+  minutes.setAttribute("aria-label", T("Remind me to look away"));
+  $("break-minutes").replaceWith(minutes);
   for (const box of document.querySelectorAll(".look")) {
     box.replaceChildren(...lookControls(box.dataset.kind));
   }
