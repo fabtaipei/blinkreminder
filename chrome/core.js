@@ -7,7 +7,11 @@
 
 export const DISPLAY_NAME = "Dry Eyes Blink Reminder Lite";
 export const SUPPORT_URL = "https://buymeacoffee.com/kennytechy";
-export const WINDOWS_APP_URL = "https://apps.microsoft.com/detail/9NBRV5W24KH5";
+// Tagged, so the Microsoft Store's own campaign report can say how many
+// Windows installs this extension sent it. The tag is only read at the
+// other end; it changes nothing about the page it opens.
+export const WINDOWS_APP_URL =
+  "https://apps.microsoft.com/detail/9NBRV5W24KH5?cid=chrome-ext";
 
 // The on-page cue needs access to web pages, and asks for it only when it is
 // switched on: installed without it, the extension shows no "read and change
