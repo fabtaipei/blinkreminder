@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "温和地提醒你眨眼，并提醒你把视线移开屏幕。免费、无广告、不收集任何数据。"
+  },
+  "cmdSnooze": {
+    "message": "暂停 30 分钟"
+  },
+  "cmdBlink": {
+    "message": "立即眨眼"
   }
 }

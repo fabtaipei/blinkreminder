@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Finom jelzés a pislogáshoz és emlékeztető, hogy nézz el a képernyőtől. Ingyenes, reklámmentes, nem gyűjt adatot."
+  },
+  "cmdSnooze": {
+    "message": "Szünet 30 percre"
+  },
+  "cmdBlink": {
+    "message": "Pislogj most"
   }
 }

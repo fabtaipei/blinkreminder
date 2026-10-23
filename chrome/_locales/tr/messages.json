@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Göz kırpmanız için hafif bir uyarı ve ekrandan uzağa bakmanız için bir hatırlatma. Ücretsiz, reklamsız, veri toplamaz."
+  },
+  "cmdSnooze": {
+    "message": "30 dakika ertele"
+  },
+  "cmdBlink": {
+    "message": "Şimdi göz kırp"
   }
 }

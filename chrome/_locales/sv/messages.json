@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "En diskret signal att blinka och en påminnelse att titta bort från skärmen. Gratis, utan reklam, ingen datainsamling."
+  },
+  "cmdSnooze": {
+    "message": "Pausa i 30 minuter"
+  },
+  "cmdBlink": {
+    "message": "Blinka nu"
   }
 }

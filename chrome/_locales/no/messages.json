@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Et diskret signal om å blunke og en påminnelse om å se bort fra skjermen. Gratis, uten reklame, ingen datainnsamling."
+  },
+  "cmdSnooze": {
+    "message": "Pause i 30 minutter"
+  },
+  "cmdBlink": {
+    "message": "Blunk nå"
   }
 }

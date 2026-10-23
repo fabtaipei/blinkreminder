@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Um sinal suave para piscar e um lembrete para desviar o olhar da tela. Grátis, sem anúncios, sem coleta de dados."
+  },
+  "cmdSnooze": {
+    "message": "Adiar por 30 minutos"
+  },
+  "cmdBlink": {
+    "message": "Piscar agora"
   }
 }

@@ -319,6 +319,43 @@ try {
     }
   }
 
+  // -- every control says what it is ----------------------------------------
+  // A screen reader landing on the Sound dropdown or the Volume slider used
+  // to hear "combo box" and "slider" with no name attached, because the row
+  // caption was a plain <span> sitting beside the control rather than a
+  // label bound to it.
+  {
+    const tab = await openTab(`chrome-extension://${id}/options.html`);
+    await sleep(700);
+    const unnamed = await evaluate(tab.sessionId, `(() => {
+      const named = (e) => {
+        if (e.labels && [...e.labels].some((l) => l.textContent.trim())) return true;
+        if ((e.getAttribute('aria-label') || '').trim()) return true;
+        const by = e.getAttribute('aria-labelledby');
+        const src = by && document.getElementById(by);
+        return !!(src && src.textContent.trim());
+      };
+      const bad = [];
+      for (const e of document.querySelectorAll('input, select')) {
+        if (e.type === 'hidden' || e.closest('[hidden]')) continue;
+        if (!named(e)) bad.push(e.id || e.type || e.tagName);
+      }
+      for (const g of document.querySelectorAll('.segmented, #blink-interval')) {
+        if (g.closest('[hidden]')) continue;
+        if (g.getAttribute('role') !== 'group') {
+          bad.push('role:' + (g.id || g.className));
+        } else if (!named(g) && !g.parentElement.closest('[role=group]')) {
+          // A group nested in a named group reads as its options.
+          bad.push('group:' + (g.id || g.className));
+        }
+      }
+      return bad;
+    })()`);
+    check("every control on the settings page says what it is",
+          unnamed.length === 0, unnamed.join(", ") || "all named");
+    await send("Target.closeTarget", { targetId: tab.targetId });
+  }
+
   // -- as shipped: no site access until someone switches it on -------------
   const shipped = copyExtension(join(work, "shipped"));
   const { id: id2 } = await send("Extensions.loadUnpacked", { path: shipped });
@@ -365,6 +402,17 @@ try {
   check("... once, not on every reminder",
         await evaluate(sw2S, "__notified.length"), 1);
 
+  // ... and the toolbar says so for as long as it is true, which one
+  // notification cannot. Running with nowhere to draw used to look exactly
+  // like running.
+  const blind = await evaluate(sw2S,
+    "chrome.action.getBadgeText({}).then(text => chrome.action.getTitle({})" +
+    ".then(title => ({ text, title })))");
+  check("the toolbar shows that it has nowhere to draw",
+        blind?.text === "!", JSON.stringify(blind?.text));
+  check("... and its tooltip says so in words",
+        /access/i.test(blind?.title || ""), blind?.title);
+
   // Twelve days of use, long since the browser started: the coffee ask.
   await evaluate(sw2S, `Promise.all([
     chrome.storage.local.set({ asks: { days_used: 12, last_counted: "${new Date().toISOString().slice(0, 10)}",
@@ -392,6 +440,12 @@ try {
   }
 
   const errors = events.filter((e) => e.method === "Runtime.exceptionThrown");
+  const cmds = await evaluate(swS,
+    "chrome.commands.getAll().then(c => c.map(x => x.name).sort())");
+  check("keyboard shortcuts are registered",
+        Array.isArray(cmds) && cmds.includes("snooze") && cmds.includes("blink-now"),
+        JSON.stringify(cmds));
+
   check("no uncaught errors anywhere", errors.length === 0,
         errors.map((e) => e.params.exceptionDetails.exception?.description?.split("\n")[0]).join("; "));
 } catch (e) {

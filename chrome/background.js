@@ -147,13 +147,27 @@ async function updateBadge(cfg, live) {
   const icon = live ? "icon" : "icon-off";
   await chrome.action.setIcon({ path: { 16: `icons/${icon}-16.png`,
                                         32: `icons/${icon}-32.png` } });
+  // Three states, not two. Running with nowhere to draw is where every new
+  // install starts, and until now it looked exactly like running -- the one
+  // case where a quiet app and a broken one are indistinguishable.
+  const blind = live && !(await anyPageAccess());
   let text = "";
-  if (live && cfg.breakEnabled && cfg.showCountdown) {
+  if (blind) {
+    text = "!";
+  } else if (live && cfg.breakEnabled && cfg.showCountdown) {
     text = String(Math.ceil(msToNextBreak(cfg.breakMinutes) / 60000));
   }
   await chrome.action.setBadgeText({ text });
-  await chrome.action.setBadgeBackgroundColor({ color: "#3A3A3A" });
+  await chrome.action.setBadgeBackgroundColor(
+    { color: blind ? "#9A4A21" : "#3A3A3A" });
   await chrome.action.setBadgeTextColor({ color: "#F2F3F5" });
+  // The tooltip says in words what the icon says in shape -- for a screen
+  // reader, and for anyone who cannot tell two 16px icons apart.
+  setLanguage(cfg.language);
+  await chrome.action.setTitle({
+    title: blind ? `${DISPLAY_NAME} — ${T("Blink reminders need access to web pages.")}`
+                 : DISPLAY_NAME,
+  });
 }
 
 // -- delivering a reminder --------------------------------------------------
@@ -316,6 +330,7 @@ async function warnNoAccess() {
 // the warning as soon as everything is granted again, so that the next time
 // it is taken away the user is told.
 async function watchAccess() {
+  await schedule();                     // the badge turns on what it can see
   if (await chrome.permissions.contains(PAGE_ORIGINS)) {
     await chrome.storage.local.remove("accessWarned");
     await chrome.notifications.clear("access");
@@ -438,6 +453,19 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   try {
     await chrome.scripting.executeScript({ target: { tabId }, files: ["dot.js"] });
   } catch { /* a page this extension may not touch */ }
+});
+
+// Keyboard shortcuts, rebindable at chrome://extensions/shortcuts. Snooze is
+// the one thing people want without reaching for the mouse; Blink now is how
+// you check it still works.
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === "snooze") {
+    if (await snoozedUntil()) await chrome.storage.local.remove("snoozeUntil");
+    else await chrome.storage.local.set(
+      { snoozeUntil: Date.now() + SNOOZE_MINUTES * 60000 });
+  } else if (command === "blink-now") {
+    await deliver("blink", { manual: true });
+  }
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {

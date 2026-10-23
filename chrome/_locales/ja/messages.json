@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "まばたきをそっと促し、画面から目を離すよう知らせます。無料・広告なし・データ収集なし。"
+  },
+  "cmdSnooze": {
+    "message": "30 分停止"
+  },
+  "cmdBlink": {
+    "message": "今すぐまばたき"
   }
 }

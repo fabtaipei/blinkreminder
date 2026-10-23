@@ -105,6 +105,12 @@ def write_strings(keys, out):
 
 
 def write_locales():
+    """messages.json per locale: the name and description the Store shows,
+    and the two shortcut captions chrome://extensions/shortcuts lists.
+
+    The captions reuse strings the UI already has in every language, so the
+    shortcuts page is translated without inventing a string for it.
+    """
     descriptions = {"en": ext_strings.ENGLISH_DESCRIPTION}
     i = ext_strings.KEYS.index("extDescription")
     for code, vals in ext_strings.STRINGS.items():
@@ -121,8 +127,13 @@ def write_locales():
         os.makedirs(folder, exist_ok=True)
         with io.open(os.path.join(folder, "messages.json"), "w",
                      encoding="utf-8", newline="\n") as fh:
+            shared = blink_i18n.STRINGS.get(code, {})
             json.dump({"extName": {"message": DISPLAY_NAME},
-                       "extDescription": {"message": text}},
+                       "extDescription": {"message": text},
+                       "cmdSnooze": {"message": shared.get(
+                           "Snooze 30 minutes", "Snooze 30 minutes")},
+                       "cmdBlink": {"message": shared.get(
+                           "Blink now", "Blink now")}},
                       fh, ensure_ascii=False, indent=2)
             fh.write("\n")
         written += 1

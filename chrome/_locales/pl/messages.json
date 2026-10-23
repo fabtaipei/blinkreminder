@@ -4,5 +4,11 @@
   },
   "extDescription": {
     "message": "Delikatny sygnał, by mrugnąć, i przypomnienie, by oderwać wzrok od ekranu. Za darmo, bez reklam, bez zbierania danych."
+  },
+  "cmdSnooze": {
+    "message": "Wstrzymaj na 30 minut"
+  },
+  "cmdBlink": {
+    "message": "Mrugnij teraz"
   }
 }
