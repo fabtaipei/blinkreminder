@@ -36,6 +36,12 @@ export function intervalSeconds(value, unit) {
 export const BREAK_MINUTES = [15, 20, 30, 60];
 export const SNOOZE_MINUTES = 30;
 export const STYLES = ["dot", "text", "dim"];
+
+// Four sounds, the same four the desktop offers, synthesised here rather
+// than shipped as files -- Windows' own Media sounds are Microsoft's to
+// distribute, not ours. Each reminder picks its own, so the break can be
+// told apart from the blink by ear.
+export const SOUNDS = ["ding", "chord", "chime", "notify"];
 export const CORNERS = ["center", "top-left", "top-right", "bottom-left",
                         "bottom-right"];
 
@@ -52,22 +58,24 @@ export const DEFAULTS = {
   // until someone grants access to pages: it cannot appear before the one
   // decision that matters has been made deliberately.
   pageDot: true,
-  blinkInterval: 60,
+  blinkInterval: 30,
   breakEnabled: true,
   breakMinutes: 30,
   showCountdown: true,
   blink: {
-    style: "dot", opacity: 0.345, hold: 500, fade: 500, blinks: 2, gap: 150,
+    style: "dot", opacity: 0.345, hold: 500, fade: 250, blinks: 2, gap: 150,
     colour: "#bde401", message: null, corner: "center", dotPct: 90,
     // A chime on every blink, which at the default interval is one a
     // minute. The desktop ships this off; here it is on, at the author's
     // call, after a reviewer said the sound was what made it work for them.
-    fontSize: 36, margin: 48, sound: true, volume: 0.6,
+    // The author's own, after living with it: a 30-second interval, a
+    // quicker fade, and a chime well below the default.
+    fontSize: 36, margin: 48, sound: true, soundName: "ding", volume: 0.2,
   },
   brk: {
     style: "dim", opacity: 0.401, hold: 3000, fade: 800, blinks: 1, gap: 120,
     colour: "#bde401", message: null, corner: "center", dotPct: 22,
-    fontSize: 36, margin: 48, sound: true, volume: 0.6,
+    fontSize: 36, margin: 48, sound: true, soundName: "ding", volume: 0.6,
   },
 };
 
@@ -121,9 +129,11 @@ function look(saved, d) {
     fontSize: num(s.fontSize, 10, 200, d.fontSize, true),
     margin: num(s.margin, 0, 500, d.margin, true),
     sound: typeof s.sound === "boolean" ? s.sound : d.sound,
-    // As on the desktop: below a fifth the chime is inaudible on most
-    // laptop speakers, so that is the floor rather than silence.
-    volume: num(s.volume, 0.2, 1, d.volume),
+    soundName: pick(s.soundName, SOUNDS, d.soundName),
+    // Down to 1%. The desktop stops at a fifth because below that its
+    // Windows .wav is inaudible; these are synthesised, so the quiet end
+    // is usable -- and someone who wants a barely-there tick should have it.
+    volume: num(s.volume, 0.01, 1, d.volume),
   };
 }
 

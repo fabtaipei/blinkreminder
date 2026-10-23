@@ -219,7 +219,7 @@ async function notify(kind, pulse) {
 
 // Played from an offscreen document: a web page may not make a sound until
 // someone has clicked it, and the cue never asks anyone to click.
-async function chime(volume = 0.6) {
+async function chime(volume = 0.6, name = "ding") {
   try {
     const open = await chrome.runtime.getContexts(
       { contextTypes: ["OFFSCREEN_DOCUMENT"] });
@@ -229,7 +229,7 @@ async function chime(volume = 0.6) {
         justification: "Plays the reminder's chime.",
       });
     }
-    await chrome.runtime.sendMessage({ target: "offscreen", type: "chime", volume });
+    await chrome.runtime.sendMessage({ target: "offscreen", type: "chime", volume, name });
   } catch (e) {
     console.warn("chime", e);
   }
@@ -275,7 +275,7 @@ export async function deliver(kind, { manual = false } = {}) {
   if (tab && drawable(tab.url) && await mayDraw(tab.url)) {
     try {
       await draw(tab.id, pulse);
-      if (pulse.sound) await chime(pulse.volume);
+      if (pulse.sound) await chime(pulse.volume, pulse.soundName);
       return "page";
     } catch (e) {
       console.warn("draw", e);            // the page refused; fall through
@@ -451,7 +451,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
     snooze: () => chrome.storage.local.set(
       { snoozeUntil: Date.now() + SNOOZE_MINUTES * 60000 }),
     resume: () => chrome.storage.local.remove("snoozeUntil"),
-    chime: () => chime(msg.volume),
+    chime: () => chime(msg.volume, msg.name),
   };
   const job = jobs[msg.type];
   if (!job) return false;
