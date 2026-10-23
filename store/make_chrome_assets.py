@@ -150,38 +150,74 @@ for name, word, y in SHOTS:
 for tmp in SOURCE.values():
     os.remove(os.path.join(OUT, tmp))
 
-# -- the 440x280 promo tile ---------------------------------------------------
+# -- the promo tiles ----------------------------------------------------------
+# These sit in a list of other extensions, at thumbnail size, next to a name
+# the Store prints for us -- so the tile does not have to repeat the name. It
+# has to catch the eye and make one promise. The cue itself does the first
+# job: a lime circle on a dark field is what the product actually looks like,
+# and nothing else in the category looks like it.
 
 import blink_reminder                                  # noqa: E402
 
-tile = Image.new("RGBA", (440, 280), DARK + (255,))
-icon = blink_reminder.app_icon(96).convert("RGBA")
-tile.paste(icon, (40, 58), icon)
-d = ImageDraw.Draw(tile)
-d.text((40, 174), "Dry Eyes", font=font(27, True), fill=TEXT)
-d.text((40, 206), "Blink Reminder Lite", font=font(27, True), fill=TEXT)
-d.text((42, 244), "A gentle cue to blink", font=font(15), fill=MUTED)
-save(tile, "promo-440x280.png")
+TILE_BG = (22, 24, 27)
+LIME = (189, 228, 1)
 
-# -- the 1400x560 marquee tile ------------------------------------------------
-# Wide and mostly empty, because that is what a banner wants: the mark and
-# the name on the left, and on the right the cue itself at the strength it
-# really appears, running off the edge so it reads as something passing
-# across the screen rather than a logo.
-mq = Image.new("RGBA", (1400, 560), (20, 21, 23, 255))
-glow = Image.new("RGBA", mq.size, (0, 0, 0, 0))
-gd = ImageDraw.Draw(glow)
-gd.ellipse((980, -120, 1620, 520), fill=(189, 228, 1, 88))
-mq.alpha_composite(glow)
 
-icon = blink_reminder.app_icon(112).convert("RGBA")
-mq.paste(icon, (96, 96), icon)
-d = ImageDraw.Draw(mq)
-d.text((96, 240), "Dry Eyes", font=font(58, True), fill=TEXT)
-d.text((96, 310), "Blink Reminder Lite", font=font(58, True), fill=TEXT)
-d.text((99, 400), "A gentle cue to blink, and a reminder to look away",
-       font=font(24), fill=MUTED)
-save(mq, "marquee-1400x560.png")
+def fit(d, text, bold, want, room, floor=12):
+    """The largest size at or below `want` that keeps `text` inside `room`.
+
+    It stops at `floor` rather than shrinking indefinitely: text small enough
+    to fit anywhere is text nobody reads, so a line that will not fit is a
+    line to shorten, not to shrink.
+    """
+    size = want
+    f = font(size, bold)
+    while d.textlength(text, font=f) > room and size > floor:
+        size -= 2
+        f = font(size, bold)
+    if d.textlength(text, font=f) > room:
+        raise SystemExit("too long for a %dpx column: %r" % (room, text))
+    return f
+
+
+def tile(w, h, head, sub, dot_r, dot_c, pad):
+    card = Image.new("RGBA", (w, h), TILE_BG + (255,))
+
+    # The cue, drawn as the cue: a soft lime disc running off the right edge.
+    glow = Image.new("RGBA", card.size, (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    for i in range(18, 0, -1):
+        gd.ellipse((dot_c[0] - dot_r - i * 3, dot_c[1] - dot_r - i * 3,
+                    dot_c[0] + dot_r + i * 3, dot_c[1] + dot_r + i * 3),
+                   fill=LIME + (int(5 * (1 - i / 18.0) ** 2),))
+    gd.ellipse((dot_c[0] - dot_r, dot_c[1] - dot_r,
+                dot_c[0] + dot_r, dot_c[1] + dot_r), fill=LIME + (255,))
+    card.alpha_composite(glow)
+
+    d = ImageDraw.Draw(card)
+    room = dot_c[0] - dot_r - pad * 2
+    # Big, because the list shows these at about half size and a tile that
+    # has to be squinted at has already lost.
+    fh = fit(d, head, True, int(h * 0.26), room)
+    fs = fit(d, sub, False, int(h * 0.095), room, floor=int(h * 0.05))
+    gap = int(h * 0.055)
+    block = (fh.getbbox(head)[3] - fh.getbbox(head)[1]
+             + fs.getbbox(sub)[3] - fs.getbbox(sub)[1] + gap)
+    y = (h - block) // 2
+    d.text((pad, y), head, font=fh, fill=TEXT)
+    # Brighter than MUTED: at thumbnail size a low-contrast line is a smudge.
+    d.text((pad + 2, y + (fh.getbbox(head)[3] - fh.getbbox(head)[1]) + gap),
+           sub, font=fs, fill=(186, 193, 203))
+    return card
+
+
+# The small tile is read at about half size in a list, so it gets the short
+# line; the marquee has room for the differentiators.
+HEAD = "Blink fully."
+save(tile(440, 280, HEAD, "A quiet reminder.", 104, (356, 140), 34),
+     "promo-440x280.png")
+save(tile(1400, 560, HEAD, "A quiet reminder · 30 languages · no tracking",
+          236, (1120, 280), 96), "marquee-1400x560.png")
 
 # -- the 128x128 store icon ---------------------------------------------------
 # The Store reads this from the package itself, so this copy exists only for a
