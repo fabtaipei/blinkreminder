@@ -113,9 +113,43 @@ Only what is below is different.
 
 ---
 
-## 3. Screenshots
+## 3. How to upload it: one folder, not nineteen boxes
 
-Six, 1920×1080, in `store/ms/`. Upload in this order.
+Everything below goes to Partner Center in a single import. Text, captions,
+screenshots and logos all have rows in the listings .csv, so none of it is
+dragged in by hand.
+
+1. Partner Center, app overview, Store listings: **Export listings**. The
+   .csv it gives you is tied to the current submission, so export a fresh
+   one rather than reusing an old file.
+2. Drop that .csv into `store/listing-import/`, beside `shots/` and
+   `logos/`, which are already filled.
+3. Build the filled copy:
+
+       py store/fill_listing.py store/listing-import/<exported>.csv ^
+          store/listing-en-GB.json store/listing-en-US.json ^
+          --shots store/listing-import/shots --drop bn
+
+4. Zip `store/listing-import/` and use **Import listings > Import .csv**.
+
+`--drop bn` removes Bengali from the import, so its live listing is left
+exactly as it is rather than overwritten. It does not unpublish Bengali; to
+remove that language from the Store is a separate action in the UI.
+
+### What is already in the folder
+
+| Path | What |
+|---|---|
+| `shots/en-gb/1..6.png` | the six new posters, 1920x1080 |
+| `shots/en-us/1..6.png` | the same six; en-us is its own column |
+| `shots/<29 others>/1..2.png` | untouched. Localised captures of the real app |
+| `logos/` | the six logo files the .csv has rows for |
+
+The other 29 languages keep the screenshots they have. Those are captures of
+the real app in each language, which is worth more to a reader of that
+language than an English poster would be.
+
+### Screenshots, in order
 
 | # | File | Argument |
 |---|---|---|
@@ -126,22 +160,29 @@ Six, 1920×1080, in `store/ms/`. Upload in this order.
 | 5 | `m5-every-screen.png` | **the one the browser cannot make** |
 | 6 | `m6-private.png` | trust, including the camera and the flash limit |
 
-Accents follow the Chrome picks: lime, cool, warm, lime, lime, lime.
+Accents follow the Chrome picks: lime, cool, warm, lime, lime, lime. Rebuild
+with `py store/make_ms_screens.py`.
 
-Rebuild with:
+Slots run to 30, so a real screenshot can go in at 7 without displacing any
+of these. `store/screenshots/` still holds the genuine captures, and a
+listing made only of posters has nothing real in it.
 
-    py store/make_ms_screens.py
+### Logo rows in the .csv
 
-The existing `store/screenshots/*.png` (1922×1080 photographs of the real
-app) are not deleted. One of them is worth keeping as a seventh, showing the
-actual settings panel — the Store allows up to nine, and a listing made
-only of posters is a listing with nothing real in it.
+`StoreLogo300x300`, `StoreLogoOverride150x150`, `StoreLogoOverride71x71`,
+`StoreLogo1080x1080`, `StoreLogo720x1080`, `PromoImage1920x1080`. All are
+lime now. `fill_listing.py --shots` only fills the screenshot rows, so these
+cells are set by hand in Partner Center or added as keys to the listing
+JSONs, pointed at `listing-import/logos/<file>`.
 
-### Captions to fix
+**The 1920x1080 promo image is not decoration.** Without it a trailer
+uploads but will not play.
 
-`DesktopScreenshotCaption2` currently reads "every 20, 30 or 60 minutes of
-the hour" and omits 15, which the app has offered since the start. Captions
-1 and 3 are also duplicates of each other.
+### Captions
+
+Rewritten to match the six new shots. The old set had a duplicate (1 and 3
+were the same sentence) and said the break runs "every 20, 30 or 60
+minutes", which has been missing 15 since the app shipped.
 
 ---
 
