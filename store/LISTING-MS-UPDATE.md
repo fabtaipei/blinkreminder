@@ -127,9 +127,13 @@ dragged in by hand.
 3. Build the filled copy:
 
        py store/fill_listing.py store/listing-import/<exported>.csv ^
-          store/listing-en-GB.json store/listing-en-US.json ^
+          store/listing-*.json ^
           --shots store/listing-import/shots ^
           --logos store/listing-import/logos --drop bn
+
+   Every listing .json goes in, not just the English pair. The other
+   languages keep their own description -- it is unchanged in their file --
+   but their captions have been renumbered and have to be written.
 
 4. Zip `store/listing-import/` and use **Import listings > Import .csv**.
 
@@ -180,10 +184,20 @@ say that the extension cannot, and it survives in the description under ON
 EVERY SCREEN. The code to draw it is kept, unused, in case it wants a slide
 again.
 
-The other 29 languages keep their own two screenshots, which are captures of
-the real app in that language. The .pdf files beside the .png ones in
-`store/ms` are the layered sources, for localising these two into more
-languages later.
+**Every language gets all seven**, not just English. Slides 1 to 5 are the
+English posters; 6 and 7 are that language's own captures of the real app.
+The posters carry English text in a French listing, which is not ideal --
+but the alternative was never a French poster, it was two screenshots where
+everyone else gets seven, and a listing that thin is the worse trade.
+
+Captions follow the pictures. Each language's two existing captions move to
+6 and 7, where its own screenshots now are, and 1 to 5 are blanked rather
+than left in place -- a caption that stayed at slot 1 would describe the
+blink dot underneath a poster about something else. They stay blank until
+the copy is translated; the posters carry their own headlines.
+
+The .pdf files beside the .png ones in `store/ms` are the layered sources,
+for localising the two captures into more languages later.
 
 ### Logos
 

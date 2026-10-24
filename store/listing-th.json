@@ -26,9 +26,11 @@
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "กะพริบตาไม่สุด",
   "SearchTerm7": "ฝึกกะพริบตา",
-  "DesktopScreenshotCaption1": "จุดกลมเตือนให้คุณกะพริบตาตามช่วงเวลาที่เลือก ปรับแต่งจุดได้ด้วย",
-  "DesktopScreenshotCaption2": "หน้าจอหรี่ลงเพื่อเตือนให้พัก ทุก 20, 30 หรือ 60 นาที ตรงตามนาฬิกา",
-  "DesktopScreenshotCaption3": "จุดกลมเตือนให้คุณกะพริบตาตามช่วงเวลาที่เลือก ปรับแต่งจุดได้ด้วย",
-  "DesktopScreenshotCaption4": "หน้าจอหรี่ลงเพื่อเตือนให้พัก ทุก 20, 30 หรือ 60 นาที ตรงตามนาฬิกา",
-  "DesktopScreenshotCaption5": "แผงควบคุมที่เรียบง่าย"
+  "DesktopScreenshotCaption1": "",
+  "DesktopScreenshotCaption2": "",
+  "DesktopScreenshotCaption3": "",
+  "DesktopScreenshotCaption4": "",
+  "DesktopScreenshotCaption5": "",
+  "DesktopScreenshotCaption6": "จุดกลมเตือนให้คุณกะพริบตาตามช่วงเวลาที่เลือก ปรับแต่งจุดได้ด้วย",
+  "DesktopScreenshotCaption7": "หน้าจอหรี่ลงเพื่อเตือนให้พัก ทุก 20, 30 หรือ 60 นาที ตรงตามนาฬิกา"
 }

@@ -28,9 +28,11 @@
   "SearchTerm5": "20-20-20",
   "SearchTerm6": "不完全眨眼",
   "SearchTerm7": "眼睛疲劳",
-  "DesktopScreenshotCaption1": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
-  "DesktopScreenshotCaption2": "屏幕变暗提醒你休息，每 20、30 或 60 分钟一次，对齐时钟。",
-  "DesktopScreenshotCaption3": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
-  "DesktopScreenshotCaption4": "屏幕变暗提醒你休息，每 20、30 或 60 分钟一次，对齐时钟。",
-  "DesktopScreenshotCaption5": "简洁的设置面板"
+  "DesktopScreenshotCaption1": "",
+  "DesktopScreenshotCaption2": "",
+  "DesktopScreenshotCaption3": "",
+  "DesktopScreenshotCaption4": "",
+  "DesktopScreenshotCaption5": "",
+  "DesktopScreenshotCaption6": "一个圆点按你设置的间隔提醒你眨眼，样式也可以自己调整。",
+  "DesktopScreenshotCaption7": "屏幕变暗提醒你休息，每 20、30 或 60 分钟一次，对齐时钟。"
 }
