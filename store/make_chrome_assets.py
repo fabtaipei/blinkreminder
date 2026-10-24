@@ -23,6 +23,9 @@ sys.path.insert(0, REPO)
 
 from PIL import Image, ImageDraw, ImageFont          # noqa: E402
 
+sys.path.insert(0, os.path.join(REPO, "chrome"))
+from build_extension import chrome_icon, ICON_LIME, ICON_INK  # noqa: E402
+
 W, H = 1280, 800
 TEXT = (242, 243, 245)
 MUTED = (150, 156, 166)
@@ -261,7 +264,9 @@ def design_lime(w, h):
     d = ImageDraw.Draw(c)
     pad = int(w * 0.077)
     icon_px = int(h * 0.19)
-    icon = blink_reminder.app_icon(icon_px).convert("RGBA")
+    # Reversed out: the mark is a lime disc, and this tile is lime.
+    icon = chrome_icon(icon_px, fill=ICON_INK, edge=ICON_INK,
+                       ink=ICON_LIME).convert("RGBA")
     c.paste(icon, (pad, int(h * 0.12)), icon)
     d.text((pad, h * 0.37), NAME_TOP, font=font(int(h * 0.068), True),
            fill=(60, 72, 10))
@@ -323,7 +328,7 @@ for label, fn in (("lime", design_lime), ("dark", design_dark)):
 # from the icon the extension ships -- and written with its alpha kept, not
 # through save(), which flattens to RGB and would leave the ring on a black
 # square.
-_icon = blink_reminder.app_icon(128).convert("RGBA")
+_icon = chrome_icon(128).convert("RGBA")
 _icon.save(os.path.join(OUT, "icon-128.png"))
 print("  icon-128.png  %dx%d" % _icon.size)
 
