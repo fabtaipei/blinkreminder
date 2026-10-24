@@ -164,41 +164,66 @@ def align_all_trailers(rows, header, base="en-gb"):
         print("     no trailer file loses its last reference")
 
 
+SHARED_SHOTS = "_shared"
+
+
 def attach_local_shots(rows, header, shots_dir):
     """Point screenshot cells at local files, for Import folder.
 
     Partner Center wants the path to start with the import folder's own
     name, so it is built from that folder rather than from the path given
     here -- getting it wrong is an import that silently uploads nothing.
+
+    A `_shared` folder supplies any slot a language does not have of its
+    own, and every language points at that one copy. Without it the five
+    drawn slides went in thirty-one times each: two hundred and twenty-three
+    image uploads where seventy-one would do, which is an import that starts
+    and then simply stops.
     """
     shots_dir = os.path.abspath(shots_dir)
     root = os.path.basename(os.path.dirname(shots_dir))   # the import folder
     leaf = os.path.basename(shots_dir)
+
+    def slots_in(folder, code):
+        found = {}
+        for name in sorted(os.listdir(folder)):
+            slot, ext = os.path.splitext(name)
+            if slot.isdigit() and ext.lower() == ".png":
+                found[slot] = "%s/%s/%s/%s" % (root, leaf, code, name)
+        return found
+
+    shared = {}
+    shared_dir = os.path.join(shots_dir, SHARED_SHOTS)
+    if os.path.isdir(shared_dir):
+        shared = slots_in(shared_dir, SHARED_SHOTS)
+        print("  --shots: %d shared slot(s), uploaded once and used by all"
+              % len(shared))
+
     by = {r[0]: r for r in rows[1:] if r}
-    total = 0
+    total, own = 0, 0
     for code in sorted(os.listdir(shots_dir)):
         folder = os.path.join(shots_dir, code)
-        if not os.path.isdir(folder):
+        if not os.path.isdir(folder) or code == SHARED_SHOTS:
             continue
         col = column(header, code)
         if col is None:
             print("  --shots: no %r column; skipped" % code)
             continue
-        n = 0
-        for name in sorted(os.listdir(folder)):
-            slot, ext = os.path.splitext(name)
-            if not slot.isdigit() or ext.lower() != ".png":
-                continue
+        mine = slots_in(folder, code)
+        own += len(mine)
+        use = dict(shared)
+        use.update(mine)                  # a language's own file always wins
+        for slot, path in sorted(use.items(), key=lambda kv: int(kv[0])):
             row = by.get("DesktopScreenshot%s" % slot)
             if row is None:
                 continue
             while len(row) <= col:
                 row.append("")
-            row[col] = "%s/%s/%s/%s" % (root, leaf, code, name)
-            n += 1
-        total += n
-    print("  --shots: %d screenshot cell(s) pointed at files under %s/%s"
-          % (total, root, leaf))
+            row[col] = path
+            total += 1
+    print("  --shots: %d screenshot cell(s) across the languages, from %d "
+          "shared file(s) and %d of their own"
+          % (total, len(shared), own))
 
 
 # Which logo file fills which row. The Override pair only takes effect when
