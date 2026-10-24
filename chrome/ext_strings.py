@@ -18,8 +18,8 @@ KEYS = [
     'Blink reminders need access to web pages.',
 ]
 
-ENGLISH_DESCRIPTION = ('Two reminders on two clocks: a gentle cue to blink, and a 20-20-20 '
-                       'eye break. For dry eyes and screen strain. Free, no tracking.')
+ENGLISH_DESCRIPTION = ('Two reminders in one app: a gentle cue to blink, and a 20-20-20 '
+                       'eye break. For dry eyes and digital eye strain. No tracking.')
 
 STRINGS = {
     "zh-Hant": [
