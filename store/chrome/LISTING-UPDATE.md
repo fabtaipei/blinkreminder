@@ -116,6 +116,13 @@ proposition.
 > sound until it fits the way you work. Snooze it any time from the toolbar,
 > or with a keyboard shortcut.
 >
+> YOU WILL STILL NOTICE IT
+>
+> Quiet is not the same as missable. The cue is soft, and a gentle chime
+> carries it when you are looking somewhere else — which, if the reminder is
+> doing its job, is most of the time. Pick from four sounds, set the volume
+> as low as one percent, or switch it off entirely.
+>
 > TWO REMINDERS, BECAUSE THEY ARE TWO DIFFERENT THINGS
 >
 > • Blink cue — on any interval from 30 seconds
@@ -153,6 +160,11 @@ proposition.
   sore eyes has two questions: will it help, and will it drive me mad. The
   old description answered only the first, while owning the best answer in
   the category to the second.
+- **"You will still notice it" answers the objection that follows.** A
+  reminder quiet enough to ignore is no reminder at all, and the sound is
+  what resolves it: the cue works precisely when you are looking elsewhere.
+  Sound had been buried as a spec — "timing and sound" — rather than made
+  as a point.
 - **"Blink fully" is gone.** The app reminds people to blink; it cannot
   train a complete one. "Blink more often" is what it can keep.
 - **The search terms are in**, inside sentences: dry eyes, digital eye
