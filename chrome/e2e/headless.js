@@ -426,6 +426,58 @@ try {
   await evaluate(sw2S, "__blinkReminder.checkAsks()");
   check("... once, not every minute", (await evaluate(sw2S, "__notified.length")) === 2);
 
+  // The notification is now the second channel, not the only one. Nobody
+  // clicked it, so the ask is still owed -- and the toolbar says so.
+  check("... and is still owed, because nobody answered it",
+        (await evaluate(sw2S, "chrome.storage.local.get('pendingAsk')"))?.pendingAsk?.day === 12);
+  check("... and was NOT spent on a notification that may never be seen",
+        (await evaluate(sw2S, "chrome.storage.local.get('asks')"))?.asks?.shown?.length === 0);
+  // One slot, in order: a fault beats a question, a question beats a clock.
+  // This copy has no page access, so the fault still owns the badge.
+  const mark = await evaluate(sw2S, "chrome.action.getBadgeText({})");
+  check("... with the fault still outranking it on the toolbar",
+        mark === "!", JSON.stringify(mark));
+
+  // Where nothing is wrong, the ask takes the slot -- over the countdown,
+  // which is information rather than something to act on.
+  await evaluate(swS,
+    "chrome.storage.local.set({ pendingAsk: { day: 12, kind: 'donate' } })");
+  await evaluate(swS, "__blinkReminder.schedule()");
+  await sleep(500);
+  const lit = await evaluate(swS,
+    "chrome.action.getBadgeText({}).then(t =>" +
+    " chrome.action.getBadgeBackgroundColor({}).then(c => ({ t, c })))");
+  check("where nothing is wrong, the ask takes the toolbar slot",
+        lit?.t === "●", JSON.stringify(lit?.t));
+  check("... in the blink's own colour",
+        Array.isArray(lit?.c) && lit.c[0] === 189 && lit.c[1] === 228,
+        JSON.stringify(lit?.c));
+  await evaluate(swS, "chrome.storage.local.remove('pendingAsk')");
+
+  // It waits in the pop-up until answered, which is the channel the system
+  // cannot switch off.
+  {
+    const tab = await openTab(`chrome-extension://${id2}/popup.html`);
+    await sleep(600);
+    const card = await evaluate(tab.sessionId, `({
+      shown: !document.getElementById('ask').hidden,
+      title: document.getElementById('ask-title').textContent,
+      act: document.getElementById('ask-do').textContent,
+      out: !!document.getElementById('ask-never') })`);
+    check("the ask waits in the pop-up", card?.shown === true, card?.title);
+    check("... offering the thing it asks for", card?.act === "Buy me a coffee", card?.act);
+    check("... and a way to stop being asked", card?.out === true);
+    await shot(tab.sessionId, "ask-donate-popup");
+    await evaluate(tab.sessionId, "document.getElementById('ask-later').click(), 1");
+    await sleep(600);
+    check("... answering it spends the day",
+          (await evaluate(sw2S, "chrome.storage.local.get('asks')"))?.asks?.shown?.includes(12));
+    check("... and clears it from the pop-up and the toolbar",
+          !(await evaluate(sw2S, "chrome.storage.local.get('pendingAsk')"))?.pendingAsk
+          && (await evaluate(sw2S, "chrome.action.getBadgeText({})")) !== "●");
+    await send("Target.closeTarget", { targetId: tab.targetId });
+  }
+
   for (const [file, w, h] of [["options.html#welcome", 1100, 900], ["popup.html", 320, 460]]) {
     const tab = await openTab(`chrome-extension://${id2}/${file}`);
     await send("Emulation.setDeviceMetricsOverride",
