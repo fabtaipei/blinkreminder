@@ -107,6 +107,12 @@ proposition.
 > tear film is not renewed. If your doctor has told you to blink more often,
 > this helps you do it consistently.
 >
+> IT STAYS OUT OF YOUR WAY
+>
+> The cue ignores clicks and keystrokes. It never takes focus, so it cannot
+> swallow what you are typing, and it fades by itself. There is no pop-up,
+> no window, and nothing to dismiss.
+>
 > HOW YOU WILL STILL NOTICE THE CUE
 >
 > Quiet is not the same as missable. The cue is soft, and a gentle chime
@@ -125,10 +131,13 @@ proposition.
 > • Eye break, on the hour and half hour, or every 15, 20 or 60 minutes
 > • The 20-20-20 rule: every 20 minutes, look about 20 feet away for 20
 >   seconds
-> • Four cue styles: a dot, a word, a gentle dim, or a small corner dot
-> • Size, colour, strength, timing and sound, adjustable for each reminder
-> • Snooze from the toolbar, or with a keyboard shortcut
-> • 29 languages, following your browser
+>
+> MAKE IT FIT THE WAY YOU WORK
+>
+> Four styles: a dot, a word, a gentle dim, or a small corner dot. Size,
+> colour, strength, timing and sound are set separately for each reminder,
+> so the blink cue can be barely there while the break is harder to ignore.
+> Snooze from the toolbar, or with a keyboard shortcut.
 >
 > NOTHING LEAVES YOUR DEVICE
 >
@@ -140,6 +149,11 @@ proposition.
 > timers and notifications. Permission to draw on a page is requested only
 > when you switch that on, and you can give it one site at a time. The code
 > is public.
+>
+> IN YOUR OWN LANGUAGE
+>
+> All of it, not just the menus: 29 languages, chosen from your browser or
+> set by hand.
 >
 > ALSO ON WINDOWS
 >
