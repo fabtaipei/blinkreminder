@@ -107,37 +107,35 @@ proposition.
 > tear film is not renewed. If your doctor has told you to blink more often,
 > this helps you do it consistently.
 >
-> IT STAYS OUT OF YOUR WAY
+> BLINK CUE – VISUAL AND SOUND
+>
+> A soft cue appears over the page every 30 seconds, or at any interval you
+> choose. A gentle chime carries it when you are looking somewhere else.
+> That is most of the time, and it is the point: a blink reminder has to
+> reach you while your eyes are on something else. Four sounds, volume from
+> 1%, or silence.
+>
+> BREAK CUE – EVERY 20 MINUTES
+>
+> The page tints gently and asks you to look away. It follows the clock
+> rather than the moment you started, so the break lands on the hour and
+> half hour, or every 15, 20 or 60 minutes. That is the 20-20-20 rule your
+> optometrist may have mentioned: every 20 minutes, look about 20 feet away
+> for 20 seconds.
+>
+> IT WON'T INTERRUPT YOU
 >
 > The cue ignores clicks and keystrokes. It never takes focus, so it cannot
 > swallow what you are typing, and it fades by itself. There is no pop-up,
-> no window, and nothing to dismiss.
+> no window, and nothing to dismiss. Snooze it from the toolbar, or with a
+> keyboard shortcut.
 >
-> HOW YOU WILL STILL NOTICE THE CUE
->
-> Quiet is not the same as missable. The cue is soft, and a gentle chime
-> carries it when you are looking somewhere else. That is most of the time,
-> and it is the point: a blink reminder has to reach you while your eyes are
-> on something else. Pick from four sounds, set the volume as low as 1%, or
-> switch it off.
->
-> TWO REMINDERS, TWO DIFFERENT JOBS
->
-> Blinking is something you stop doing within seconds of looking at a screen.
-> Resting your focus is something to do every twenty minutes or so. The two
-> reminders run separately, each with its own timing and its own look.
->
-> • Blink cue, on any interval from 30 seconds
-> • Eye break, on the hour and half hour, or every 15, 20 or 60 minutes
-> • The 20-20-20 rule: every 20 minutes, look about 20 feet away for 20
->   seconds
->
-> MAKE IT FIT THE WAY YOU WORK
+> CUSTOMISABLE – TURN ANYTHING DOWN, OR OFF
 >
 > Four styles: a dot, a word, a gentle dim, or a small corner dot. Size,
 > colour, strength, timing and sound are set separately for each reminder,
 > so the blink cue can be barely there while the break is harder to ignore.
-> Snooze from the toolbar, or with a keyboard shortcut.
+> Anything you do not want, switch off.
 >
 > NOTHING LEAVES YOUR DEVICE
 >
@@ -150,12 +148,11 @@ proposition.
 > when you switch that on, and you can give it one site at a time. The code
 > is public.
 >
-> IN YOUR OWN LANGUAGE
+> AVAILABLE IN 29 LANGUAGES
 >
-> All of it, not just the menus: 29 languages, chosen from your browser or
-> set by hand.
+> All of it, not just the menus. Chosen from your browser, or set by hand.
 >
-> ALSO ON WINDOWS
+> WINDOWS APP AVAILABLE – THE CUE IN EVERY APP
 >
 > There is a full Windows version in the Microsoft Store. It shows the cue
 > over every application, not only in the browser.
