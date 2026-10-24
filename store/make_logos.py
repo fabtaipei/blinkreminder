@@ -35,7 +35,10 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos")
 # the Start menu tile are the same object.
 PLATE = (43, 43, 43, 255)
 NAME = app.DISPLAY_NAME
-SUB = "Blink. Then rest your eyes."
+# The product's tagline, the same one the promo tiles carry. "Blink. Then
+# rest your eyes." was an instruction; this says what it is like to have the
+# thing running, which is the question a shopper is actually asking.
+SUB = "Consistent Nudges. No Interruptions."
 
 # (filename, width, height, mark as a fraction of the short side, caption?)
 ASSETS = [
