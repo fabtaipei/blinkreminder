@@ -118,10 +118,10 @@ proposition.
 > BREAK CUE – EVERY 20 MINUTES
 >
 > The page tints gently and asks you to look away. It follows the clock
-> rather than the moment you started, so the break lands on the hour and
-> half hour, or every 15, 20 or 60 minutes. That is the 20-20-20 rule your
-> optometrist may have mentioned: every 20 minutes, look about 20 feet away
-> for 20 seconds.
+> rather than the moment you started, so breaks land at the same minutes
+> past every hour. Choose 15, 20, 30 or 60 minutes. Twenty is the 20-20-20
+> rule your optometrist may have mentioned: every 20 minutes, look about 20
+> feet away for 20 seconds.
 >
 > IT WON'T INTERRUPT YOU
 >
