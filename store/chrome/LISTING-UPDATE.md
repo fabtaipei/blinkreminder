@@ -137,6 +137,9 @@ proposition.
 > so the blink cue can be barely there while the break is harder to ignore.
 > Anything you do not want, switch off.
 >
+> Available in 29 languages, all of it and not only the menus, chosen from
+> your browser or set by hand.
+>
 > NOTHING LEAVES YOUR DEVICE
 >
 > No account. No sign-in. No ads, no analytics, no tracking. The extension
@@ -147,10 +150,6 @@ proposition.
 > timers and notifications. Permission to draw on a page is requested only
 > when you switch that on, and you can give it one site at a time. The code
 > is public.
->
-> AVAILABLE IN 29 LANGUAGES
->
-> All of it, not just the menus. Chosen from your browser, or set by hand.
 >
 > WINDOWS APP AVAILABLE – THE CUE IN EVERY APP
 >
