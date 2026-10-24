@@ -124,34 +124,45 @@ def headline(frame, word, y):
 
 # -- the two frames that need composing before the word goes on ---------------
 
-page = shot("3-corner-dot-raw.png")
-# The dot sits 20 in from the right, 14 up from the bottom and 9 across, so
-# the crop is drawn tight around it -- magnifying an inch of blank page would
-# say nothing.
-inset(page, (W - 52, H - 46, W - 4, H - 4), 8, (W - 470, H - 500))
-page.convert("RGB").save(os.path.join(OUT, "3-corner-dot-composed.png"))
+# The five numbered screenshots are superseded by the s1..s5 set and some of
+# their raw captures have been deleted since. Rebuilding them is optional
+# now, so a missing capture skips this section rather than stopping the
+# script before it reaches the tiles, which are not optional at all.
+if all(os.path.exists(os.path.join(OUT, n)) for n in
+       ("1-blink-cue-raw.png", "2-break-raw.png", "3-corner-dot-raw.png",
+        "4-settings-raw.png", "5-popup-raw.png")):
+    page = shot("3-corner-dot-raw.png")
+    # The dot sits 20 in from the right, 14 up from the bottom and 9 across, so
+    # the crop is drawn tight around it -- magnifying an inch of blank page would
+    # say nothing.
+    inset(page, (W - 52, H - 46, W - 4, H - 4), 8, (W - 470, H - 500))
+    page.convert("RGB").save(os.path.join(OUT, "3-corner-dot-composed.png"))
 
-back = shot("1-blink-cue-raw.png")
-# Dimmed, so the pop-up is what the eye lands on. Toward black, since the
-# page behind it is dark.
-back.alpha_composite(Image.new("RGBA", back.size, (0, 0, 0, 120)))
-pop = shot("5-popup-raw.png")
-at = (W - pop.width - 70, 20)
-rounded_shadow(back, (at[0], at[1], at[0] + pop.width, at[1] + pop.height), 12, 26)
-back.paste(pop, at)
-ImageDraw.Draw(back).rounded_rectangle(
-    (at[0], at[1], at[0] + pop.width - 1, at[1] + pop.height - 1), 12,
-    outline=(90, 95, 104, 255), width=1)
-back.convert("RGB").save(os.path.join(OUT, "5-popup-composed.png"))
+    back = shot("1-blink-cue-raw.png")
+    # Dimmed, so the pop-up is what the eye lands on. Toward black, since the
+    # page behind it is dark.
+    back.alpha_composite(Image.new("RGBA", back.size, (0, 0, 0, 120)))
+    pop = shot("5-popup-raw.png")
+    at = (W - pop.width - 70, 20)
+    rounded_shadow(back, (at[0], at[1], at[0] + pop.width, at[1] + pop.height), 12, 26)
+    back.paste(pop, at)
+    ImageDraw.Draw(back).rounded_rectangle(
+        (at[0], at[1], at[0] + pop.width - 1, at[1] + pop.height - 1), 12,
+        outline=(90, 95, 104, 255), width=1)
+    back.convert("RGB").save(os.path.join(OUT, "5-popup-composed.png"))
 
-# -- the five screenshots -----------------------------------------------------
+    # -- the five screenshots -----------------------------------------------------
 
-SOURCE = {"3-corner-dot": "3-corner-dot-composed.png",
-          "5-popup": "5-popup-composed.png"}
-for name, word, y in SHOTS:
-    save(headline(shot(SOURCE.get(name, name + "-raw.png")), word, y), name + ".png")
-for tmp in SOURCE.values():
-    os.remove(os.path.join(OUT, tmp))
+    SOURCE = {"3-corner-dot": "3-corner-dot-composed.png",
+              "5-popup": "5-popup-composed.png"}
+    for name, word, y in SHOTS:
+        save(headline(shot(SOURCE.get(name, name + "-raw.png")), word, y), name + ".png")
+    for tmp in SOURCE.values():
+        os.remove(os.path.join(OUT, tmp))
+else:
+    print("  numbered screenshots skipped: raw captures gone. Restore them "
+          "with chrome/e2e/store-shots.js if they are wanted again.")
+
 
 # -- the promo tiles ----------------------------------------------------------
 # These sit in a list of other extensions, at thumbnail size, next to a name
@@ -277,14 +288,36 @@ def design_lime(w, h):
     return c
 
 
-def design_dark(w, h):
-    """The cue itself, beside the name. The only dark tile in a pale list."""
+def design_dark(w, h, mark=False):
+    """The cue itself, beside the name. The only dark tile in a pale list.
+
+    `mark` puts the B inside the disc, which turns the cue into the app's
+    own icon. It costs the tile its one honest picture -- what the product
+    draws is a plain disc -- and buys a tile that matches the icon sitting
+    beside it in the list, which is what Chrome's asset guidance asks for.
+    """
     c = Image.new("RGBA", (w, h), INK + (255,))
-    r = int(h * 0.37)
-    disc(c, int(w * 0.82), h // 2, r)
-    d = ImageDraw.Draw(c)
     pad = int(w * 0.077)
-    room = int(w * 0.82) - r - int(pad * 1.5)
+    cy = h // 2
+    if mark:
+        # A plain disc may run off the edge -- that is the cue bleeding, and
+        # it looks deliberate. A disc with a letter in it is the icon, and a
+        # clipped icon with its letter off to one side is just broken. So the
+        # marked one comes inside, a little smaller, and the text takes its
+        # room from where the disc actually ended up.
+        r = int(h * 0.32)
+        cx = w - int(w * 0.045) - r
+    else:
+        r = int(h * 0.37)
+        cx = int(w * 0.82)
+    disc(c, cx, cy, r)
+    d = ImageDraw.Draw(c)
+    if mark:
+        f = fit(d, "B", True, int(r * 1.3), int(r * 1.15))
+        bb = d.textbbox((0, 0), "B", font=f)
+        d.text((cx - (bb[2] - bb[0]) / 2 - bb[0],
+                cy - (bb[3] - bb[1]) / 2 - bb[1]), "B", font=f, fill=INK)
+    room = cx - r - int(pad * 1.5)
     # Wide enough for one line on the marquee, two on the square tile.
     lines = [NAME] if w / float(h) > 2 else NAME.split(" ")
     fn = fit(d, max(lines, key=len), True, int(h * 0.17), room)
@@ -317,6 +350,12 @@ def design_dark(w, h):
         d.text((pad, ny + i * nlh), line, font=fnote, fill=(202, 209, 218))
     return c
 
+
+# The dark tile again with the B in the disc, written beside the plain one
+# rather than over it, so the two can be compared before either goes up.
+for size in ((440, 280), (1400, 560)):
+    save(design_dark(size[0], size[1], mark=True),
+         "tile-dark-mark-%dx%d.png" % size)
 
 for label, fn in (("lime", design_lime), ("dark", design_dark)):
     save(fn(440, 280), "tile-%s-440x280.png" % label)
