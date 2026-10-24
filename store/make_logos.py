@@ -96,7 +96,10 @@ def build(name, w, h, mark_frac, caption):
     if caption == "full":
         # Mark sits above centre; the name and a line of subtitle below it.
         title_px = int(min(w, h) * 0.072)
-        sub_px = int(min(w, h) * 0.038)
+        # Set against the name rather than against the canvas: at 0.038 it
+        # was half the title's size and read as small print, which a tagline
+        # is not. Two thirds keeps it clearly subordinate and still legible.
+        sub_px = int(min(w, h) * 0.050)
         gap = int(min(w, h) * 0.055)
         block = side + gap + title_px + int(sub_px * 1.9)
         top = (h - block) // 2
@@ -106,7 +109,8 @@ def build(name, w, h, mark_frac, caption):
                      (242, 243, 245, 255)) + int(sub_px * 0.9)
         centred(d, SUB, font(sub_px), w // 2, y, (160, 166, 176, 255))
     elif caption == "tagline":
-        sub_px = int(min(w, h) * 0.042)
+        # The only words on this one, so they can carry more weight.
+        sub_px = int(min(w, h) * 0.058)
         gap = int(min(w, h) * 0.068)
         block = side + gap + int(sub_px * 1.4)
         top = (h - block) // 2
@@ -145,7 +149,7 @@ def build_cover(name, w, h):
     side = int(h * 0.56)
     mark = app.app_icon(side)
     gap = int(h * 0.16)
-    title_px, sub_px = int(h * 0.125), int(h * 0.072)
+    title_px, sub_px = int(h * 0.125), int(h * 0.088)
     f_title, f_sub = font(title_px, True), font(sub_px)
 
     # Centred as ONE group, mark and words together. The first cut anchored the
