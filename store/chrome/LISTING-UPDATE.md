@@ -103,53 +103,48 @@ proposition.
 > It stays out of your way. You can read, click and type straight through it.
 >
 > Staring at a screen roughly halves how often you blink, and many of the
-> blinks that remain are incomplete. The eyelids never close 100%, so the
-> tear film is not renewed. If your doctor has told you to blink more often,
-> this helps you do it consistently.
+> blinks that remain are incomplete. If your doctor has told you to blink more
+> often, this helps you do it consistently.
 >
 > BLINK CUE – VISUAL AND SOUND
 >
 > A soft cue appears over the page every 30 seconds, or at any interval you
-> choose. A gentle chime carries it when you are looking somewhere else.
-> That is most of the time, and it is the point: a blink reminder has to
-> reach you while your eyes are on something else. Four sounds, volume from
-> 1%, or silence.
+> choose. A gentle chime carries it when you don't see the cue. A blink
+> reminder has to reach you even when your eyes are on something else. Four
+> sounds, volume from 1% to 100%, or no sound at all.
 >
 > BREAK CUE – EVERY 20 MINUTES
 >
-> The page tints gently and asks you to look away. It follows the clock
-> rather than the moment you started, so breaks land at the same minutes
-> past every hour. Choose 15, 20, 30 or 60 minutes. Twenty is the 20-20-20
-> rule your optometrist may have mentioned: every 20 minutes, look about 20
-> feet away for 20 seconds.
+> The page tints gently to remind you to look away and take a break. Choose
+> 15, 20, 30 or 60 minutes. Twenty is the 20-20-20 rule your optometrist may
+> have mentioned: every 20 minutes, look about 20 feet away for 20 seconds.
 >
 > IT WON'T INTERRUPT YOU
 >
-> The cue ignores clicks and keystrokes. It never takes focus, so it cannot
-> swallow what you are typing, and it fades by itself. There is no pop-up,
-> no window, and nothing to dismiss. Snooze it from the toolbar, or with a
-> keyboard shortcut.
+> The cue never takes focus, so it cannot swallow what you are typing, and it
+> fades by itself. There is no pop-up, no window, and nothing to dismiss.
+> Snooze it if needed.
 >
 > CUSTOMISABLE – TURN ANYTHING DOWN, OR OFF
 >
-> Four styles: a dot, a word, a gentle dim, or a small corner dot. Size,
-> colour, strength, timing and sound are set separately for each reminder,
-> so the blink cue can be barely there while the break is harder to ignore.
-> Anything you do not want, switch off.
+> Four styles: a dot, a word, a gentle dim, or a small corner dot.
 >
-> Available in 29 languages, all of it and not only the menus, chosen from
-> your browser or set by hand.
+> Size, colour, strength, timing and sound are all customisable, so the blink
+> cue can be barely there, but just enough to remind you. Anything you do not
+> want, switch off.
+>
+> Available in 29 languages.
 >
 > NOTHING LEAVES YOUR DEVICE
 >
-> No account. No sign-in. No ads, no analytics, no tracking. The extension
-> makes no network connection of any kind, so there is nowhere for anything
-> to go. Nothing on any page is ever read.
+> No account. No sign-in. No ads, no analytics, no tracking. This extension
+> makes no network connection, so there is nowhere for anything to go. Nothing
+> on any page is ever read.
 >
 > Showing the cue on web pages is opt-in. Installed, it asks for nothing but
 > timers and notifications. Permission to draw on a page is requested only
-> when you switch that on, and you can give it one site at a time. The code
-> is public.
+> when you switch that on, and you can give it one site at a time. The code is
+> public.
 >
 > WINDOWS APP AVAILABLE – THE CUE IN EVERY APP
 >
