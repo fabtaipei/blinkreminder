@@ -32,7 +32,7 @@ sys.path.insert(0, HERE)
 import blink_i18n                     # noqa: E402
 import ext_strings                    # noqa: E402
 
-DISPLAY_NAME = "Dry Eyes Blink Reminder Lite"
+DISPLAY_NAME = "Dry Eyes Blink Reminder"
 DESCRIPTION_MAX = 132                 # the Chrome Web Store's own limit
 
 # Our codes as Chrome names its locales. Urdu has no Chrome locale: it is

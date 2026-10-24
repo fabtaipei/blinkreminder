@@ -5,7 +5,7 @@
 // counting days of use honestly, and when an ask is due. The comments say
 // where a rule came from when the reason is not obvious from the code.
 
-export const DISPLAY_NAME = "Dry Eyes Blink Reminder Lite";
+export const DISPLAY_NAME = "Dry Eyes Blink Reminder";
 export const SUPPORT_URL = "https://buymeacoffee.com/kennytechy";
 // Tagged, so the Microsoft Store's own campaign report can say how many
 // Windows installs this extension sent it. The tag is only read at the
