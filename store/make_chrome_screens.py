@@ -39,13 +39,15 @@ MUTED = (104, 112, 124)
 RULE = (222, 227, 234)
 HEAD_Y, SUB_Y, BODY_Y = 74, 176, 266
 
-# The cue's own colour, and a second at the same saturation and value
-# (hue 70 -> 196, S .996, V .894) so the two can be compared without one
-# being brighter than the other. Only the slides showing the cue over a
-# white page are drawn both ways; the dark slide and the privacy list keep
-# the brand colour whatever happens.
+# The cue's own colour, and two alternatives at exactly its saturation and
+# value (S .996, V .894), so a comparison is about hue and not about one
+# being brighter than another. Cool is hue 196. Warm is hue 40, which is the
+# hue of the app's own icon -- the one colour here with a claim to belong.
+# Only the slides showing the cue over a white page are drawn more than one
+# way; the dark slide, the privacy list, the tiles and the icon stay lime.
 ACCENT = LIME
-ALT = (1, 167, 228)
+ALT_COOL = (1, 167, 228)
+ALT_WARM = (228, 152, 1)
 
 
 def slide(head, sub, bg=PAPER, ink=INK, sub_ink=MUTED):
@@ -241,7 +243,6 @@ for i, fn in enumerate((s1, s2, s3, s4, s5), start=1):
 # than replacing them. Three pale slides in a row is a lot of white, and
 # whether a second colour relieves that or just breaks the set is a thing to
 # look at rather than argue about.
-ACCENT = ALT
-for i, fn in ((2, s2), (3, s3)):
+for i, fn, ACCENT in ((2, s2, ALT_COOL), (3, s3, ALT_WARM)):
     save(fn(), "s%d-%s-alt.png" % (i, NAMES[i - 1]))
 print("\nUpload these five as the screenshots, in this order.")
