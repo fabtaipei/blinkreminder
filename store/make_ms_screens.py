@@ -87,7 +87,13 @@ def pill(d, box, text, fill=INK, ink=WHITE, size=38):
 
 
 # -- 1. what it is -----------------------------------------------------------
-def m1():
+def m1(word=False):
+    """`word` puts "Blink" inside the lime disc, in ink.
+
+    Strictly the app draws either a disc or a word, not a word inside a
+    disc, so this one is a label rather than a screenshot. It is here
+    because a bare lime circle does not say what it is for, and the slide
+    has to work on someone who has never heard of any of this."""
     c, d = slide("BLINK & BREAK REMINDERS", "One app, two kinds of rest")
     pw, ph = 800, 400
     for i, (x, title, rate) in enumerate(((M, "Blink cue", "every 30 seconds"),
@@ -96,7 +102,16 @@ def m1():
         card(d, box)
         lines(d, x + 56, BODY_Y + 64, 660, rows=6, step=50)
         if i == 0:
-            cue(c, x + 440, BODY_Y + 190, 86)
+            cx, cy, r = x + 440, BODY_Y + 190, 86
+            cue(c, cx, cy, r)
+            if word:
+                e = ImageDraw.Draw(c)
+                f = fit(e, "Blink", True, 56, int(r * 1.55))
+                bb = e.textbbox((0, 0), "Blink", font=f)
+                e.text((cx - (bb[2] - bb[0]) / 2 - bb[0],
+                        cy - (bb[3] - bb[1]) / 2 - bb[1]), "Blink",
+                       font=f, fill=INK)
+                d = e
         else:
             wash(c, box)
             e = ImageDraw.Draw(c)
@@ -248,5 +263,10 @@ for i, fn, accent in ((1, m1, LIME), (2, m2, COOL), (3, m3, WARM),
                       (4, m4, LIME), (5, m6, LIME)):
     ACCENT = accent
     save(fn(), "m%d-%s.png" % (i, NAMES[i - 1]))
-print("\nFive slides. m6 and m7 in store/ms are the real captures, and are "
-      "not rebuilt by this script.")
+
+# The first slide again with the word inside the disc, written beside the
+# plain one rather than over it, so the two can be looked at together.
+ACCENT = LIME
+save(m1(word=True), "m1-two-reminders-word.png")
+print("\nFive slides, plus m1 with the word in the disc. m6 and m7 in "
+      "store/ms are the real captures, and are not rebuilt by this script.")
