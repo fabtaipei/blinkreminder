@@ -1,7 +1,7 @@
 """Write one or more languages into a Partner Center listings .csv.
 
     py store\\fill_listing.py <exported.csv> store\\listing-zh-Hant.json ...
-        [--align-trailers] [--shots DIR] [--drop CODE]
+        [--align-trailers] [--shots DIR] [--logos DIR] [--drop CODE]
         [--only-changed <the .csv last imported>]
 
 Partner Center's "Export listing" (app overview page, Store listings section)
@@ -201,6 +201,58 @@ def attach_local_shots(rows, header, shots_dir):
           % (total, root, leaf))
 
 
+# Which logo file fills which row. The Override pair only takes effect when
+# OverrideLogosForWin10 is true, which is why that is set alongside them --
+# uploading a 150x150 and wondering why nothing changed is the usual way to
+# lose an afternoon here.
+LOGO_ROWS = (
+    ("tile-300x300.png", "StoreLogo300x300"),
+    ("tile-150x150.png", "StoreLogoOverride150x150"),
+    ("tile-71x71.png", "StoreLogoOverride71x71"),
+    ("boxart-1080x1080.png", "StoreLogo1080x1080"),
+    ("poster-720x1080.png", "StoreLogo720x1080"),
+    ("hero-1920x1080.png", "PromoImage1920x1080"),
+)
+
+
+def attach_local_logos(rows, header, logos_dir):
+    """Point the logo cells at local files, for every language at once.
+
+    A logo is not language-specific, so unlike the screenshots these are
+    written into every language column. Setting them for English alone is
+    how a listing ends up with one mark in English and the old one in the
+    other twenty-nine.
+    """
+    logos_dir = os.path.abspath(logos_dir)
+    root = os.path.basename(os.path.dirname(logos_dir))
+    leaf = os.path.basename(logos_dir)
+    by = {r[0]: r for r in rows[1:] if r}
+    langs = [i for i in range(RESERVED_COLUMNS + 1, len(header))
+             if (header[i] or "").strip()]
+    done = 0
+    for name, field in LOGO_ROWS:
+        if not os.path.exists(os.path.join(logos_dir, name)):
+            print("  --logos: %s missing; %s left alone" % (name, field))
+            continue
+        row = by.get(field)
+        if row is None:
+            print("  --logos: no %r row; skipped" % field)
+            continue
+        for i in langs:
+            while len(row) <= i:
+                row.append("")
+            row[i] = "%s/%s/%s" % (root, leaf, name)
+        done += 1
+    flag = by.get("OverrideLogosForWin10")
+    if flag is not None and done:
+        for i in langs:
+            while len(flag) <= i:
+                flag.append("")
+            flag[i] = "True"
+    print("  --logos: %d logo row(s) set across %d language column(s)"
+          % (done, len(langs)))
+
+
 def load(path):
     with io.open(path, encoding="utf-8") as fh:
         data = json.load(fh)
@@ -282,6 +334,11 @@ def main(argv):
     # Partner Center cannot undo: a trailer no listing references any more
     # is deleted from the account. The run reports each such file by name.
     align_trailers = "--align-trailers" in argv
+    logos = None
+    if "--logos" in argv:
+        i = argv.index("--logos")
+        logos = argv[i + 1]
+        del argv[i:i + 2]
     argv = [a for a in argv if a != "--align-trailers"]
     # --shots DIR: point each language's DesktopScreenshotN at a local file
     # under DIR/<code>/N.png, for a folder import. These OVERRIDE inherited
@@ -446,6 +503,8 @@ def main(argv):
         align_all_trailers(rows, header)
     if shots:
         attach_local_shots(rows, header, shots)
+    if logos:
+        attach_local_logos(rows, header, logos)
 
     for code in drops:
         i = column(header, code)

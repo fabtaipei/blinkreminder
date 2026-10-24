@@ -128,7 +128,8 @@ dragged in by hand.
 
        py store/fill_listing.py store/listing-import/<exported>.csv ^
           store/listing-en-GB.json store/listing-en-US.json ^
-          --shots store/listing-import/shots --drop bn
+          --shots store/listing-import/shots ^
+          --logos store/listing-import/logos --drop bn
 
 4. Zip `store/listing-import/` and use **Import listings > Import .csv**.
 
@@ -167,13 +168,17 @@ Slots run to 30, so a real screenshot can go in at 7 without displacing any
 of these. `store/screenshots/` still holds the genuine captures, and a
 listing made only of posters has nothing real in it.
 
-### Logo rows in the .csv
+### Logos
 
-`StoreLogo300x300`, `StoreLogoOverride150x150`, `StoreLogoOverride71x71`,
-`StoreLogo1080x1080`, `StoreLogo720x1080`, `PromoImage1920x1080`. All are
-lime now. `fill_listing.py --shots` only fills the screenshot rows, so these
-cells are set by hand in Partner Center or added as keys to the listing
-JSONs, pointed at `listing-import/logos/<file>`.
+`--logos` fills all six rows -- StoreLogo300x300, the 150x150 and 71x71
+overrides, StoreLogo1080x1080, StoreLogo720x1080 and PromoImage1920x1080 --
+and sets OverrideLogosForWin10 to True, without which the override pair is
+accepted and then ignored.
+
+They are written into **every** language column, not just English. A logo is
+not language-specific, and setting it for English alone is how a listing
+ends up showing the new mark in English and the old one in twenty-nine
+other places.
 
 **The 1920x1080 promo image is not decoration.** Without it a trailer
 uploads but will not play.
