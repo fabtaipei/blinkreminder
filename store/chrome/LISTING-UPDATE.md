@@ -100,71 +100,68 @@ Only the first two lines show before "Read more". They carry the whole
 proposition.
 
 > Two reminders in one app: a gentle cue to blink, and a 20-20-20 eye break.
-> It stays out of your way — you can read, click and type straight through it.
+> It stays out of your way. You can read, click and type straight through it.
 >
 > Staring at a screen roughly halves how often you blink, and many of the
-> blinks that remain are incomplete: the eyelids never quite close, so the
-> tear film is not renewed. That is where dry, gritty, tired eyes come from
-> by mid-afternoon. If your eye doctor has told you to blink more often, this
-> helps you do it without having to think about it.
+> blinks that remain are incomplete. The eyelids never close 100%, so the
+> tear film is not renewed. If your doctor has told you to blink more often,
+> this helps you do it consistently.
 >
-> IT WILL NOT INTERRUPT YOU
->
-> The cue ignores clicks and keystrokes, never takes focus, and fades by
-> itself. There is no pop-up, no window, nothing to dismiss. Choose a dot, a
-> word, or a gentle dim, then set its size, colour, strength, timing and
-> sound until it fits the way you work. Snooze it any time from the toolbar,
-> or with a keyboard shortcut.
->
-> YOU WILL STILL NOTICE IT
+> HOW YOU WILL STILL NOTICE THE CUE
 >
 > Quiet is not the same as missable. The cue is soft, and a gentle chime
-> carries it when you are looking somewhere else — which, if the reminder is
-> doing its job, is most of the time. Pick from four sounds, set the volume
-> as low as one percent, or switch it off entirely.
+> carries it when you are looking somewhere else. That is most of the time,
+> and it is the point: a blink reminder has to reach you while your eyes are
+> on something else. Pick from four sounds, set the volume as low as 1%, or
+> switch it off.
 >
-> TWO REMINDERS, BECAUSE THEY ARE TWO DIFFERENT THINGS
+> TWO REMINDERS, TWO DIFFERENT JOBS
 >
-> • Blink cue — on any interval from 30 seconds
-> • Eye break — on the hour and half hour, or every 15, 20 or 60 minutes,
->   following the 20-20-20 rule: every 20 minutes, look about 20 feet away
->   for 20 seconds
-> • Four cue styles, each fully adjustable, with four sounds or none
-> • A small corner dot while it is running, which you can switch off
-> • Keyboard shortcuts for snooze and for a reminder on demand
+> Blinking is something you stop doing within seconds of looking at a screen.
+> Resting your focus is something to do every twenty minutes or so. The two
+> reminders run separately, each with its own timing and its own look.
+>
+> • Blink cue, on any interval from 30 seconds
+> • Eye break, on the hour and half hour, or every 15, 20 or 60 minutes
+> • The 20-20-20 rule: every 20 minutes, look about 20 feet away for 20
+>   seconds
+> • Four cue styles: a dot, a word, a gentle dim, or a small corner dot
+> • Size, colour, strength, timing and sound, adjustable for each reminder
+> • Snooze from the toolbar, or with a keyboard shortcut
 > • 29 languages, following your browser
 >
 > NOTHING LEAVES YOUR DEVICE
 >
-> No account, no sign-in, no ads, no analytics. The extension makes no
-> network connection of any kind. Nothing on any page is ever read. Showing
-> the cue on pages is opt-in: installed, it asks for nothing but timers and
-> notifications, and permission to draw on a page is requested only when you
-> switch that on. The code is public.
+> No account. No sign-in. No ads, no analytics, no tracking. The extension
+> makes no network connection of any kind, so there is nowhere for anything
+> to go. Nothing on any page is ever read.
+>
+> Showing the cue on web pages is opt-in. Installed, it asks for nothing but
+> timers and notifications. Permission to draw on a page is requested only
+> when you switch that on, and you can give it one site at a time. The code
+> is public.
 >
 > ALSO ON WINDOWS
 >
-> There is a full Windows version in the Microsoft Store that shows the cue
+> There is a full Windows version in the Microsoft Store. It shows the cue
 > over every application, not only in the browser.
 >
 > This is a reminder to do something you may already have been advised to do.
 > It is not a medical device and it does not diagnose or treat any condition.
-> If your eyes hurt, or stay uncomfortable, please see an eye-care
-> professional.
+> If your eyes hurt, or stay uncomfortable, see an eye-care professional.
 
 ### What changed, and why
 
 - **The first two lines** now carry the proposition. They used to open on
   physiology, which is a good hook but answers the wrong question first.
-- **"It will not interrupt you" is a heading, not a clause.** Someone with
-  sore eyes has two questions: will it help, and will it drive me mad. The
-  old description answered only the first, while owning the best answer in
-  the category to the second.
-- **"You will still notice it" answers the objection that follows.** A
+- **The promise not to interrupt is in the opening paragraph**, not under a
+  heading of its own. Someone with sore eyes has two questions: will it
+  help, and will it drive me mad. Both are answered before "Read more".
+- **"How you will still notice the cue" answers the doubt that raises.** A
   reminder quiet enough to ignore is no reminder at all, and the sound is
-  what resolves it: the cue works precisely when you are looking elsewhere.
-  Sound had been buried as a spec — "timing and sound" — rather than made
-  as a point.
+  what resolves it: the cue has to reach you precisely when your eyes are
+  somewhere else. Sound had been buried as a spec — "timing and sound" —
+  rather than made as a point.
 - **"Blink fully" is gone.** The app reminds people to blink; it cannot
   train a complete one. "Blink more often" is what it can keep.
 - **The search terms are in**, inside sentences: dry eyes, digital eye
