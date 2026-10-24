@@ -73,8 +73,10 @@ export const DEFAULTS = {
     // minute. The desktop ships this off; here it is on, at the author's
     // call, after a reviewer said the sound was what made it work for them.
     // The author's own, after living with it: a 30-second interval, a
-    // quicker fade, and a chime well below the default.
-    fontSize: 36, margin: 48, sound: true, soundName: "ding", volume: 0.2,
+    // quicker fade, and a chime well below the default. Quieter still at
+    // 15%: a cue that arrives every thirty seconds is heard all day, and
+    // what is companionable at that rate has to be very soft indeed.
+    fontSize: 36, margin: 48, sound: true, soundName: "ding", volume: 0.15,
   },
   brk: {
     style: "dim", opacity: 0.401, hold: 3000, fade: 800, blinks: 1, gap: 120,
