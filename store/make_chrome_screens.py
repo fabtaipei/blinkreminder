@@ -107,7 +107,7 @@ def pill(d, box, text, fill=INK, ink=WHITE, size=28):
 def s1():
     """The only slide that has to work on someone who has never heard of
     this: both reminders, drawn the way they really look, side by side."""
-    c, d = slide("Blink reminders and 20-20-20 eye breaks",
+    c, d = slide("BLINK & BREAK REMINDERS",
                  "One app, two kinds of rest")
     ph = 318
     for i, (x, title, rate) in enumerate(((80, "Blink cue", "every 30 seconds"),
@@ -134,7 +134,7 @@ def s1():
 def s2():
     """The cue at a size you can actually see, which is the thing five
     full-page screenshots never managed."""
-    c, d = slide("You will see it, and hear it",
+    c, d = slide("SEE IT & HEAR IT",
                  "So a quiet reminder is not a missed one")
     card(d, (80, BODY_Y, 720, BODY_Y + 400))
     lines(d, 124, BODY_Y + 46, 540, rows=6, step=54)
@@ -155,7 +155,7 @@ def s2():
 def s3():
     """The buyer's real fear is being nagged. Four real renders answer it
     better than a sentence does."""
-    c, d = slide("Four styles. All adjustable.", "Make it fit the way you work")
+    c, d = slide("FOUR STYLES. ALL ADJUSTABLE.", "Make it fit the way you work")
     cw, ch = 540, 186
     for name, gx, gy in (("A dot", 0, 0), ("A word", 1, 0),
                          ("Dim screen", 0, 1), ("Corner dot", 1, 1)):
@@ -186,7 +186,11 @@ def s3():
 def s4():
     """The rule people have already heard from their optometrist. It is also
     what they type into the search box."""
-    c, d = slide("Every 20 minutes, look 20 feet away, for 20 seconds",
+    # The headline does not repeat the numbers: they are already two hundred
+    # pixels tall underneath it, with minutes, feet and seconds named. Set in
+    # capitals at full width the long version fell to 38px, half of every
+    # other headline in the set, on the slide that should shout loudest.
+    c, d = slide("THE 20-20-20 RULE",
                  "The rule eye-care professionals recommend",
                  bg=INK, ink=WHITE, sub_ink=(170, 178, 190))
     f = font(210, True)
@@ -210,7 +214,7 @@ def s4():
 def s5():
     """Every line here is checkable in the source, which is the only reason
     to make a claim this flat."""
-    c, d = slide("Nothing leaves your device",
+    c, d = slide("NOTHING LEAVES YOUR DEVICE",
                  "No way to send anything anywhere, and nothing to send")
     y = BODY_Y
     for text in ("No account, no sign-in",
