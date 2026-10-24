@@ -27,13 +27,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 import blink_reminder as app
 
-# The mark lives in the extension's build script because that is where it was
-# first drawn. It is not Chrome's any more: a lime disc with a B is now the
-# product's mark on both stores, so the Store art is built from the same
-# function the extension's icons are, and cannot drift from them.
-sys.path.insert(0, os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "chrome"))
-from build_extension import chrome_icon            # noqa: E402
+# The mark comes from the app itself, the only place it is drawn.
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos")
 
@@ -94,7 +88,7 @@ def build(name, w, h, mark_frac, caption):
 
     side = int(min(w, h) * mark_frac)
     # app_icon supersamples internally, so asking for the final size is right.
-    mark = chrome_icon(side)
+    mark = app.app_icon(side)
 
     if caption == "full":
         # Mark sits above centre; the name and a line of subtitle below it.
@@ -146,7 +140,7 @@ def build_cover(name, w, h):
     d = ImageDraw.Draw(img)
 
     side = int(h * 0.56)
-    mark = chrome_icon(side)
+    mark = app.app_icon(side)
     gap = int(h * 0.16)
     title_px, sub_px = int(h * 0.125), int(h * 0.072)
     f_title, f_sub = font(title_px, True), font(sub_px)
@@ -179,7 +173,7 @@ def build_avatar(name, size):
     circle, not to the square, or the rim clips on every side."""
     img = Image.new("RGBA", (size, size), PLATE)
     side = int(size * 0.66)
-    mark = chrome_icon(side)
+    mark = app.app_icon(side)
     img.alpha_composite(mark, ((size - side) // 2, (size - side) // 2))
     path = os.path.join(OUT, name)
     img.convert("RGB").save(path, "PNG")

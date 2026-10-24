@@ -141,53 +141,14 @@ def write_locales():
     print("_locales: %d" % written)
 
 
-ICON_LIME = (189, 228, 1, 255)
-ICON_EDGE = (138, 166, 1, 255)      # a darker lime, to hold the edge on white
-ICON_INK = (22, 24, 27, 255)
+# The mark is drawn once, in blink_reminder.app_icon, and this is the same
+# mark: the extension and the desktop app are one product wearing one face.
+# It lived here for a fortnight while only the extension used it.
+import blink_reminder                                  # noqa: E402
 
-
-def chrome_icon(size, k=4, fill=None, edge=None, ink=None):
-    """The extension's own mark: a solid lime disc with a B in it.
-
-    The desktop's amber rings are not used here. Two reasons, and the second
-    is the one that mattered. The cue this app draws is lime, and so are both
-    promo tiles and every screenshot, which left the icon as the only asset
-    not wearing the product's colour. And the amber outer ring is dark brown,
-    which disappears into a dark browser toolbar -- the mark lost its outline
-    exactly where most people would see it.
-
-    Lime cannot simply be swapped in, because it is a high-luminance colour:
-    roughly 1.5:1 against white and 11:1 against a dark toolbar. A lime
-    STROKE therefore cannot work on both. A lime DISC can, because it reads
-    as mass and edge rather than as a line, so the mark is a filled disc
-    carrying a dark letter, with a darker-lime rim to hold its edge on a
-    light toolbar. The letter is ink at 12:1; white on lime would have been
-    1.5:1 and unreadable.
-
-    Drawn at 4x and downscaled, as the desktop's is: at 16px a shape landing
-    on half a pixel comes back as a smear.
-    """
-    from PIL import Image, ImageDraw, ImageFont
-    # Reversed out -- an ink disc with a lime B -- for the one place the mark
-    # sits on lime already, where a lime disc would simply disappear.
-    fill = fill or ICON_LIME
-    edge = edge or ICON_EDGE
-    ink = ink or ICON_INK
-    box = size * k
-    img = Image.new("RGBA", (box, box), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    pad = box * 0.03
-    d.ellipse((pad, pad, box - pad, box - pad), fill=fill,
-              outline=edge, width=max(1, int(box * 0.035)))
-    path = os.path.join(os.environ.get("WINDIR", r"C:\Windows"),
-                        "Fonts", "segoeuib.ttf")
-    f = (ImageFont.truetype(path, int(box * 0.62)) if os.path.exists(path)
-         else ImageFont.load_default(int(box * 0.62)))
-    # Centred on the letter's own ink, not on its line box, or it rides high.
-    bb = d.textbbox((0, 0), "B", font=f)
-    d.text(((box - (bb[2] - bb[0])) / 2 - bb[0],
-            (box - (bb[3] - bb[1])) / 2 - bb[1]), "B", font=f, fill=ink)
-    return img.resize((size, size), Image.LANCZOS)
+chrome_icon = blink_reminder.app_icon
+ICON_LIME = blink_reminder.ICON_LIME
+ICON_INK = blink_reminder.ICON_INK
 
 
 def write_icons():

@@ -602,53 +602,70 @@ APP_USER_MODEL_ID = "Kenny.BlinkReminder"
 # So the mark carries its own contrast. The warm core is what you see on a dark
 # ground (6.64:1); the deep rim is what you see on a light one (6.60:1).
 # Whichever way round the background goes, one of the two stands out.
-ICON_AMBER = (216, 154, 32, 255)    # core and inner ring -- reads on dark
-ICON_RIM = (122, 78, 0, 255)        # outer ring -- reads on light
+# The cue's own colour. The mark was amber rings until October 2026, which
+# matched nothing else the product put in front of anyone -- not the cue it
+# draws every half minute, not the store art, not the browser extension.
+ICON_LIME = (189, 228, 1, 255)      # the disc
+ICON_EDGE = (138, 166, 1, 255)      # a darker lime, to hold the edge on white
+ICON_INK = (22, 24, 27, 255)        # the letter
 
 
-def app_icon(size, mono=False):
-    """The app's mark at any size, as a PIL image.
+def _icon_face(px):
+    """Segoe UI Bold if this machine has it, the default face if not."""
+    from PIL import ImageFont
+    path = os.path.join(os.environ.get("WINDIR", r"C:\Windows"),
+                        "Fonts", "segoeuib.ttf")
+    if os.path.exists(path):
+        return ImageFont.truetype(path, px)
+    return ImageFont.load_default(px)
 
-    mono draws it in flat white for the notification area, where the icon sits
-    on a taskbar of unknown colour and a two-tone glyph turns to mud.
 
-    Drawn at 4x and downscaled: at 16px a directly drawn ring lands on half a
-    pixel and comes back as a grey smear.
+def app_icon(size, mono=False, fill=None, edge=None, ink=None):
+    """The app's mark at any size, as a PIL image: a lime disc with a B.
+
+    Lime cannot be a STROKE. It is a high-luminance colour -- roughly 1.5:1
+    against white and 11:1 against a dark taskbar -- so a lime ring is
+    invisible on one background or the other, and the amber rings this
+    replaced solved that by not being lime at all. A lime DISC works on
+    both, because it reads as mass and edge rather than as a line. Hence a
+    filled disc, a darker-lime rim to hold its edge on a light taskbar, and
+    a letter in ink at 12:1. White on lime would be 1.5:1 and unreadable.
+
+    mono draws it in flat white for the notification area, where the icon
+    sits on a taskbar of unknown colour and a two-tone glyph turns to mud:
+    a white disc with the letter cut out of it, so the mark survives whole
+    in a single tone.
+
+    Drawn at 4x and downscaled: at 16px a shape landing on half a pixel
+    comes back as a smear. One drawing at every size -- a disc and a letter
+    are simple enough to shrink, which three concentric rings were not.
     """
-    from PIL import Image, ImageDraw
+    from PIL import Image, ImageChops, ImageDraw
 
     k = 4
     box = size * k
     img = Image.new("RGBA", (box, box), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    u = box / 256.0
-    core = (255, 255, 255, 255) if mono else ICON_AMBER
-    halo = (255, 255, 255, 150) if mono else ICON_RIM
+    pad = box * 0.03
+    # Reversed out -- an ink disc with a lime letter -- for the one place
+    # the mark sits on lime already, where a lime disc would disappear.
+    fill = fill or ((255, 255, 255, 255) if mono else ICON_LIME)
+    edge = edge or ((255, 255, 255, 255) if mono else ICON_EDGE)
+    ink = ink or ICON_INK
+    d.ellipse((pad, pad, box - pad, box - pad), fill=fill, outline=edge,
+              width=max(1, int(box * 0.035)))
 
-    def ring(radius, width, colour):
-        d.ellipse((128 * u - radius * u, 128 * u - radius * u,
-                   128 * u + radius * u, 128 * u + radius * u),
-                  outline=colour, width=max(1, int(round(width * u))))
-
-    if size >= 32:
-        d.ellipse((104 * u, 104 * u, 152 * u, 152 * u), fill=core)
-        ring(46, 14, core)
-        ring(76, 10, halo)
+    face = _icon_face(int(box * 0.62))
+    bb = d.textbbox((0, 0), "B", font=face)
+    # Centred on the letter's own ink, not its line box, or it rides high.
+    at = ((box - (bb[2] - bb[0])) / 2 - bb[0],
+          (box - (bb[3] - bb[1])) / 2 - bb[1])
+    if mono:
+        hole = Image.new("L", (box, box), 255)
+        ImageDraw.Draw(hole).text(at, "B", font=face, fill=0)
+        img.putalpha(ImageChops.multiply(img.getchannel("A"), hole))
     else:
-        # Below 32px there is room for two features, not three. Drawn bolder
-        # rather than shrunk: thin strokes turn to grey mush at this size,
-        # which is how a 16px icon ends up a smudge in the taskbar. A 16px
-        # icon is a different drawing, not a smaller one.
-        #
-        # But it keeps BOTH tones, and that is the point: the tray is the one
-        # place the icon definitely sits on a background the app did not pick.
-        # An amber dot inside a deep ring reads on a dark taskbar (the dot) and
-        # on a light one (the ring). Drawing this ring in the core colour, as
-        # an earlier version did, made the whole mark vanish on a light
-        # taskbar at exactly the size the user looks at most.
-        d.ellipse((128 * u - 58 * u, 128 * u - 58 * u,
-                   128 * u + 58 * u, 128 * u + 58 * u), fill=core)
-        ring(100, 30, halo)
+        d.text(at, "B", font=face, fill=ink)
     return img.resize((size, size), Image.LANCZOS)
 
 
