@@ -111,7 +111,7 @@ proposition.
 > A soft cue appears over the page every 30 seconds, or at any interval you
 > choose. A gentle chime carries it when you don't see the cue. A blink
 > reminder has to reach you even when your eyes are on something else. Four
-> sounds, volume from 1% to 100%, or no sound at all.
+> sounds, volume from 0% to 100%.
 >
 > BREAK CUE – EVERY 20 MINUTES
 >

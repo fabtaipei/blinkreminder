@@ -39,6 +39,14 @@ MUTED = (104, 112, 124)
 RULE = (222, 227, 234)
 HEAD_Y, SUB_Y, BODY_Y = 74, 176, 266
 
+# The cue's own colour, and a second at the same saturation and value
+# (hue 70 -> 196, S .996, V .894) so the two can be compared without one
+# being brighter than the other. Only the slides showing the cue over a
+# white page are drawn both ways; the dark slide and the privacy list keep
+# the brand colour whatever happens.
+ACCENT = LIME
+ALT = (1, 167, 228)
+
 
 def slide(head, sub, bg=PAPER, ink=INK, sub_ink=MUTED):
     """A blank slide with its headline already set. Every slide puts the
@@ -68,8 +76,8 @@ def cue(c, cx, cy, r, alpha=190, glow=0):
     if glow:
         for i in range(glow, 0, -1):
             g.ellipse((cx - r - i * 4, cy - r - i * 4, cx + r + i * 4, cy + r + i * 4),
-                      fill=LIME + (int(6 * (1 - i / float(glow)) ** 2),))
-    g.ellipse((cx - r, cy - r, cx + r, cy + r), fill=LIME + (alpha,))
+                      fill=ACCENT + (int(6 * (1 - i / float(glow)) ** 2),))
+    g.ellipse((cx - r, cy - r, cx + r, cy + r), fill=ACCENT + (alpha,))
     c.alpha_composite(layer)
 
 
@@ -77,7 +85,7 @@ def wash(c, box, radius=14, alpha=102):
     """The break, as it is really drawn: the same lime over the whole page
     at four-tenths, not a dark panel. Nothing in the app ever goes dark."""
     layer = Image.new("RGBA", c.size, (0, 0, 0, 0))
-    ImageDraw.Draw(layer).rounded_rectangle(box, radius, fill=LIME + (alpha,))
+    ImageDraw.Draw(layer).rounded_rectangle(box, radius, fill=ACCENT + (alpha,))
     c.alpha_composite(layer)
 
 
@@ -132,7 +140,8 @@ def s2():
     d = ImageDraw.Draw(c)
     for i, r in enumerate((146, 196, 246)):
         d.arc((400 - r, BODY_Y + 200 - r, 400 + r, BODY_Y + 200 + r),
-              -50, 50, fill=(151, 180, 44), width=max(3, 8 - i * 2))
+              -50, 50, fill=tuple(int(v * 0.79) for v in ACCENT),
+              width=max(3, 8 - i * 2))
     label(d, 790, BODY_Y + 86, "Seen", 56)
     label(d, 790, BODY_Y + 150, "Soft, and gone\nin a second.", 34, False, MUTED)
     label(d, 790, BODY_Y + 250, "Heard", 56)
@@ -160,7 +169,7 @@ def s3():
             layer = Image.new("RGBA", c.size, (0, 0, 0, 0))
             ImageDraw.Draw(layer).text(
                 (mx - d.textlength("Blink", font=f) / 2, my - 38), "Blink",
-                font=f, fill=LIME + (230,))
+                font=f, fill=ACCENT + (230,))
             c.alpha_composite(layer)
         elif name == "Dim screen":
             wash(c, box)
@@ -227,4 +236,12 @@ def save(img, name):
 NAMES = ("two-reminders", "seen-and-heard", "four-styles", "20-20-20", "private")
 for i, fn in enumerate((s1, s2, s3, s4, s5), start=1):
     save(fn(), "s%d-%s.png" % (i, NAMES[i - 1]))
+
+# The same two slides in the cooler accent, kept beside the originals rather
+# than replacing them. Three pale slides in a row is a lot of white, and
+# whether a second colour relieves that or just breaks the set is a thing to
+# look at rather than argue about.
+ACCENT = ALT
+for i, fn in ((2, s2), (3, s3)):
+    save(fn(), "s%d-%s-alt.png" % (i, NAMES[i - 1]))
 print("\nUpload these five as the screenshots, in this order.")
