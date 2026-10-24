@@ -135,7 +135,14 @@ dragged in by hand.
    languages keep their own description -- it is unchanged in their file --
    but their captions have been renumbered and have to be written.
 
-4. Zip `store/listing-import/` and use **Import listings > Import .csv**.
+4. On the app overview page: **Import listings > Import folder**, browse to
+   `store/listing-import/`, then **Select folder**.
+
+There is no zip. "Import .csv" is the other button, for a .csv carrying no
+new images; it cannot upload these. And the folder must contain exactly one
+.csv -- Microsoft: "Make sure there is only one .csv file in your folder,
+along with any assets you're uploading." The export and the untrimmed fill
+are kept in `store/listings/` for that reason.
 
 `--drop bn` removes Bengali from the import, so its live listing is left
 exactly as it is rather than overwritten. It does not unpublish Bengali; to
