@@ -152,21 +152,38 @@ language than an English poster would be.
 
 ### Screenshots, in order
 
-| # | File | Argument |
+Seven for English. Five drawn, then two photographs of the running app, so
+the set does not end on a poster.
+
+| # | Source | Argument |
 |---|---|---|
 | 1 | `m1-two-reminders.png` | what it is |
 | 2 | `m2-seen-and-heard.png` | it works |
 | 3 | `m3-four-styles.png` | it will not annoy you |
 | 4 | `m4-20-20-20.png` | the rule, and the search term |
-| 5 | `m5-every-screen.png` | **the one the browser cannot make** |
-| 6 | `m6-private.png` | trust, including the camera and the flash limit |
+| 5 | `m5-private.png` | trust: the camera, the flash limit |
+| 6 | `m6-Blink reminder EN.png` | the blink cue, really running |
+| 7 | `m7-Break reminder EN.png` | the break, really running |
 
-Accents follow the Chrome picks: lime, cool, warm, lime, lime, lime. Rebuild
-with `py store/make_ms_screens.py`.
+The two captures came out of a layered export at 1922x1080 with real
+transparency in them. They are flattened on black -- the wallpaper is dark,
+so nothing fringes -- and centre-cropped to 1920x1080, which is what the
+other five are. A Store that scales every image into the same box should
+not be handed two different shapes.
 
-Slots run to 30, so a real screenshot can go in at 7 without displacing any
-of these. `store/screenshots/` still holds the genuine captures, and a
-listing made only of posters has nothing real in it.
+Rebuild the five with `py store/make_ms_screens.py`. It does not touch m6
+and m7: they are not drawn, and a script that overwrote them would be a trap.
+
+The every-screen slide was cut. Its argument -- the cue on every monitor,
+correctly sized on each -- is still the strongest thing the desktop app can
+say that the extension cannot, and it survives in the description under ON
+EVERY SCREEN. The code to draw it is kept, unused, in case it wants a slide
+again.
+
+The other 29 languages keep their own two screenshots, which are captures of
+the real app in that language. The .pdf files beside the .png ones in
+`store/ms` are the layered sources, for localising these two into more
+languages later.
 
 ### Logos
 

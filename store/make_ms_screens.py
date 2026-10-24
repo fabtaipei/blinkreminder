@@ -237,10 +237,16 @@ def save(img, name):
     print("  %s  %dx%d" % (name, img.width, img.height))
 
 
-NAMES = ("two-reminders", "seen-and-heard", "four-styles", "20-20-20",
-         "every-screen", "private")
+# Five drawn slides, then two real captures that are not made here: m6 and
+# m7 in store/ms are photographs of the running app, kept from the previous
+# listing. The every-screen slide m5 drew is not in the set -- the author
+# cut it, and the argument it made survives in the description. Its code is
+# left below unused rather than deleted, because the claim is still the best
+# one the desktop has over the extension and may want a slide again.
+NAMES = ("two-reminders", "seen-and-heard", "four-styles", "20-20-20", "private")
 for i, fn, accent in ((1, m1, LIME), (2, m2, COOL), (3, m3, WARM),
-                      (4, m4, LIME), (5, m5, LIME), (6, m6, LIME)):
+                      (4, m4, LIME), (5, m6, LIME)):
     ACCENT = accent
     save(fn(), "m%d-%s.png" % (i, NAMES[i - 1]))
-print("\nUpload all six as desktop screenshots, in this order.")
+print("\nFive slides. m6 and m7 in store/ms are the real captures, and are "
+      "not rebuilt by this script.")
