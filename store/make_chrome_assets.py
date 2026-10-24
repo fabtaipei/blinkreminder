@@ -267,7 +267,8 @@ def design_lime(w, h):
            fill=(60, 72, 10))
     d.text((pad - 2, h * 0.455),
            NAME, font=fit(d, NAME, True, int(h * 0.18), w - pad * 2), fill=INK)
-    d.text((pad, h * 0.70), NOTE, font=font(int(h * 0.068)), fill=(52, 62, 12))
+    d.text((pad, h * 0.70), NOTE,
+           font=fit(d, NOTE, True, int(h * 0.068), w - pad * 2), fill=(44, 53, 8))
     return c
 
 
@@ -289,10 +290,10 @@ def design_dark(w, h):
     # own comma instead -- two readable lines beat one nobody can see.
     want = int(h * 0.061)
     notes = [NOTE]
-    if d.textlength(NOTE, font=font(want)) > room:
+    if d.textlength(NOTE, font=font(want, True)) > room:
         head, tail = NOTE.split(", ", 1)
         notes = [head + ",", tail]
-    fnote = fit(d, max(notes, key=len), False, want, room)
+    fnote = fit(d, max(notes, key=len), True, want, room)
     eh = fe.getbbox(NAME_TOP)[3] - fe.getbbox(NAME_TOP)[1]
     nlh = int((fnote.getbbox("Hg")[3] - fnote.getbbox("Hg")[1]) * 1.34)
     nh = nlh * len(notes) - int(nlh * 0.34)
@@ -308,7 +309,7 @@ def design_dark(w, h):
         d.text((pad - 2, y + i * lh), line, font=fn, fill=(255, 255, 255))
     ny = y + lh * len(lines) + gap2
     for i, line in enumerate(notes):
-        d.text((pad, ny + i * nlh), line, font=fnote, fill=(176, 184, 194))
+        d.text((pad, ny + i * nlh), line, font=fnote, fill=(202, 209, 218))
     return c
 
 
