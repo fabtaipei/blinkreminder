@@ -151,16 +151,25 @@ async function updateBadge(cfg, live) {
   // install starts, and until now it looked exactly like running -- the one
   // case where a quiet app and a broken one are indistinguishable.
   const blind = live && !(await anyPageAccess());
+  const waiting = live && !blind
+    && !!(await chrome.storage.local.get("pendingAsk")).pendingAsk;
+  // One slot, three claimants, in this order: a fault beats a question, and
+  // a question beats a clock. The countdown is information; the other two
+  // are things to act on.
   let text = "";
   if (blind) {
     text = "!";
+  } else if (waiting) {
+    text = "●";
   } else if (live && cfg.breakEnabled && cfg.showCountdown) {
     text = String(Math.ceil(msToNextBreak(cfg.breakMinutes) / 60000));
   }
   await chrome.action.setBadgeText({ text });
   await chrome.action.setBadgeBackgroundColor(
-    { color: blind ? "#9A4A21" : "#3A3A3A" });
-  await chrome.action.setBadgeTextColor({ color: "#F2F3F5" });
+    { color: blind ? "#9A4A21" : waiting ? "#BDE401" : "#3A3A3A" });
+  // Lime is far too bright to carry white.
+  await chrome.action.setBadgeTextColor(
+    { color: waiting ? "#16181B" : "#F2F3F5" });
   // The tooltip says in words what the icon says in shape -- for a screen
   // reader, and for anyone who cannot tell two 16px icons apart.
   setLanguage(cfg.language);
@@ -377,19 +386,27 @@ async function checkAsks(cfg) {
   if (countDay(st, today)) await chrome.storage.local.set({ asks: st });
   const pick = dueAsk(st, today, (kind) => kind !== "donate" || !!SUPPORT_URL);
   if (!pick) return;
-  // Not in the first minutes after the browser starts, not while snoozed,
-  // away or fullscreen. Each leaves the ask due for the next minute.
+  // Not in the first minutes after the browser starts, and not while
+  // snoozed. Each leaves the ask due for the next minute. Being away or in
+  // fullscreen holds back only the notification, further down -- the badge
+  // is passive and can be set whenever.
   if (Date.now() - (await sessionValue("startedAt", 0)) < ASK_SETTLE_MS) return;
   if (!cfg.enabled || (await snoozedUntil())) return;
-  if ((await chrome.idle.queryState(60)) !== "active") return;
-  if (await fullscreenInFront()) return;
+  if ((await chrome.storage.local.get("pendingAsk")).pendingAsk) return;
 
   const [day, kind] = pick;
-  // Spent BEFORE it is shown, as on the desktop: a lost ask is better than
-  // one that reappears every minute because showing it failed.
-  st.shown.push(day);
-  st.last_ask = today;
-  await chrome.storage.local.set({ asks: st });
+  // Put it in the pop-up and mark the toolbar, always. This is the channel
+  // that cannot fail: a notification depends on the operating system letting
+  // Chrome show one, and when it does not -- a setting the user may not know
+  // they have -- every ask was silently burned and never seen by anyone.
+  await chrome.storage.local.set({ pendingAsk: { day, kind } });
+  await schedule();                   // the badge takes it from storage
+
+  // The notification is the SECOND channel now, for anyone who never opens
+  // the pop-up. It is not spent here: whichever channel is answered spends
+  // it, so one the system swallowed still waits in the pop-up.
+  if ((await chrome.idle.queryState(60)) !== "active") return;
+  if (await fullscreenInFront()) return;
   // Literal strings, so the build can check every language has them.
   const card = kind === "donate"
     ? { title: T("Like the app?"),
@@ -404,6 +421,22 @@ async function checkAsks(cfg) {
   });
 }
 
+// One ask is answered once, whether that happened in the pop-up or on a
+// notification. Only here is the day marked spent.
+async function resolveAsk(action) {
+  const { pendingAsk } = await chrome.storage.local.get("pendingAsk");
+  if (!pendingAsk) return null;
+  const st = loadAsks((await chrome.storage.local.get("asks")).asks);
+  if (!st.shown.includes(pendingAsk.day)) st.shown.push(pendingAsk.day);
+  st.last_ask = todayIso();
+  if (action === "never") st.opted_out = true;   // every ask, reviews included
+  await chrome.storage.local.set({ asks: st });
+  await chrome.storage.local.remove("pendingAsk");
+  await chrome.notifications.clear("ask-" + pendingAsk.kind);
+  await schedule();                   // clears the mark on the toolbar
+  return pendingAsk;
+}
+
 chrome.notifications.onButtonClicked.addListener(async (id, index) => {
   if (id === "access") {
     await chrome.runtime.openOptionsPage();
@@ -411,12 +444,12 @@ chrome.notifications.onButtonClicked.addListener(async (id, index) => {
     await endQuestion();
     if (index === 0) await chrome.tabs.create({ url: "options.html#question" });
   } else if (id === "ask-donate" && index === 0) {
+    await resolveAsk("done");
     await chrome.tabs.create({ url: SUPPORT_URL });
   } else if (id === "ask-donate" && index === 1) {
-    const st = loadAsks((await chrome.storage.local.get("asks")).asks);
-    st.opted_out = true;            // every ask, reviews included
-    await chrome.storage.local.set({ asks: st });
+    await resolveAsk("never");
   } else if (id === "ask-review" && index === 0) {
+    await resolveAsk("done");
     await chrome.tabs.create({ url: reviewUrl(chrome.runtime.id, navigator.userAgent) });
   }
   await chrome.notifications.clear(id);
@@ -480,6 +513,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
       { snoozeUntil: Date.now() + SNOOZE_MINUTES * 60000 }),
     resume: () => chrome.storage.local.remove("snoozeUntil"),
     chime: () => chime(msg.volume, msg.name),
+    "ask-resolve": () => resolveAsk(msg.action),
   };
   const job = jobs[msg.type];
   if (!job) return false;

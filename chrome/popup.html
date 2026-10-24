@@ -11,6 +11,18 @@
     <span>Dry Eyes Blink Reminder Lite</span>
   </header>
 
+  <!-- The waiting ask, if there is one. It sits above everything because it
+       is the one thing here that is asking rather than telling. -->
+  <section id="ask" class="callout ask" hidden>
+    <strong id="ask-title"></strong>
+    <p id="ask-message" class="muted"></p>
+    <button id="ask-do" class="primary"></button>
+    <div class="ask-links">
+      <a id="ask-later" data-t="Got it"></a>
+      <a id="ask-never" data-t="Don’t ask again"></a>
+    </div>
+  </section>
+
   <label class="row switch">
     <span data-t="Reminders on"></span>
     <input type="checkbox" id="enabled" role="switch">

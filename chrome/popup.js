@@ -34,11 +34,36 @@ async function save(cfg) {
   await chrome.storage.local.set({ cfg });
 }
 
+// The donation and review asks. They used to go out only as a notification,
+// which the operating system may refuse to show -- and when it did, the ask
+// was spent anyway and nobody ever saw it. Now it waits here until it is
+// answered, and the toolbar carries a mark while it does.
+async function renderAsk() {
+  const { pendingAsk } = await chrome.storage.local.get("pendingAsk");
+  $("ask").hidden = !pendingAsk;
+  if (!pendingAsk) return;
+  const donate = pendingAsk.kind === "donate";
+  // Literal strings, so the build can check every language has them.
+  $("ask-title").textContent =
+    donate ? T("Like the app?") : T("Finding it useful?");
+  $("ask-message").textContent = donate
+    ? T("If this independent app works well for you, would you consider a small donation? Thank you!")
+    : T("A short review helps others with tired eyes find it. Thank you!");
+  $("ask-do").textContent = donate ? T("Buy me a coffee") : T("Rate this app");
+}
+
+async function answer(action) {
+  const { pendingAsk } = await chrome.storage.local.get("pendingAsk");
+  await chrome.runtime.sendMessage({ type: "ask-resolve", action });
+  return pendingAsk;
+}
+
 async function render() {
   const { cfg, snoozed } = await load();
   setLanguage(cfg.language);
   localize();
 
+  await renderAsk();
   $("enabled").checked = cfg.enabled;
   $("interval").replaceChildren(...intervalControl(cfg, async (seconds) => {
     await save({ ...cfg, blinkInterval: seconds });
@@ -79,6 +104,20 @@ $("grant").addEventListener("click", async () => {
   // Chrome may close the pop-up to show its own prompt; the grant still
   // lands, and the next opening shows it.
   await chrome.permissions.request(PAGE_ORIGINS);
+  state = await render();
+});
+$("ask-do").addEventListener("click", async () => {
+  const ask = await answer("done");
+  chrome.tabs.create({ url: ask && ask.kind === "donate" ? SUPPORT_URL
+    : reviewUrl(chrome.runtime.id, navigator.userAgent) });
+  window.close();
+});
+$("ask-later").addEventListener("click", async () => {
+  await answer("later");
+  state = await render();
+});
+$("ask-never").addEventListener("click", async () => {
+  await answer("never");
   state = await render();
 });
 $("settings").addEventListener("click", () => chrome.runtime.openOptionsPage());
