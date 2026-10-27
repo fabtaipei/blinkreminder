@@ -126,9 +126,12 @@ BUDGETS = [
     # -- the panel's header and footer ---------------------------------
     ("A gentle nudge on every screen.", "t2", 440, "header, left of nothing"),
     ("Start with Windows", "t4", SW.STARTUP_SWITCH_W - SWITCH, "switch row"),
-    ("Startup: managed by Windows", "t4",
+    # The same slot as the switch above, in the build where Windows owns the
+    # decision. Its subject is deliberately the switch's own wording, so a
+    # translation that fits the switch has room here for ": ON" as well.
+    ("Starting with Windows: ON", "t4",
      SW.STARTUP_BUTTON_W - BTN_PAD, "wide Secondary button"),
-    ("Startup: turned off in Task Manager", "t4",
+    ("Starting with Windows: OFF", "t4",
      SW.STARTUP_BUTTON_W - BTN_PAD, "wide Secondary button"),
     ("Buy me a coffee", "t4b",
      SW.WIN_W - 20 - (20 + SW.STARTUP_BUTTON_W) - 20, "link, right of the switch"),

@@ -25,7 +25,7 @@ NAME = "Dry Eyes Blink Reminder Lite"
 # DisplayName is matched against that reservation character for character --
 # copy it exactly, trailing punctuation and all, rather than retyping it.
 DISPLAY = "Dry Eyes Blink Reminder Lite"
-VERSION = (1, 4, 2, 0)
+VERSION = (1, 4, 4, 0)
 ICON = os.path.join(HERE, "build", "app.ico")
 VERSION_FILE = os.path.join(HERE, "build", "version.txt")
 ENTRY = os.path.join(HERE, "blink_reminder.py")
@@ -52,12 +52,18 @@ EXCLUDES = (
     # nothing but its own PNGs; it has never opened an AVIF file.
     "PIL.AvifImagePlugin",
 
-    # FreeType text rendering, 1.07MB. Every string the app draws goes through
-    # a Tk canvas, not Pillow. Excluding PIL.ImageFont itself would break the
-    # build -- ImageDraw imports it at module level -- but the C extension
-    # underneath is only imported under TYPE_CHECKING and lazily inside the
-    # text functions, so dropping it leaves shape drawing untouched.
-    "PIL._imagingft",
+    # NOT PIL._imagingft, however tempting its 1.07MB looks. It WAS excluded,
+    # on the reasoning that every string the app draws goes through a Tk canvas
+    # rather than Pillow. That was true the day it was written and false the
+    # day the mark became a letter: app_icon draws a "B" through ImageDraw.text,
+    # which imports the C extension underneath ImageFont, and build_tray calls
+    # app_icon with nothing above it to catch an ImportError. So 1.4.2.0 went
+    # to the Store and died on launch, on every machine, with "cannot import
+    # name '_imagingft' from 'PIL'" -- found by a user, not by us.
+    #
+    # The lesson is not "remember the icon draws text". It is that an exclusion
+    # is a claim about code that keeps changing, so verify_excludes now re-asks
+    # the question on every build rather than trusting this comment.
 
     # OpenSSL, 2.19MB across libcrypto-3.dll and libssl-3.dll, pulled in as a
     # binary dependency of these two extensions. The app opens no sockets and
@@ -142,11 +148,28 @@ def read_build_info():
         return {}
 
 
+def excludes_fingerprint():
+    """SHA-256 of EXCLUDES, because what a build LEAVES OUT is shippable state.
+
+    source_fingerprint deliberately ignores build.py, on the reasoning that how
+    the exe is packaged does not change what the app does. 1.4.2.0 is the
+    counterexample: the only thing wrong with it was one name in this list, and
+    the app did not start on any machine.
+
+    It matters most where no build runs at all. build_msix.py --no-build packs
+    the existing folder and asks freshness() to vouch for it -- so without this,
+    an exclusion could change and yesterday's folder would still read "fresh",
+    which is precisely how a broken package reaches a store.
+    """
+    return hashlib.sha256(repr(tuple(EXCLUDES)).encode("utf-8")).hexdigest()
+
+
 def record_build(kind, fingerprint):
     """Remember what source went into an artifact, so --check can compare."""
     info = read_build_info()
     info[kind] = {
         "source_sha256": fingerprint,
+        "excludes_sha256": excludes_fingerprint(),
         "built_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "path": ARTIFACTS.get(kind, ""),
     }
@@ -158,6 +181,7 @@ def record_build(kind, fingerprint):
 def freshness():
     """(kind, state, detail) for every artifact. state is fresh/stale/missing."""
     now = source_fingerprint()
+    drops = excludes_fingerprint()
     info = read_build_info()
     rows = []
     for kind, path in ARTIFACTS.items():
@@ -175,6 +199,12 @@ def freshness():
                          "built %s from source %s"
                          % (rec.get("built_at", "?"),
                             str(rec.get("source_sha256"))[:12])))
+        elif rec.get("excludes_sha256") != drops:
+            # Same source, different EXCLUDES: the app is unchanged but what
+            # was packaged around it is not, which is the 1.4.2.0 failure.
+            rows.append((kind, "stale",
+                         "built %s with a different EXCLUDES"
+                         % rec.get("built_at", "?")))
         else:
             rows.append((kind, "fresh", "built " + rec.get("built_at", "?")))
     return rows
@@ -261,6 +291,78 @@ def make_version_file():
     return VERSION_FILE
 
 
+# Run in a subprocess with the exclusions made absent. A string rather than a
+# file because this repo deliberately stays down to its source files, and in
+# the subprocess rather than in here because build.py has already imported the
+# app -- by then Pillow is loaded and the question cannot be asked.
+EXCLUDE_SMOKE = r"""
+import sys
+
+
+# A meta_path finder that RAISES rather than one that returns None: a module
+# PyInstaller left out is not found anywhere, and the ImportError Pillow turns
+# that into is the error the user actually saw.
+class Absent:
+
+    def __init__(self, names):
+        self.names = set(names)
+
+    def find_spec(self, name, path=None, target=None):
+        if name in self.names:
+            parent, _, leaf = name.rpartition(".")
+            raise ImportError("cannot import name %r from %r"
+                              % (leaf, parent or name))
+        return None
+
+
+sys.path.insert(0, sys.argv[1])
+sys.meta_path.insert(0, Absent(sys.argv[2:]))
+
+import blink_reminder
+
+# Every size make_icon bakes into the .ico, the 64px build_tray asks for, and
+# the mono variant -- which takes a different path through the text drawing.
+for n in (256, 128, 64, 48, 32, 16):
+    blink_reminder.app_icon(n)
+blink_reminder.app_icon(64, mono=True)
+"""
+
+
+def verify_excludes():
+    """Prove the exclusions are unreachable, before PyInstaller acts on them.
+
+    EXCLUDES is a list of claims about what this app never touches, and every
+    one of them was true when it was written. The app is what changes. When
+    app_icon started drawing a letter, "Pillow never renders text here" quietly
+    became false, and nothing in the build had any way to notice: the exe built
+    clean, the tests passed, and the dev machine has the whole of Pillow
+    installed, so the only place the app could fail was a user's machine.
+
+    So this draws the icon with the exclusions actually absent -- the one thing
+    the dev environment cannot tell you by itself. It is the cheapest honest
+    answer available: a second of subprocess against a build that ships broken.
+    """
+    print("checking %d exclusions against the app's own imports..."
+          % len(EXCLUDES))
+    result = subprocess.run(
+        [sys.executable, "-c", EXCLUDE_SMOKE, HERE] + list(EXCLUDES),
+        cwd=HERE, capture_output=True, text=True)
+    if result.returncode != 0:
+        # The traceback verbatim, then what it means. A user's launch failure
+        # and this build failure are the same event; the only difference worth
+        # printing is that one of them is still fixable.
+        sys.exit("\n".join((
+            "",
+            result.stderr.strip(),
+            "the app needs something EXCLUDES drops.",
+            "  The traceback above is what every user would get on launch:"
+            " this ran",
+            "  with those modules missing, which is what the package is.",
+            "  Fix: take the module it names out of EXCLUDES in build.py.",
+        )))
+    print("  all clear: the icon draws without them")
+
+
 def build(onefile=True):
     """Build the app. onefile=False gives a folder, which is what MSIX wants.
 
@@ -274,6 +376,7 @@ def build(onefile=True):
     # the hash recorded afterwards are the same hash even if the source is
     # edited mid-build.
     refuse_if_running(onefile)
+    verify_excludes()
     fingerprint = source_fingerprint()
     make_icon()
     make_version_file()

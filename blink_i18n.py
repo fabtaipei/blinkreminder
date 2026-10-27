@@ -166,8 +166,8 @@ STRINGS = {
         # -- the settings panel, and the strip along its bottom ----------
         "A gentle nudge on every screen.": "在每個螢幕上輕輕提醒你。",
         "Start with Windows": "開機時啟動",
-        "Startup: managed by Windows": "啟動：由 Windows 管理",
-        "Startup: turned off in Task Manager": "啟動：已在工作管理員關閉",
+        "Starting with Windows: ON": "開機時啟動：開",
+        "Starting with Windows: OFF": "開機時啟動：關",
         "Preview blink": "預覽眨眼",
         "Preview break": "預覽休息",
         "Cancel": "取消",
@@ -286,8 +286,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "在每个屏幕上轻轻提醒你。",
         "Start with Windows": "开机时启动",
-        "Startup: managed by Windows": "启动：由 Windows 管理",
-        "Startup: turned off in Task Manager": "启动：已在任务管理器关闭",
+        "Starting with Windows: ON": "开机时启动：开",
+        "Starting with Windows: OFF": "开机时启动：关",
         "Preview blink": "预览眨眼",
         "Preview break": "预览休息",
         "Cancel": "取消",
@@ -398,9 +398,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "Un rappel discret sur chaque écran.",
         "Start with Windows": "Démarrer avec Windows",
-        "Startup: managed by Windows": "Démarrage : géré par Windows",
-        "Startup: turned off in Task Manager":
-            "Démarrage : désactivé (Gestionnaire)",
+        "Starting with Windows: ON": "Démarrer avec Windows : ACTIVÉ",
+        "Starting with Windows: OFF": "Démarrer avec Windows : DÉSACTIVÉ",
         "Preview blink": "Aperçu clignement",
         "Preview break": "Aperçu pause",
         "Cancel": "Annuler",
@@ -507,9 +506,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "Un aviso discreto en cada pantalla.",
         "Start with Windows": "Iniciar con Windows",
-        "Startup: managed by Windows": "Inicio: gestionado por Windows",
-        "Startup: turned off in Task Manager":
-            "Inicio: desactivado (Administrador)",
+        "Starting with Windows: ON": "Iniciar con Windows: ACTIVADO",
+        "Starting with Windows: OFF": "Iniciar con Windows: DESACTIVADO",
         "Preview blink": "Probar parpadeo",
         "Preview break": "Probar descanso",
         "Cancel": "Cancelar",
@@ -617,8 +615,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Ein sanfter Hinweis auf jedem Bildschirm.",
         "Start with Windows": "Mit Windows starten",
-        "Startup: managed by Windows": "Autostart: von Windows verwaltet",
-        "Startup: turned off in Task Manager": "Autostart: im Task-Manager aus",
+        "Starting with Windows: ON": "Mit Windows starten: EIN",
+        "Starting with Windows: OFF": "Mit Windows starten: AUS",
         "Preview blink": "Blinzeln testen",
         "Preview break": "Pause testen",
         "Cancel": "Abbrechen",
@@ -727,8 +725,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Un promemoria discreto su ogni schermo.",
         "Start with Windows": "Avvia con Windows",
-        "Startup: managed by Windows": "Avvio: gestito da Windows",
-        "Startup: turned off in Task Manager": "Avvio: disattivato (Gestione)",
+        "Starting with Windows: ON": "Avvia con Windows: ATTIVO",
+        "Starting with Windows: OFF": "Avvia con Windows: DISATTIVO",
         "Preview blink": "Prova palpebre",
         "Preview break": "Prova pausa",
         "Cancel": "Annulla",
@@ -836,9 +834,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "Um lembrete discreto em cada tela.",
         "Start with Windows": "Iniciar com o Windows",
-        "Startup: managed by Windows": "Inicialização: pelo Windows",
-        "Startup: turned off in Task Manager":
-            "Inicialização: desativada (Gerenciador)",
+        "Starting with Windows: ON": "Iniciar com o Windows: ATIVADO",
+        "Starting with Windows: OFF": "Iniciar com o Windows: DESATIVADO",
         "Preview blink": "Testar piscada",
         "Preview break": "Testar pausa",
         "Cancel": "Cancelar",
@@ -945,8 +942,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "すべての画面にそっとお知らせします。",
         "Start with Windows": "Windows 起動時に開始",
-        "Startup: managed by Windows": "起動：Windows が管理",
-        "Startup: turned off in Task Manager": "起動：タスクマネージャーで無効",
+        "Starting with Windows: ON": "Windows 起動時に開始：オン",
+        "Starting with Windows: OFF": "Windows 起動時に開始：オフ",
         "Preview blink": "まばたきを試す",
         "Preview break": "休憩を試す",
         "Cancel": "キャンセル",
@@ -1052,8 +1049,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "모든 화면에 조용히 알려 줍니다.",
         "Start with Windows": "Windows 시작 시 실행",
-        "Startup: managed by Windows": "시작: Windows가 관리",
-        "Startup: turned off in Task Manager": "시작: 작업 관리자에서 해제됨",
+        "Starting with Windows: ON": "Windows 시작 시 실행: 켜짐",
+        "Starting with Windows: OFF": "Windows 시작 시 실행: 꺼짐",
         "Preview blink": "깜박임 미리보기",
         "Preview break": "휴식 미리보기",
         "Cancel": "취소",
@@ -1158,8 +1155,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "हर स्क्रीन पर एक हल्का संकेत।",
         "Start with Windows": "Windows के साथ शुरू",
-        "Startup: managed by Windows": "शुरुआत: Windows द्वारा",
-        "Startup: turned off in Task Manager": "शुरुआत: टास्क मैनेजर में बंद",
+        "Starting with Windows: ON": "Windows के साथ शुरू: चालू",
+        "Starting with Windows: OFF": "Windows के साथ शुरू: बंद",
         "Preview blink": "पलक देखें",
         "Preview break": "विराम देखें",
         "Cancel": "रद्द करें",
@@ -1264,8 +1261,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "প্রতিটি পর্দায় নরম একটি ইঙ্গিত।",
         "Start with Windows": "Windows চালু হলে শুরু",
-        "Startup: managed by Windows": "শুরু: Windows পরিচালিত",
-        "Startup: turned off in Task Manager": "শুরু: টাস্ক ম্যানেজারে বন্ধ",
+        "Starting with Windows: ON": "Windows চালু হলে শুরু: চালু",
+        "Starting with Windows: OFF": "Windows চালু হলে শুরু: বন্ধ",
         "Preview blink": "পলক দেখুন",
         "Preview break": "বিরতি দেখুন",
         "Cancel": "বাতিল",
@@ -1374,8 +1371,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "تنبيه لطيف على كل شاشة.",
         "Start with Windows": "التشغيل مع Windows",
-        "Startup: managed by Windows": "بدء التشغيل: يديره Windows",
-        "Startup: turned off in Task Manager": "بدء التشغيل: معطّل في المدير",
+        "Starting with Windows: ON": "التشغيل مع Windows: تشغيل",
+        "Starting with Windows: OFF": "التشغيل مع Windows: إيقاف",
         "Preview blink": "معاينة الرمش",
         "Preview break": "معاينة الراحة",
         "Cancel": "إلغاء",
@@ -1482,8 +1479,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "ہر اسکرین پر ایک نرم اشارہ۔",
         "Start with Windows": "Windows کے ساتھ شروع",
-        "Startup: managed by Windows": "آغاز: Windows کے تحت",
-        "Startup: turned off in Task Manager": "آغاز: ٹاسک مینیجر میں بند",
+        "Starting with Windows: ON": "Windows کے ساتھ شروع: آن",
+        "Starting with Windows: OFF": "Windows کے ساتھ شروع: آف",
         "Preview blink": "پلک دیکھیں",
         "Preview break": "وقفہ دیکھیں",
         "Cancel": "منسوخ",
@@ -1588,9 +1585,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "Pengingat lembut di setiap layar.",
         "Start with Windows": "Jalankan saat Windows mulai",
-        "Startup: managed by Windows": "Startup: dikelola Windows",
-        "Startup: turned off in Task Manager":
-            "Startup: dimatikan di Task Manager",
+        "Starting with Windows: ON": "Jalankan saat Windows mulai: AKTIF",
+        "Starting with Windows: OFF": "Jalankan saat Windows mulai: NONAKTIF",
         "Preview blink": "Coba kedip",
         "Preview break": "Coba istirahat",
         "Cancel": "Batal",
@@ -1700,9 +1696,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Delikatne przypomnienie na każdym ekranie.",
         "Start with Windows": "Uruchamiaj z Windows",
-        "Startup: managed by Windows": "Autostart: zarządza Windows",
-        "Startup: turned off in Task Manager":
-            "Autostart: wyłączony w Menedżerze",
+        "Starting with Windows: ON": "Uruchamiaj z Windows: WŁ.",
+        "Starting with Windows: OFF": "Uruchamiaj z Windows: WYŁ.",
         "Preview blink": "Podgląd mrugnięcia",
         "Preview break": "Podgląd przerwy",
         "Cancel": "Anuluj",
@@ -1808,9 +1803,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Her ekranda nazik bir hatırlatma.",
         "Start with Windows": "Windows ile başlat",
-        "Startup: managed by Windows": "Başlangıç: Windows yönetir",
-        "Startup: turned off in Task Manager":
-            "Başlangıç: Görev Yöneticisinde kapalı",
+        "Starting with Windows: ON": "Windows ile başlat: AÇIK",
+        "Starting with Windows: OFF": "Windows ile başlat: KAPALI",
         "Preview blink": "Göz kırpmayı dene",
         "Preview break": "Molayı dene",
         "Cancel": "İptal",
@@ -1916,9 +1910,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Một nhắc nhở nhẹ trên mọi màn hình.",
         "Start with Windows": "Khởi động cùng Windows",
-        "Startup: managed by Windows": "Khởi động: Windows quản lý",
-        "Startup: turned off in Task Manager":
-            "Khởi động: đã tắt trong Task Manager",
+        "Starting with Windows: ON": "Khởi động cùng Windows: BẬT",
+        "Starting with Windows: OFF": "Khởi động cùng Windows: TẮT",
         "Preview blink": "Thử chớp mắt",
         "Preview break": "Thử nghỉ",
         "Cancel": "Hủy",
@@ -2025,9 +2018,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Мягкое напоминание на каждом экране.",
         "Start with Windows": "Запускать с Windows",
-        "Startup: managed by Windows": "Автозапуск: управляет Windows",
-        "Startup: turned off in Task Manager":
-            "Автозапуск: отключён в Диспетчере",
+        "Starting with Windows: ON": "Запускать с Windows: ВКЛ.",
+        "Starting with Windows: OFF": "Запускать с Windows: ВЫКЛ.",
         "Preview blink": "Проба моргания",
         "Preview break": "Проба паузы",
         "Cancel": "Отмена",
@@ -2132,9 +2124,8 @@ STRINGS = {
 
         "A gentle nudge on every screen.": "เตือนเบา ๆ บนทุกหน้าจอ",
         "Start with Windows": "เริ่มพร้อม Windows",
-        "Startup: managed by Windows": "เริ่มต้น: Windows จัดการ",
-        "Startup: turned off in Task Manager":
-            "เริ่มต้น: ปิดใน Task Manager",
+        "Starting with Windows: ON": "เริ่มพร้อม Windows: เปิด",
+        "Starting with Windows: OFF": "เริ่มพร้อม Windows: ปิด",
         "Preview blink": "ลองกะพริบตา",
         "Preview break": "ลองพัก",
         "Cancel": "ยกเลิก",
@@ -2241,9 +2232,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "М'яке нагадування на кожному екрані.",
         "Start with Windows": "Запускати з Windows",
-        "Startup: managed by Windows": "Автозапуск: керує Windows",
-        "Startup: turned off in Task Manager":
-            "Автозапуск: вимкнено в Диспетчері",
+        "Starting with Windows: ON": "Запускати з Windows: УВІМК.",
+        "Starting with Windows: OFF": "Запускати з Windows: ВИМК.",
         "Preview blink": "Проба кліпання",
         "Preview break": "Проба паузи",
         "Cancel": "Скасувати",
@@ -2349,9 +2339,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Jemné připomenutí na každé obrazovce.",
         "Start with Windows": "Spouštět s Windows",
-        "Startup: managed by Windows": "Po spuštění: spravuje Windows",
-        "Startup: turned off in Task Manager":
-            "Po spuštění: vypnuto ve Správci",
+        "Starting with Windows: ON": "Spouštět s Windows: ZAPNUTO",
+        "Starting with Windows: OFF": "Spouštět s Windows: VYPNUTO",
         "Preview blink": "Vyzkoušet mrknutí",
         "Preview break": "Vyzkoušet přestávku",
         "Cancel": "Zrušit",
@@ -2457,9 +2446,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Un memento discret pe fiecare ecran.",
         "Start with Windows": "Pornește cu Windows",
-        "Startup: managed by Windows": "Pornire: gestionată de Windows",
-        "Startup: turned off in Task Manager":
-            "Pornire: dezactivată în Manager",
+        "Starting with Windows: ON": "Pornește cu Windows: ACTIVAT",
+        "Starting with Windows: OFF": "Pornește cu Windows: DEZACTIVAT",
         "Preview blink": "Testează clipirea",
         "Preview break": "Testează pauza",
         "Cancel": "Anulează",
@@ -2565,9 +2553,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Finom emlékeztető minden képernyőn.",
         "Start with Windows": "Indítás a Windowsszal",
-        "Startup: managed by Windows": "Indítás: a Windows kezeli",
-        "Startup: turned off in Task Manager":
-            "Indítás: kikapcsolva a Kezelőben",
+        "Starting with Windows: ON": "Indítás a Windowsszal: BE",
+        "Starting with Windows: OFF": "Indítás a Windowsszal: KI",
         "Preview blink": "Pislogás kipróbálása",
         "Preview break": "Szünet kipróbálása",
         "Cancel": "Mégse",
@@ -2673,9 +2660,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Μια διακριτική υπενθύμιση σε κάθε οθόνη.",
         "Start with Windows": "Εκκίνηση με τα Windows",
-        "Startup: managed by Windows": "Εκκίνηση: τη διαχειρίζονται τα Windows",
-        "Startup: turned off in Task Manager":
-            "Εκκίνηση: ανενεργή στη Διαχείριση",
+        "Starting with Windows: ON": "Εκκίνηση με τα Windows: ΕΝΕΡΓΟ",
+        "Starting with Windows: OFF": "Εκκίνηση με τα Windows: ΑΝΕΝΕΡΓΟ",
         "Preview blink": "Δοκιμή ματιού",
         "Preview break": "Δοκιμή παύσης",
         "Cancel": "Άκυρο",
@@ -2781,9 +2767,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "En mjuk påminnelse på varje skärm.",
         "Start with Windows": "Starta med Windows",
-        "Startup: managed by Windows": "Uppstart: hanteras av Windows",
-        "Startup: turned off in Task Manager":
-            "Uppstart: avstängd i Aktivitetshanteraren",
+        "Starting with Windows: ON": "Starta med Windows: PÅ",
+        "Starting with Windows: OFF": "Starta med Windows: AV",
         "Preview blink": "Testa blinkning",
         "Preview break": "Testa paus",
         "Cancel": "Avbryt",
@@ -2889,9 +2874,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Hillitty muistutus jokaisella näytöllä.",
         "Start with Windows": "Käynnisty Windowsin mukana",
-        "Startup: managed by Windows": "Käynnistys: Windowsin hallinnassa",
-        "Startup: turned off in Task Manager":
-            "Käynnistys: pois Tehtävienhallinnassa",
+        "Starting with Windows: ON": "Käynnisty Windowsin mukana: PÄÄLLÄ",
+        "Starting with Windows: OFF": "Käynnisty Windowsin mukana: POIS",
         "Preview blink": "Kokeile räpäytystä",
         "Preview break": "Kokeile taukoa",
         "Cancel": "Peruuta",
@@ -2997,9 +2981,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "En blid påmindelse på hver skærm.",
         "Start with Windows": "Start med Windows",
-        "Startup: managed by Windows": "Opstart: styres af Windows",
-        "Startup: turned off in Task Manager":
-            "Opstart: slået fra i Jobliste",
+        "Starting with Windows: ON": "Start med Windows: TIL",
+        "Starting with Windows: OFF": "Start med Windows: FRA",
         "Preview blink": "Prøv blink",
         "Preview break": "Prøv pause",
         "Cancel": "Annuller",
@@ -3105,9 +3088,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "En mild påminnelse på hver skjerm.",
         "Start with Windows": "Start med Windows",
-        "Startup: managed by Windows": "Oppstart: styres av Windows",
-        "Startup: turned off in Task Manager":
-            "Oppstart: slått av i Oppgavebehandling",
+        "Starting with Windows: ON": "Start med Windows: PÅ",
+        "Starting with Windows: OFF": "Start med Windows: AV",
         "Preview blink": "Prøv blunk",
         "Preview break": "Prøv pause",
         "Cancel": "Avbryt",
@@ -3213,9 +3195,8 @@ STRINGS = {
         "A gentle nudge on every screen.":
             "Een rustige herinnering op elk scherm.",
         "Start with Windows": "Starten met Windows",
-        "Startup: managed by Windows": "Opstarten: beheerd door Windows",
-        "Startup: turned off in Task Manager":
-            "Opstarten: uit in Taakbeheer",
+        "Starting with Windows: ON": "Starten met Windows: AAN",
+        "Starting with Windows: OFF": "Starten met Windows: UIT",
         "Preview blink": "Knipperen testen",
         "Preview break": "Pauze testen",
         "Cancel": "Annuleren",

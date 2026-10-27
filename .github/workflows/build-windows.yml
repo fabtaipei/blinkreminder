@@ -52,6 +52,26 @@ jobs:
       - name: Check the tutorial
         run: py test_tutorial.py
 
+      # When a reminder happens, and how fast it may pulse. The breaks land on
+      # a midnight-anchored boundary, one blink timer exists at a time, a
+      # reminder that throws still re-arms the next one, a snooze ends -- and
+      # no combination of settings can drive a repeating pulse past the
+      # photosensitivity floor, which is the one failure here that could hurt
+      # somebody rather than merely annoy them.
+      - name: Check the timers and the flash ceiling
+        run: py test_timing.py
+
+      # Who owns "start with Windows", and what the panel says about it. The
+      # states a real machine takes weeks to reach are all reachable with a
+      # stand-in winreg, including every way the read can fail -- all of which
+      # must answer ON, because the manifest declares the task enabled and the
+      # opposite default would tell a user their reminders are off while they
+      # are running. Also fails if either label stops being a real key in all
+      # 29 languages, which is how a reworded button would quietly start
+      # showing English to everybody.
+      - name: Check the startup state and its label
+        run: py test_startup.py
+
       # The Chrome extension: its rules under Node, then its strings and
       # locales regenerated and compared with what is committed -- so a
       # translation changed in blink_i18n.py cannot leave the extension
@@ -70,6 +90,20 @@ jobs:
 
       - name: Build
         run: py build.py
+
+      # The step every check above cannot be: it runs the ARTIFACT, not the
+      # source. Each test before this one runs on a machine with the whole of
+      # Pillow installed, which is the one environment where a packaging bug
+      # cannot appear -- so 1.4.2.0 passed every check here and then died on
+      # launch for every user, because its exe was missing a Pillow extension
+      # the icon had started needing.
+      #
+      # It knows nothing about Pillow or exclusions. It starts the exe with a
+      # throwaway APPDATA, waits for the app's own "start" line, and fails on
+      # a missing line or any logged ERROR. Verified against a deliberately
+      # broken build: it exits 1 and prints the ImportError.
+      - name: Smoke test the built exe
+        run: py smoke_launch.py
 
       - name: Upload exe as a build artifact
         uses: actions/upload-artifact@v4

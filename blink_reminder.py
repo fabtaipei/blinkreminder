@@ -1190,6 +1190,78 @@ def startup_blocked_by_windows():
         return False
 
 
+# Where Windows records the state of a PACKAGED app's startup task. The
+# unpackaged build's equivalent is STARTUP_APPROVED_KEY above; this is the
+# same idea one layer along, because a packaged app has no Startup shortcut
+# for that key to be about.
+PACKAGED_STARTUP_KEY = (
+    r"Software\Classes\Local Settings\Software\Microsoft\Windows"
+    r"\CurrentVersion\AppModel\SystemAppData\%s\%s")
+# StartupTaskState, as the WinRT enum numbers them.
+STARTUP_ENABLED = (2, 4)          # Enabled, EnabledByPolicy
+
+
+def packaged_startup_on():
+    """True if Windows is actually starting this packaged copy at logon.
+
+    Read rather than asked. The documented way to this answer is WinRT --
+    StartupTask.GetAsync -- which is only visible to a process carrying this
+    package's identity, and reaching it from here means activating a WinRT
+    class through COM by hand. Measured against what it buys (one label), that
+    was not worth it; the state is also sitting in the registry, and a read
+    cannot fail in a way that matters.
+
+    The cost of reading an undocumented key is that Windows may move it, which
+    is why EVERY failure here answers True. The manifest declares the task
+    Enabled="true", so a key that is missing or unreadable means nobody has
+    ever turned it off -- the same reasoning, and the same benign direction, as
+    startup_blocked_by_windows. A wrong answer then mislabels a button; the
+    opposite default would tell a user their reminders are off when they are
+    running.
+    """
+    if not PACKAGED:
+        return False
+    try:
+        import winreg
+        with winreg.OpenKey(
+                winreg.HKEY_CURRENT_USER,
+                PACKAGED_STARTUP_KEY % (PACKAGE_FAMILY, STARTUP_TASK_ID)) as k:
+            state, _kind = winreg.QueryValueEx(k, "State")
+        return int(state) in STARTUP_ENABLED
+    except (OSError, ValueError, TypeError):
+        return True
+
+
+def startup_button_text():
+    """The wide Startup button's label: what is happening, in plain words.
+
+    It used to read "Startup: managed by Windows" / "turned off in Task
+    Manager". Both told the user who owns the decision and left the only
+    question they came to the panel with -- does it actually start? -- for
+    them to work out. "Managed by" is about ownership, which nobody cares
+    about, and Task Manager is a tool most people have never opened. Worse,
+    the button opens Settings > Startup apps, so naming Task Manager sent
+    people to the wrong place.
+
+    The subject is the same phrase the SWITCH uses in the unpackaged build,
+    which buys two things: a user who has seen either build recognises the
+    setting, and every translation is that language's own already-shipping
+    wording for it plus a state word. Measured in all 29 languages before it
+    was written: the tightest, Indonesian, uses 83% of the button.
+
+    Saying where to change it as well does not fit. Every such label measured
+    18-20% headroom in English against the 29% the tightest shipping string
+    has, which German and Finnish would have eaten. The click answers "where";
+    only the label can answer "whether".
+    """
+    if PACKAGED and packaged_startup_on():
+        return T("Starting with Windows: ON")
+    # Packaged and off, or unpackaged with the entry switched off. OFF is true
+    # of both, and unlike the old wording it does not claim to know which
+    # window the user turned it off in.
+    return T("Starting with Windows: OFF")
+
+
 def launch_target():
     """What the Startup shortcut should point at, as (exe, args, workdir).
 
@@ -4546,8 +4618,29 @@ class SettingsWindow:
         self.v_lang = tk.StringVar(
             value=self._text_of(LANGUAGES, language_code()))
 
+    def refresh_startup_button(self):
+        """Re-read who owns startup, because this button sends you to change it.
+
+        Clicking it opens the Windows Startup apps page while this panel stays
+        open, so the moment the label is most likely to be wrong is the moment
+        just after the user has acted on it. Bound to <Activate> rather than
+        <FocusIn>: Activate fires when the window itself becomes active, where
+        FocusIn also fires every time a spinbox inside it takes focus.
+
+        Only ever a Button when Windows owns the decision. In the build where
+        this app owns it the control is a Checkbutton and there is nothing to
+        re-read, so a missing or wrong-typed widget is not an error.
+        """
+        button = getattr(self, "tog_startup", None)
+        try:
+            if isinstance(button, ttk.Button) and button.winfo_exists():
+                button.configure(text=startup_button_text())
+        except Exception:
+            log_error("refresh_startup_button")
+
     def open(self):
         if self.win is not None and self.win.winfo_exists():
+            self.refresh_startup_button()
             self.win.deiconify()
             self.win.lift()
             self.win.focus_force()
@@ -4578,6 +4671,9 @@ class SettingsWindow:
         self.win.protocol("WM_DELETE_WINDOW", self.cancel)
         self.win.bind("<Return>", lambda e: self.save())
         self.win.bind("<Escape>", lambda e: self.cancel())
+        # See refresh_startup_button: the user leaves this window to change
+        # the setting and comes back to it.
+        self.win.bind("<Activate>", lambda e: self.refresh_startup_button())
 
         win_w, win_h = s(self.WIN_W), s(self.win_h)
         mx, my, mw, mh = cursor_work_area()
@@ -4634,9 +4730,7 @@ class SettingsWindow:
                           else self.STARTUP_SWITCH_W)
         if PACKAGED or blocked:
             self.tog_startup = ttk.Button(
-                outer,
-                text=T("Startup: managed by Windows") if PACKAGED
-                     else T("Startup: turned off in Task Manager"),
+                outer, text=startup_button_text(),
                 style="Secondary.TButton",
                 command=lambda: open_link(STARTUP_SETTINGS_URI))
         else:
@@ -6435,5 +6529,77 @@ def main():
     app.run()
 
 
+def report_startup_failure(text):
+    """Say the app could not start, and say where the evidence is.
+
+    install_error_reporting already sends an uncaught exception to the log, so
+    1.4.2.0's ImportError was sitting in activity.log on every machine it
+    killed. What nobody had was a reason to look: the report that finally
+    reached us was a pasted dialog and "I wasn't able to resolve it". A crash
+    the user cannot act on comes back as a one-star review instead of a bug
+    report, and the fix for that is one line of text naming a file.
+
+    MessageBoxW rather than tkinter or messagebox: by the time this runs, Tk is
+    one of the things that might be broken, and a crash reporter that crashes
+    reports nothing. argtypes are declared because an undeclared 64-bit handle
+    has broken this project more than once.
+
+    Deliberately NOT translated. Every other string the user sees goes through
+    T(), but T() reads the translation table and the config that selects it --
+    both of which are in the phase this function exists to report on. A crash
+    dialog must not depend on the thing that may have crashed.
+
+    Suppressed by BLINK_NO_CRASH_DIALOG, which smoke_launch.py sets. This box
+    is MODAL: nothing launched by a script can dismiss it, so in an automated
+    run it does not report a crash, it hangs until the runner's timeout and
+    then blames the timeout. The log line is written either way, and a script
+    can read that.
+    """
+    if os.environ.get("BLINK_NO_CRASH_DIALOG"):
+        return
+    try:
+        lines = [line for line in text.strip().splitlines() if line.strip()]
+        summary = lines[-1] if lines else "Unknown error."
+        body = ("%s could not start.\n\n"
+                "%s\n\n"
+                "The full details were written to:\n%s\n\n"
+                "Sending that file is the quickest way to get this fixed."
+                % (DISPLAY_NAME, summary, LOG_PATH))
+        user32 = ctypes.windll.user32
+        user32.MessageBoxW.argtypes = (wintypes.HWND, wintypes.LPCWSTR,
+                                       wintypes.LPCWSTR, wintypes.UINT)
+        user32.MessageBoxW.restype = ctypes.c_int
+        user32.MessageBoxW(None, body, DISPLAY_NAME, 0x00000010)  # ICONERROR
+    except Exception:
+        pass
+
+
+def main_guarded():
+    """main(), with the whole of startup covered and a path for the user.
+
+    install_error_reporting covers everything from the moment the Tk root
+    exists, which is nearly all of the app -- but not the phase before it:
+    loading the config, the single-instance check, DPI awareness, and creating
+    the root itself. A failure in any of those reaches the user with no log
+    line at all, because the hook that would have written one is not installed
+    yet.
+
+    Catching here rather than relying on that hook also means the exception is
+    logged exactly once instead of twice, and that the process exits non-zero.
+    A --windowed build has no stderr, so the exit code is the only signal that
+    travels -- which is what smoke_launch.py reads to tell a crash from a
+    clean start.
+    """
+    try:
+        main()
+    except SystemExit:
+        raise
+    except BaseException:
+        text = traceback.format_exc()
+        log_error("startup", text)
+        report_startup_failure(text)
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    main()
+    main_guarded()
