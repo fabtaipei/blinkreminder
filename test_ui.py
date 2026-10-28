@@ -243,20 +243,142 @@ def stub_side_effects(tmp):
     br.LOG_PATH = os.path.join(tmp, "activity.log")
     br.ASKS_PATH = os.path.join(tmp, "asks.json")
     br.TUTORIAL_PATH = os.path.join(tmp, "tutorial.json")
+    # Only what would reach OUTSIDE this process is stubbed. The savers are
+    # left real on purpose: their paths are in tmp, writing there is the point
+    # of the round-trip check, and a stubbed save cannot prove a setting
+    # survives being written and read back.
     br.open_link = lambda *a, **k: None        # no browser, no ms-settings
     br.sync_startup = lambda *a, **k: None     # no Startup shortcut
-    br.set_startup = lambda *a, **k: False
-    br.save_config = lambda *a, **k: None
-    br.save_asks = lambda *a, **k: None
-    br.save_tutorial = lambda *a, **k: None
+    br.set_startup = lambda *a, **k: False     # nor from App.apply
     br.set_taskbar_identity = lambda *a, **k: None
 
 
-# ---------------------------------------------------- 1. the button
-def test_startup_button(tmp):
-    print("\n1. the Startup button, rendered by the real panel")
+def pump(root, seconds, until=None):
+    """Run the Tk event loop for real, because after() callbacks need one.
+
+    Returns early once `until` is true. A reminder is a chain of after()
+    callbacks, so nothing in this file happens without an event loop actually
+    turning -- update() rather than mainloop(), so the test keeps control.
+    """
+    end = time.monotonic() + seconds
+    while time.monotonic() < end:
+        root.update()
+        if until is not None and until():
+            return True
+        time.sleep(0.02)
+    return bool(until()) if until is not None else True
+
+
+def build_app(tmp):
+    """One real App, shared by every check below. Building it is the slow part."""
     stub_side_effects(tmp)
     app = br.App(dict(br.DEFAULTS))
+    app.root.update_idletasks()
+    return app
+
+
+# ------------------------------------------------ 1. a reminder fires
+def test_reminder_fires(app, tmp):
+    """The one failure that makes this product worthless, and nothing watched it.
+
+    Not fire() in isolation -- test_timing already drives that against a
+    stand-in. This is the whole chain on a real event loop: schedule() arms a
+    real after(), Tk fires it, fire() logs and reaches the overlay. A bug
+    anywhere along it means a reminder app that reminds nobody, silently, and
+    the user's first clue is noticing weeks later that their eyes hurt.
+    """
+    print("\n1. a reminder actually fires")
+    log = os.path.join(tmp, "activity.log")
+    app.cfg = dict(app.cfg, interval_seconds=br.MIN_INTERVAL,
+                   sound_enabled=False, break_enabled=False)
+    before_pulses = app.overlay.pulse_id
+    app.last_fire = time.monotonic()
+    app.schedule()
+
+    fired = pump(app.root, br.MIN_INTERVAL + 6,
+                 lambda: app.overlay.pulse_id > before_pulses)
+    check("the timer fired within %ds of being armed" % (br.MIN_INTERVAL + 6),
+          fired, True)
+    body = ""
+    if os.path.exists(log):
+        with open(log, encoding="utf-8", errors="replace") as fh:
+            body = fh.read()
+    check("... and wrote a fire line to the log", "  fire " in body, True)
+    check("... and reached the overlay", app.overlay.pulse_id > before_pulses,
+          True)
+    check("... and armed the next one, so it is not a one-off",
+          app.timer is not None or app.overlay.busy, True)
+    errs = [l for l in body.splitlines() if "  ERROR " in l]
+    check("... with nothing logged as an error", errs, [])
+
+    # Let the pulse finish, or the next check inherits a busy overlay.
+    pump(app.root, 6, lambda: not app.overlay.busy)
+    app.paused = True
+    app.schedule()
+
+
+# ----------------------------------------------- 2. the overlay draws
+def test_overlay_draws(app):
+    """Does the reminder put anything on the screen at all?
+
+    pulse() returning is not the same as a pane being drawn: the panes are
+    click-through, layered, overrideredirect windows, which is a stack of
+    ways to end up with a window that exists and shows nothing. So a pane is
+    captured and the pixels are counted.
+    """
+    print("\n2. the overlay draws something")
+    app.paused = False
+    # One long, un-faded pulse: there is no point racing a 250ms fade to the
+    # shutter. blinks=1 is exempt from the flash ceiling, so hold can be long.
+    cfg = br.blink_cfg(dict(app.cfg, style="dot", blinks=1, hold_ms=2500,
+                            fade_ms=0, gap_ms=0, sound_enabled=False,
+                            opacity=1.0))
+    app.overlay.pulse(cfg)
+    shown = pump(app.root, 8, lambda: bool(app.overlay.active))
+    check("a pane was shown", shown, True)
+    if not shown:
+        return
+    pump(app.root, 0.6)
+
+    pane = app.overlay.active[0]
+    path, size, how = capture(int(pane.win.frame(), 16),
+                              os.path.join(OUT, "overlay.png"))
+    check("the pane covers real screen area (%dx%d)" % size,
+          size[0] > 100 and size[1] > 100, True)
+    check("something was actually painted on it", path is not None, True)
+    if path:
+        from PIL import Image as _I
+        img = _I.open(path).convert("RGB")
+        pixels = list(img.getdata())
+        lit = [px for px in pixels if px != (0, 0, 0)]
+        check("the painted area is a mark, not the whole screen",
+              0 < len(lit) < len(pixels), True)
+        # A dot fills pi/4 of its own bounding box, so roughly 79% of the
+        # pane. Checked loosely: the point is that a SHAPE was drawn, not a
+        # full rectangle (which is what a pane painted with no mark looks
+        # like) and not a few stray pixels.
+        share = len(lit) / float(len(pixels))
+        check("it is dot-shaped (%.0f%% of the pane, a disc is ~79%%)"
+              % (share * 100), 0.5 < share < 0.95, True)
+        # And it is the colour the config asked for. "Something was painted"
+        # would still pass if the reminder drew the wrong thing entirely.
+        want = cfg["colour"].lstrip("#")
+        want = tuple(int(want[i:i + 2], 16) for i in (0, 2, 4))
+        common = max(set(lit), key=lit.count)
+        near = all(abs(a - b) <= 8 for a, b in zip(common, want))
+        check("it is painted in the configured colour (%s, drew %s)"
+              % (cfg["colour"], "#%02x%02x%02x" % common), near, True)
+        print("  captured %s %s via %s (%d lit pixels)"
+              % (path, size, how, len(lit)))
+
+    pump(app.root, 8, lambda: not app.overlay.busy)
+    check("the pulse released the overlay when it finished",
+          app.overlay.busy, False)
+
+
+# ---------------------------------------------------- 3. the button
+def test_startup_button(app):
+    print("\n3. the Startup button, rendered by the real panel")
     # Forced AFTER construction: the panel decides the label in open(), and
     # this keeps PACKAGED out of App.__init__'s startup handling.
     br.PACKAGED = True
@@ -302,9 +424,58 @@ def test_startup_button(tmp):
     return app
 
 
-# ---------------------------------------------------- 2. the dialog
+# ------------------------------------------- 4. settings round-trip
+def test_settings_roundtrip(app, tmp):
+    """Does every setting the panel collects survive being saved and reloaded?
+
+    The expensive failure is not a crash, it is a key that quietly does not
+    make the journey: the panel shows it, Save writes the file, and the value
+    that comes back is the old one or the default. The user changes a setting,
+    it appears to take, and it is gone next launch -- with nothing in the log,
+    because nothing went wrong.
+
+    break_message, break_hold_ms and break_fade_ms were stored and written on
+    every Save with no control to edit them, which collect()'s own docstring
+    calls out. This is the check that would have noticed.
+    """
+    print("\n4. settings survive a save and a reload")
+    panel = app.settings
+    before = panel.collect()
+
+    # Driven through a control, not by writing cfg: collect() reading the
+    # widget is half of what is under test.
+    was = panel._int(panel.v_every, 1)
+    panel.v_every.set(was + 7)
+    after = panel.collect()
+    check("collect() reads the change back off the control",
+          after["interval_seconds"] != before["interval_seconds"], True)
+
+    panel.save()
+    app.root.update_idletasks()
+    check("saving wrote the file", os.path.exists(br.CONFIG_PATH), True)
+
+    reloaded = br.load_config()
+    lost = sorted(k for k, v in after.items()
+                  if k not in reloaded or reloaded[k] != v)
+    check("every key the panel collected came back unchanged", lost, [])
+    check("... including the one that was edited",
+          reloaded["interval_seconds"], after["interval_seconds"])
+
+    # A damaged file must cost the settings, not the app. Nothing else in the
+    # suite covers config.json specifically -- test_asks and test_tutorial
+    # cover their own files.
+    with open(br.CONFIG_PATH, "w", encoding="utf-8") as fh:
+        fh.write("{not json at all")
+    fallback = br.load_config()
+    check("a damaged config.json falls back instead of raising",
+          fallback.get("interval_seconds"), br.DEFAULTS["interval_seconds"])
+    check("... and still hands back every key the app expects",
+          sorted(set(br.DEFAULTS) - set(fallback)), [])
+
+
+# ---------------------------------------------------- 5. the dialog
 def test_crash_dialog():
-    print("\n2. the crash dialog, actually displayed")
+    print("\n5. the crash dialog, actually displayed")
     os.environ.pop("BLINK_NO_CRASH_DIALOG", None)
     text = ('Traceback (most recent call last):\n'
             '  File "blink_reminder.py", line 6019, in build_tray\n'
@@ -377,7 +548,13 @@ def main():
     tmp = tempfile.mkdtemp(prefix="blink-test-ui-")
     OUT = tmp
     try:
-        test_startup_button(tmp)
+        # One App for all four window checks: building it is the slow part,
+        # and each check leaves it in a state the next one can use.
+        app = build_app(tmp)
+        test_reminder_fires(app, tmp)
+        test_overlay_draws(app)
+        test_startup_button(app)
+        test_settings_roundtrip(app, tmp)
         test_crash_dialog()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
