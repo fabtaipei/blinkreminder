@@ -204,28 +204,34 @@ def test_problem_report():
     """
     print("\n4. reporting a problem")
     br.set_language("en")
-    link = br.problem_report_link()
+    facts = br.problem_facts()
 
-    check("it is a mailto for the published address",
-          link.startswith("mailto:" + br.SUPPORT_EMAIL + "?"), True)
-    check("open_link will allow it, so the item cannot be refused silently",
-          link.startswith(br.SAFE_SCHEMES), True)
-
-    from urllib.parse import unquote
-    body = unquote(link.split("&body=", 1)[1])
-    subject = unquote(link.split("?subject=", 1)[1].split("&", 1)[0])
-
-    check("the subject names the app and the version",
-          br.DISPLAY_NAME in subject and br.APP_VERSION in subject, True)
-    for what, needle in (("the version", br.APP_VERSION),
+    for what, needle in (("the app and its version",
+                          "%s %s" % (br.DISPLAY_NAME, br.APP_VERSION)),
                          ("the Windows build", br.windows_build()),
-                         ("the path to the log", br.LOG_PATH),
-                         ("the language in force", "Language: en")):
-        check("the body carries %s" % what, needle in body, True)
-    check("it asks the user to describe what happened",
-          "describe what happened" in body.lower(), True)
+                         ("the language in force", "Language: en"),
+                         ("the path to the log", br.LOG_PATH)):
+        check("the details carry %s" % what, needle in facts, True)
+
+    # There was a mailto here, and it opened nothing on the first machine it
+    # was tried on: a handler was registered for a mail client that was not
+    # installed, so os.startfile succeeded and open_link returned True while
+    # no window appeared. An address shown on screen cannot fail that way,
+    # and it also reaches the webmail users no mailto handler ever could.
+    check("no mailto is used at all",
+          any(s.startswith("mailto") for s in br.SAFE_SCHEMES), False)
+    check("... and the app no longer builds one",
+          hasattr(br, "problem_report_link"), False)
+
+    shown = br.T("Please email %s\n\n"
+                 "These details are on your clipboard, ready to paste:\n\n%s"
+                 "\n\nYour log file is open in Explorer. Attaching it helps "
+                 "a lot, and nothing in it leaves your device unless you "
+                 "attach it yourself.") % (br.SUPPORT_EMAIL, facts)
+    check("the dialog shows the address", br.SUPPORT_EMAIL in shown, True)
+    check("... and the details under it", facts in shown, True)
     check("... and says the log stays theirs unless they attach it",
-          "unless you attach it" in body, True)
+          "unless you attach it" in shown, True)
 
     # The version in a bug report is only useful if it is the version in the
     # file's properties. build.check_app_version refuses a build where these
@@ -243,7 +249,8 @@ def test_problem_report():
         check("a bad scheme is refused", br.open_link("javascript:alert(1)"),
               False)
         check("... and nothing was opened", opened, [])
-        check("the real link is accepted", br.open_link(link), True)
+        check("a link the app really uses is accepted",
+              br.open_link(br.REVIEW_URL), True)
     finally:
         br.os.startfile = real
 

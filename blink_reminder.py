@@ -819,11 +819,11 @@ PACKAGED = PACKAGE_FAMILY is not None
 # ms-windows-store: is the Store's own review form. Without it here the
 # "Rate this app" item would have been refused by name, silently, in a log
 # line nobody reads -- the same failure this allowlist exists to make loud.
-SAFE_SCHEMES = ("https://", "http://", "ms-settings:", "ms-windows-store:",
-                # mailto hands off to the user's mail client. It opens no
-                # socket here, so "no network connection of any kind" in the
-                # listing stays true: this app still contacts no server.
-                "mailto:")
+# No mailto. One was added here and removed the same day: a mailto handoff
+# succeeds whether or not a mail client exists, so the one machine it was
+# tried on reported success and opened nothing. report_problem shows the
+# address instead, which cannot fail that way.
+SAFE_SCHEMES = ("https://", "http://", "ms-settings:", "ms-windows-store:")
 
 
 def windows_build():
@@ -835,38 +835,59 @@ def windows_build():
         return "unknown"
 
 
-def problem_report_link():
-    """A mailto with the answers already filled in.
+def problem_facts():
+    """The four lines a bug report is nearly useless without.
 
-    The whole lesson of 1.4.2.0 is in this function. The traceback was in
-    activity.log on every machine the crash killed; what nobody had was a
-    path from "it is broken" to "here is the evidence". An address on its own
-    gets you "it doesn't work". An address that arrives carrying the version,
-    the build and the path to the log gets you a report you can act on.
-
-    Nothing is collected and nothing is sent: this composes a draft and hands
-    it to the mail client, where the user reads every word before deciding to
-    send it -- and can delete any of it first.
+    Deliberately not translated. These are for whoever reads the report, the
+    same reasoning that keeps the log in English: a version number and a path
+    mean the same thing in every language, and a report that arrives in one
+    the author cannot read helps nobody.
     """
-    # Escaping only. urllib.parse opens no socket and reaches no network; it
-    # is here because hand-rolled percent-encoding is how a body full of
-    # newlines and colons arrives mangled.
-    from urllib.parse import quote
+    return "\n".join((
+        "%s %s%s" % (DISPLAY_NAME, APP_VERSION, " (Store)" if PACKAGED else ""),
+        "Windows %s" % windows_build(),
+        "Language: %s" % _LANG,
+        "Log file: %s" % LOG_PATH,
+    ))
 
-    facts = ("Version: %s%s" % (APP_VERSION, " (Store)" if PACKAGED else ""),
-             "Windows: %s" % windows_build(),
-             "Language: %s" % _LANG,
-             "Log file: %s" % LOG_PATH)
-    body = ("Please describe what happened, and what you expected instead:\n"
-            "\n\n\n"
-            "----- please keep the lines below -----\n"
-            + "\n".join(facts) +
-            "\n\nIf you can, attach the log file named above. It usually says\n"
-            "exactly what went wrong, and nothing in it leaves your device\n"
-            "unless you attach it yourself.\n")
-    subject = "%s %s - problem report" % (DISPLAY_NAME, APP_VERSION)
-    return "mailto:%s?subject=%s&body=%s" % (SUPPORT_EMAIL, quote(subject),
-                                             quote(body))
+
+def report_problem(root):
+    """Show the address, and put the details on the clipboard.
+
+    There was a mailto: here, with the whole report pre-written into it. It
+    opened nothing on the first machine it was ever tried on -- Windows had
+    Thunderbird registered as the mailto handler, Thunderbird was not
+    installed, so os.startfile succeeded, no mail client appeared, and
+    open_link returned True to say it had worked. A handoff that reports
+    success whether or not anything happened cannot be the only route a user
+    has to a person.
+
+    An address a user can read works on every machine, with any mail client
+    or none. Most people use webmail, which no mailto handler reaches at all.
+
+    So: the details go on the clipboard ready to paste, the log is shown in
+    Explorer ready to attach, and the address is on screen to be read. Three
+    things that cannot silently fail.
+    """
+    details = problem_facts()
+    try:
+        root.clipboard_clear()
+        root.clipboard_append("%s\n\n%s" % (SUPPORT_EMAIL, details))
+        # Tk owns the clipboard rather than copying into it, so without this
+        # the paste finds nothing until the next time the app pumps events.
+        root.update()
+    except Exception:
+        log_error("report_problem clipboard")
+    # Before the dialog, not after: the dialog is modal, and a user who reads
+    # it and then has to go hunting for the log has been given homework.
+    reveal_log()
+    messagebox.showinfo(
+        DISPLAY_NAME,
+        T("Please email %s\n\n"
+          "These details are on your clipboard, ready to paste:\n\n%s\n\n"
+          "Your log file is open in Explorer. Attaching it helps a lot, and "
+          "nothing in it leaves your device unless you attach it yourself.")
+        % (SUPPORT_EMAIL, details))
 
 
 def reveal_log():
@@ -6274,12 +6295,8 @@ class App:
                     log_event("tray", "opened the Store review form")
                     open_link(REVIEW_URL)
                 elif cmd == "report":
-                    # The draft first, then the folder: the mail window is
-                    # what the user asked for, and Explorer landing on top of
-                    # it would hide the thing they are about to type into.
-                    log_event("tray", "opened a problem report")
-                    open_link(problem_report_link())
-                    reveal_log()
+                    log_event("tray", "showed the problem report details")
+                    report_problem(self.root)
                 elif cmd == "quit":
                     self.quit()
                     return
