@@ -251,11 +251,11 @@ STRINGS = {
         "Don’t ask again": "不再詢問",
         "Rate this app": "為這個程式評分",
         "Report a problem": "回報問題",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "請寄電子郵件至 %s\n\n以下資訊已複製到剪貼簿，可直接貼上：\n\n%s\n\n記錄檔已在檔案總管中開啟。附上它會很有幫助，除非你親自附上，否則其中的內容不會離開你的裝置。",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "如有任何問題或建議，請寄電子郵件至 %s。謝謝！\n\n你可以把以下資訊貼到郵件中，並附上記錄檔 \"activity.log\"，這有助於我排查問題。記錄檔就在剛剛開啟的視窗中。\n\n%s",
         "Show countdown": "顯示倒數計時",
 
         # The welcome card, the taught reminder and the strength question.
@@ -364,11 +364,11 @@ STRINGS = {
         "Don’t ask again": "不再询问",
         "Rate this app": "为这个应用评分",
         "Report a problem": "报告问题",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "请发送邮件至 %s\n\n以下信息已复制到剪贴板，可直接粘贴：\n\n%s\n\n日志文件已在资源管理器中打开。附上它会很有帮助，除非你亲自附上，否则其中的内容不会离开你的设备。",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "如有任何问题或建议，请发送邮件至 %s。谢谢！\n\n你可以把以下信息粘贴到邮件中，并附上日志文件 \"activity.log\"，这有助于我排查问题。日志文件就在刚刚打开的窗口中。\n\n%s",
         "Show countdown": "显示倒计时",
 
         # The welcome card, the taught reminder and the strength question.
@@ -482,15 +482,15 @@ STRINGS = {
         "Don’t ask again": "Ne plus demander",
         "Rate this app": "Évaluer l'application",
         "Report a problem": "Signaler un problème",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Veuillez écrire à %s\n\nCes informations sont dans le presse-papiers, "
-            "prêtes à coller :\n\n%s\n\nVotre fichier journal est ouvert "
-            "dans l'Explorateur. Le joindre aide beaucoup, et rien de son "
-            "contenu ne quitte votre appareil si vous ne le joignez pas "
-            "vous-même.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Pour tout problème ou retour, veuillez écrire à %s. Merci "
+            "!\n\nVous pouvez coller ces informations dans l'e-mail et "
+            "joindre le fichier journal \"activity.log\", ce qui m'aide "
+            "à étudier le problème. Le fichier journal se trouve dans la "
+            "fenêtre qui vient de s'ouvrir.\n\n%s",
         "Show countdown": "Afficher le compte à rebours",
 
         # The welcome card, the taught reminder and the strength question.
@@ -600,14 +600,14 @@ STRINGS = {
         "Don’t ask again": "No volver a preguntar",
         "Rate this app": "Valorar esta app",
         "Report a problem": "Informar de un problema",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Escribe a %s\n\nEstos datos están en el portapapeles, listos "
-            "para pegar:\n\n%s\n\nTu archivo de registro está abierto en "
-            "el Explorador. Adjuntarlo ayuda mucho, y nada de él sale de "
-            "tu dispositivo si no lo adjuntas tú.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Para cualquier problema o sugerencia, escribe a %s. ¡Gracias!\n\nPuedes "
+            "pegar estos datos en el correo y adjuntar el archivo de registro "
+            "\"activity.log\", lo que me ayuda a investigar el problema. "
+            "El archivo de registro está en la ventana que acaba de abrirse.\n\n%s",
         "Show countdown": "Mostrar cuenta atrás",
 
         # The welcome card, the taught reminder and the strength question.
@@ -718,14 +718,15 @@ STRINGS = {
         "Don’t ask again": "Nicht mehr fragen",
         "Rate this app": "App bewerten",
         "Report a problem": "Problem melden",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Bitte schreiben Sie an %s\n\nDiese Angaben liegen in der Zwischenablage, "
-            "bereit zum Einfügen:\n\n%s\n\nIhre Protokolldatei ist im Explorer "
-            "geöffnet. Sie anzuhängen hilft sehr, und nichts darin verlässt "
-            "Ihr Gerät, wenn Sie sie nicht selbst anhängen.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Bitte schreiben Sie bei Problemen oder Rückmeldungen an %s. "
+            "Vielen Dank!\n\nSie können diese Angaben in die E-Mail einfügen "
+            "und die Protokolldatei \"activity.log\" anhängen, das hilft "
+            "mir bei der Untersuchung des Problems. Die Protokolldatei "
+            "liegt in dem Fenster, das sich gerade geöffnet hat.\n\n%s",
         "Show countdown": "Countdown anzeigen",
 
         # The welcome card, the taught reminder and the strength question.
@@ -837,14 +838,14 @@ STRINGS = {
         "Don’t ask again": "Non chiedere più",
         "Rate this app": "Valuta l'app",
         "Report a problem": "Segnala un problema",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Scrivi a %s\n\nQuesti dati sono negli appunti, pronti da incollare:\n\n%s\n\nIl "
-            "file di log è aperto in Esplora file. Allegarlo aiuta molto, "
-            "e nulla al suo interno lascia il tuo dispositivo se non lo "
-            "alleghi tu.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Per qualsiasi problema o suggerimento, scrivi a %s. Grazie!\n\nPuoi "
+            "incollare questi dati nell'e-mail e allegare il file di log "
+            "\"activity.log\", che mi aiuta a indagare sul problema. Il "
+            "file di log si trova nella finestra appena aperta.\n\n%s",
         "Show countdown": "Mostra il conto alla rovescia",
 
         # The welcome card, the taught reminder and the strength question.
@@ -956,14 +957,15 @@ STRINGS = {
         "Don’t ask again": "Não perguntar de novo",
         "Rate this app": "Avaliar este app",
         "Report a problem": "Relatar um problema",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Envie um e-mail para %s\n\nEstes dados estão na área de transferência, "
-            "prontos para colar:\n\n%s\n\nO ficheiro de registo está aberto "
-            "no Explorador. Anexá-lo ajuda muito, e nada dele sai do seu "
-            "dispositivo se não o anexar.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Para qualquer problema ou comentário, envie um e-mail para "
+            "%s. Obrigado!\n\nPode colar estes dados no e-mail e anexar "
+            "o ficheiro de registo \"activity.log\", o que me ajuda a investigar "
+            "o problema. O ficheiro de registo está na janela que acabou "
+            "de abrir.\n\n%s",
         "Show countdown": "Mostrar contagem regressiva",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1072,11 +1074,12 @@ STRINGS = {
         "Don’t ask again": "今後は表示しない",
         "Rate this app": "このアプリを評価",
         "Report a problem": "問題を報告",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "%s までメールでお知らせください\n\n以下の情報はクリップボードにコピー済みです。貼り付けてお使いください:\n\n%s\n\nログファイルはエクスプローラーで開いています。添付していただけると大変助かります。添付しない限り、内容がデバイスの外に出ることはありません。",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "問題やご意見がありましたら %s までメールでお知らせください。ありがとうございます。\n\n以下の情報をメールに貼り付け、ログファイル "
+            "\"activity.log\" を添付していただけると、問題の調査に役立ちます。ログファイルは今開いたウィンドウの中にあります。\n\n%s",
         "Show countdown": "カウントダウンを表示",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1185,13 +1188,13 @@ STRINGS = {
         "Don’t ask again": "다시 묻지 않기",
         "Rate this app": "이 앱 평가하기",
         "Report a problem": "문제 신고",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "%s 로 이메일을 보내 주세요\n\n다음 정보가 클립보드에 복사되어 있습니다. 붙여넣기만 하면 됩니다:\n\n%s\n\n로그 "
-            "파일이 탐색기에서 열려 있습니다. 첨부해 주시면 큰 도움이 됩니다. 직접 첨부하지 않는 한 내용이 기기를 "
-            "벗어나지 않습니다.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "문제나 의견이 있으시면 %s 로 이메일을 보내 주세요. 감사합니다!\n\n이 정보를 이메일에 붙여넣고 로그 "
+            "파일 \"activity.log\"를 첨부해 주시면 문제를 조사하는 데 도움이 됩니다. 로그 파일은 방금 "
+            "열린 창에 있습니다.\n\n%s",
         "Show countdown": "카운트다운 표시",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1299,14 +1302,14 @@ STRINGS = {
         "Don’t ask again": "फिर से न पूछें",
         "Rate this app": "इस ऐप को रेट करें",
         "Report a problem": "समस्या की रिपोर्ट करें",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "कृपया %s पर ईमेल करें\n\nये विवरण क्लिपबोर्ड पर हैं, चिपकाने "
-            "के लिए तैयार:\n\n%s\n\nआपकी लॉग फ़ाइल एक्सप्लोरर में खुली "
-            "है। उसे संलग्न करने से बहुत मदद मिलती है, और जब तक आप स्वयं "
-            "संलग्न न करें, उसमें से कुछ भी आपके डिवाइस से बाहर नहीं जाता।",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "किसी भी समस्या या सुझाव के लिए %s पर ईमेल करें। धन्यवाद!\n\nआप "
+            "ये विवरण ईमेल में चिपका सकते हैं और लॉग फ़ाइल \"activity.log\" "
+            "संलग्न कर सकते हैं, जिससे मुझे समस्या की जाँच करने में मदद "
+            "मिलती है। लॉग फ़ाइल अभी खुली विंडो में है।\n\n%s",
         "Show countdown": "उलटी गिनती दिखाएँ",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1414,14 +1417,14 @@ STRINGS = {
         "Don’t ask again": "আর দেখাবেন না",
         "Rate this app": "এই অ্যাপটিকে রেটিং দিন",
         "Report a problem": "সমস্যা জানান",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "অনুগ্রহ করে %s ঠিকানায় ইমেল করুন\n\nএই তথ্যগুলি ক্লিপবোর্ডে "
-            "আছে, পেস্ট করার জন্য প্রস্তুত:\n\n%s\n\nআপনার লগ ফাইল এক্সপ্লোরারে "
-            "খোলা আছে। এটি সংযুক্ত করলে অনেক সাহায্য হয়, এবং আপনি নিজে "
-            "সংযুক্ত না করলে এর কিছুই আপনার ডিভাইস ছেড়ে যায় না।",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "যেকোনো সমস্যা বা মতামতের জন্য %s ঠিকানায় ইমেল করুন। ধন্যবাদ!\n\nআপনি "
+            "এই তথ্যগুলি ইমেলে পেস্ট করতে পারেন এবং লগ ফাইল \"activity.log\" "
+            "সংযুক্ত করতে পারেন, যা আমাকে সমস্যাটি খতিয়ে দেখতে সাহায্য "
+            "করে। লগ ফাইলটি এইমাত্র খোলা উইন্ডোতে আছে।\n\n%s",
         "Show countdown": "কাউন্টডাউন দেখান",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1533,13 +1536,14 @@ STRINGS = {
         "Don’t ask again": "لا تسألني مجددًا",
         "Rate this app": "قيّم هذا التطبيق",
         "Report a problem": "الإبلاغ عن مشكلة",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "يرجى مراسلة %s\n\nهذه التفاصيل موجودة في الحافظة وجاهزة للصق:\n\n%s\n\nملف "
-            "السجل مفتوح في مستكشف الملفات. إرفاقه يساعد كثيراً، ولا يغادر "
-            "أي شيء منه جهازك ما لم ترفقه بنفسك.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "لأي مشكلة أو ملاحظة، يرجى مراسلة %s. شكراً لك!\n\nيمكنك لصق "
+            "هذه التفاصيل في الرسالة وإرفاق ملف السجل \"activity.log\"، "
+            "وهو ما يساعدني على فحص المشكلة. ملف السجل موجود في النافذة "
+            "التي فتحت للتو.\n\n%s",
         "Show countdown": "إظهار العد التنازلي",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1649,14 +1653,14 @@ STRINGS = {
         "Don’t ask again": "دوبارہ نہ پوچھیں",
         "Rate this app": "اس ایپ کی درجہ بندی کریں",
         "Report a problem": "مسئلہ رپورٹ کریں",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "براہ کرم %s پر ای میل کریں\n\nیہ تفصیلات کلپ بورڈ میں ہیں، "
-            "پیسٹ کرنے کے لیے تیار:\n\n%s\n\nآپ کی لاگ فائل ایکسپلورر میں "
-            "کھلی ہے۔ اسے منسلک کرنا بہت مدد دیتا ہے، اور جب تک آپ خود "
-            "منسلک نہ کریں اس میں سے کچھ بھی آپ کے آلے سے باہر نہیں جاتا۔",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "کسی بھی مسئلے یا رائے کے لیے %s پر ای میل کریں۔ شکریہ!\n\nآپ "
+            "یہ تفصیلات ای میل میں پیسٹ کر سکتے ہیں اور لاگ فائل \"activity.log\" "
+            "منسلک کر سکتے ہیں، جس سے مجھے مسئلہ جانچنے میں مدد ملتی ہے۔ "
+            "لاگ فائل ابھی کھلی ہوئی ونڈو میں ہے۔\n\n%s",
         "Show countdown": "الٹی گنتی دکھائیں",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1764,14 +1768,14 @@ STRINGS = {
         "Don’t ask again": "Jangan tanya lagi",
         "Rate this app": "Beri nilai aplikasi ini",
         "Report a problem": "Laporkan masalah",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Kirim email ke %s\n\nDetail ini ada di papan klip, siap ditempel:\n\n%s\n\nBerkas "
-            "log Anda terbuka di Explorer. Melampirkannya sangat membantu, "
-            "dan tidak ada isinya yang meninggalkan perangkat Anda kecuali "
-            "Anda melampirkannya sendiri.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Untuk masalah atau masukan apa pun, kirim email ke %s. Terima "
+            "kasih!\n\nAnda dapat menempelkan detail ini ke email dan melampirkan "
+            "berkas log \"activity.log\", yang membantu saya menyelidiki "
+            "masalahnya. Berkas log ada di jendela yang baru saja terbuka.\n\n%s",
         "Show countdown": "Tampilkan hitung mundur",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1884,14 +1888,14 @@ STRINGS = {
         "Don’t ask again": "Nie pytaj więcej",
         "Rate this app": "Oceń tę aplikację",
         "Report a problem": "Zgłoś problem",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Napisz na %s\n\nTe dane są w schowku, gotowe do wklejenia:\n\n%s\n\nPlik "
-            "dziennika jest otwarty w Eksploratorze. Dołączenie go bardzo "
-            "pomaga, a nic z niego nie opuszcza urządzenia, jeśli sam go "
-            "nie dołączysz.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "W razie problemów lub uwag napisz na %s. Dziękuję!\n\nMożesz "
+            "wkleić te dane do wiadomości i załączyć plik dziennika \"activity.log\", "
+            "co pomoże mi zbadać problem. Plik dziennika znajduje się w "
+            "oknie, które się właśnie otworzyło.\n\n%s",
         "Show countdown": "Pokaż odliczanie",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2000,14 +2004,14 @@ STRINGS = {
         "Don’t ask again": "Bir daha sorma",
         "Rate this app": "Bu uygulamayı değerlendir",
         "Report a problem": "Sorun bildir",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Lütfen %s adresine yazın\n\nBu bilgiler panoda, yapıştırmaya "
-            "hazır:\n\n%s\n\nGünlük dosyanız Dosya Gezgini'nde açık. Eklemeniz "
-            "çok yardımcı olur ve siz eklemediğiniz sürece içindeki hiçbir "
-            "şey cihazınızdan ayrılmaz.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Her türlü sorun veya geri bildirim için %s adresine yazın. "
+            "Teşekkürler!\n\nBu bilgileri e-postaya yapıştırabilir ve \"activity.log\" "
+            "günlük dosyasını ekleyebilirsiniz; bu, sorunu incelememe yardımcı "
+            "olur. Günlük dosyası az önce açılan pencerededir.\n\n%s",
         "Show countdown": "Geri sayımı göster",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2116,15 +2120,14 @@ STRINGS = {
         "Don’t ask again": "Đừng hỏi lại",
         "Rate this app": "Đánh giá ứng dụng này",
         "Report a problem": "Báo lỗi",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Vui lòng gửi email tới %s\n\nCác thông tin này đã ở trong "
-            "bộ nhớ tạm, sẵn sàng để dán:\n\n%s\n\nTệp nhật ký của bạn "
-            "đang mở trong Explorer. Đính kèm nó giúp ích rất nhiều, và "
-            "không có gì trong đó rời khỏi thiết bị trừ khi bạn tự đính "
-            "kèm.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Mọi vấn đề hoặc góp ý, vui lòng gửi email tới %s. Cảm ơn bạn!\n\nBạn "
+            "có thể dán các thông tin này vào email và đính kèm tệp nhật "
+            "ký \"activity.log\", điều này giúp tôi tìm hiểu vấn đề. Tệp "
+            "nhật ký nằm trong cửa sổ vừa mở ra.\n\n%s",
         "Show countdown": "Hiện đếm ngược",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2234,14 +2237,14 @@ STRINGS = {
         "Don’t ask again": "Больше не спрашивать",
         "Rate this app": "Оценить приложение",
         "Report a problem": "Сообщить о проблеме",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Напишите на %s\n\nЭти сведения уже в буфере обмена, готовы "
-            "к вставке:\n\n%s\n\nФайл журнала открыт в Проводнике. Приложить "
-            "его очень помогает, и ничего из него не покидает ваше устройство, "
-            "если вы не приложите его сами.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "По любым проблемам и отзывам пишите на %s. Спасибо!\n\nВы "
+            "можете вставить эти сведения в письмо и приложить файл журнала "
+            "\"activity.log\", это поможет мне разобраться в проблеме. "
+            "Файл журнала находится в только что открывшемся окне.\n\n%s",
         "Show countdown": "Показывать обратный отсчёт",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2349,13 +2352,12 @@ STRINGS = {
         "Don’t ask again": "ไม่ต้องถามอีก",
         "Rate this app": "ให้คะแนนแอปนี้",
         "Report a problem": "รายงานปัญหา",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "โปรดส่งอีเมลถึง %s\n\nรายละเอียดเหล่านี้อยู่ในคลิปบอร์ดแล้ว "
-            "พร้อมวาง:\n\n%s\n\nไฟล์บันทึกของคุณเปิดอยู่ใน Explorer การแนบไฟล์ช่วยได้มาก "
-            "และไม่มีสิ่งใดในไฟล์ออกจากอุปกรณ์ของคุณ เว้นแต่คุณจะแนบเอง",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "หากพบปัญหาหรือมีข้อเสนอแนะ โปรดส่งอีเมลถึง %s ขอบคุณครับ\n\nคุณสามารถวางรายละเอียดเหล่านี้ในอีเมลและแนบไฟล์บันทึก "
+            "\"activity.log\" ซึ่งช่วยให้ผมตรวจสอบปัญหาได้ ไฟล์บันทึกอยู่ในหน้าต่างที่เพิ่งเปิดขึ้น\n\n%s",
         "Show countdown": "แสดงการนับถอยหลัง",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2465,14 +2467,14 @@ STRINGS = {
         "Don’t ask again": "Більше не питати",
         "Rate this app": "Оцінити застосунок",
         "Report a problem": "Повідомити про проблему",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Напишіть на %s\n\nЦі відомості вже в буфері обміну, готові "
-            "до вставлення:\n\n%s\n\nФайл журналу відкрито в Провіднику. "
-            "Долучити його дуже допомагає, і ніщо з нього не залишає ваш "
-            "пристрій, якщо ви не долучите його самі.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "З будь-яких проблем чи відгуків пишіть на %s. Дякую!\n\nВи "
+            "можете вставити ці відомості в лист і долучити файл журналу "
+            "\"activity.log\", це допоможе мені розібратися з проблемою. "
+            "Файл журналу є у вікні, яке щойно відкрилося.\n\n%s",
         "Show countdown": "Показувати зворотний відлік",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2581,14 +2583,14 @@ STRINGS = {
         "Don’t ask again": "Už se neptat",
         "Rate this app": "Ohodnotit aplikaci",
         "Report a problem": "Nahlásit problém",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Napište na %s\n\nTyto údaje jsou ve schránce, připravené k "
-            "vložení:\n\n%s\n\nSoubor protokolu je otevřený v Průzkumníku. "
-            "Jeho přiložení hodně pomůže a nic z něj neopustí vaše zařízení, "
-            "pokud ho sami nepřiložíte.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "S jakýmikoli problémy nebo připomínkami napište na %s. Děkuji!\n\nTyto "
+            "údaje můžete vložit do e-mailu a přiložit soubor protokolu "
+            "\"activity.log\", což mi pomůže problém prozkoumat. Soubor "
+            "protokolu najdete v okně, které se právě otevřelo.\n\n%s",
         "Show countdown": "Zobrazit odpočet",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2697,14 +2699,14 @@ STRINGS = {
         "Don’t ask again": "Nu mai întreba",
         "Rate this app": "Evaluează aplicația",
         "Report a problem": "Raportează o problemă",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Scrieți la %s\n\nAceste detalii sunt în clipboard, gata de "
-            "lipit:\n\n%s\n\nFișierul jurnal este deschis în Explorer. "
-            "Atașarea lui ajută mult, iar nimic din el nu părăsește dispozitivul "
-            "dacă nu îl atașați dumneavoastră.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Pentru orice problemă sau sugestie, scrieți la %s. Mulțumesc!\n\nPuteți "
+            "lipi aceste detalii în e-mail și atașa fișierul jurnal \"activity.log\", "
+            "ceea ce mă ajută să investighez problema. Fișierul jurnal "
+            "se află în fereastra tocmai deschisă.\n\n%s",
         "Show countdown": "Afișează numărătoarea inversă",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2813,14 +2815,15 @@ STRINGS = {
         "Don’t ask again": "Ne kérdezd többé",
         "Rate this app": "Értékeld az alkalmazást",
         "Report a problem": "Hiba jelentése",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Írjon a következő címre: %s\n\nEzek az adatok a vágólapon "
-            "vannak, beilleszthetők:\n\n%s\n\nA naplófájl meg van nyitva "
-            "az Intézőben. Csatolása sokat segít, és semmi sem hagyja el "
-            "az eszközét, hacsak Ön nem csatolja.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Bármilyen problémával vagy visszajelzéssel írjon a következő "
+            "címre: %s. Köszönöm!\n\nEzeket az adatokat beillesztheti az "
+            "e-mailbe, és csatolhatja az \"activity.log\" naplófájlt, ami "
+            "segít kivizsgálni a problémát. A naplófájl az imént megnyílt "
+            "ablakban található.\n\n%s",
         "Show countdown": "Visszaszámlálás megjelenítése",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2929,15 +2932,14 @@ STRINGS = {
         "Don’t ask again": "Να μην ξαναρωτηθώ",
         "Rate this app": "Βαθμολόγησε την εφαρμογή",
         "Report a problem": "Αναφορά προβλήματος",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Στείλτε email στο %s\n\nΑυτά τα στοιχεία είναι στο πρόχειρο, "
-            "έτοιμα για επικόλληση:\n\n%s\n\nΤο αρχείο καταγραφής είναι "
-            "ανοιχτό στην Εξερεύνηση. Η επισύναψή του βοηθά πολύ, και τίποτα "
-            "από αυτό δεν φεύγει από τη συσκευή σας αν δεν το επισυνάψετε "
-            "εσείς.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Για οποιοδήποτε πρόβλημα ή σχόλιο, στείλτε email στο %s. Ευχαριστώ!\n\nΜπορείτε "
+            "να επικολλήσετε αυτά τα στοιχεία στο email και να επισυνάψετε "
+            "το αρχείο καταγραφής \"activity.log\", που με βοηθά να διερευνήσω "
+            "το πρόβλημα. Το αρχείο βρίσκεται στο παράθυρο που μόλις άνοιξε.\n\n%s",
         "Show countdown": "Αντίστροφη μέτρηση",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3046,14 +3048,14 @@ STRINGS = {
         "Don’t ask again": "Fråga inte igen",
         "Rate this app": "Betygsätt appen",
         "Report a problem": "Rapportera ett problem",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Skriv till %s\n\nDessa uppgifter finns i urklipp, redo att "
-            "klistras in:\n\n%s\n\nDin loggfil är öppen i Utforskaren. "
-            "Att bifoga den hjälper mycket, och inget i den lämnar din "
-            "enhet om du inte bifogar den själv.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Skriv till %s vid problem eller synpunkter. Tack!\n\nDu kan "
+            "klistra in dessa uppgifter i e-postmeddelandet och bifoga "
+            "loggfilen \"activity.log\", vilket hjälper mig att undersöka "
+            "problemet. Loggfilen finns i fönstret som just öppnades.\n\n%s",
         "Show countdown": "Visa nedräkning",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3162,14 +3164,14 @@ STRINGS = {
         "Don’t ask again": "Älä kysy uudelleen",
         "Rate this app": "Arvioi sovellus",
         "Report a problem": "Ilmoita ongelmasta",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Kirjoita osoitteeseen %s\n\nNämä tiedot ovat leikepöydällä "
-            "valmiina liitettäviksi:\n\n%s\n\nLokitiedostosi on auki Resurssienhallinnassa. "
-            "Sen liittäminen auttaa paljon, eikä mikään siitä poistu laitteeltasi, "
-            "ellet liitä sitä itse.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Kirjoita ongelmista tai palautteesta osoitteeseen %s. Kiitos!\n\nVoit "
+            "liittää nämä tiedot sähköpostiin ja liittää mukaan lokitiedoston "
+            "\"activity.log\", mikä auttaa minua tutkimaan ongelmaa. Lokitiedosto "
+            "on juuri avautuneessa ikkunassa.\n\n%s",
         "Show countdown": "Näytä lähtölaskenta",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3278,14 +3280,14 @@ STRINGS = {
         "Don’t ask again": "Spørg ikke igen",
         "Rate this app": "Bedøm appen",
         "Report a problem": "Rapportér et problem",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Skriv til %s\n\nDisse oplysninger ligger i udklipsholderen, "
-            "klar til at indsætte:\n\n%s\n\nDin logfil er åben i Stifinder. "
-            "At vedhæfte den hjælper meget, og intet i den forlader din "
-            "enhed, medmindre du selv vedhæfter den.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Skriv til %s ved problemer eller feedback. Tak!\n\nDu kan "
+            "indsætte disse oplysninger i e-mailen og vedhæfte logfilen "
+            "\"activity.log\", hvilket hjælper mig med at undersøge problemet. "
+            "Logfilen ligger i vinduet, der lige er åbnet.\n\n%s",
         "Show countdown": "Vis nedtælling",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3394,14 +3396,14 @@ STRINGS = {
         "Don’t ask again": "Ikke spør igjen",
         "Rate this app": "Vurder appen",
         "Report a problem": "Rapporter et problem",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Skriv til %s\n\nDisse opplysningene ligger på utklippstavlen, "
-            "klare til å limes inn:\n\n%s\n\nLoggfilen din er åpen i Utforsker. "
-            "Å legge den ved hjelper mye, og ingenting i den forlater enheten "
-            "din med mindre du legger den ved selv.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Skriv til %s ved problemer eller tilbakemeldinger. Takk!\n\nDu "
+            "kan lime disse opplysningene inn i e-posten og legge ved loggfilen "
+            "\"activity.log\", som hjelper meg å undersøke problemet. Loggfilen "
+            "ligger i vinduet som nettopp åpnet seg.\n\n%s",
         "Show countdown": "Vis nedtelling",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3510,14 +3512,14 @@ STRINGS = {
         "Don’t ask again": "Niet meer vragen",
         "Rate this app": "Beoordeel deze app",
         "Report a problem": "Probleem melden",
-        "Please email %s\n\nThese details are on your clipboard, ready "
-        "to paste:\n\n%s\n\nYour log file is open in Explorer. Attaching "
-        "it helps a lot, and nothing in it leaves your device unless "
-        "you attach it yourself.":
-            "Mail naar %s\n\nDeze gegevens staan op het klembord, klaar "
-            "om te plakken:\n\n%s\n\nJe logbestand is geopend in Verkenner. "
-            "Het bijvoegen helpt enorm, en er verlaat niets van je apparaat "
-            "tenzij je het zelf bijvoegt.",
+        "Please email %s for any problems or feedback. Thank you!\n\nYou "
+        "can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up.\n\n%s":
+            "Mail bij problemen of feedback naar %s. Bedankt!\n\nJe kunt "
+            "deze gegevens in de e-mail plakken en het logbestand \"activity.log\" "
+            "bijvoegen; dat helpt mij het probleem te onderzoeken. Het "
+            "logbestand staat in het venster dat zojuist is geopend.\n\n%s",
         "Show countdown": "Aftellen tonen",
 
         # The welcome card, the taught reminder and the strength question.

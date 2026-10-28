@@ -223,15 +223,35 @@ def test_problem_report():
     check("... and the app no longer builds one",
           hasattr(br, "problem_report_link"), False)
 
-    shown = br.T("Please email %s\n\n"
-                 "These details are on your clipboard, ready to paste:\n\n%s"
-                 "\n\nYour log file is open in Explorer. Attaching it helps "
-                 "a lot, and nothing in it leaves your device unless you "
-                 "attach it yourself.") % (br.SUPPORT_EMAIL, facts)
+    shown = br.T(
+        "Please email %s for any problems or feedback. Thank you!\n\n"
+        "You can paste these details into the email and attach the log "
+        "file, \"activity.log\", which helps me investigate the problem. "
+        "The log file should be in the window that just popped up."
+        "\n\n%s") % (br.SUPPORT_EMAIL, facts)
     check("the dialog shows the address", br.SUPPORT_EMAIL in shown, True)
-    check("... and the details under it", facts in shown, True)
-    check("... and says the log stays theirs unless they attach it",
-          "unless you attach it" in shown, True)
+    check("... and the details under it", shown.endswith(facts), True)
+    check("... and names the log file to attach",
+          '"activity.log"' in shown, True)
+    check("... and points at the window reveal_log just opened",
+          "just popped up" in shown, True)
+
+    # The log path sits on its own line: pasted into an email it is long
+    # enough to wrap, and a path wrapped after "Log file:" reads as two
+    # separate things.
+    check("the log path is on a line of its own",
+          "Log file:\n" + br.LOG_PATH in facts, True)
+
+    was = br.PACKAGED
+    try:
+        br.PACKAGED = True
+        check("a Store install says so, since it is a different build",
+              "(MS Store)" in br.problem_facts(), True)
+        br.PACKAGED = False
+        check("... and the loose exe does not claim to be one",
+              "(MS Store)" in br.problem_facts(), False)
+    finally:
+        br.PACKAGED = was
 
     # The version in a bug report is only useful if it is the version in the
     # file's properties. build.check_app_version refuses a build where these

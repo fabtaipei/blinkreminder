@@ -844,10 +844,14 @@ def problem_facts():
     the author cannot read helps nobody.
     """
     return "\n".join((
-        "%s %s%s" % (DISPLAY_NAME, APP_VERSION, " (Store)" if PACKAGED else ""),
+        "%s %s%s" % (DISPLAY_NAME, APP_VERSION,
+                     " (MS Store)" if PACKAGED else ""),
         "Windows %s" % windows_build(),
         "Language: %s" % _LANG,
-        "Log file: %s" % LOG_PATH,
+        # The path on its own line. Pasted into an email it is long enough to
+        # wrap, and a path wrapped after "Log file:" reads as two things.
+        "Log file:",
+        LOG_PATH,
     ))
 
 
@@ -883,10 +887,10 @@ def report_problem(root):
     reveal_log()
     messagebox.showinfo(
         DISPLAY_NAME,
-        T("Please email %s\n\n"
-          "These details are on your clipboard, ready to paste:\n\n%s\n\n"
-          "Your log file is open in Explorer. Attaching it helps a lot, and "
-          "nothing in it leaves your device unless you attach it yourself.")
+        T("Please email %s for any problems or feedback. Thank you!\n\n"
+          "You can paste these details into the email and attach the log "
+          "file, \"activity.log\", which helps me investigate the problem. "
+          "The log file should be in the window that just popped up.\n\n%s")
         % (SUPPORT_EMAIL, details))
 
 
