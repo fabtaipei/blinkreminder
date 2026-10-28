@@ -190,6 +190,64 @@ def test_file(tmp):
     check("no file at all is a fresh start", br.load_asks(), br.fresh_asks())
 
 
+def test_problem_report():
+    """The way out for a user with a problem rather than an opinion.
+
+    Until this existed the app offered a donation page and the Store's review
+    box and nothing else, so a user whose app was broken could only leave a
+    review -- which is exactly how the 1.4.2.0 crash was reported, by someone
+    who had the traceback on screen and nowhere to send it.
+
+    What is checked is that the draft arrives carrying the answers. An address
+    on its own earns "it doesn't work"; an address that brings the version,
+    the Windows build and the path to the log earns a report worth reading.
+    """
+    print("\n4. reporting a problem")
+    br.set_language("en")
+    link = br.problem_report_link()
+
+    check("it is a mailto for the published address",
+          link.startswith("mailto:" + br.SUPPORT_EMAIL + "?"), True)
+    check("open_link will allow it, so the item cannot be refused silently",
+          link.startswith(br.SAFE_SCHEMES), True)
+
+    from urllib.parse import unquote
+    body = unquote(link.split("&body=", 1)[1])
+    subject = unquote(link.split("?subject=", 1)[1].split("&", 1)[0])
+
+    check("the subject names the app and the version",
+          br.DISPLAY_NAME in subject and br.APP_VERSION in subject, True)
+    for what, needle in (("the version", br.APP_VERSION),
+                         ("the Windows build", br.windows_build()),
+                         ("the path to the log", br.LOG_PATH),
+                         ("the language in force", "Language: en")):
+        check("the body carries %s" % what, needle in body, True)
+    check("it asks the user to describe what happened",
+          "describe what happened" in body.lower(), True)
+    check("... and says the log stays theirs unless they attach it",
+          "unless you attach it" in body, True)
+
+    # The version in a bug report is only useful if it is the version in the
+    # file's properties. build.check_app_version refuses a build where these
+    # two differ; this is the same claim from the other side.
+    import build as appbuild
+    check("APP_VERSION matches the version the exe is stamped with",
+          br.APP_VERSION, "%d.%d.%d.%d" % appbuild.VERSION)
+
+    # A nonsense scheme must still be refused: the allowlist is what stops a
+    # typo here from handing os.startfile something it should not open.
+    opened = []
+    real = br.os.startfile
+    br.os.startfile = lambda t: opened.append(t)
+    try:
+        check("a bad scheme is refused", br.open_link("javascript:alert(1)"),
+              False)
+        check("... and nothing was opened", opened, [])
+        check("the real link is accepted", br.open_link(link), True)
+    finally:
+        br.os.startfile = real
+
+
 def main():
     tmp = tempfile.mkdtemp(prefix="blink-asks-test-")
     br.CONFIG_DIR = tmp
@@ -199,6 +257,7 @@ def main():
         test_count_day()
         test_due_ask()
         test_file(tmp)
+        test_problem_report()
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print("\n%s" % ("%d FAILURE(S)" % len(FAILURES) if FAILURES

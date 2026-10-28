@@ -756,6 +756,21 @@ FROZEN = getattr(sys, "frozen", False)
 SUPPORT_HANDLE = "kennytechy"
 SUPPORT_URL = "https://buymeacoffee.com/" + SUPPORT_HANDLE if SUPPORT_HANDLE else ""
 
+# What this build calls itself when it writes to somebody else. build.py holds
+# the same number for the exe's version resource and REFUSES to build if the
+# two disagree -- a version a user reads off a bug report is worth nothing if
+# it can drift from the version in the file properties.
+APP_VERSION = "1.4.4.0"
+
+# Where a user can reach a person. It is the address already published in the
+# privacy policy, so it is public either way.
+#
+# Until this existed the app offered exactly two ways out -- a donation page
+# and the Store's review box -- so the only route a user with a PROBLEM had
+# was to leave a review. That is how the 1.4.2.0 crash was reported: as a
+# review, by someone who had the traceback on screen and nowhere to send it.
+SUPPORT_EMAIL = "ktaiwan@hotmail.com"
+
 # Must match the TaskId in packaging/AppxManifest.xml. Nothing reads it yet --
 # Windows owns the task -- but a mismatch is the kind of thing that is only
 # ever noticed at submission time, so the two are kept side by side in a test.
@@ -804,7 +819,70 @@ PACKAGED = PACKAGE_FAMILY is not None
 # ms-windows-store: is the Store's own review form. Without it here the
 # "Rate this app" item would have been refused by name, silently, in a log
 # line nobody reads -- the same failure this allowlist exists to make loud.
-SAFE_SCHEMES = ("https://", "http://", "ms-settings:", "ms-windows-store:")
+SAFE_SCHEMES = ("https://", "http://", "ms-settings:", "ms-windows-store:",
+                # mailto hands off to the user's mail client. It opens no
+                # socket here, so "no network connection of any kind" in the
+                # listing stays true: this app still contacts no server.
+                "mailto:")
+
+
+def windows_build():
+    """Windows as a bug report wants it, without importing platform."""
+    try:
+        v = sys.getwindowsversion()
+        return "%d.%d build %d" % (v.major, v.minor, v.build)
+    except Exception:
+        return "unknown"
+
+
+def problem_report_link():
+    """A mailto with the answers already filled in.
+
+    The whole lesson of 1.4.2.0 is in this function. The traceback was in
+    activity.log on every machine the crash killed; what nobody had was a
+    path from "it is broken" to "here is the evidence". An address on its own
+    gets you "it doesn't work". An address that arrives carrying the version,
+    the build and the path to the log gets you a report you can act on.
+
+    Nothing is collected and nothing is sent: this composes a draft and hands
+    it to the mail client, where the user reads every word before deciding to
+    send it -- and can delete any of it first.
+    """
+    # Escaping only. urllib.parse opens no socket and reaches no network; it
+    # is here because hand-rolled percent-encoding is how a body full of
+    # newlines and colons arrives mangled.
+    from urllib.parse import quote
+
+    facts = ("Version: %s%s" % (APP_VERSION, " (Store)" if PACKAGED else ""),
+             "Windows: %s" % windows_build(),
+             "Language: %s" % _LANG,
+             "Log file: %s" % LOG_PATH)
+    body = ("Please describe what happened, and what you expected instead:\n"
+            "\n\n\n"
+            "----- please keep the lines below -----\n"
+            + "\n".join(facts) +
+            "\n\nIf you can, attach the log file named above. It usually says\n"
+            "exactly what went wrong, and nothing in it leaves your device\n"
+            "unless you attach it yourself.\n")
+    subject = "%s %s - problem report" % (DISPLAY_NAME, APP_VERSION)
+    return "mailto:%s?subject=%s&body=%s" % (SUPPORT_EMAIL, quote(subject),
+                                             quote(body))
+
+
+def reveal_log():
+    """Show activity.log in Explorer, selected, so attaching it is one drag.
+
+    Asking a user to paste a path into a file dialog is asking most of them
+    to give up. If the file is somehow missing, its folder is opened instead
+    rather than nothing happening.
+    """
+    try:
+        if os.path.exists(LOG_PATH):
+            subprocess.Popen(["explorer", "/select,", LOG_PATH])
+        elif os.path.isdir(CONFIG_DIR):
+            os.startfile(CONFIG_DIR)
+    except Exception:
+        log_error("reveal_log")
 
 
 def open_link(target):
@@ -6150,6 +6228,12 @@ class App:
             items.append(pystray.Menu.SEPARATOR)
         items.append(pystray.MenuItem(lambda _i: T("Rate this app"),
                                       push("review")))
+        # Directly beneath the review item on purpose. Someone about to rate
+        # the app because something is wrong is exactly the person this is
+        # for, and a review is where that feedback went when there was
+        # nowhere else for it to go.
+        items.append(pystray.MenuItem(lambda _i: T("Report a problem"),
+                                      push("report")))
         items += [pystray.Menu.SEPARATOR,
                   pystray.MenuItem(lambda _i: T("Quit"), push("quit"))]
         # Tooltip comes from DISPLAY_NAME, not a literal. It was a literal, and
@@ -6189,6 +6273,13 @@ class App:
                 elif cmd == "review":
                     log_event("tray", "opened the Store review form")
                     open_link(REVIEW_URL)
+                elif cmd == "report":
+                    # The draft first, then the folder: the mail window is
+                    # what the user asked for, and Explorer landing on top of
+                    # it would hide the thing they are about to type into.
+                    log_event("tray", "opened a problem report")
+                    open_link(problem_report_link())
+                    reveal_log()
                 elif cmd == "quit":
                     self.quit()
                     return
@@ -6563,8 +6654,9 @@ def report_startup_failure(text):
         body = ("%s could not start.\n\n"
                 "%s\n\n"
                 "The full details were written to:\n%s\n\n"
-                "Sending that file is the quickest way to get this fixed."
-                % (DISPLAY_NAME, summary, LOG_PATH))
+                "Please send that file to %s -- it usually says exactly what\n"
+                "went wrong, and it is the quickest way to get this fixed."
+                % (DISPLAY_NAME, summary, LOG_PATH, SUPPORT_EMAIL))
         user32 = ctypes.windll.user32
         user32.MessageBoxW.argtypes = (wintypes.HWND, wintypes.LPCWSTR,
                                        wintypes.LPCWSTR, wintypes.UINT)

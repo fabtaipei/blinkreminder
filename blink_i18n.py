@@ -250,6 +250,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "一則簡短的評論，能幫助其他眼睛疲勞的人找到它。謝謝！",
         "Don’t ask again": "不再詢問",
         "Rate this app": "為這個程式評分",
+        "Report a problem": "回報問題",
         "Show countdown": "顯示倒數計時",
 
         # The welcome card, the taught reminder and the strength question.
@@ -357,6 +358,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "一条简短的评价，能帮助其他眼睛疲劳的人找到它。谢谢！",
         "Don’t ask again": "不再询问",
         "Rate this app": "为这个应用评分",
+        "Report a problem": "报告问题",
         "Show countdown": "显示倒计时",
 
         # The welcome card, the taught reminder and the strength question.
@@ -469,6 +471,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Un court avis aide d'autres personnes aux yeux fatigués à la trouver. Merci !",
         "Don’t ask again": "Ne plus demander",
         "Rate this app": "Évaluer l'application",
+        "Report a problem": "Signaler un problème",
         "Show countdown": "Afficher le compte à rebours",
 
         # The welcome card, the taught reminder and the strength question.
@@ -577,6 +580,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Una reseña breve ayuda a otras personas con los ojos cansados a encontrarla. ¡Gracias!",
         "Don’t ask again": "No volver a preguntar",
         "Rate this app": "Valorar esta app",
+        "Report a problem": "Informar de un problema",
         "Show countdown": "Mostrar cuenta atrás",
 
         # The welcome card, the taught reminder and the strength question.
@@ -686,6 +690,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Eine kurze Bewertung hilft anderen mit müden Augen, sie zu finden. Danke!",
         "Don’t ask again": "Nicht mehr fragen",
         "Rate this app": "App bewerten",
+        "Report a problem": "Problem melden",
         "Show countdown": "Countdown anzeigen",
 
         # The welcome card, the taught reminder and the strength question.
@@ -796,6 +801,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Una breve recensione aiuta altre persone con gli occhi stanchi a trovarla. Grazie!",
         "Don’t ask again": "Non chiedere più",
         "Rate this app": "Valuta l'app",
+        "Report a problem": "Segnala un problema",
         "Show countdown": "Mostra il conto alla rovescia",
 
         # The welcome card, the taught reminder and the strength question.
@@ -906,6 +912,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Uma avaliação curta ajuda outras pessoas com olhos cansados a encontrá-lo. Agradeço!",
         "Don’t ask again": "Não perguntar de novo",
         "Rate this app": "Avaliar este app",
+        "Report a problem": "Relatar um problema",
         "Show countdown": "Mostrar contagem regressiva",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1013,6 +1020,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "短いレビューが、目の疲れに悩むほかの方がこのアプリを見つける助けになります。ありがとうございます！",
         "Don’t ask again": "今後は表示しない",
         "Rate this app": "このアプリを評価",
+        "Report a problem": "問題を報告",
         "Show countdown": "カウントダウンを表示",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1120,6 +1128,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "짧은 리뷰 하나가 눈이 피로한 다른 사람들이 이 앱을 찾는 데 도움이 돼요. 감사합니다!",
         "Don’t ask again": "다시 묻지 않기",
         "Rate this app": "이 앱 평가하기",
+        "Report a problem": "문제 신고",
         "Show countdown": "카운트다운 표시",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1226,6 +1235,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "एक छोटी-सी समीक्षा थकी आँखों वाले दूसरे लोगों को इसे ढूँढने में मदद करती है। धन्यवाद!",
         "Don’t ask again": "फिर से न पूछें",
         "Rate this app": "इस ऐप को रेट करें",
+        "Report a problem": "समस्या की रिपोर्ट करें",
         "Show countdown": "उलटी गिनती दिखाएँ",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1332,6 +1342,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "একটি ছোট রিভিউ ক্লান্ত চোখের অন্যদের এটি খুঁজে পেতে সাহায্য করে। ধন্যবাদ!",
         "Don’t ask again": "আর দেখাবেন না",
         "Rate this app": "এই অ্যাপটিকে রেটিং দিন",
+        "Report a problem": "সমস্যা জানান",
         "Show countdown": "কাউন্টডাউন দেখান",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1442,6 +1453,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "مراجعة قصيرة تساعد آخرين يعانون من إجهاد العين على العثور عليه. شكرًا!",
         "Don’t ask again": "لا تسألني مجددًا",
         "Rate this app": "قيّم هذا التطبيق",
+        "Report a problem": "الإبلاغ عن مشكلة",
         "Show countdown": "إظهار العد التنازلي",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1550,6 +1562,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "ایک مختصر ریویو تھکی آنکھوں والے دوسرے لوگوں کو اسے ڈھونڈنے میں مدد دیتا ہے۔ شکریہ!",
         "Don’t ask again": "دوبارہ نہ پوچھیں",
         "Rate this app": "اس ایپ کی درجہ بندی کریں",
+        "Report a problem": "مسئلہ رپورٹ کریں",
         "Show countdown": "الٹی گنتی دکھائیں",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1656,6 +1669,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Ulasan singkat membantu orang lain yang matanya lelah menemukannya. Terima kasih!",
         "Don’t ask again": "Jangan tanya lagi",
         "Rate this app": "Beri nilai aplikasi ini",
+        "Report a problem": "Laporkan masalah",
         "Show countdown": "Tampilkan hitung mundur",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1767,6 +1781,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Krótka opinia pomoże innym ze zmęczonymi oczami ją znaleźć. Dziękuję!",
         "Don’t ask again": "Nie pytaj więcej",
         "Rate this app": "Oceń tę aplikację",
+        "Report a problem": "Zgłoś problem",
         "Show countdown": "Pokaż odliczanie",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1874,6 +1889,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Kısa bir değerlendirme, gözleri yorgun başkalarının onu bulmasına yardımcı olur. Teşekkürler!",
         "Don’t ask again": "Bir daha sorma",
         "Rate this app": "Bu uygulamayı değerlendir",
+        "Report a problem": "Sorun bildir",
         "Show countdown": "Geri sayımı göster",
 
         # The welcome card, the taught reminder and the strength question.
@@ -1981,6 +1997,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Một đánh giá ngắn giúp những người mỏi mắt khác tìm thấy nó. Cảm ơn bạn!",
         "Don’t ask again": "Đừng hỏi lại",
         "Rate this app": "Đánh giá ứng dụng này",
+        "Report a problem": "Báo lỗi",
         "Show countdown": "Hiện đếm ngược",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2089,6 +2106,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Короткий отзыв поможет другим людям с уставшими глазами найти его. Спасибо!",
         "Don’t ask again": "Больше не спрашивать",
         "Rate this app": "Оценить приложение",
+        "Report a problem": "Сообщить о проблеме",
         "Show countdown": "Показывать обратный отсчёт",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2195,6 +2213,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "รีวิวสั้น ๆ ช่วยให้คนอื่นที่ตาล้าหาแอปนี้เจอ ขอบคุณ!",
         "Don’t ask again": "ไม่ต้องถามอีก",
         "Rate this app": "ให้คะแนนแอปนี้",
+        "Report a problem": "รายงานปัญหา",
         "Show countdown": "แสดงการนับถอยหลัง",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2303,6 +2322,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Короткий відгук допоможе іншим людям із втомленими очима його знайти. Дякую!",
         "Don’t ask again": "Більше не питати",
         "Rate this app": "Оцінити застосунок",
+        "Report a problem": "Повідомити про проблему",
         "Show countdown": "Показувати зворотний відлік",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2410,6 +2430,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Krátké hodnocení pomůže dalším lidem s unavenýma očima ji najít. Děkuji!",
         "Don’t ask again": "Už se neptat",
         "Rate this app": "Ohodnotit aplikaci",
+        "Report a problem": "Nahlásit problém",
         "Show countdown": "Zobrazit odpočet",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2517,6 +2538,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "O recenzie scurtă îi ajută pe alții cu ochii obosiți să o găsească. Mulțumesc!",
         "Don’t ask again": "Nu mai întreba",
         "Rate this app": "Evaluează aplicația",
+        "Report a problem": "Raportează o problemă",
         "Show countdown": "Afișează numărătoarea inversă",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2624,6 +2646,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Egy rövid értékelés segít más fáradt szemű embereknek megtalálni. Köszönöm!",
         "Don’t ask again": "Ne kérdezd többé",
         "Rate this app": "Értékeld az alkalmazást",
+        "Report a problem": "Hiba jelentése",
         "Show countdown": "Visszaszámlálás megjelenítése",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2731,6 +2754,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Μια σύντομη κριτική βοηθά άλλους με κουρασμένα μάτια να τη βρουν. Ευχαριστώ!",
         "Don’t ask again": "Να μην ξαναρωτηθώ",
         "Rate this app": "Βαθμολόγησε την εφαρμογή",
+        "Report a problem": "Αναφορά προβλήματος",
         "Show countdown": "Αντίστροφη μέτρηση",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2838,6 +2862,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "En kort recension hjälper andra med trötta ögon att hitta den. Tack!",
         "Don’t ask again": "Fråga inte igen",
         "Rate this app": "Betygsätt appen",
+        "Report a problem": "Rapportera ett problem",
         "Show countdown": "Visa nedräkning",
 
         # The welcome card, the taught reminder and the strength question.
@@ -2945,6 +2970,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Lyhyt arvio auttaa muita väsyneistä silmistä kärsiviä löytämään sen. Kiitos!",
         "Don’t ask again": "Älä kysy uudelleen",
         "Rate this app": "Arvioi sovellus",
+        "Report a problem": "Ilmoita ongelmasta",
         "Show countdown": "Näytä lähtölaskenta",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3052,6 +3078,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjælper andre med trætte øjne med at finde den. Tak!",
         "Don’t ask again": "Spørg ikke igen",
         "Rate this app": "Bedøm appen",
+        "Report a problem": "Rapportér et problem",
         "Show countdown": "Vis nedtælling",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3159,6 +3186,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "En kort anmeldelse hjelper andre med slitne øyne å finne den. Takk!",
         "Don’t ask again": "Ikke spør igjen",
         "Rate this app": "Vurder appen",
+        "Report a problem": "Rapporter et problem",
         "Show countdown": "Vis nedtelling",
 
         # The welcome card, the taught reminder and the strength question.
@@ -3266,6 +3294,7 @@ STRINGS = {
         "A short review helps others with tired eyes find it. Thank you!": "Een korte review helpt anderen met vermoeide ogen hem te vinden. Bedankt!",
         "Don’t ask again": "Niet meer vragen",
         "Rate this app": "Beoordeel deze app",
+        "Report a problem": "Probleem melden",
         "Show countdown": "Aftellen tonen",
 
         # The welcome card, the taught reminder and the strength question.

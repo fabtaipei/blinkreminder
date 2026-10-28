@@ -11,6 +11,7 @@ generated here, so the repo stays down to two source files.
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -328,6 +329,36 @@ blink_reminder.app_icon(64, mono=True)
 """
 
 
+def check_app_version():
+    """The app's own APP_VERSION must equal the one stamped into the exe.
+
+    The app has to know its version now that it writes it into a problem
+    report. Two copies of a version number is one more than there should be,
+    but the alternative -- reading the exe's own version resource through
+    GetFileVersionInfo -- is a block of ctypes to tell the app something it
+    could simply be told.
+
+    So: one constant in each file and a build that refuses when they differ.
+    A version a user reads off a bug report is worth nothing if it can drift
+    from the version in the file's properties, and that drift would be
+    invisible to every other check here.
+    """
+    dotted = "%d.%d.%d.%d" % VERSION
+    with open(ENTRY, encoding="utf-8") as fh:
+        found = re.search(r'^APP_VERSION\s*=\s*"([^"]+)"', fh.read(),
+                          re.MULTILINE)
+    if not found:
+        sys.exit("blink_reminder.py has no APP_VERSION to check against %s"
+                 % dotted)
+    if found.group(1) != dotted:
+        sys.exit("\nversion mismatch:"
+                 "\n  build.py VERSION           %s"
+                 "\n  blink_reminder APP_VERSION %s"
+                 "\n  Set them the same and build again."
+                 % (dotted, found.group(1)))
+    print("version: %s, and the app agrees" % dotted)
+
+
 def verify_excludes():
     """Prove the exclusions are unreachable, before PyInstaller acts on them.
 
@@ -376,6 +407,7 @@ def build(onefile=True):
     # the hash recorded afterwards are the same hash even if the source is
     # edited mid-build.
     refuse_if_running(onefile)
+    check_app_version()
     verify_excludes()
     fingerprint = source_fingerprint()
     make_icon()

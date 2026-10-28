@@ -207,6 +207,7 @@ BUDGETS = [
     ("Settings", "t4", 240, "tray menu"),
     ("How it works", "t4", 240, "tray menu"),
     ("Rate this app", "t4", 240, "tray menu"),
+    ("Report a problem", "t4", 240, "tray menu"),
     ("Quit", "t4", 240, "tray menu"),
 ]
 
