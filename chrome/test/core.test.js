@@ -260,7 +260,7 @@ test("volume runs from 1% to 100%", () => {
 test("the shipped defaults are the ones the author settled on", () => {
   assert.equal(DEFAULTS.blinkInterval, 30);
   assert.equal(DEFAULTS.blink.fade, 250);
-  // 15%, not the 20% this once shipped: fa88c2c turned the chime down and
+  // 15%, not the 20% this once shipped: 2b888c3 turned the chime down and
   // left this line behind, which is why CI went red on 2026-10-24 and stayed
   // there. The extension is deliberately quieter than the desktop app, whose
   // own default is 0.6 -- a chime in a browser tab interrupts a page you are
