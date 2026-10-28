@@ -18,8 +18,8 @@ KEYS = [
     'Blink reminders need access to web pages.',
 ]
 
-ENGLISH_DESCRIPTION = ('Two reminders in one app: a gentle cue to blink, and a 20-20-20 '
-                       'eye break. For dry eyes and digital eye strain. No tracking.')
+ENGLISH_DESCRIPTION = ('Blink more often and rest your eyes: a gentle on-page cue for '
+                       'dry eyes and digital eye strain, with 20-20-20 screen breaks.')
 
 STRINGS = {
     "zh-Hant": [
@@ -34,7 +34,7 @@ STRINGS = {
         # Full version for Windows
         "Windows 完整版",
         # extDescription
-        "溫和地提醒你眨眼，並提醒你把視線移開螢幕。免費、無廣告、不收集任何資料。",
+        "多眨眼，讓眼睛休息：頁面上的輕柔提示，針對乾眼與數位視疲勞，並有 20-20-20 休息。",
         # Show a dot in the corner
         "在角落顯示小圓點",
         # Blink reminders need access to web pages.
@@ -52,7 +52,7 @@ STRINGS = {
         # Full version for Windows
         "Windows 完整版",
         # extDescription
-        "温和地提醒你眨眼，并提醒你把视线移开屏幕。免费、无广告、不收集任何数据。",
+        "多眨眼，让眼睛休息：页面上的轻柔提示，针对干眼与数码视疲劳，并有 20-20-20 休息。",
         # Show a dot in the corner
         "在角落显示小圆点",
         # Blink reminders need access to web pages.
@@ -70,7 +70,7 @@ STRINGS = {
         # Full version for Windows
         "Windows 版（フル機能）",
         # extDescription
-        "まばたきをそっと促し、画面から目を離すよう知らせます。無料・広告なし・データ収集なし。",
+        "まばたきを増やして目を休める：ドライアイと眼精疲労のための控えめな画面上の合図と、20-20-20 休憩。",
         # Show a dot in the corner
         "隅に点を表示",
         # Blink reminders need access to web pages.
@@ -88,7 +88,7 @@ STRINGS = {
         # Full version for Windows
         "Windows용 정식 버전",
         # extDescription
-        "눈을 깜빡이도록 부드럽게 알려 주고, 화면에서 눈을 떼도록 알려 줍니다. 무료, 광고 없음, 데이터 수집 없음.",
+        "더 자주 깜빡이고 눈을 쉬게 하세요: 안구건조증과 디지털 눈 피로를 위한 페이지 내 부드러운 신호, 20-20-20 휴식 포함.",
         # Show a dot in the corner
         "모서리에 점 표시",
         # Blink reminders need access to web pages.
@@ -106,7 +106,7 @@ STRINGS = {
         # Full version for Windows
         "Version complète pour Windows",
         # extDescription
-        "Un signal discret pour cligner des yeux et un rappel de regarder ailleurs. Gratuit, sans pub, aucune donnée collectée.",
+        "Clignez plus souvent, reposez vos yeux : signal discret sur la page pour yeux secs et fatigue visuelle, avec pauses 20-20-20.",
         # Show a dot in the corner
         "Afficher un point dans le coin",
         # Blink reminders need access to web pages.
@@ -124,7 +124,7 @@ STRINGS = {
         # Full version for Windows
         "Versión completa para Windows",
         # extDescription
-        "Una señal discreta para parpadear y un aviso para apartar la vista. Gratis, sin anuncios, sin recopilar datos.",
+        "Parpadea más y descansa la vista: una señal discreta en la página para ojo seco y fatiga visual digital, con pausas 20-20-20.",
         # Show a dot in the corner
         "Mostrar un punto en la esquina",
         # Blink reminders need access to web pages.
@@ -142,7 +142,7 @@ STRINGS = {
         # Full version for Windows
         "Vollversion für Windows",
         # extDescription
-        "Ein dezenter Hinweis zum Blinzeln und eine Erinnerung, wegzuschauen. Kostenlos, ohne Werbung, ohne Datensammlung.",
+        "Öfter blinzeln, Augen entspannen: dezenter Hinweis auf der Seite bei trockenen Augen und digitaler Augenbelastung, 20-20-20-Pausen.",
         # Show a dot in the corner
         "Punkt in der Ecke anzeigen",
         # Blink reminders need access to web pages.
@@ -160,7 +160,7 @@ STRINGS = {
         # Full version for Windows
         "Versione completa per Windows",
         # extDescription
-        "Un segnale discreto per sbattere le palpebre e uno per distogliere lo sguardo. Gratis, senza pubblicità né raccolta di dati.",
+        "Sbatti le palpebre e riposa gli occhi: segnale discreto in pagina per occhi secchi e affaticamento visivo digitale, pause 20-20-20.",
         # Show a dot in the corner
         "Mostra un punto nell'angolo",
         # Blink reminders need access to web pages.
@@ -178,7 +178,7 @@ STRINGS = {
         # Full version for Windows
         "Versão completa para Windows",
         # extDescription
-        "Um sinal suave para piscar e um lembrete para desviar o olhar da tela. Grátis, sem anúncios, sem coleta de dados.",
+        "Pisque mais e descanse os olhos: um sinal suave na página para olho seco e fadiga ocular digital, com pausas 20-20-20.",
         # Show a dot in the corner
         "Mostrar um ponto no canto",
         # Blink reminders need access to web pages.
@@ -196,7 +196,7 @@ STRINGS = {
         # Full version for Windows
         "Полная версия для Windows",
         # extDescription
-        "Мягкий сигнал моргнуть и напоминание отвести взгляд от экрана. Бесплатно, без рекламы, без сбора данных.",
+        "Моргайте чаще и давайте глазам отдых: мягкий сигнал на странице при сухости и усталости глаз, с перерывами 20-20-20.",
         # Show a dot in the corner
         "Показывать точку в углу",
         # Blink reminders need access to web pages.
@@ -214,7 +214,7 @@ STRINGS = {
         # Full version for Windows
         "Повна версія для Windows",
         # extDescription
-        "М’який сигнал кліпнути й нагадування відвести погляд від екрана. Безкоштовно, без реклами, без збору даних.",
+        "Кліпайте частіше й давайте очам відпочинок: м’який сигнал на сторінці при сухості та втомі очей, з перервами 20-20-20.",
         # Show a dot in the corner
         "Показувати крапку в кутку",
         # Blink reminders need access to web pages.
@@ -232,7 +232,7 @@ STRINGS = {
         # Full version for Windows
         "Pełna wersja dla Windows",
         # extDescription
-        "Delikatny sygnał, by mrugnąć, i przypomnienie, by oderwać wzrok od ekranu. Za darmo, bez reklam, bez zbierania danych.",
+        "Mrugaj częściej i daj oczom odpocząć: delikatny sygnał na stronie przy suchych oczach i cyfrowym zmęczeniu wzroku, przerwy 20-20-20.",
         # Show a dot in the corner
         "Pokaż kropkę w rogu",
         # Blink reminders need access to web pages.
@@ -250,7 +250,7 @@ STRINGS = {
         # Full version for Windows
         "Plná verze pro Windows",
         # extDescription
-        "Jemný signál k mrknutí a připomínka, abyste odvrátili zrak od obrazovky. Zdarma, bez reklam, bez sběru dat.",
+        "Mrkejte častěji a dopřejte očím odpočinek: jemný signál na stránce pro suché oči a digitální únavu očí, s přestávkami 20-20-20.",
         # Show a dot in the corner
         "Zobrazit tečku v rohu",
         # Blink reminders need access to web pages.
@@ -268,7 +268,7 @@ STRINGS = {
         # Full version for Windows
         "Windows için tam sürüm",
         # extDescription
-        "Göz kırpmanız için hafif bir uyarı ve ekrandan uzağa bakmanız için bir hatırlatma. Ücretsiz, reklamsız, veri toplamaz.",
+        "Daha sık göz kırpın, gözlerinizi dinlendirin: sayfada hafif uyarı; kuru göz ve dijital göz yorgunluğu için, 20-20-20 molalarıyla.",
         # Show a dot in the corner
         "Köşede bir nokta göster",
         # Blink reminders need access to web pages.
@@ -286,7 +286,7 @@ STRINGS = {
         # Full version for Windows
         "Versi lengkap untuk Windows",
         # extDescription
-        "Isyarat lembut untuk berkedip dan pengingat untuk mengalihkan pandangan dari layar. Gratis, tanpa iklan, tanpa pengumpulan data.",
+        "Berkedip lebih sering dan istirahatkan mata: isyarat lembut di halaman untuk mata kering dan kelelahan mata digital, jeda 20-20-20.",
         # Show a dot in the corner
         "Tampilkan titik di sudut",
         # Blink reminders need access to web pages.
@@ -304,7 +304,7 @@ STRINGS = {
         # Full version for Windows
         "Bản đầy đủ cho Windows",
         # extDescription
-        "Tín hiệu nhẹ nhàng nhắc bạn chớp mắt và nhìn ra xa màn hình. Miễn phí, không quảng cáo, không thu thập dữ liệu.",
+        "Chớp mắt nhiều hơn và để mắt nghỉ: tín hiệu nhẹ trên trang cho mắt khô và mỏi mắt do màn hình, kèm nghỉ 20-20-20.",
         # Show a dot in the corner
         "Hiện chấm tròn ở góc",
         # Blink reminders need access to web pages.
@@ -322,7 +322,7 @@ STRINGS = {
         # Full version for Windows
         "เวอร์ชันเต็มสำหรับ Windows",
         # extDescription
-        "สัญญาณเบาๆ ให้กะพริบตา และเตือนให้ละสายตาจากหน้าจอ ฟรี ไม่มีโฆษณา ไม่เก็บข้อมูล",
+        "กะพริบตาบ่อยขึ้นและพักสายตา: สัญญาณเบาๆ บนหน้าเว็บ สำหรับตาแห้งและอาการตาล้าจากจอ พร้อมพัก 20-20-20",
         # Show a dot in the corner
         "แสดงจุดที่มุมจอ",
         # Blink reminders need access to web pages.
@@ -340,7 +340,7 @@ STRINGS = {
         # Full version for Windows
         "Windows के लिए पूरा संस्करण",
         # extDescription
-        "पलक झपकाने के लिए एक हल्का संकेत और स्क्रीन से नज़र हटाने की याद। मुफ़्त, कोई विज्ञापन नहीं, कोई डेटा संग्रह नहीं।",
+        "अधिक पलक झपकाएँ और आँखों को आराम दें: सूखी आँखों और डिजिटल आई स्ट्रेन के लिए पेज पर हल्का संकेत, 20-20-20 ब्रेक के साथ।",
         # Show a dot in the corner
         "कोने में एक बिंदु दिखाएँ",
         # Blink reminders need access to web pages.
@@ -358,7 +358,7 @@ STRINGS = {
         # Full version for Windows
         "Windows-এর পূর্ণ সংস্করণ",
         # extDescription
-        "পলক ফেলার জন্য একটি মৃদু সংকেত এবং স্ক্রিন থেকে চোখ সরানোর রিমাইন্ডার। বিনামূল্যে, বিজ্ঞাপন নেই, কোনো ডেটা সংগ্রহ নেই।",
+        "আরও পলক ফেলুন, চোখ বিশ্রাম দিন: শুষ্ক চোখ ও ডিজিটাল আই স্ট্রেনের জন্য পাতায় মৃদু সংকেত, সঙ্গে 20-20-20 বিরতি।",
         # Show a dot in the corner
         "কোণে একটি বিন্দু দেখান",
         # Blink reminders need access to web pages.
@@ -376,7 +376,7 @@ STRINGS = {
         # Full version for Windows
         "النسخة الكاملة لنظام Windows",
         # extDescription
-        "إشارة لطيفة لترمش، وتذكير لتبعد نظرك عن الشاشة. مجاني، بلا إعلانات، ولا يجمع أي بيانات.",
+        "ارمش أكثر وأرِح عينيك: تنبيه لطيف داخل الصفحة لجفاف العين وإجهاد العين الرقمي، مع فترات راحة 20-20-20.",
         # Show a dot in the corner
         "إظهار نقطة في الزاوية",
         # Blink reminders need access to web pages.
@@ -396,7 +396,7 @@ STRINGS = {
         # Full version for Windows
         "Windows کے لیے مکمل ورژن",
         # extDescription
-        "پلک جھپکنے کا ہلکا سا اشارہ، اور اسکرین سے نظر ہٹانے کی یاد دہانی۔ مفت، بغیر اشتہار، کوئی ڈیٹا جمع نہیں۔",
+        "زیادہ پلکیں جھپکائیں اور آنکھوں کو آرام دیں: خشک آنکھوں اور ڈیجیٹل آنکھوں کے تناؤ کے لیے صفحے پر ہلکا اشارہ، 20-20-20 وقفوں کے ساتھ۔",
         # Show a dot in the corner
         "کونے میں ایک نقطہ دکھائیں",
         # Blink reminders need access to web pages.
@@ -414,7 +414,7 @@ STRINGS = {
         # Full version for Windows
         "Versiunea completă pentru Windows",
         # extDescription
-        "Un semnal discret să clipești și un memento să privești în altă parte. Gratuit, fără reclame, fără colectare de date.",
+        "Clipește mai des și odihnește-ți ochii: un semnal discret în pagină pentru ochi uscați și oboseală vizuală, cu pauze 20-20-20.",
         # Show a dot in the corner
         "Arată un punct în colț",
         # Blink reminders need access to web pages.
@@ -432,7 +432,7 @@ STRINGS = {
         # Full version for Windows
         "Teljes verzió Windowsra",
         # extDescription
-        "Finom jelzés a pislogáshoz és emlékeztető, hogy nézz el a képernyőtől. Ingyenes, reklámmentes, nem gyűjt adatot.",
+        "Pislogjon többet, pihentesse a szemét: finom jelzés az oldalon száraz szemre és digitális szemfáradtságra, 20-20-20 szünetekkel.",
         # Show a dot in the corner
         "Pont megjelenítése a sarokban",
         # Blink reminders need access to web pages.
@@ -450,7 +450,7 @@ STRINGS = {
         # Full version for Windows
         "Πλήρης έκδοση για Windows",
         # extDescription
-        "Διακριτικό σήμα να ανοιγοκλείνεις τα μάτια και να κοιτάς μακριά. Δωρεάν, χωρίς διαφημίσεις, καμία συλλογή δεδομένων.",
+        "Ανοιγοκλείνετε τα μάτια πιο συχνά: διακριτικό σήμα στη σελίδα για ξηροφθαλμία και ψηφιακή καταπόνηση, με διαλείμματα 20-20-20.",
         # Show a dot in the corner
         "Εμφάνιση κουκκίδας στη γωνία",
         # Blink reminders need access to web pages.
@@ -468,7 +468,7 @@ STRINGS = {
         # Full version for Windows
         "Fullversion för Windows",
         # extDescription
-        "En diskret signal att blinka och en påminnelse att titta bort från skärmen. Gratis, utan reklam, ingen datainsamling.",
+        "Blinka oftare och vila ögonen: en diskret signal på sidan mot torra ögon och digital ögontrötthet, med 20-20-20-pauser.",
         # Show a dot in the corner
         "Visa en prick i hörnet",
         # Blink reminders need access to web pages.
@@ -486,7 +486,7 @@ STRINGS = {
         # Full version for Windows
         "Täysi versio Windowsille",
         # extDescription
-        "Hienovarainen merkki räpäyttää ja muistutus katsoa pois näytöltä. Ilmainen, ei mainoksia, ei tietojen keruuta.",
+        "Räpäytä useammin ja lepuuta silmiä: hienovarainen merkki sivulla kuiviin silmiin ja silmien rasitukseen, 20-20-20-tauoilla.",
         # Show a dot in the corner
         "Näytä piste kulmassa",
         # Blink reminders need access to web pages.
@@ -504,7 +504,7 @@ STRINGS = {
         # Full version for Windows
         "Fuld version til Windows",
         # extDescription
-        "Et diskret signal til at blinke og en påmindelse om at se væk fra skærmen. Gratis, ingen reklamer, ingen dataindsamling.",
+        "Blink oftere, og hvil øjnene: et diskret signal på siden mod tørre øjne og digital øjenbelastning, med 20-20-20-pauser.",
         # Show a dot in the corner
         "Vis en prik i hjørnet",
         # Blink reminders need access to web pages.
@@ -522,7 +522,7 @@ STRINGS = {
         # Full version for Windows
         "Fullversjon for Windows",
         # extDescription
-        "Et diskret signal om å blunke og en påminnelse om å se bort fra skjermen. Gratis, uten reklame, ingen datainnsamling.",
+        "Blunk oftere og hvil øynene: et diskret signal på siden mot tørre øyne og digital øyebelastning, med 20-20-20-pauser.",
         # Show a dot in the corner
         "Vis en prikk i hjørnet",
         # Blink reminders need access to web pages.
@@ -540,7 +540,7 @@ STRINGS = {
         # Full version for Windows
         "Volledige versie voor Windows",
         # extDescription
-        "Een zacht signaal om te knipperen en een herinnering om weg te kijken van het scherm. Gratis, zonder advertenties, verzamelt niets.",
+        "Knipper vaker en rust je ogen: een zacht signaal op de pagina bij droge ogen en digitale oogklachten, met 20-20-20-pauzes.",
         # Show a dot in the corner
         "Een stip in de hoek tonen",
         # Blink reminders need access to web pages.
