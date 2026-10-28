@@ -72,6 +72,14 @@ jobs:
       - name: Check the startup state and its label
         run: py test_startup.py
 
+      # The two windows that only a real window can test: the Startup button
+      # as the panel actually builds it, and the crash dialog actually shown.
+      # Both are drawn on a desktop the process creates for itself, so they
+      # cannot reach anybody's screen -- and the run REFUSES to start if that
+      # desktop cannot be made, rather than drawing on the one in use.
+      - name: Check the windows that have to be drawn
+        run: py test_ui.py
+
       # The Chrome extension: its rules under Node, then its strings and
       # locales regenerated and compared with what is committed -- so a
       # translation changed in blink_i18n.py cannot leave the extension
