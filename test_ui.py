@@ -270,9 +270,24 @@ def pump(root, seconds, until=None):
 
 
 def build_app(tmp):
-    """One real App, shared by every check below. Building it is the slow part."""
+    """One real App, shared by every check below. Building it is the slow part.
+
+    Breaks are switched off here, and the timer App.__init__ already armed is
+    CANCELLED rather than just disabled. A break is anchored to the wall clock
+    -- on the hour and the half hour, by design -- so it fires straight
+    through whatever is being tested, twice an hour, on a schedule no test
+    controls.
+
+    It is not hypothetical. CI run 37 ran at about 14:30: a break pulled a
+    full-screen dim pane over the dot this file was about to photograph, the
+    overlay was busy so the real pulse was skipped, and the capture came back
+    as 1024x768 of solid lime. Setting break_enabled alone would not have
+    helped, because the timer is armed before any of this can set it.
+    """
     stub_side_effects(tmp)
     app = br.App(dict(br.DEFAULTS))
+    app.cfg = dict(app.cfg, break_enabled=False)
+    app.schedule_break()          # cancels the pending one, arms nothing
     app.root.update_idletasks()
     return app
 
@@ -333,12 +348,20 @@ def test_overlay_draws(app):
     cfg = br.blink_cfg(dict(app.cfg, style="dot", blinks=1, hold_ms=2500,
                             fade_ms=0, gap_ms=0, sound_enabled=False,
                             opacity=1.0))
+    # pulse() returns quietly when the overlay is busy, so without this the
+    # next lines photograph whatever reminder got there first and report on
+    # that instead. Run 37 did exactly that and blamed the dot for a break.
+    before = app.overlay.pulse_id
     app.overlay.pulse(cfg)
+    check("the pulse ran rather than being skipped by a busy overlay",
+          app.overlay.pulse_id > before, True)
     shown = pump(app.root, 8, lambda: bool(app.overlay.active))
     check("a pane was shown", shown, True)
-    if not shown:
+    if not shown or app.overlay.pulse_id == before:
         return
     pump(app.root, 0.6)
+    check("the pane on screen belongs to THIS pulse, not another reminder",
+          app.overlay.cfg["style"], "dot")
 
     pane = app.overlay.active[0]
     path, size, how = capture(int(pane.win.frame(), 16),
