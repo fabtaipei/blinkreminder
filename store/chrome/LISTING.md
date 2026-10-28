@@ -43,31 +43,56 @@ better alongside the other eye-care extensions.
 
 ## Detailed description
 
-> Staring at a screen roughly halves how often you blink, and many of the
-> blinks that remain are incomplete — the eyelids never quite close, so the
-> tear film isn't renewed. If your eye doctor has told you to blink fully,
-> this is a way to build the habit without thinking about it.
+Only the first two lines show before "Read more", so the opening carries the
+product rather than a fact about tear film.
+
+> Two reminders in one app: a gentle cue to blink, and a 20-20-20 eye break.
+> It stays out of your way. You can read, click and type straight through it.
 >
-> A soft cue appears over the page every so often. You can read straight
-> through it: it ignores clicks and keystrokes, never takes focus, and fades
-> by itself. Separately, on the wall clock, a reminder to look away from the
-> screen for a moment.
+> If your doctor has told you to blink more often — for dry eyes, or for eye
+> strain from screen work — this helps you do it consistently.
 >
-> • Blink reminder on any interval from 30 seconds
-> • Look-away reminder on the hour and half hour, or every 15, 20 or 60 minutes
-> • A dot, a word, or a gentle dim — your choice of size, colour, strength,
->   timing and sound
-> • A small corner dot while it's running, which you can switch off
-> • 30 languages, following your browser
-> • No account, no ads, no analytics, no network connection of any kind
+> BLINK CUE – VISUAL AND SOUND
 >
-> The on-page cue is opt-in. Installed, the extension asks for nothing but
-> timers and notifications; the permission to draw on pages is requested only
-> when you switch that on, and nothing on any page is ever read or sent
-> anywhere. The code is public.
+> A soft cue appears over the page every 30 seconds, or at any interval you
+> choose. A gentle chime carries it when you don't see the cue. A blink
+> reminder has to reach you even when your eyes are on something else. Four
+> sounds, volume from 0% to 100%.
 >
-> There is a full Windows version in the Microsoft Store, which shows the cue
-> over every application rather than only in the browser.
+> BREAK CUE – EVERY 20 MINUTES
+>
+> The page tints gently to remind you to look away and take a screen break.
+> Choose
+> 15, 20, 30 or 60 minutes. Twenty is the 20-20-20 rule your optometrist may
+> have mentioned: every 20 minutes, look about 20 feet away for 20 seconds.
+>
+> IT WON'T INTERRUPT YOU
+>
+> The cue never takes focus, so it cannot swallow what you are typing, and it
+> fades by itself. There is no pop-up, no window, and nothing to dismiss.
+> Snooze it if needed.
+>
+> CUSTOMISABLE – TURN ANYTHING DOWN, OR OFF
+>
+> Four styles: a dot, a word, a gentle dim, or a small corner dot. Size,
+> colour, strength, timing and sound are all customisable, so the blink cue
+> can be barely there, but just enough to remind you. Anything you do not
+> want, switch off. Available in 29 languages.
+>
+> NOTHING LEAVES YOUR DEVICE
+>
+> No account. No sign-in. No ads, no analytics, no tracking. This extension
+> makes no network connection, so there is nowhere for anything to go.
+> Nothing on any page is ever read.
+>
+> WINDOWS APP AVAILABLE – THE CUE IN EVERY APP
+>
+> There is a full Windows version in the Microsoft Store. It shows the cue
+> over every application, not only in the browser.
+>
+> This is a reminder to do something you may already have been advised to do.
+> It is not a medical device and it does not diagnose or treat any condition.
+> If your eyes hurt, or stay uncomfortable, see an eye-care professional.
 
 ## Permission justifications
 
