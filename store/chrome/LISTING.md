@@ -49,8 +49,8 @@ product rather than a fact about tear film.
 > Two reminders in one app: a gentle cue to blink, and a 20-20-20 eye break.
 > It stays out of your way. You can read, click and type straight through it.
 >
-> If your doctor has told you to blink more often — for dry eyes, or for eye
-> strain from screen work — this helps you do it consistently.
+> If your doctor has told you to blink more often for dry eyes or eye strain,
+> this helps you do it consistently.
 >
 > BLINK CUE – VISUAL AND SOUND
 >
