@@ -124,5 +124,11 @@ $("settings").addEventListener("click", () => chrome.runtime.openOptionsPage());
 $("howto").addEventListener("click", () =>
   chrome.tabs.create({ url: "options.html#welcome" }));
 $("coffee").addEventListener("click", () => chrome.tabs.create({ url: SUPPORT_URL }));
+// Straight to the report card, the same way "How it works" opens the
+// welcome. The pop-up is too small to hold an address and a block of
+// details, and a pop-up closes the moment anything else takes focus --
+// which is exactly when somebody is trying to copy out of it.
+$("report").addEventListener("click", () =>
+  chrome.tabs.create({ url: "options.html#report" }));
 $("rate").addEventListener("click", () => chrome.tabs.create(
   { url: reviewUrl(chrome.runtime.id, navigator.userAgent) }));

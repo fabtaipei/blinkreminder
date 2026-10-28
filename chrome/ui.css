@@ -155,3 +155,12 @@ details.advanced[open] > summary::before { transform: rotate(90deg); }
 .pct { min-width: 40px; text-align: end; color: var(--muted);
        font-variant-numeric: tabular-nums; }
 .control { display: flex; align-items: center; gap: 8px; }
+
+/* The report card's details. pre keeps the lines the code put there, but a
+   user agent string is one unbroken token long enough to push the whole page
+   sideways -- so it wraps, and may break mid-token if it has to. It is text
+   to be copied, not read, so it sits muted and small. */
+#report-details { white-space: pre-wrap; overflow-wrap: anywhere;
+  margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+#report-card { display: grid; gap: 8px; }
+#report-card p { margin: 0; }

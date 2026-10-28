@@ -302,7 +302,16 @@ try {
                                 ["ar", "light"], ["zh-Hant", "dark"]]) {
     await evaluate(swS, `chrome.storage.local.get('cfg').then(({cfg}) =>
       chrome.storage.local.set({ cfg: { ...(cfg || {}), language: '${lang}' } }))`);
-    for (const [file, w, h] of [["options.html#welcome", 1100, 1500], ["popup.html", 320, 420]]) {
+    // #report is here for the same reason #welcome is: it is a section the
+    // user only reaches by asking for it, so nothing else would ever render
+    // it, in any language, in either scheme.
+    for (const [file, w, h] of [["options.html#welcome", 1100, 1500],
+                                ["options.html#report", 1100, 900],
+                                ["popup.html", 320, 420]]) {
+      // Named from the hash as well as the file: two sections of options.html
+      // both reduced to "options", so they shared a check label and the second
+      // screenshot silently overwrote the first.
+      const name = file.replace(".html", "").replace("#", "-");
       const tab = await openTab(`chrome-extension://${id}/${file}`);
       await send("Emulation.setEmulatedMedia", { features: [
         { name: "prefers-color-scheme", value: scheme }] }, tab.sessionId);
@@ -312,9 +321,9 @@ try {
       const info = await evaluate(tab.sessionId, `({ dir: document.dir, lang: document.documentElement.lang,
         empty: [...document.querySelectorAll('[data-t]')].filter(e => !e.textContent.trim()).length,
         height: document.documentElement.scrollHeight })`);
-      check(`${file.split(".")[0]} in ${lang}/${scheme}: every label filled`, info.empty === 0,
+      check(`${name} in ${lang}/${scheme}: every label filled`, info.empty === 0,
             `lang=${info.lang} dir=${info.dir}`);
-      await shot(tab.sessionId, `${file.split(".")[0]}-${lang}-${scheme}`);
+      await shot(tab.sessionId, `${name}-${lang}-${scheme}`);
       await send("Target.closeTarget", { targetId: tab.targetId });
     }
   }

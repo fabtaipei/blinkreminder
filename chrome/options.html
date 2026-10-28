@@ -24,6 +24,16 @@
     </div>
   </section>
 
+  <!-- Where to send a problem. The address and the few facts a report is
+       nearly useless without, selectable so they can be copied. No prose
+       around them: the heading already says what this is, and a sentence
+       here would cost 29 translations to say it twice. -->
+  <section id="report-card" class="card" hidden>
+    <h1 id="report-title"></h1>
+    <p><a id="report-mail" class="support"></a></p>
+    <pre id="report-details"></pre>
+  </section>
+
   <!-- "Too weak or intrusive?" -- shown after the taught reminders, and
        after Show me. Each button takes the eye to the control that changes
        what it names; Got it puts the question away for good. -->
@@ -80,6 +90,7 @@
   <footer class="links">
     <a id="coffee" class="support" data-t="Buy me a coffee"></a>
     <a id="rate" data-t="Rate this app"></a>
+    <a id="report" data-t="Report a problem"></a>
     <a id="windows" data-t="Full version for Windows" hidden></a>
   </footer>
 </main>

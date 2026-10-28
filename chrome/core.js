@@ -7,6 +7,12 @@
 
 export const DISPLAY_NAME = "Dry Eyes Blink Reminder";
 export const SUPPORT_URL = "https://buymeacoffee.com/kennytechy";
+// Where a user can reach a person. Until this existed the popup and the
+// options page offered a donation link and a review link and nothing else,
+// so somebody with a PROBLEM had only the Web Store's review box -- which is
+// how the desktop app's worst bug was reported, as a one-star review by
+// someone who had diagnosed it correctly and had nowhere to send it.
+export const SUPPORT_EMAIL = "ktaiwan@hotmail.com";
 // Tagged, so the Microsoft Store's own campaign report can say how many
 // Windows installs this extension sent it. The tag is only read at the
 // other end; it changes nothing about the page it opens.

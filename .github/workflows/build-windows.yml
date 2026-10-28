@@ -96,6 +96,30 @@ jobs:
           py chrome/build_extension.py
           git diff --exit-code -- chrome/strings.js chrome/_locales
 
+      # The extension's own smoke test, and the same argument as the exe's:
+      # node --test above runs the RULES, on a machine where nothing is
+      # packaged and no browser is involved. This loads what actually ships
+      # into a real headless Chrome and drives it. The harness has existed
+      # since the extension did; nothing ever ran it, which is exactly the
+      # shape of gap that let 1.4.2.0 reach the Store.
+      #
+      # Chrome is resolved rather than assumed: the default path is this
+      # author's machine, and a runner that has moved it should say so
+      # instead of failing somewhere inside a spawn.
+      - name: Smoke test the extension in a real Chrome
+        shell: bash
+        run: |
+          py chrome/build_extension.py --zip
+          for c in "/c/Program Files/Google/Chrome/Application/chrome.exe" \
+                   "/c/Program Files (x86)/Google/Chrome/Application/chrome.exe"; do
+            if [ -f "$c" ]; then CHROME="$c"; break; fi
+          done
+          if [ -z "$CHROME" ]; then
+            echo "no Chrome found on this runner; looked in Program Files"
+            exit 1
+          fi
+          BLINK_EXT_SRC=dist-chrome/unpacked node chrome/e2e/headless.js "$CHROME"
+
       - name: Build
         run: py build.py
 

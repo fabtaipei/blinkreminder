@@ -7,7 +7,7 @@
 import {
   MIN_INTERVAL, intervalUnit, intervalSeconds, SOUNDS, loadTutorial, questionDue,
   teachingPulse, captionInk,
-  BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL,
+  BREAK_MINUTES, CORNERS, FEELS, PAGE_ORIGINS, SUPPORT_URL, SUPPORT_EMAIL,
   WINDOWS_APP_URL, DISPLAY_NAME, normalize, feelOf, pulseOf, reviewUrl,
   onWindows,
 } from "./core.js";
@@ -340,6 +340,19 @@ async function render() {
   document.title = DISPLAY_NAME;
   const granted = await chrome.permissions.contains(PAGE_ORIGINS);
 
+  // The same facts the desktop app puts in its report dialog, and left
+  // untranslated for the same reason the log is: a version string means the
+  // same thing in every language, and a report arriving in one the author
+  // cannot read helps nobody.
+  $("report-card").hidden = location.hash !== "#report";
+  $("report-title").textContent = T("Report a problem");
+  $("report-mail").textContent = SUPPORT_EMAIL;
+  $("report-details").textContent = [
+    `${DISPLAY_NAME} ${chrome.runtime.getManifest().version} (Chrome)`,
+    navigator.userAgent,
+    `Language: ${chrome.i18n.getUILanguage()}`,
+  ].join("\n");
+
   $("welcome").hidden = location.hash !== "#welcome";
   $("welcome-title").textContent = T("How this app works?");
   $("welcome-grant-box").hidden = granted;
@@ -410,6 +423,13 @@ $("got-it").addEventListener("click", () => {
 $("coffee").href = SUPPORT_URL;
 $("rate").href = reviewUrl(chrome.runtime.id, navigator.userAgent);
 $("windows").href = WINDOWS_APP_URL;
+// Not an href: this page IS the report card, so it reveals the section and
+// leaves the user where they already were rather than reloading.
+$("report").addEventListener("click", () => {
+  location.hash = "#report";
+  $("report-card").hidden = false;
+  $("report-card").scrollIntoView({ block: "start" });
+});
 for (const id of ["coffee", "rate", "windows"]) $(id).target = "_blank";
 
 // A change made elsewhere -- the pop-up, another settings tab -- shows here.
