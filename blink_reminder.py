@@ -760,7 +760,7 @@ SUPPORT_URL = "https://buymeacoffee.com/" + SUPPORT_HANDLE if SUPPORT_HANDLE els
 # the same number for the exe's version resource and REFUSES to build if the
 # two disagree -- a version a user reads off a bug report is worth nothing if
 # it can drift from the version in the file properties.
-APP_VERSION = "1.4.4.0"
+APP_VERSION = "1.4.5.0"
 
 # Where a user can reach a person. It is the address already published in the
 # privacy policy, so it is public either way.
