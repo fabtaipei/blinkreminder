@@ -950,8 +950,8 @@ REVIEW_URL = "ms-windows-store://review/?ProductId=" + STORE_PRODUCT_ID
 ASKS_PATH = os.path.join(CONFIG_DIR, "asks.json")
 
 # (days used, kind). Reaching the count makes an ask due; showing it spends it.
-ASK_SCHEDULE = ((12, "donate"), (25, "review"), (55, "donate"),
-                (70, "review"), (150, "donate"), (170, "review"))
+ASK_SCHEDULE = ((5, "donate"), (10, "review"), (25, "donate"),
+                (40, "review"), (55, "donate"), (70, "review"))
 
 # Nothing is asked in the first five minutes after launch. At login that is
 # when everything else is clamouring for attention, the startup notice

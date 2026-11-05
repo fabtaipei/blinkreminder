@@ -424,12 +424,12 @@ try {
 
   // Twelve days of use, long since the browser started: the coffee ask.
   await evaluate(sw2S, `Promise.all([
-    chrome.storage.local.set({ asks: { days_used: 12, last_counted: "${new Date().toISOString().slice(0, 10)}",
+    chrome.storage.local.set({ asks: { days_used: 5, last_counted: "${new Date().toISOString().slice(0, 10)}",
                                        shown: [], opted_out: false, last_ask: "" } }),
     chrome.storage.session.set({ startedAt: 1 })])`);
   await evaluate(sw2S, "__blinkReminder.checkAsks()");
   const ask = await evaluate(sw2S, "__notified.at(-1)");
-  check("on the twelfth day of use, the coffee ask appears",
+  check("on the fifth day of use, the coffee ask appears",
         ask?.id === "ask-donate" && ask?.buttons?.length === 2 && ask?.requireInteraction === true,
         ask?.id);
   await evaluate(sw2S, "__blinkReminder.checkAsks()");
@@ -438,7 +438,7 @@ try {
   // The notification is now the second channel, not the only one. Nobody
   // clicked it, so the ask is still owed -- and the toolbar says so.
   check("... and is still owed, because nobody answered it",
-        (await evaluate(sw2S, "chrome.storage.local.get('pendingAsk')"))?.pendingAsk?.day === 12);
+        (await evaluate(sw2S, "chrome.storage.local.get('pendingAsk')"))?.pendingAsk?.day === 5);
   check("... and was NOT spent on a notification that may never be seen",
         (await evaluate(sw2S, "chrome.storage.local.get('asks')"))?.asks?.shown?.length === 0);
   // One slot, in order: a fault beats a question, a question beats a clock.
@@ -450,7 +450,7 @@ try {
   // Where nothing is wrong, the ask takes the slot -- over the countdown,
   // which is information rather than something to act on.
   await evaluate(swS,
-    "chrome.storage.local.set({ pendingAsk: { day: 12, kind: 'donate' } })");
+    "chrome.storage.local.set({ pendingAsk: { day: 5, kind: 'donate' } })");
   await evaluate(swS, "__blinkReminder.schedule()");
   await sleep(500);
   const lit = await evaluate(swS,
@@ -480,7 +480,7 @@ try {
     await evaluate(tab.sessionId, "document.getElementById('ask-later').click(), 1");
     await sleep(600);
     check("... answering it spends the day",
-          (await evaluate(sw2S, "chrome.storage.local.get('asks')"))?.asks?.shown?.includes(12));
+          (await evaluate(sw2S, "chrome.storage.local.get('asks')"))?.asks?.shown?.includes(5));
     check("... and clears it from the pop-up and the toolbar",
           !(await evaluate(sw2S, "chrome.storage.local.get('pendingAsk')"))?.pendingAsk
           && (await evaluate(sw2S, "chrome.action.getBadgeText({})")) !== "●");

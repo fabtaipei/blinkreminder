@@ -111,47 +111,47 @@ def at(days, **kw):
 
 def test_due_ask():
     print("\n2. which ask, when")
-    check("nothing before day 12", br.due_ask(at(11), "d", always), None)
-    check("day 12 asks for a coffee", br.due_ask(at(12), "d", always),
-          (12, "donate"))
-    check("day 14 still asks it, if 12 never got shown",
-          br.due_ask(at(14), "d", always), (12, "donate"))
-    check("once shown, nothing until day 25",
-          br.due_ask(at(24, shown=[12]), "d", always), None)
-    check("day 25 asks for a review",
-          br.due_ask(at(25, shown=[12]), "d", always), (25, "review"))
+    check("nothing before day 5", br.due_ask(at(4), "d", always), None)
+    check("day 5 asks for a coffee", br.due_ask(at(5), "d", always),
+          (5, "donate"))
+    check("day 7 still asks it, if 5 never got shown",
+          br.due_ask(at(7), "d", always), (5, "donate"))
+    check("once shown, nothing until day 10",
+          br.due_ask(at(9, shown=[5]), "d", always), None)
+    check("day 10 asks for a review",
+          br.due_ask(at(10, shown=[5]), "d", always), (10, "review"))
 
     check("at most one a day",
-          br.due_ask(at(25, shown=[12], last_ask="d"), "d", always), None)
+          br.due_ask(at(10, shown=[5], last_ask="d"), "d", always), None)
     check("two overdue arrive oldest first",
-          br.due_ask(at(30), "d", always), (12, "donate"))
+          br.due_ask(at(12), "d", always), (5, "donate"))
     check("  ...and the second one waits for another day",
-          br.due_ask(at(30, shown=[12], last_ask="d"), "d", always), None)
+          br.due_ask(at(12, shown=[5], last_ask="d"), "d", always), None)
     check("  ...which is the next day",
-          br.due_ask(at(31, shown=[12], last_ask="d"), "e", always),
-          (25, "review"))
+          br.due_ask(at(13, shown=[5], last_ask="d"), "e", always),
+          (10, "review"))
 
     check("Don't ask again stops the coffee",
-          br.due_ask(at(12, opted_out=True), "d", always), None)
+          br.due_ask(at(5, opted_out=True), "d", always), None)
     check("  ...and the review as well",
-          br.due_ask(at(25, shown=[12], opted_out=True), "d", always), None)
+          br.due_ask(at(10, shown=[5], opted_out=True), "d", always), None)
     check("  ...and every ask after it",
-          br.due_ask(at(999, shown=[12], opted_out=True), "d", always), None)
+          br.due_ask(at(999, shown=[5], opted_out=True), "d", always), None)
 
     check("every build asks for a review, the standalone exe included",
           br.ask_possible("review"), True)
     check("a kind that cannot be asked is skipped",
-          br.due_ask(at(25, shown=[12]), "d", coffee_only), None)
+          br.due_ask(at(10, shown=[5]), "d", coffee_only), None)
     check("  ...and does not block the next coffee",
-          br.due_ask(at(55, shown=[12]), "d", coffee_only), (55, "donate"))
+          br.due_ask(at(25, shown=[5]), "d", coffee_only), (25, "donate"))
 
     every = [d for d, _k in br.ASK_SCHEDULE]
     check("all six spent, nothing more ever",
           br.due_ask(at(999, shown=every), "d", always), None)
     check("the schedule the author set",
           br.ASK_SCHEDULE,
-          ((12, "donate"), (25, "review"), (55, "donate"),
-           (70, "review"), (150, "donate"), (170, "review")))
+          ((5, "donate"), (10, "review"), (25, "donate"),
+           (40, "review"), (55, "donate"), (70, "review")))
 
 
 # ---------------------------------------------------------- 3. the file
@@ -159,7 +159,7 @@ def test_due_ask():
 def test_file(tmp):
     print("\n3. the file")
     state = br.fresh_asks()
-    state.update(days_used=13, last_counted="2026-10-17", shown=[12],
+    state.update(days_used=6, last_counted="2026-10-17", shown=[5],
                  opted_out=True, last_ask="2026-10-17")
     br.save_asks(state)
     check("saved and loaded back unchanged", br.load_asks(), state)
@@ -172,11 +172,11 @@ def test_file(tmp):
           br.load_asks(), br.fresh_asks())
 
     with open(br.ASKS_PATH, "w", encoding="utf-8") as fh:
-        json.dump({"days_used": "lots", "shown": [12, True, "25"],
+        json.dump({"days_used": "lots", "shown": [5, True, "25"],
                    "opted_out": "yes", "last_counted": "2026-10-01"}, fh)
     got = br.load_asks()
     check("a bad count is dropped, not trusted", got["days_used"], 0)
-    check("only real day numbers survive in shown", got["shown"], [12])
+    check("only real day numbers survive in shown", got["shown"], [5])
     check("only a real true opts out", got["opted_out"], False)
     check("the good field next to bad ones is kept", got["last_counted"],
           "2026-10-01")

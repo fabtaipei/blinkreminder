@@ -301,8 +301,8 @@ export function teachingPulse(pulse, caption, noSpaces) {
 // Six asks over the life of an install, alternating a coffee and a review,
 // timed in DAYS OF USE. Same schedule and same rules as the desktop app.
 
-export const ASK_SCHEDULE = [[12, "donate"], [25, "review"], [55, "donate"],
-                             [70, "review"], [150, "donate"], [170, "review"]];
+export const ASK_SCHEDULE = [[5, "donate"], [10, "review"], [25, "donate"],
+                             [40, "review"], [55, "donate"], [70, "review"]];
 export const ASK_SETTLE_MS = 5 * 60000;
 
 export function todayIso(d = new Date()) {
