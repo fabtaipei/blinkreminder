@@ -154,18 +154,18 @@ test("a date once set far in the future is pulled back, not waited out", () => {
 });
 
 test("an ask is due once its day is reached, and late rather than lost", () => {
-  const st = { ...freshAsks(), days_used: 11 };
+  const st = { ...freshAsks(), days_used: 4 };
   assert.equal(dueAsk(st, "d"), null);
-  st.days_used = 30;
-  assert.deepEqual(dueAsk(st, "d"), [12, "donate"], "the earliest unshown first");
-  st.shown.push(12);
-  assert.deepEqual(dueAsk(st, "d"), [25, "review"]);
+  st.days_used = 12;
+  assert.deepEqual(dueAsk(st, "d"), [5, "donate"], "the earliest unshown first");
+  st.shown.push(5);
+  assert.deepEqual(dueAsk(st, "d"), [10, "review"]);
 });
 
 test("at most one ask a day", () => {
-  const st = { ...freshAsks(), days_used: 30, shown: [12], last_ask: "d" };
+  const st = { ...freshAsks(), days_used: 12, shown: [5], last_ask: "d" };
   assert.equal(dueAsk(st, "d"), null);
-  assert.deepEqual(dueAsk(st, "e"), [25, "review"]);
+  assert.deepEqual(dueAsk(st, "e"), [10, "review"]);
 });
 
 test("Don't ask again ends every ask, reviews included", () => {
@@ -174,18 +174,18 @@ test("Don't ask again ends every ask, reviews included", () => {
 });
 
 test("a kind that cannot be asked is skipped, not spent", () => {
-  const st = { ...freshAsks(), days_used: 30 };
-  assert.deepEqual(dueAsk(st, "d", (k) => k === "review"), [25, "review"]);
+  const st = { ...freshAsks(), days_used: 12 };
+  assert.deepEqual(dueAsk(st, "d", (k) => k === "review"), [10, "review"]);
   assert.deepEqual(st.shown, []);
 });
 
 test("damaged ask state costs only the damaged field", () => {
   assert.deepEqual(loadAsks(null), freshAsks());
   const got = loadAsks({ days_used: -3, last_counted: "2026-10-01",
-                         shown: [12, "25", true], opted_out: "yes" });
+                         shown: [5, "25", true], opted_out: "yes" });
   assert.equal(got.days_used, 0);
   assert.equal(got.last_counted, "2026-10-01");
-  assert.deepEqual(got.shown, [12]);
+  assert.deepEqual(got.shown, [5]);
   assert.equal(got.opted_out, false);
 });
 
